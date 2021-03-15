@@ -1,0 +1,27 @@
+Help
+@language:simplified_chinese
+函数newCV可以计算一组样本数据的平均值(保留3位小数)，总个数，变异系数(保留2位小数)
+@end
+endh
+function newCV(...)
+if opt_argc < 1
+Throw "至少输入1个参数!"
+Endif
+Variable avg_value
+avg_value=0
+For variable index = 1 to opt_argc step 1
+avg_value=avg_value+opt_argv[index-1]
+Next
+avg_value=xiao_shu(avg_value/opt_argc,3)
+variable t
+t=0
+for variable index =1 to opt_argc step 1
+t=t+(opt_argv[index-1]-avg_value)**2
+next
+return [avg_value,opt_argc,xiao_shu(100*pow(t/(opt_argc-1) ,0.5)/avg_value,2)]
+Endf
+ 
+
+
+
+

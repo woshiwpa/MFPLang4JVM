@@ -1,0 +1,192 @@
+
+citingspace aaaA
+Help
+To test list:
+1. class help ----> done
+2. class member function help ----> done
+3. private, public ----> done
+4. parent class & super function ----> done
+5. inner class ----> done
+6. member [index] ----> done
+7. tolowercase function always in the very beginning, then no more calling ----> done
+
+8. print_line("" + a), a is a class instance, not working ----> done
+9. variable x=xxxx, using aexpr instead of parse string ----> done
+10. verify class works in solve block ----> done, but needs further work
+11. verify class works in call block (call parameter is a member variable) ----> done
+12. verify compulsory link 
+	12.1. get_all_functions returns model name is *, how to deal with class? ----> done
+	12.1. super class changed, child class file not changed, child class still refers to old super class. Also cached function. ----> done
+	12.2. unload affect class map? ----> done
+	12.3. reload (including deleting and adding new file) ---> done
+	12.4. add get_classes and get_all_classes
+	12.5. in call block, we send another call block, copy the right file from the first call block to the second call block.
+13. why add testclass2.mfps, the class cannot be loaded after refresh?
+14. verify private function can call another private function.
+endh
+ 
+class TestClass
+	variable self A = 0.9
+	private function __init__(self, a)
+		print_line("a = " + a)
+		print_line("Before self.A = " + self.A)
+		self.A = a
+		print_line("After self.A = " + self.A)
+		return self.A /2
+	endf
+	
+	private variable self B
+	
+	function setB(self, bValue)
+		print_line("In testclass::setb(" + bValue + ")")
+		self.B = bValue
+	endf
+	function getB(self)
+		return self.B
+	endf
+	help
+	function setA(self, a)
+		print_line("in setA")
+		self.__init__(a)
+	endf
+	endh	
+	
+	function set2A(self, a)
+		print_line("in set2A")
+		self.__init__(a * 2)
+	endf
+endclass
+endcs
+
+citingspace EE
+class ChildClass: ::aAAA::TestClass	// todo cs is testclass::childclass.
+	variable self A = 3.2-4.11i
+	function setB(self, bValue)
+		print_line("In ChildClass::setb(" + bValue + ")")
+		selF.thiS.super[0].setB(bValue * 2)
+	endf
+	help
+		This is help for overriden __equals__
+	endh
+	
+	function __equals__(self, anotherObj)
+		print_line("In overriden __equals__")
+		return self.tHis.supEr[0].__equals__(anotherObj)
+	endf
+endclass
+endcs	// citingspace EE
+
+citingspace aaa
+using citingspace ::ee
+class GrandChildClass: ChildClass, Aaaa:: TestClass
+	variable self cValue = [3,7,4,2]
+	function __init__(self, cVal)
+		sElf . cValue = cVal
+		print_line("Cvalue[2] = " + self.cValuE[2])
+	endf
+	
+	function __to_string__(self)
+		return "I am GrandChildClass"
+	endf
+	
+	function __copy__(self)
+		return pi
+	endf
+	
+	function __deep_copy__(self)
+		return pi * 2
+	endf
+	
+	function __hash__(self)
+		return self.super[1].__hash__() * 3
+	endf
+endclass
+
+endcs	// citingspace aaa
+help
+	this is to test use of classes...
+endh
+
+function test_classes()
+	print_line("In test_classes function")
+	variable self a = AAAA::TESTClass(), c = AAA:: grandCHILDClass()
+	variable b = :: ee:: childCLASS()
+	print_line("Before init, c.cValue[2] is " + c.cValue[2])
+	c.__init__(["HEL", i-7, 59.68])
+	print_line("After init, c.cValue[2] is " + c.cValue[2])
+	print_line("A.getB() is " + A.getb())
+	A.setb(3i-7.2)
+	print_line("A.getB() after A.setb(3i-7.2) is " + a.Getb())
+	try
+		a.B
+	catch
+		print_line("a.B is private")
+	endtry
+	try
+		a.__init__("Hello")
+	catch
+		print_line("a.__init__ is private")
+	endtry
+	try
+		c.super[0]
+	catch
+		print_line("c.super[0] throws an exception")
+	endtry
+	a.set2a(-9.832)
+	print_line("b.equals(b.super[0]) == " + b.__equals__(b.sUper[0]))
+	print_line("b.equals(b) == " + b.__equals__(b))
+	print_line("b.equals(3) == " + b.__equals__(3))
+	print_line("a.equals(c.super()[1]) == " + a.__equals__(c.super[1]))
+	print_line("a.equals(a) == " + a.__equals__(a))
+	print_line("b.A == " + b.A)
+	c.setb(88)
+	print_line("After c.setb(88), c.getb() == " + c.getb())
+	c.super[0].A = 27
+	c.super[1].A = 72
+	print_line("after set c.super[0].A 27 and c.super[1].A 72\nc.A == " + c.A + ", c.super[0].A = " + c.super[0].A + ", c.super[1].A = " + c.super[1].A)
+	
+	try
+		test_self(3)
+	catch
+		print_line("self cannot be 3")
+	endtry
+	test_self(b)
+	test_self(a)
+	test_self(b.super[0])
+	b.SUPER = 7
+	print_line("after b.SUPER = 7, b.super is " + B.SupeR)
+	B.supEr[0] = 8
+	print_line("after b.SUPER[0] = 8, b.super is " + B.SupeR)
+	print_line("b.super size is " + size(b.super))
+	print_line("c.super size is " + size(c.super))
+	print_line("b == b is " + (b == b))
+	print_line("b == b.super[0] is " + (b == b.super[0]))
+	print_line("b.super[0] == b is " + (b.super[0] == b))
+	print_line("c.super[0] == c.super[0].super[0] is " + (c.super[0] == c.suPer[0].super[0]))
+	print_line("c.super[0] == c.super[0] is " + (c.super[0] == c.super[0]))
+	print_line("b + \"\" is " + (b + ""))
+	print_line("\"\" + b is " + ("" + b))
+	print_line("c.__to_string__ is " + c.__to_string__())
+	print_line("c.__copy__ is " + c.__copy__())
+	print_line("c.__deep_copy__ is " + c.__deep_copy__())
+	c.cValue[1] = "why not!"
+	print_line("c.cValue after assigning c.cValue[1] is " + c.cValue)
+	print_line("c.__hash__() is " + c.__hash__())
+	print_line("a.__hash__() is " + a.__hash__())
+	print_line("a is " + a)
+	
+	variable aa = aAAA::bbb::def::a_new_class()
+	aa.memberfunc(7, 9)
+	
+	aa = ::incompletecls:: more  :: a_new_class()
+	print_line("aa.aa = " + aa.aa + " aa.bb = " + aa.bb + " aa.cc = " + aa.cc + " aa.dd = " + aa.dd)
+	variable bb = :: incompletecls ::more ::a_new_class  :: inner_class()
+	bb.memberNew = 7
+	print_line("bb.newSqr(3) = " + bb.newSqr(3))
+endf
+
+function test_self(self)
+	self.set2A(7)
+	print_line("self = " + self)
+	print_line("self.A = " + self.A)
+endf

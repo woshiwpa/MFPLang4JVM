@@ -1,0 +1,137 @@
+function qi_fang_n_bei()
+variable n_bei,Tt,Tm,Ta,v_yin,v_max,n_bei_s1,n_bei_s2,D1,D2,D1_s=[142,162,178,182,197,212,227,242],D2_s=[234,201,175,178,160,150]
+Tt=input("捻度=")
+v_max=input("要查看的最大速度=")
+variable s,ge_shu=0
+//s为轮子，纺杯转速，引纱速度的数组集合
+print("****************************************\n")
+for variable idx1 =0 to 7 step 1
+D1=D1_s[idx1]
+     for variable idx2 =0 to 5 step 1
+     D2=D2_s[idx2]
+     n_bei=round(2880*17.23*D1/D2)
+     v_yin=round(n_bei/Tt/10,1)
+     
+     //可添加条件
+     if v_yin<=v_max
+     set_array_elem(s,ge_shu,[v_yin,n_bei,D1,D2])
+     
+     ge_shu=ge_shu+1
+     endif
+     next
+next
+    s=myf_sort_duo_wei(0,s)
+     
+for variable idx=0 to ge_shu-1 step 1
+v_yin=s[idx,0]
+n_bei=s[idx,1]
+D1=s[idx,2]
+D2=s[idx,3]
+print("  纺杯转速="+n_bei+"，引纱速度="+v_yin+"\n  D1/D2="+D1+"/"+D2+"\n")
+     print("\n")
+next
+print("****************************************\n")
+endf
+
+
+
+function n_fen()
+print("****************************************\n")
+variable n_fen,D3,D3_s=[83,100,108,116,124,132,140]
+print("\n")
+for variable idx=0 to 6 step 1
+D3=D3_s[idx]
+n_fen=round(1430/23.5*(D3+2.3))
+                print("分梳辊速度="+n_fen+"，D3="+D3+"\n")
+next
+print("****************************************\n")
+endf
+
+
+function f_yin(v_yin)
+print("****************************************\n")
+variable Z1,Z2,Z1_s=[25,32],Z2_s=[44,51],f_yin
+print("当前引纱速度="+v_yin+"\n")
+for variable idx1=0 to 1 step 1
+Z1=Z1_s[idx1]
+     for variable idx2=0 to 1 step 1
+     Z2=Z2_s[idx2]
+     f_yin=round(v_yin/3.39*Z2/Z1,2)
+     print("引纱频率="+f_yin+"，Z1/Z2="+Z1+"/"+Z2+"\n")
+      next
+next
+print("****************************************\n")
+endf
+
+
+
+function f_gei(Z1,Z2,d,f_yin,v_gei)
+print("****************************************\n")
+variable Z3,Z4,Z5,Z6,Z3_s=[22,32,47],Z4_s=[47,60,69],Z5_s=[47],Z6_s=[47],f_gei
+
+for variable idx1=0 to 2 step 1
+Z3=Z3_s[idx1]
+     for variable idx2=0 to 2 step 1
+     Z4=Z4_s[idx2]
+         for variable idx3=0 to 0 step 1
+         Z5=Z5_s[idx3]
+            for variable idx4=0 to 0 step 1
+            Z6=Z6_s[idx4]
+           f_gei=round(f_yin*72.281/d*Z1/Z2*Z4/Z3*Z6/Z5,2)
+
+     print("给棉频率="+f_gei+"\nZ3/Z4/Z5/Z6="+Z3+"/"+Z4+"/"+Z5+"/"+Z6+"\n")
+      next
+      next
+      next
+next
+print("****************************************\n")
+endf
+
+function qi_fang_zhang_li()
+print("─────────────────\n")
+variable G,zhang_li,G_s=[70,71,72,73,74,75,76,77]
+for variable idx=0 to 7 step 1
+G=G_s[idx]
+zhang_li=round(70/G,2)
+print("卷绕张力="+zhang_li+"，G="+G+"\n")
+next
+print("─────────────────\n")
+endf
+
+接近函数
+function qi_fang_n_bei(Tt)
+variable n_bei,Tm,Ta,v_yin,v_max,n_bei_s1,n_bei_s2,D1,D2,D1_s=[142,162,178,182,197,212,227,242],D2_s=[234,201,175,178,160,150]
+v_max=input("要查看的最大速度=")
+variable s,ge_shu=0
+//s为轮子，纺杯转速，引纱速度的数组集合
+print("****************************************\n")
+for variable idx1 =0 to 7 step 1
+D1=D1_s[idx1]
+     for variable idx2 =0 to 5 step 1
+     D2=D2_s[idx2]
+     n_bei=round(2880*17.23*D1/D2)
+     v_yin=round(n_bei/Tt/10,1)
+     
+     //可添加条件
+     if v_yin<=v_max
+     set_array_elem(s,ge_shu,[v_yin,n_bei,D1,D2])
+     
+     ge_shu=ge_shu+1
+     endif
+     next
+next
+    s=myf_sort_duo_wei(0,s)
+     
+for variable idx=0 to ge_shu-1 step 1
+v_yin=s[idx,0]
+n_bei=s[idx,1]
+D1=s[idx,2]
+D2=s[idx,3]
+print("  纺杯转速="+n_bei+"，引纱速度="+v_yin+"\n  D1/D2="+D1+"/"+D2+"\n")
+     print("\n")
+next
+
+
+print("****************************************\n")
+endf
+

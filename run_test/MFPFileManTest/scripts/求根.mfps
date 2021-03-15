@@ -1,0 +1,20 @@
+
+function t(a,b,c)
+variable d,p,q,x,x1,x2
+ d=b**2-4*a*c
+if d<0
+ return"not real root"
+else
+ p=-b/(2*a)
+ q=sqrt(d)/(2*a)
+ if d==0
+ x=p
+ print("x="+x+"\n")
+ else
+ x1=p+q
+ x2=p-q
+ print("x1="+x1+"\n")
+ print("x2="+x2+"\n")
+ endif
+endif
+endf

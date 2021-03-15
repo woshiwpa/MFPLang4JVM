@@ -1,0 +1,25 @@
+function zhu_jie_sha_e()
+variable jie_chang,jie_ju,bei_cu,g_shi_ce_hun,g_shi_ce_ji,g_mu_biao_hun,g_mu_biao_ji,ying_zhi_shi_ce_hun,ying_zhi_shi_ce_ji,e_xian,e_mu_biao,ying_zhi_hun,ying_zhi_ji,hui_chao
+jie_chang=input("节长=")
+jie_ju=input("节距=")
+bei_cu=input("倍粗=")
+ying_zhi_ji=input("基纱支数=")
+ying_zhi_hun=input("混合支数=")
+hui_chao=input("回潮=")
+g_mu_biao_hun=round(583.1/ying_zhi_hun/10.85*(1+hui_chao/100),3)
+print("目标重量="+g_mu_biao_hun+"\n")
+g_mu_biao_ji=583.1/ying_zhi_ji/10.85
+
+do
+g_shi_ce_hun=input("实测重量=")
+if g_shi_ce_hun==e
+break
+endif
+e_xian=input("当前E=")
+g_shi_ce_ji=round(583.1/((583.1/(g_shi_ce_hun/(1+hui_chao/100)*10*1.085))*(jie_chang*bei_cu*jie_ju)/(jie_chang+jie_ju))/10.85*(1+hui_chao/100),3)
+
+print(g_shi_ce_ji+"\n")
+e_mu_biao=round(g_shi_ce_ji*e_xian/g_mu_biao_ji,2)
+print("目标E="+e_mu_biao+"\n")
+until  g_shi_ce_hun==e
+endf

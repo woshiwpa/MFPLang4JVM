@@ -1,0 +1,19 @@
+Help
+@language:simplified_chinese
+函数格式为 CV_gong_tong(共同数字，要计算的数...)，计算结果依次为[平均值(保留2位)，总个数，以下平均，以下个数，不匀率(保留2位)]。
+@end
+endh
+
+function CV_gong_tong(...)
+if opt_argc<2
+throw "至少对一个元素计算"
+endif
+variable new_s,gong_tong,
+gong_tong=opt_argv[0]
+new_s=alloc_array(opt_argc-1,0)
+for variable idx=1 to opt_argc-1 step 1
+new_s[idx-1]=opt_argv[idx]
+next
+return CV_simple(gong_tong,2,2,new_s)
+endf
+

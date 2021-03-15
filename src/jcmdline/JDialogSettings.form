@@ -1,0 +1,365 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+      <Connection code="JCmdLineApp.getStringsClass().get_settings_dialog_title()" type="code"/>
+    </Property>
+    <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="lblScriptFolder" alignment="0" pref="251" max="32767" attributes="0"/>
+                          <Component id="txtFieldScriptFolder" alignment="0" pref="251" max="32767" attributes="0"/>
+                          <Component id="btnOK" alignment="1" min="-2" pref="68" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="btnSelectScriptFolder" min="-2" max="-2" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnCancel" min="-2" pref="89" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Component id="lblAdditionalUsrLibs" alignment="1" pref="368" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jScrollPane1" alignment="0" pref="251" max="32767" attributes="0"/>
+                          <Component id="lblChartFolder" alignment="0" pref="251" max="32767" attributes="0"/>
+                          <Component id="lblHistoryLength" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblBitsOfPrecision" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSciNotationThresh" alignment="0" pref="251" max="32767" attributes="1"/>
+                          <Component id="txtFieldChartFolder" alignment="0" pref="251" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="lblPlotChartVariableRange" pref="165" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="txtFieldPlotRangeFrom" min="-2" pref="67" max="-2" attributes="0"/>
+                              <EmptySpace min="1" pref="1" max="1" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cboSciNotationThresh" max="32767" attributes="1"/>
+                                  <Component id="txtFieldBitsOfPrecision" alignment="1" max="32767" attributes="1"/>
+                                  <Component id="cboHistoryLength" alignment="1" max="32767" attributes="1"/>
+                                  <Component id="btnSelectChartFolder" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="btnAddAdditionalFolder" alignment="0" pref="99" max="32767" attributes="0"/>
+                                  <Component id="btnAddAdditionalMFPS" alignment="0" pref="99" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="1">
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <Component id="lblPlotChartVariableRangeTo" min="-2" pref="37" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                              <Component id="txtFieldPlotRangeTo" min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblScriptFolder" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtFieldScriptFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSelectScriptFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblAdditionalUsrLibs" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jScrollPane1" pref="104" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblChartFolder" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="btnAddAdditionalFolder" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnAddAdditionalMFPS" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtFieldChartFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSelectChartFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblHistoryLength" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cboHistoryLength" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblBitsOfPrecision" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFieldBitsOfPrecision" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblSciNotationThresh" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cboSciNotationThresh" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="lblPlotChartVariableRange" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtFieldPlotRangeFrom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPlotChartVariableRangeTo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="txtFieldPlotRangeTo" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnOK" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JTextField" name="txtFieldScriptFolder">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="txtFieldScriptFolder.text"/>
+        <Property name="name" type="java.lang.String" value="txtFieldScriptFolder" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblScriptFolder">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_select_user_defined_functions_folder_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblScriptFolder" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSelectScriptFolder">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_select_btn_text()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnSelectScriptFolder" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelectScriptFolderActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblChartFolder">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_select_charts_folder_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblChartFolder" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtFieldChartFolder">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="txtFieldChartFolder.text"/>
+        <Property name="name" type="java.lang.String" value="txtFieldChartFolder" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSelectChartFolder">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_select_btn_text()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnSelectChartFolder" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelectChartFolderActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCancel">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_cancel()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnCancel" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnOK">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_ok()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnOK" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOKActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblHistoryLength">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_setting_record_length_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblHistoryLength" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cboHistoryLength">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="10"/>
+            <StringItem index="1" value="20"/>
+            <StringItem index="2" value="50"/>
+            <StringItem index="3" value="100"/>
+          </StringArray>
+        </Property>
+        <Property name="name" type="java.lang.String" value="cboHistoryLength" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblBitsOfPrecision">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_setting_number_format_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblBitsOfPrecision" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSciNotationThresh">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_setting_scientific_notation_thresh_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblSciNotationThresh" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtFieldBitsOfPrecision">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="txtFieldBitsOfPrecision.text"/>
+        <Property name="name" type="java.lang.String" value="txtFieldBitsOfPrecision" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cboSciNotationThresh">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="3">
+            <StringItem index="0" value="10**4"/>
+            <StringItem index="1" value="10**8"/>
+            <StringItem index="2" value="10**16"/>
+          </StringArray>
+        </Property>
+        <Property name="selectedIndex" type="int" value="1"/>
+        <Property name="name" type="java.lang.String" value="cboSciNotationThresh" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPlotChartVariableRange">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_plot_chart_variable_range_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblPlotChartVariableRange" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtFieldPlotRangeFrom">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="txtFieldPlotRangeFrom.text"/>
+        <Property name="name" type="java.lang.String" value="txtFieldPlotRangeFrom" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPlotChartVariableRangeTo">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_plot_chart_variable_range_to_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblPlotChartVariableRangeTo" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtFieldPlotRangeTo">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="txtFieldPlotRangeTo.text"/>
+        <Property name="name" type="java.lang.String" value="txtFieldPlotRangeTo" noResource="true"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="jScrollPane1" noResource="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="txtAreaAdditionalUsrLibs">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+            <Property name="name" type="java.lang.String" value="txtAreaAdditionalUsrLibs" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="lblAdditionalUsrLibs">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_additional_user_defined_libs_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblAdditionalUsrLibs" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAddAdditionalFolder">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_additional_usr_lib_folder_text()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnAddAdditionalFolder" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddAdditionalFolderActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAddAdditionalMFPS">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_additional_usr_lib_mfps_text()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnAddAdditionalMFPS" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddAdditionalMFPSActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>

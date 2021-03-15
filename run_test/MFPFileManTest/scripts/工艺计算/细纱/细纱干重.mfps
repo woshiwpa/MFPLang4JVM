@@ -1,0 +1,10 @@
+Help
+@language:simplified_chinese
+输入英支数便可计算出纱线干重
+@end
+endh
+function yarn_dry(x)
+variable tex
+tex=round(10**1*583.1/x)/10**1
+return round(10**3*(tex/10.85))/10**3
+endf

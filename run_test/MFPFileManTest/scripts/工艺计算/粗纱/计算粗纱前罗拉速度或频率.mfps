@@ -1,0 +1,85 @@
+function n_qian456_423()
+
+variable f_xiao,f_da,f_max,D1,D2,n_qian,n_ding,ji_xing,Z1,Z2,Z3,Tt,xiao_sha_lv
+while true
+print("\n提示：机型处输入e可结束。\n\n")
+do
+ji_xing=input("粗纱机型：")
+until or(ji_xing==e,ji_xing==423,ji_xing==456)
+if ji_xing==e
+break
+endif
+variable xuan_ze
+xuan_ze=input("计算频率填1，计算前罗拉转速填2：")
+if xuan_ze==1
+
+if ji_xing==456
+D1=input("电机轮D1=")
+D2=input("主轴轮D2=")
+n_qian=input("前罗拉转速=")
+
+Z2=input("捻度对牙Z2=")
+Z1=input("捻度对牙Z1=")
+Tt=round(4.4*Z2/Z1,3)
+print("捻度="+Tt+"\n")
+f_xiao=round(n_qian/404.68*D2/D1*Z2/Z1*50,2)
+print("小纱频率="+f_xiao+"\n")
+n_ding=round(1564.44*D1/D2*f_xiao/50)
+print("锭速="+n_ding+"\n")
+
+xiao_sha_lv=input("小纱比率(推荐0.8)=")
+f_da=round(f_xiao*xiao_sha_lv,2)
+print("大纱频率="+f_da+"\n")
+
+endif
+if ji_xing==423
+D1=input("电机轮D1（207）=")
+D2=210
+print("主轴轮D2="+D2+"\n")
+n_qian=input("前罗拉转速=")
+Z3=input("捻度牙Z3=")
+Tt=round(182.24/Z3,3)
+print("捻度="+Tt+"\n")
+f_max=round(n_qian*3.14*28.5/100*Tt*50/960*32/47*54/47*D2/D1,2)
+print("最高频率="+f_max+"\n")
+n_ding=round(960*D1/D2*47/54*47/32*f_max/50)
+print("锭速="+n_ding+"\n")
+endif
+endif
+if xuan_ze==2
+if ji_xing==456
+D1=input("电机轮D1=")
+D2=input("主轴轮D2=")
+f_xiao=input("小纱频率=")
+
+Z2=input("捻度对牙Z2=")
+Z1=input("捻度对牙Z1=")
+Tt=round(4.4*Z2/Z1,3)
+print("捻度="+Tt+"\n")
+n_qian=round(404.68*D1/D2*Z1/Z2*f_xiao/50)
+print("前罗拉转速="+n_qian+"\n")
+n_ding=round(1564.44*D1/D2*f_xiao/50)
+print("锭速="+n_ding+"\n")
+
+xiao_sha_lv=input("小纱比率(推荐0.8)=")
+f_da=round(f_xiao*xiao_sha_lv,2)
+print("大纱频率="+f_da+"\n")
+endif
+if ji_xing==423
+D1=input("电机轮D1=")
+D2=210
+print("主轴轮D2="+D2+"\n")
+f_max=input("最高频率=")
+Z3=input("捻度牙Z3=")
+Tt=round(182.24/Z3,3)
+print("捻度="+Tt+"\n")
+n_qian=round(f_max/(3.14*28.5/100*Tt*50/960*32/47*54/47*D2/D1))
+print("前罗拉转速="+n_qian+"\n")
+n_ding=round(960*D1/D2*47/54*47/32*f_max/50)
+print("锭速="+n_ding+"\n")
+endif
+endif
+loop
+print("\n")
+endf
+

@@ -1,0 +1,104 @@
+function count(s)
+//计算数组行数(一维数组元素个数)
+variable count,ss
+ss=size(s)
+count=ss[0]
+return count
+endf
+
+function sum(s)
+//计算总和
+if count(s)<1
+throw "数组至少含一个元素"
+endif
+variable sum=0,
+for variable idx=0 to count-1 step 1
+sum=sum+s[idx]
+next
+return sum
+endf
+
+
+function average(s)
+//计算平均值
+if count(s)<1
+throw "数组至少含一个元素"
+endif
+variable average,sum,count
+sum=0
+count=count(s),
+for variable idx=0 to count-1 step 1
+sum=sum+s[idx]
+next
+average=sum/count
+return average
+endf
+
+function average(f,s)
+//计算数组s中元素保留f位小数的平均值
+if count(s)<1
+throw "数组至少含一个元素"
+endif
+variable average,sum,count
+sum=0
+count=count(s),
+for variable idx=0 to count-1 step 1
+sum=sum+s[idx]
+next
+average=xiao_shu(sum/count,f)
+return average
+endf
+
+
+function count_smaller(s)
+//计算小于s平均值的元素个数
+variable s_smaller,count_smaller
+count_smaller=0,
+for variable idx=0 to count(s)-1 step 1
+if s[idx]<average(s)
+set_array_elem(s_smaller,count_smaller,s[idx])
+count_smaller=count_smaller+1
+next
+return count(s_smaller)
+endf
+
+
+function count_smaller(f,s)
+//计算小于s平均值(保留f位数)的元素个数
+variable s_smaller,count_smaller
+count_smaller=0,
+for variable idx=0 to count(s)-1 step 1
+if s[idx]<average(f,s)
+set_array_elem(s_smaller,count_smaller,s[idx])
+count_smaller=count_smaller+1
+endif
+next
+return count(s_smaller)
+endf
+
+function average_smaller(s)
+//计算数组s元素中小于所有元素平均值的那部分元素的平均值(以下平均)
+variable s_smaller,count_smaller
+count_smaller=0,
+for variable idx=0 to count(s)-1 step 1
+if s[idx]<average(s)
+set_array_elem(s_smaller,count_smaller,s[idx])
+count_smaller=count_smaller+1
+endif
+next
+
+return average(s_smaller)
+endf
+
+function average_smaller(f,s)
+//计算数组s元素中小于所有元素平均值(保留f位数)的那部分元素的平均值(以下平均)
+variable s_smaller,count_smaller
+count_smaller=0,
+for variable idx=0 to count(s)-1 step 1
+if s[idx]<average(f,s)
+set_array_elem(s_smaller,count_smaller,s[idx])
+count_smaller=count_smaller+1
+endif
+next
+return xiao_shu(average(f,s_smaller),f)
+endf

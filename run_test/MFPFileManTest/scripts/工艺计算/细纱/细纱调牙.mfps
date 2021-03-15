@@ -1,0 +1,153 @@
+function tiao_ya_xi_sha()
+variable ji_xing
+
+do
+print("可选细纱机型:128,513,502,506\n")
+ji_xing=input("细纱机型：")
+until or(ji_xing==513,ji_xing==128,ji_xing==502,ji_xing==506)
+variable g_xian,g_hou,i_zong,i_zong_xian
+
+variable xuan_ze
+xuan_ze=input("已知当前总牵伸倍数填1，已知轻重牙填其他数：")
+if xuan_ze==1
+i_zong_xian=input("当前总牵伸倍数=")
+if ji_xing==513
+variable Zh
+Zh=input("变后的后牵伸牙Zh=")
+xi_sha_zong_ya513(i_zong_xian,Zh)
+
+endif
+if ji_xing==502
+xi_sha_zong_ya502(i_zong_xian)
+endif
+
+if ji_xing==506
+xi_sha_zong_ya506(i_zong_xian)
+endif
+
+if ji_xing==128
+xi_sha_zong_ya128(i_zong_xian)
+endif
+
+else
+
+
+if ji_xing==513
+variable Ze,Zd,Zh,i_zong,Zh_s=[37,39,41,43,45,46,48,50,52,54,57,60]
+
+variable Ze_xian,Zd_xian,Zh_xian
+print("输入当前车上牵伸牙齿数\n")
+Ze_xian=input("Ze=")
+Zd_xian=input("Zd=")
+print("Zh=[37,39,41,43,45,46,48,50,52,54,57,60]\n")
+        while (true)
+Zh_xian=input("当前的后牵伸牙Zh=")
+     variable idx=0
+    for  idx=0 to 11 step 1
+    if Zh_xian==Zh_s[idx]
+    break
+    endif
+    next
+        if (idx<12)
+        break
+        endif
+       loop
+
+i_zong_xian=round(1050.463*Ze_xian/Zd_xian/Zh_xian,2)
+print("当前牵伸倍数="+i_zong_xian+"\n")
+do
+      print("是否变更后牵伸牙?\n")
+      variable xuan_ze
+      xuan_ze=input("不变填1，变更填2：")
+      if xuan_ze==1
+            Zh=Zh_xian
+      endif
+        if xuan_ze==2
+        while (true)
+Zh=input("变更后的后牵伸牙Zh=")
+     variable idx=0
+    for  idx=0 to 11 step 1
+    if Zh==Zh_s[idx]
+    break
+    endif
+    next
+        if (idx<12)
+        break
+        endif
+       loop
+            endif
+until or(xuan_ze==1,xuan_ze==2)
+
+
+xi_sha_zong_ya513_pai_xu(i_zong_xian,Zh)
+endif
+
+
+if ji_xing==506
+variable Ze_xian,Zd_xian,Zk_xian,Zj_xian
+print("输入当前车上牵伸牙齿数\n")
+Ze_xian=input("Ze=")
+Zd_xian=input("Zd=")
+Zk_xian=input("Zk=")
+Zj_xian=106-Zk_xian
+print("Zj="+Zj_xian+"\n")
+i_zong_xian=round(6.9667*Ze_xian/Zd_xian*Zk_xian/Zj_xian,2)
+print("当前总牵伸倍数="+i_zong_xian+"\n")
+print("选择需要的牵伸倍数\n"+"\n")
+
+xi_sha_zong_ya506(i_zong_xian)
+endif
+
+
+if ji_xing==502
+variable Ze_xian,Zd_xian,Zk_xian,Zj_xian
+print("输入当前车上牵伸牙齿数\n")
+Ze_xian=input("Ze=")
+Zd_xian=input("Zd=")
+Zk_xian=input("Zk=")
+Zj_xian=95-Zk_xian
+print("Zj="+Zj_xian+"\n")
+i_zong_xian=round(7.0956*Ze_xian/Zd_xian*Zk_xian/Zj_xian,2)
+print("当前总牵伸倍数="+i_zong_xian+"\n")
+print("选择需要的牵伸倍数\n"+"\n")
+
+xi_sha_zong_ya502(i_zong_xian)
+endif
+
+if ji_xing==128
+variable Ze_xian,Zd_xian,Zk_xian,Zj_xian
+print("输入当前车上牵伸牙齿数\n")
+Ze_xian=input("Ze=")
+Zd_xian=input("Zd=")
+i_zong_xian=round(17.93*Ze_xian/Zd_xian,2)
+print("当前总牵伸倍数="+i_zong_xian+"\n")
+print("选择需要的牵伸倍数\n"+"\n")
+
+xi_sha_zong_ya128(i_zong_xian)
+
+endif
+endif
+print("\n")
+g_xian=input("当前称重=")
+
+print("\n")
+print("当前重量偏轻，选择比当前小的总牵伸倍数，偏重选择比当前大的总牵伸倍数\n")
+print("\n")
+
+     do
+i_zong=input("选择需要的牵伸倍数=")
+g_hou=round(g_xian*i_zong_xian/i_zong,3)
+print("调后重量="+g_hou+"\n")
+
+      print("是否满足要求?\n")
+      variable xuan_ze
+      xuan_ze=input("需要重新选择请填1，否则填别的数字：")
+      until  xuan_ze!=1
+        
+
+
+
+
+
+
+endf

@@ -1,0 +1,237 @@
+function bing_tiao_zong_ya311_320()
+print("****************************************\n")
+
+variable i_zong_yu_she
+i_zong_yu_she=input("查看全部总牵伸倍数请填0，否则输入大概要看的总牵伸倍数：")
+variable i_zong,Tdc,Fc,A,B,R,S,A_s=[67,59,52,44]
+R=25
+S=36
+
+
+for variable idx=0 to 3 step 1
+A=A_s[idx]
+B=111-A
+for Tdc=41 to 31 step -1
+        for Fc=98 to 101 step 1
+        i_zong=round(67/39*54/44*S/R*B/A*Fc/Tdc,3)
+        if and(i_zong>5.000,i_zong<9)
+        if  and(i_zong_yu_she!=0,i_zong>i_zong_yu_she-0.3,i_zong<i_zong_yu_she+0.3)
+        
+        print("总牵伸倍数："+i_zong+"，A/B="+A+"/"+B+", Tdc/Fc="+Tdc+"/"+Fc+"\n")
+        endif
+        if i_zong_yu_she==0
+               print("总牵伸倍数："+i_zong+"，A/B="+A+"/"+B+", Tdc/Fc="+Tdc+"/"+Fc+"\n")
+              endif
+     endif
+        next
+next
+next
+print("****************************************\n")
+
+print("\n")
+endf
+
+
+function bing_tiao_zong_ya322()
+print("****************************************\n")
+
+variable i_zong_yu_she
+i_zong_yu_she=input("查看全部总牵伸倍数请填0，否则输入大概要看的总牵伸倍数：")
+
+variable A,B,H,J,C,D,E,F,K,x
+if i_zong_yu_she!=0
+x=input("临近范围=")
+else
+x=10
+endif
+
+A=49
+B=31
+H=60
+J=30
+variable i_zong
+C=62
+D=98
+for E=73 to 55 step -1
+        for  F=164 to 166 step 1
+        i_zong=round(A/B*44/49*D/C*F/E*H/40*28/J*1/1.1517,3)
+
+   if  and(i_zong_yu_she!=0,i_zong>i_zong_yu_she-x,i_zong<i_zong_yu_she+x)
+   
+        print("总牵伸倍数："+i_zong+"，C/D="+C+"/"+D+", E/F="+E+"/"+F+"\n")
+        endif
+                if i_zong_yu_she==0
+              print("总牵伸倍数："+i_zong+"，C/D="+C+"/"+D+", E/F="+E+"/"+F+"\n")
+              endif
+
+        next
+next
+print("****************************************\n")
+
+print("\n")
+endf
+
+
+
+function bing_tiao_zhu_ya311_320()
+print("****************************************\n")
+
+print("主牵伸倍数：2.880，F/E=71/29，G/H=71/58\n")
+print("主牵伸倍数：3.352，F/E=71/29，G/H=61/58\n")
+print("主牵伸倍数：3.724，F/E=71/29，G/H=71/75\n")
+print("主牵伸倍数：3.938，F/E=77/23，G/H=71/58\n")
+print("主牵伸倍数：4.022，F/E=71/29，G/H=71/81\n")
+print("主牵伸倍数：4.335，F/E=71/29，G/H=61/75\n")
+print("主牵伸倍数：4.584，F/E=77/23，G/H=61/58\n")
+print("主牵伸倍数：4.681，F/E=71/29，G/H=61/81\n")
+print("主牵伸倍数：5.092，F/E=77/23，G/H=71/75\n")
+print("主牵伸倍数：5.500，F/E=77/23，G/H=71/81\n")
+print("主牵伸倍数：5.927，F/E=77/23，G/H=61/75\n")
+print("主牵伸倍数：6.401，F/E=77/23，G/H=61/81\n")
+print("****************************************\n")
+
+
+endf
+
+function bing_tiao_hou_ya322()
+print("****************************************\n")
+
+print("\n")
+print("预设后区牵伸倍数：1.454，K=78\n")
+print("预设后区牵伸倍数：1.400，K=81\n")
+print("预设后区牵伸倍数：1.350，K=84\n")
+print("预设后区牵伸倍数：1.304，K=87\n")
+print("预设后区牵伸倍数：1.260，K=90\n")
+print("预设后区牵伸倍数：1.220，K=93\n")
+print("****************************************\n")
+
+print("\n")
+endf
+
+
+
+
+//选择接近函数
+
+
+function bing_tiao_zong_ya311_320(i_zong_yu_she)
+print("****************************************\n")
+
+variable i_zong,Tdc,Fc,A,B,R,S,A_s=[67,59,52,44]
+variable x
+x=input("临近范围=")
+R=25
+S=36
+
+
+for variable idx=0 to 3 step 1
+A=A_s[idx]
+B=111-A
+for Tdc=41 to 31 step -1
+        for Fc=98 to 101 step 1
+        i_zong=round(67/39*54/44*S/R*B/A*Fc/Tdc,3)
+        if and(i_zong>5.000,i_zong<9)
+        if  and(i_zong_yu_she!=0,i_zong>i_zong_yu_she-x,i_zong<i_zong_yu_she+x)
+        
+        print("总牵伸倍数："+i_zong+"，A/B="+A+"/"+B+", Tdc/Fc="+Tdc+"/"+Fc+"\n")
+        endif
+        if i_zong_yu_she==0
+               print("总牵伸倍数："+i_zong+"，A/B="+A+"/"+B+", Tdc/Fc="+Tdc+"/"+Fc+"\n")
+              endif
+     endif
+        next
+next
+next
+print("****************************************\n")
+
+print("\n")
+endf
+
+function bing_tiao_zong_ya322(i_zong_yu_she)
+print("****************************************\n")
+
+variable A,B,H,J,C,D,E,F,K
+variable x
+x=input("临近范围=")
+A=49
+B=31
+H=60
+J=30
+variable i_zong
+C=62
+D=98
+for E=73 to 55 step -1
+        for  F=164 to 166 step 1
+        i_zong=round(A/B*44/49*D/C*F/E*H/40*28/J*1/1.1517,3)
+
+   if  and(i_zong_yu_she!=0,i_zong>i_zong_yu_she-x,i_zong<i_zong_yu_she+x)
+   
+        print("总牵伸倍数："+i_zong+"，C/D="+C+"/"+D+", E/F="+E+"/"+F+"\n")
+        endif
+                if i_zong_yu_she==0
+              print("总牵伸倍数："+i_zong+"，C/D="+C+"/"+D+", E/F="+E+"/"+F+"\n")
+              endif
+
+        next
+next
+print("****************************************\n")
+
+print("\n")
+endf
+
+function n_qian311()
+print("****************************************\n")
+
+variable n_qian,D1,D2,D1_s=[103,130,145],D2_s=[100,113,121,130],s,ge_shu=0
+for variable idx1=0 to  2 step 1
+D1=D1_s[idx1]
+     for variable idx2=0 to 3  step 1
+     D2=D2_s[idx2]
+     n_qian=round(232.203*D1/D2)
+     set_array_elem(s,ge_shu,[n_qian,D1,D2])
+     ge_shu=ge_shu+1
+     next
+next
+s=myf_sort_duo_wei(0,s)
+for variable idx=0 to ge_shu-1 step 1
+n_qian=s[idx,0]
+D1=s[idx,1]
+D2=s[idx,2]
+     print("前罗拉速度="+n_qian+"，D1/D2="+D1+"/"+D2+"\n")
+     next
+print("****************************************\n")
+endf
+
+
+function i_zhu311_320(i_zong,i_hou_yu_she)
+variable i_zhu,i_hou,F,E,H,G,F_s=[71,77],G_s=[61,71],H_s=[58,75,81],s,ge_shu=0
+for variable idx1=0 to 1 step 1
+F=F_s[idx1]
+E=100-F
+   for variable idx2=0 to 1 step 1
+   G=G_s[idx2]
+      for variable idx3=0 to 2 step 1
+      H=H_s[idx3]
+      i_zhu=xiao_shu(36/25*F/E*H/G,3)
+      i_hou=round(i_zong/1.018/i_zhu,3)
+      if and(i_hou<=i_hou_yu_she+0.25,i_hou>=i_hou_yu_she-0.25)
+      set_array_elem(s,ge_shu,[i_hou,i_zhu,F,E,G,H])
+      
+      ge_shu=ge_shu+1
+      endif
+      next
+   next
+next
+print("━━━━━━━━━━━━━━━━━\n")
+s=myf_sort_duo_wei(0,s)
+for variable idx=0 to ge_shu-1 step 1
+i_hou=round(s[idx,0],3)
+i_zhu=round(s[idx,1],3)
+F=s[idx,2]
+E=s[idx,3]
+G=s[idx,4]
+H=s[idx,5]
+print("i主="+i_zhu+"，i后="+i_hou+"，F/E="+F+"/"+E+"，G/H="+G+"/"+H+"\n\n")
+next
+print("━━━━━━━━━━━━━━━━━\n")
+endf

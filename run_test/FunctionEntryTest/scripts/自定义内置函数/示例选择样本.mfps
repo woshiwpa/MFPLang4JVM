@@ -1,0 +1,14 @@
+variable xuan_ze_s=[1,2]
+while (true)
+xuan_ze = input("输入1或2 :") 
+variable idx = 0 
+for idx = 0 to  2- 1 step 1
+ if xuan_ze == xuan_ze_s[idx] // OK，现在我们发现输入和数组中的 第idx号元素一样 .... //在这里输入您的代码。 
+ break 
+ endif 
+ next
+
+if (idx < 2) // 输入和数组中的某一个元素一样，跳 出死循环 
+break 
+endif
+loop

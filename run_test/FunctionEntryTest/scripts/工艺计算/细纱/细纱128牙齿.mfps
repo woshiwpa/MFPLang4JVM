@@ -1,0 +1,95 @@
+function xi_sha_nian_du128()
+variable Za,Zb,Zc,Tt,Za_Zb_s=[33,39,44,52,61,73,75,77,79]
+variable Tt_0
+print("输入大概的捻度值，查看全部输入0\n")
+Tt_0=input("捻度大约为：")
+
+for variable idx=8 to 0 step  -1
+print("\n")
+Za=Za_Zb_s[idx]
+    for variable idx1=0 to 8 step 1
+    Zb=Za_Zb_s[idx1]
+    Tt=round(73.88*Zb/Za,1)
+    if  Tt_0==0
+    print("捻度="+Tt+"，Zb/Za="+Zb+"/"+Za+"\n")
+    endif
+    if and(Tt<=Tt_0+15,Tt>=Tt_0-15)
+    print("捻度="+Tt+"，Zb/Za="+Zb+"/"+Za+"\n")
+    endif
+    next
+next
+endf
+
+
+function xi_sha_hou128()
+variable Zh,i_hou,
+for Zh=28 to 39 step 1
+i_hou=round(0.03769*Zh,3)
+print("后区牵伸倍数："+i_hou+"，Zh="+Zh+"\n")
+next
+endf
+
+function xi_sha_D128()
+variable D1,D2,ding_su,D1_s=[220,205,200,186,180,176,145]
+for variable idx1=0 to 6 step 1
+print("\n")
+D1=D1_s[idx1]
+        for variable idx2=0 to 6 step 1
+        D2=D1_s[idx2]
+        ding_su=round(16411*D1/D2)
+        print("锭速:"+ding_su+"，D1/D2="+D1+"/"+D2+"\n")
+        next
+next
+endf
+
+
+
+function xi_sha_zong_ya128()
+variable Ze,Zd,i_zong,Ze_Zd_s=[35,37,38,39,40,41,42,43,44,45,47,48,49,50,51,52,53,54,55,57,60,61,65,66,67,68,69,70,71,72,73,74,75,76,77,79]
+for variable idx1=0 to 35 step 1
+print("\n")
+Zd=Ze_Zd_s[idx1]
+       for variable idx2=0 to 35 step 1
+       Ze=Ze_Zd_s[idx2]
+       i_zong=round(17.93*Ze/Zd,2)
+            if and(i_zong<55,i_zong>23)
+            if Ze+Zd>99
+            print("总牵伸倍数："+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+           endif
+           endif
+            next
+next
+endf
+
+function xi_sha_Juan128()
+ variable Zf,Zg,Zf_s=[32,39,43,45,47,50,51,52,53,54,55,57,61,63]
+ for variable idx=0 to 10 step 1
+ Zf=Zf_s[idx]
+ Zg=94-Zf
+ print("Zf/Zg="+Zf+"/"+Zg+"\n")
+ next
+ endf
+ 
+ 
+ 
+ 选择接近函数
+ 
+ function xi_sha_zong_ya128(i_zong_yu_she)
+variable Ze,Zd,i_zong,Ze_Zd_s=[35,37,38,39,40,41,42,43,44,45,47,48,49,50,51,52,53,54,55,57,60,61,65,66,67,68,69,70,71,72,73,74,75,76,77,79]
+
+variable x
+x=input("临近范围=")
+for variable idx1=0 to 35 step 1
+Zd=Ze_Zd_s[idx1]
+       for variable idx2=0 to 35 step 1
+       Ze=Ze_Zd_s[idx2]
+       i_zong=round(17.93*Ze/Zd,2)
+            if and(i_zong<55,i_zong>25,i_zong<i_zong_yu_she+x,i_zong>i_zong_yu_she-x)
+            if Ze+Zd>99
+            print("总牵伸倍数："+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+           endif
+           endif
+            next
+next
+endf
+

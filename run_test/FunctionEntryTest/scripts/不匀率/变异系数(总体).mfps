@@ -1,0 +1,15 @@
+function cvn(...)
+if opt_argc < 1
+Throw "Need at least one parameter!"
+Endif
+Variable avg_value,avg_square
+avg_value=0
+avg_square=0
+For variable index = 1 to opt_argc step 1
+avg_value=avg_value+opt_argv[index-1]
+avg_square=avg_square+opt_argv[index-1]*opt_argv[index-1]
+Next
+avg_value=avg_value/opt_argc
+avg_square=avg_square/opt_argc
+return pow(avg_square-avg_value**2,0.5) /avg_value
+Endf

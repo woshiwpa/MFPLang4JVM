@@ -1,0 +1,8 @@
+function aaaa()
+	bbbb()
+endf
+
+function aaaa1()
+	bbbbc() _
+	+ kkkkk()
+endf

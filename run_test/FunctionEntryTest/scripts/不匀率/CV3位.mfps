@@ -1,0 +1,64 @@
+Help
+@language:simplified_chinese
+函数cv3在输入任意个数据后计算结果依次为平均值，总个数，以下平均，以下个数，不匀率(保留2位)，变异系数。
+@end
+endh
+function cv3(...)
+if opt_argc < 1
+Throw "Need at least one parameter!"
+Endif
+Variable oldSum_value
+oldSum_value=0
+For variable index = 1 to opt_argc step 1
+oldSum_value=oldSum_value+opt_argv[index-1]
+Next
+Variable old_value
+old_value=0
+old_value=round(10**3*(oldSum_value/opt_argc))/10**3
+Variable n
+n=0
+Variable m
+m=0
+Variable newSum_value
+newSum_value=0
+While n!=opt_argc
+if opt_argv[n]< old_value
+newSum_value=newSum_value+opt_argv[n]
+m=m+1
+Endif
+n=n+1
+Loop
+if m==0
+return [old_value,opt_argc,0,0,0]
+Endif
+Variable new_value
+new_value=0
+new_value=round(newSum_value/m,3)
+variable cv
+cv=round(10**4*((old_value-new_value)*(2*m)/(old_value*opt_argc)))/10**4
+
+
+
+
+Variable avg_value,avg_square,cv_bian_yi
+avg_value=0
+avg_square=0
+For variable index = 1 to opt_argc step 1
+avg_value=avg_value+opt_argv[index-1]
+avg_square=avg_square+opt_argv[index-1]*opt_argv[index-1]
+Next
+avg_value=avg_value/opt_argc
+avg_square=avg_square/opt_argc
+avg_value=round(10**3*(avg_value))/10**3
+cv_bian_yi=100*round(10**4*(pow((opt_argc/(opt_argc - 1) * (avg_square - avg_value ** 2)) ,0.5)/avg_value))/10**4
+
+ print("总平均值="+old_value+"\n")
+print("总个数="+opt_argc+"\n")
+print("以下平均="+new_value+"\n")
+print("以下个数="+m+"\n")
+print("不匀率="+round(100*cv,2)+"%\n")
+print("变异系数="+cv_bian_yi+"%\n")
+ 
+return [["总平均值",old_value,"总个数",opt_argc],["以下平均",new_value,"以下个数",m],["不匀率",100*cv],["变异系数",cv_bian_yi]]
+
+Endf

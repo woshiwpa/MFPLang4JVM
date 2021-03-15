@@ -1,0 +1,466 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+      <Connection code="JCmdLineApp.getStringsClass().get_integration_input_title()" type="code"/>
+    </Property>
+    <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="panel1stLevel" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblIntegralLevel" alignment="0" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="lblIntegratedExpr" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="cboIntegralLevel" min="-2" pref="107" max="-2" attributes="0"/>
+                          <Component id="txtFieldIntegratedExpr" pref="404" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="panel2ndLevel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="panel3rdLevel" alignment="1" max="32767" attributes="0"/>
+                  <Component id="btnCopy2CmdLine" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblIntegralLevel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cboIntegralLevel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblIntegratedExpr" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFieldIntegratedExpr" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="panel1stLevel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panel2ndLevel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panel3rdLevel" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnCopy2CmdLine" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="lblIntegralLevel">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_you_want_to_calculate()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblIntegralLevel" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cboIntegralLevel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="cboIntegralLevel" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cboIntegralLevelItemStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblIntegratedExpr">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_single_line_integrated_expr_prompt()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="lblIntegratedExpr" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtFieldIntegratedExpr">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="txtFieldIntegratedExpr.text"/>
+        <Property name="name" type="java.lang.String" value="txtFieldIntegratedExpr" noResource="true"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JPanel" name="panel1stLevel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="panel1stLevel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl1stFrom" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtField1stFrom" min="-2" pref="58" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lbl1stTo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="txtField1stTo" min="-2" pref="63" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lbl1stNumofSteps" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                          <Component id="txtField1stNumofSteps" min="-2" pref="66" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl1stVarName" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtField1stVarName" min="-2" pref="49" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl1stVarName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField1stVarName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl1stFrom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField1stFrom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl1stTo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField1stTo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl1stNumofSteps" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField1stNumofSteps" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lbl1stVarName">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_x_variable_name()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl1stVarName" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField1stVarName">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField1stVarName.text"/>
+            <Property name="name" type="java.lang.String" value="txtField1stVarName" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl1stFrom">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_from()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl1stFrom" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField1stFrom">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField1stFrom.text"/>
+            <Property name="name" type="java.lang.String" value="txtField1stFrom" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl1stTo">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_to()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl1stTo" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField1stTo">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField1stTo.text"/>
+            <Property name="name" type="java.lang.String" value="txtField1stTo" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl1stNumofSteps">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_number_of_steps()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl1stNumofSteps" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField1stNumofSteps">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField1stNumofSteps.text"/>
+            <Property name="name" type="java.lang.String" value="txtField1stNumofSteps" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="panel2ndLevel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="panel2ndLevel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl2ndVarName" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtField2ndVarName" min="-2" pref="47" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl2ndFrom" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtField2ndFrom" min="-2" pref="55" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lbl2ndTo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="txtField2ndTo" min="-2" pref="63" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lbl2ndNumofSteps" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                          <Component id="txtField2ndNumofSteps" min="-2" pref="69" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace pref="64" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl2ndVarName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField2ndVarName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl2ndFrom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField2ndFrom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl2ndTo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField2ndTo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl2ndNumofSteps" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField2ndNumofSteps" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lbl2ndVarName">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_y_variable_name()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl2ndVarName" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField2ndVarName">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField2ndVarName.text"/>
+            <Property name="name" type="java.lang.String" value="txtField2ndVarName" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl2ndFrom">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_from()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl2ndFrom" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField2ndFrom">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField2ndFrom.text"/>
+            <Property name="name" type="java.lang.String" value="txtField2ndFrom" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl2ndTo">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_to()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl2ndTo" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField2ndTo">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField2ndTo.text"/>
+            <Property name="name" type="java.lang.String" value="txtField2ndTo" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl2ndNumofSteps">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_number_of_steps()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl2ndNumofSteps" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField2ndNumofSteps">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField2ndNumofSteps.text"/>
+            <Property name="name" type="java.lang.String" value="txtField2ndNumofSteps" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="panel3rdLevel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="panel3rdLevel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl3rdFrom" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtField3rdFrom" min="-2" pref="54" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl3rdVarName" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtField3rdVarName" min="-2" pref="49" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  <Component id="lbl3rdTo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="txtField3rdTo" min="-2" pref="64" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="lbl3rdNumofSteps" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                  <Component id="txtField3rdNumofSteps" min="-2" pref="67" max="-2" attributes="0"/>
+                  <EmptySpace pref="64" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl3rdVarName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField3rdVarName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl3rdFrom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField3rdFrom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl3rdTo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField3rdTo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl3rdNumofSteps" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtField3rdNumofSteps" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lbl3rdVarName">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_z_variable_name()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl3rdVarName" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField3rdVarName">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField3rdVarName.text"/>
+            <Property name="name" type="java.lang.String" value="txtField3rdVarName" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl3rdFrom">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_from()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl3rdFrom" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField3rdFrom">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField3rdFrom.text"/>
+            <Property name="name" type="java.lang.String" value="txtField3rdFrom" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl3rdTo">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_to()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl3rdTo" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField3rdTo">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField3rdTo.text"/>
+            <Property name="name" type="java.lang.String" value="txtField3rdTo" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl3rdNumofSteps">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="JCmdLineApp.getStringsClass().get_variable_number_of_steps()" type="code"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="lbl3rdNumofSteps" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtField3rdNumofSteps">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="txtField3rdNumofSteps.text"/>
+            <Property name="name" type="java.lang.String" value="txtField3rdNumofSteps" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="btnCopy2CmdLine">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_copy_to_main_window()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnCopy2CmdLine" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCopy2CmdLineActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>

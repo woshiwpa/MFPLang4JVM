@@ -1,0 +1,44 @@
+
+Help
+  this is help block 1
+endh
+
+
+help
+  this is help block 2
+endh
+citingspace aaakkk
+function aaakkk1
+	print("In function aaakkk::aaakkk1\n")
+endf
+
+help
+  this is help block 3
+endh
+function aaakkk2
+	print("In function aaakkk::aaakkk2\n")
+endf
+
+
+endcs
+
+help
+  this is help block 4
+endh
+
+help
+  this is help block 5
+endh
+function aaakkk3
+	print("In function aaakkk::aaakkk3\n")
+endf
+
+
+help
+  this is help block 6
+endh
+citingspace aaakkk
+endcs
+function aaakkk4
+	print("In function aaakkk::aaakkk4\n")
+endf

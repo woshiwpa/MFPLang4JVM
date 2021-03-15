@@ -1,0 +1,58 @@
+Help
+@language:simplified_chinese
+用于在命令提示符界面计算FA322B牵伸分配。A,B,C,D,E,F,H,J,K得出牵伸分配
+@end
+endh
+function FA322B()
+variable i_zong,i_zhu,i_hou,zhang_li,A,B,C,D,E,F,H,J,K
+
+C=input("总牵伸牙C=")
+D=input("总牵伸牙D=")
+E=input("轻重牙E=")
+F=input("冠牙F=")
+print("压辊—前罗拉张力 默认为1.026时填1，否则填2\n")
+variable xuan_ze
+
+variable xuan_ze_s=[1,2]
+while (true)
+xuan_ze = input("输入1或2 :") 
+variable idx = 0 
+for idx = 0 to  2- 1 step 1
+ if xuan_ze == xuan_ze_s[idx] // OK，现在我们发现输入和数组中的 第idx号元素一样 .... //在这里输入您的代码。 
+ break 
+ endif 
+ next
+
+if (idx < 2) // 输入和数组中的某一个元素一样，跳 出死循环 
+break 
+endif
+loop
+
+
+if xuan_ze==1
+A=49
+B=31
+H=60
+J=30
+
+elseif xuan_ze==2
+A=input("压辊—前罗拉 张力牙A=")
+B=input("压辊—前罗拉 张力牙B=")
+H=60
+J=30
+else
+endif
+K=input("后牵伸牙K=")
+i_zong=round(A/B*44/49*D/C*F/E*H/40*28/J*1/1.1517,3)
+i_hou=round(95/K*H/40*28/J/1.018*1/1.1517,3)
+i_zhu=round(i_zong/1.018/i_hou,3)
+zhang_li=round(B/A*49/44*51/35,4)
+
+print("总牵伸倍数="+i_zong+"\n")
+print("主牵伸倍数="+i_zhu+"\n")
+print("中区牵伸倍数="+1.018+"\n")
+print("后区牵伸倍数="+i_hou+"\n")
+print("牵伸分配:"+i_zong+"="+i_zhu+" x "+1.018+" x "+i_hou+"\n")
+print("压辊—前罗拉张力="+zhang_li+"\n")
+
+endf

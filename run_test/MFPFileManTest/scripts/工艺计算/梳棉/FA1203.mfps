@@ -1,0 +1,86 @@
+function shu_mian_f1203()
+variable N_c,N_c_s,N_t,
+variable D1,D2=492,D3,Z1,Z2,Z3,Z4,Z5,Z6,Z7,
+variable D1_s=[110,120,130,140]
+variable ge_shu1=0
+for variable idx=0 to 3 step 1
+	@compulsory_link get_all_functions()
+D1=D1_s[idx]
+N_c=round(1450*D1/D2*0.98)
+set_array_elem(N_c_s,ge_shu1,[N_c,D1,D2])
+ge_shu1=ge_shu1+1
+next
+N_c_s=myf_sort_duo_wei(0,N_c_s)
+for variable idx=0 to ge_shu1-1 step 1
+N_c=N_c_s[idx,0]
+D1=N_c_s[idx,1]
+D2=N_c_s[idx,2]
+print("锡林转速N_c="+N_c+"，D1/D2="+D1+"/"+D2+"\n")
+next
+
+
+
+endf
+
+function bing_tiao_hou311_320()
+@compulsory_link get_functions("xi_sha_zong_ya513_pai_xu")
+endf
+
+function bing_tiao_hou322()
+@compulsory_link get_functions("xi_sha_zong_ya513_pai_xu()","mian_juan300(2)","gy()")
+
+endf
+
+function xiao_shu_dian(a,b)
+@compulsory_link get_functions("xi_sha_zong_ya513_pai_xu(0)","xi_sha_zong_ya513_pai_xu(2)","biao()")
+return a+b
+endf
+
+function test_compile(a,b,c)
+    variable x, y = sqrt(3), z, w=rand()+ceil(0.80)
+	help
+		asin(3)/cos(b)
+	endh
+	// bbbb()
+	for variable idx = abs(tan(pi/4)) to 10/sin(pi/3) step floor(1.53)
+		x = idx
+		while x < round(9.993)
+			xyz(z) = x
+			do
+				biao()
+				z = [log(3), sinh(6), [is_inf(9)]]
+			until xiao_shu_dian(z, 3) > is_eye([9.323, 2])
+		loop
+		for y = strlen("abc") to 9
+			if y < 3
+				continue
+			else
+				break
+			endif
+		next
+	next
+	if strcmp(strcat("a","b"),"ab")
+		print("if\n")
+	elseif stricmp("AB", "ab", 1, 1, 1,1)
+		printf("%s,%s,%s\n","ab","cd","ef")
+	else
+		printf("%d\n", 3)
+	endif
+	
+	select (exp(c))
+	case pow(2,3,2)[-0]
+		try
+			z = bing_tiao_zhu_ya311_320()
+		catch (w = strcmp("ab","cd", 1,1,1,1) + "") == info
+			printf("catch exception")
+		endtry
+		break
+	default
+		return cosh(3.8+tanh(9))
+	ends
+	
+	solve conv_str_to_ints("abc")[0], x
+		x + atan(9) == integrate("x","x",0,10)
+	slvreto evaluate("y")
+	return get_num_of_results_sets(Y)
+endf

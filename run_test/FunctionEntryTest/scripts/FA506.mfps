@@ -1,0 +1,15 @@
+Help
+@language:simplified_chinese
+依次输入Za、Zb、Zd、Ze,Zh，Zm,Zk,Zj,D1、D2可以计算出502捻度，前罗拉速度，锭速，总牵伸，后区牵伸。
+@end
+endh
+function xi_sha502(Za,Zb,Zd,Ze,Zh,D1,D2)
+variable nian_du,ding_su,qian_luo_la_su,i_hou,i_zong
+ji_xing==502
+nian_du=3428.58*Zb/Za/Zc
+ding_su=16060*D1/D2
+qian_luo_la_su=5.964*Za*Zc/Zb*D1/D2
+i_hou=1.0188*Zm/Zh
+i_zong=7.0956*Ze/Zd*Zk/Zj
+
+return [ji_xing,round(10*nian_du)/10,round(100*qian_luo_la_su)/100,round(ding_su),round(100*i_zong)/100,round(100*i_hou)/100]

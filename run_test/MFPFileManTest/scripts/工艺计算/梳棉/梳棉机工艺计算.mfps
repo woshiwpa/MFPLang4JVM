@@ -1,0 +1,16 @@
+function gy_shu_mian()
+variable ji_xing,g_tiao,g_juan,luo_mian_lv,i_zong,zhang_li,
+variable Z1,Z2,Z3
+print("\n186D机型输入186，186F机型输入188。\n\n")
+ji_xing=input("梳棉机型=")
+g_juan=input("棉卷定量=")
+luo_mian_lv=input("落棉率%(例如10)=")
+print("选择总牵伸倍数\n")
+
+//添加轻重牙函数
+print("输入所选牵伸倍数对应的牙齿数\n")
+Z1=input("轻重牙Z1=")
+Z2=input(
+i_zong=
+g_tiao=round(g_juan*5*(100-luo_mian_lv)/100/i_zong,2)
+print("棉条定量="+g_tiao+"\n")

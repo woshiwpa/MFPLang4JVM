@@ -1,0 +1,15 @@
+
+citingspace AAAB
+citingspace BBB::DeF
+
+class ClassWithPublicFunc : aaaa :: bbb :: def:: A_new_class
+	
+	
+	public function publicMemberFunc(self, a, b, c)
+		self.memberFunc(a, b)
+		return a + b * self.A * c
+	endf
+endclass
+
+endcs // BBB::DeF
+endcs // AAAB

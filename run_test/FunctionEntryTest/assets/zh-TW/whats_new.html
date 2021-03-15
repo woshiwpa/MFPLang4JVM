@@ -1,0 +1,526 @@
+﻿<html>
+	<head>
+		<title>程式開發科學計算器幫助</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">程式開發科學計算器的新特性</h2>
+		
+		<p style="font-family:verdana;color:red;">
+<b>程式開發科學計算器已經在百度貼吧安家了，請到<a href="http://tieba.baidu.com/f?kw=mfp" target="_blank">百度MFP吧</a>參加對程式開發科學計算器以及MFP程式開發語言的討論以獲得最快捷的幫助和最新的資訊。</b>
+		</p>
+
+		<p style="font-family:verdana;color:magenta;">
+<b>1.6.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 二維圖形表達式繪圖引擎在1.6.5.48中得到顯著改進。由於引入緩存技術以及對拖動事件響應進行了優化，現在計算器對圖形各種操作更加快速和敏感。但要註意，由於對表達式繪圖必須在新的值計算表達式結果，如果表達式過於復雜，用戶仍然會感覺到明顯的延遲。
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 支持繪制2維或3維隱函數圖形。註意只有當隱函數可解，才能夠繪制圖形。4次或者4次以上的多項式由於根表達式過於復雜，雖然可解，但無法繪圖。。如果繪制包含兩個變數的隱函數，最多4個根表達式將會被繪制出。如果是3個變數的隱函數，根據情況計算器可能會對每個變數求根，然後為每個變數繪制出最多2個解表達式。這樣一來，一個單一的3變數的隱函數，可能意味著繪制出6條圖形，整個求解繪圖過程將會花費比較長的時間。還要註意，隱函數必須是等式，而不能是賦值式，比如x**2+y**2=4-z**2是非法的，而x**2+y**2==4-z**2則是正確的；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 函數程式size，zeros和ones的返回值和參數定義有所改變。現在，如果是計算一個數值，而不是陣列的尺寸，size函數程式返回[]而不是[0]。同理，如果參數是[]，zeros返回0而ones返回1；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 一定程度的性能提升；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 很多錯誤得到了修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.6.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 1.6.4.46版在數學表達式識別正確率和速度方面有了進一步的提升，此外不定積分功能也進一步加強；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 加入數學公式拍照識別的功能。用戶可以進入智慧計算器後點擊照相機圖標按鈕進入數學公式拍照識別。註意現階段只支持打印體數學公式識別，手寫體識別還在發展完善中；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 提供了Unicode字符串和整數數組相互轉換的函數程式conv_str_to_ints以及conv_ints_to_str；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 提供了system函數程式直接運行一個系統命令；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 允許用戶隱藏3維圖形的坐標軸和標題；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 一些小的錯誤的修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.6.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 從1.6.3.44開始對啟動智慧計算器和命令提示符時預定義程式庫裝載過程進行了優化，啟動速度大大加快；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 提供了一整套完整的檔案操作函數程式包括create_file、copy_file、delete_file、cd、dir、pwd、fopen、fclose、fprintf、fscanf、freadline、fread、fwrite等等。現在命令提示符完全可以當成安卓設備的一個外殼程式（shell）來使用。用戶可以在裏面對安卓設備中的任何檔案進行讀寫操作，只要用戶有這個權限。當然，這項新功能雖然強大，但也很危險。強烈建議用戶把所有的檔案操作限制在應用的檔案目錄（AnMath）中。同時，建議用戶在應用的檔案目錄（AnMath）下創建一個data檔案目錄用於保存個人數據，以方便管理；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 提供了計算陣列的秩的rank函數程式；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 提供了新的輸入輸出函數程式包括printf、scanf、sprintf、sscanf；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 提供了新的字串操作函數程式包括split、trim、trim_left和trim_right；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 提供了pause函數程式用於暫停運行中的程式，用戶可以敲擊Enter鍵繼續；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7. 提供了一整套日期和時間的函數程式；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	8. 一些小的錯誤的修正；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.6.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 支持不定積分以及用自適應Gauss-Kronrod法做定積分計算；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 界面支持西班牙文，但幫助檔案的翻譯還在進行中，感謝網友Gabriel Horacio Diez的協助；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 一些其他小的改進和錯誤修正；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 從1.6.2版開始，本軟體中嵌入了百度流動廣告服務。這一新的特性是針對中國大陸的用戶，只有當系統語言為簡體中文時才會被激活，世界其他地方的用戶不受影響。百度移動廣告服務需要讀取用戶大致位置和流動設備狀態，以針對不同人群推送不同的廣告。我們鄭重承諾，百度和我們均不會存儲用戶的私人數據，用戶的隱私得到充分保護；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.6.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 在同一幅圖中繪制更多的曲線。現在不論是2D，3D還是極坐標圖形都能包含最多8條曲線（曲面）；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 優化了極坐標圖形的繪制；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 一些其他小的改進和錯誤修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.6.0版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 更快的計算速度。經過測試，基於JAVA的程式開發科學計算器在電腦上計算速度是以前各版本的10倍，在安卓設備上，由於速度瓶頸未必是在計算上，並且用戶通常一次只運行一個小的命令，對計算速度的提高，用戶感受可能並非非常明顯。但對於大部分計算，速度仍然可以達到以前的1.5到3倍，具體取決於安卓設備的硬體條件；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. MFP程式開發語言現在可以處理任意大的數，比如，如果計算1000的1000次方，以前的版本會報溢出錯誤，現在用戶可以得到結果為10的3000次方；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 計算結果更精確。著名的類Matlab數學軟體Octave采用雙精度數進行內部計算所以其實際精度只能達到約10E-17。但MFP則可以達到5*10E-48。當數值小於這個值時，MFP會視該值為0；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 支持無窮大和NaN。由於這項新的特征，本軟體將不會再拋出除0異常。用戶必須自己在代碼中處理。MFP提供了一系列的新程式，比如is_nan_or_inf、is_inf、includes_nan以及includes_inf。使用這些程式用戶可以輕松判斷一個數是否是無窮或者NaN，或者一個復數或者陣列是否包括無窮或者NaN。用戶也可以用系統預定義的變數inf和nan來生成無窮和NaN值並進行計算；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 計算特征值和特征向量。註意這是非常消耗內存和CPU資源的計算。強烈建議，在安卓設備上不要計算超過6*6的矩陣，在個人電腦不要計算超過8*8的矩陣。否則可能會內存不足或者用戶陷入長時間等待；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 支持自定義智慧計算器和命令提示符的鍵盤。用戶現在不但可以自定義函數程式鍵盤，還可以自定義數字和運算符鍵盤。用戶還可以自由改變按鍵高度，寬度以及按鍵上的字的顏色；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7. 一些其他小的改進和錯誤修正；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.5.6版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 完全支援2進制，8進制和16進制整數和小數。2進制由0b起頭，比如0b0011101和0b11.1001。8進制由一個額外的0起頭，比如02751和00.23561。16進制0x起頭，比如0xEFF6和0x23FAB.DF24。此外，還提供了新的進制轉換程式。原有的進制轉換程式，也就是int*to*（比如int10to2以及int2to16），被新的conv_*_to_*（比如conv_hex_to_dec）程式所取代，並將在1.6版中被移除。新的進制轉換程式全部支持整數和小數；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加新的程式sum_over和product_over；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 改進了智慧計算器的自定義輸入面板；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 改善了主界面；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 為避免和if語句混淆，將if程式重命名為iff；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 一些其他小的改進和錯誤修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.5.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 支持繪制極坐標曲線圖。在智慧計算器工具中，如果用戶輸入的一個或者一組表達式僅僅包含兩個變數，並且這兩個變數中至少有一個是希臘字母α、β、γ或者θ，智慧計算器將生成極坐標曲線圖。智慧計算器自帶的輸入鍵盤中也帶有一個θ按鈕，以方便用戶輸入；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了input程式，用戶可以在程式代碼運行的時候輸入變數值；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 支持多SD卡存儲器，用戶可以選擇將程式開發科學計算器的數據和基於JAVA的程式開發科學計算器保存在任何一個SD卡存儲器中；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 改進了其它一些小的功能，修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 為命令提示符，程序編輯器，繪圖和積分計算提供了輸入鍵盤，方便用戶快速輸入函數程式和參數，輸入鍵盤類似於智慧計算器的輸入鍵盤，可以左右滑動以切換到不同的輸入模式，在普通鍵盤模式下會啟動字典功能，大大加快了輸入速度；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了計算伴隨陣和余因子陣的程式adj和cofactor；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 註意：在google的AdView控件中存在一個bug，會造成在橫豎屏切換或者多線程並發運行時智慧計算器無法載入輸入結果，此外歷史紀錄和幫助窗口也會一片空白。我們正在和google溝通，希望能盡快解決這個問題，與此同時，在本版中，智慧計算器，命令提示符，繪圖和積分計算暫時不允許橫豎屏切換，但功能沒有任何變化。如果用戶在使用本版軟件時依然發現存在輸入結果一片空白的問題，可以按退回鍵退出軟件（註意不是僅僅退出智慧計算器），再重啟軟件即可。同時希望發現問題的用戶能夠和我們聯系。我們的email是cyzsoft@gmail.com；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 在智慧計算器結果窗口和歷史紀錄中顯示出繪制出的圖形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了三個快捷方便的繪圖函數程式，plot_exprs，plot_2d_data和plot_3d_data，用戶只需要在命令提示符中運行命令諸如plot_exprs("2*log(x)", "sin(x)"), plot_2d_data([2, 4, 5, 7], [1.8, 2.2, 3.4, 5.8]), plot_3d_data([[5,6,8],[4,9,3],[8,1,6],[2,4,7]])就可以繪制出圖形而不必考慮圖形各種的設置；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了通過表達式直接繪制圖形的功能。用戶只需要在智慧計算器中輸入一個或多個（不多於4個）表達式，比如：2*x、y=4 + sin(x)、 x + y == z，然後點擊繪制圖形按鈕，智慧計算器將自動為用戶繪制出二維或三維圖形（取決於變數的總數）。圖形繪制好後，用戶還可以調整變數的繪制範圍；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了自由縮放，旋轉，平移，調整3維圖形的功能。增加了繪制填充表面和網格的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了繪制3維圖形的功能。該功能通過調用plot3D或者plot_multi_xyz函數程式來實現。用戶也可以通過內置的繪制3維圖形工具來設置和繪制3維圖形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.4.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了偵測曲線奇異點的功能（也就是x或者y的值不是有限大的實數），現在諸如雙曲線，y == tan(x)的曲線可以被正確繪制出來了。需要註意的是，如果想偵測曲線奇異點，用戶必須設置步長為自動；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了IF程式，本函數程式類似於Excel中的IF函數程式但是更強大，現在用戶可以用一行語句來實現一個if程式塊的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.4.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 支持Android 3.X和Android 4.X的界面風格，Android 3.X和Android 4.X的用戶將會看到這項變化；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了快速傅立葉變換函數FFT和逆函數IFFT；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修改了版本號的顯示方式，在版本號的末尾添加了修改批次，比如1.4.1.21，21就是修改批次；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 大大縮短了將基於JAVA的程式開發科學計算器拷貝到SD卡上的時間；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了解數學方程式的功能，也就是說現在用戶可以通過本軟體求解諸如x**2 + 2*x == 3或x + y == 9和y - x == i的方程和方程組。請參考solve和slvreto幫助以獲取更多信息；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 將計算器程式升級為智慧計算器程式，智慧計算器支持變數和解方程；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 增加忽略大小寫的字符串比較函數程式；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.3.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了roots函數用於計算高次多項式的根。比如，運行roots(5+4i, 0.79i, 0, 5.41-3.83i, 0.788)我們可以得到多項式方程(5+4i)*x**4 + 0.79i*x**3 +(5.41 - 3.83i)*x + 0.788 = 0的根；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加nCr和nPr函數用於計算置換（排列）和組合；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 增加對陣列連續多次索引的支持，比如，如果陣列a = [[1,2],[3,4]]，那麽a[1,0](=3)、a[1][0](=3)、[[1,2],[3,4]][0,1](=2)和[[1,2],[3,4]][0][0](=1)都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 允許在聲明變數時對之進行初始化，也就是說，類似variable a = "hello, world", b, c = a + 7, d=[2,3,[5,8]]的語句現在都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 允許在多行命令中使用塊語句（也就是for ... next、if ... elseif ... else ... endif、try ... catch ... endtry等等）。但要註意的是，運行於Windows，Linux和MacOSX的程式開發科學計算器和運行於安卓的程式開發科學計算器的命令提示符換行操作略有不同。在安卓系統中，用戶在命令中插入一個ENTER鍵可以在本命令中開始新的一行，如果ENTER在命令末尾被鍵入，則完成輸入開始運行命令；在個人電腦中，用戶鍵入SHIFT-ENTER在本命令中開始新的一行，而不論在命令末尾或中間鍵入ENTER，都會完成輸入開始運行命令；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.增加了計算助理，該助理提供使用者常數值，也可以進行單位轉換，該計算助手可以在進入計算器或者命令行工具後，點擊手機菜單鍵來啟動；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了繪制圖形時自動決定步長的功能，同時增加了x，y等比例縮放，放大，縮小，充滿窗口按鍵用於縮放圖形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 增加了檔案管理器的剪切復制粘貼功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 更高的計算精度；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 增加了將本軟體安裝到SD卡的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.7版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支持科學計數，也就是說從本版本開始用戶輸入1.23e-003都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.更高的計算精度，對非常小的數值更好的支持；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.2.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.修正了一個非常嚴重的bug，此bug會導致用戶在輸入英文字符時一並重復輸入前面已經輸入的字符。此錯誤是由一些輸入法的單詞智慧預測功能（predictive texting）造成的，在以前的版本中用戶需要手動關閉輸入法的這項功能，現在軟體自動禁止此功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.增加命令提示符窗口橫向縱向切換的功能；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.針對大屏幕高分辨率設備對界面進行了優化；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.2.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本軟體增加了在命令提示符中定義變數和快速輸入上一次命令或結果的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.增加了函數plot2dEx並且顯著提高了繪圖速度；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.增加了函數is_zeros和is_eye functions用於判斷一個陣列是否為0陣列或者單位陣；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.針對大屏幕設備對界面進行了優化；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5.增加了字串加的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6.增加了積分和繪圖的例子以幫助使用者了解如何使用這兩個功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7.修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本軟體增加了增加了用於計算行列式值的函數deter，以及用於生成全部包括0元素或者1元素的函數zeros和ones；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.本軟體增加了正負號對矩陣的支持；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本軟體增加了增加了矩陣左除，右除和整數次方的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.本軟體增加計算矩陣的函數程式；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本軟體增加了增加了一個新的強大工具，用戶現在可以自定義計算器的輸入鍵盤，這樣一來，用戶可以非常快捷地輸入他們開發的程式，大大提高了工作效率；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.提供了對二進制，十進制和16進制數進行轉換的程式以及基於角度計算的三角函數程式；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.1.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了一個主界面以列出本軟體的所有功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 當軟體從後臺切換到前臺時自動加載函數庫；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 大大減少了啟動時間；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 修正了一些錯誤。
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.1.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本軟體增加了顯示啟動狀態的功能。程式開發科學計算器啟動時需要將內置的，預定義的和用戶定義的函數庫載入，需要將預定義的函數拷貝到存儲卡的例子文件夾中，還需要將基於JAVA的，可運行於任何安裝了JAVA的Windows、MacOSX和Linux的程式開發科學計算器拷貝到存儲卡中（此操作僅僅當用戶安裝或升級本軟體時才會進行），如果移動設備硬件性能較低，啟動過程可能需要花費比較長的時間。如果啟動過程太長，界面不再響應，用戶可能會認為軟體已經死機。而這一新的特性將可以告訴用戶啟動時本軟體在做什麽；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.對界面作了一些小的改進。
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本軟體增加了自帶了基於JAVA的，可運行於任何安裝了JAVA支持的Windows、MacOSX和Linux的程式開發科學計算器。用戶只需要用一根USB連接線連接移動設備和個人電腦，在移動磁盤中找到 AnMath子目錄，進入子目錄並在個人電腦中運行JMathCmd.jar。用戶可以在個人電腦中編寫和測試程序並存入移動設備中，以便以後在移動設備中使用；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.加強了對三角，雙曲三角和指數對數函數的復數支持，換句話說， 類似於sin(3 + 4i)、atan(0.9-47.33i)和log(-7-9.2*i)都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些錯誤；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.0.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.用戶可以開啟或者禁止按鍵震動，缺省為禁止；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.修正了當使用中文輸入法時，命令提示符對話框可能會崩潰的錯誤；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修改了幫助窗口的字體和顏色，並且用戶可以擴大或縮小字體；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.0.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支援矩陣除法，換言之，運算式如[[19、 22] [43、 50]] / [[1、 2] [3、 4]]是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.支援try/catch語句。這樣一來，開發人員可以偵測和處理運行時的異常；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.支援複數次冪（底數必須是正數），換言之，運算式如exp （3 + 2i） 和 5 **(-3.1i)是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.增加了在程式啟動時顯示新特性窗口的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5.修正了矩陣操作和switch/case語句執行時的一些錯誤。
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.0.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支援矩陣的加減乘法和轉秩，換言之，運算式如[3 + 4i, 5 + 7i] * [[2], [9-3.56i]]和[[5 - 6i, 3.1] - [4.83, 2.88i], [3*8.48 + sqrt(4.2)*i]]'現在是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.支援多行語句，也就是說一條長的語句現在可以分成若干行編輯；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了矩陣操作和位操作時的一些錯誤。
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.0.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.修正了使用"//"作為語句注釋時的一個錯誤；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.修正了在圖形標題中使用"；"和"："的一個錯誤；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.改進了使用者介面；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.改進了當使用者把移動設備連接到PC時軟體的性能。
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.0.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.修正了當使用者把移動設備連接到PC時程式可能崩潰的錯誤；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.添加了在圖形中顯示網格的新功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.當繪製圖形或者積分時如果使用者輸入有誤顯示詳細出錯資訊。
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.0版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支援複數；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.支援陣列和矩陣；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.支援（高次）積分；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.能夠繪製二維圖形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5.支援字串；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6.可程式設計；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7.支援其他計算器所具有的基本操作。
+		</p>
+	</body>
+</html>

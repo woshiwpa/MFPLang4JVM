@@ -1,0 +1,14 @@
+Help
+@language:simplified_chinese
+输入强力(cN)
+和英支便可算出英支，特克斯，断裂强力，断裂强度。
+@end
+endh
+
+function duan_qiang(cN,ying_zhi)
+variable tex,duan_qiang
+tex=round(10**1*(583.1/ying_zhi))/10**1
+duan_qiang=round(10*(cN/tex))/10
+return [[ying_zhi,tex,"tex"],[cN,duan_qiang]]
+endf
+

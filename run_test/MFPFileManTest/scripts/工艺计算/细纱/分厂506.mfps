@@ -1,0 +1,12 @@
+function xi_sha_hou_fen506()
+variable Zh,Zm,i_hou,Zh_s=[27],Zm_s=[34,33,32,31,30,29,28,27,26,25]
+for variable idx1=0 to 9 step 1
+print("\n")
+Zm=Zm_s[idx1]
+     for variable idx2=0 to 0 step 1
+     Zh=Zh_s[idx2]
+     i_hou=round(1.142*Zm/Zh,3)
+     print("后区牵伸倍数："+i_hou+"，Zm/Zh="+Zm+"/"+Zh+"\n")
+     next
+next
+endf 

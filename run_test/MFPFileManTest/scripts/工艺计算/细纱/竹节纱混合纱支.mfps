@@ -1,0 +1,9 @@
+function zhu_jie_sha()
+variable jie_chang,jie_ju,bei_cu,ji_sha,hun_he_sha,g_cu,tex,i_zong,E,i
+jie_chang=input("平均节长=")
+jie_ju=input("平均节距=")
+bei_cu=input("倍粗=")
+ji_sha=input("基纱支数=")
+hun_he_sha=round(ji_sha*(jie_chang+jie_ju)/(jie_chang*bei_cu+jie_ju))
+print("混合纱支="+hun_he_sha+"\n")
+endf

@@ -1,0 +1,40 @@
+function cu_sha_xian_D()
+print("用于查询当前粗纱机台车上的轮子\n\n")
+variable che_hao,D1,D2
+variable D_s=[[0,0,0],[1,0,0],[2,145,280],[3,145,280],[4,145,280],[5,145,280],[6,165,295],[7,165,295],[8,155,280],[9,165,280],[10,165,295],[11,165,295],[12,165,295],[13,165,295],[14,145,250],[15,155,280],[16,145,325],[17,207,210],[18,207,210],[19,207,210],[20,207,210],[21,207,210]]
+print("\n提示：输入车号为0时可查看全部，车号处输入e可结束。\n\n")
+while true
+che_hao=input("请输入粗纱车号：")
+print("\n")
+if che_hao==e
+break
+endif
+
+for variable idx=0 to 21 step 1
+if and(idx>1,che_hao==0)
+  for variable idx1=2 to 21 step 1
+che_hao=D_s[idx1][0]
+D1=D_s[idx1][1]
+D2=D_s[idx1][2]
+print(che_hao+"号车：D1/D2="+D1+"/"+D2+"\n")
+next
+endif
+
+if or(che_hao==1,che_hao>21)
+print("没有这个车号\n")
+break
+endif
+
+if and(che_hao>1,che_hao<22)
+idx=che_hao
+che_hao=D_s[idx][0]
+D1=D_s[idx][1]
+D2=D_s[idx][2]
+print(idx+"号车：D1/D2="+D1+"/"+D2+"\n")
+break
+endif
+
+next
+print("\n")
+loop
+endf

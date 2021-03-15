@@ -1,0 +1,9 @@
+function xiao_shu(x,y)
+x=round(10**y*x)/10**y
+return x
+endf
+
+function xiao_shu(x)
+x=round(x)
+return x
+endf

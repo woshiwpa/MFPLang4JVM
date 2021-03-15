@@ -1,0 +1,30 @@
+Function myf_sort(desc, original_list)
+if original_list == null
+return original_list
+endif
+Variable original_size = size(original_list)[0]
+if original_size < 2
+return original_list
+endif
+Variable return_list = alloc_array(original_size)
+return_list[0] = original_list[0]
+for variable idx = 1 to original_size - 1 step 1
+variable inserted = false
+for variable idx1 = 0 to idx - 1 step 1
+if Or(and(desc == 0, original_list[idx] < return_list[idx1]), and(desc != 0, original_list[idx] > return_list[idx1]))
+// from large to small
+for variable idx2 = idx - 1 to idx1 step -1
+return_list[idx2 + 1] = return_list[idx2]
+next
+return_list[idx1] = original_list[idx]
+inserted = true
+break
+endif
+next
+if inserted == false
+return_list[idx] = original_list[idx]
+endif
+next
+return return_list
+endf
+

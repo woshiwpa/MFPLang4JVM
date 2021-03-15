@@ -1,0 +1,35 @@
+Function mydz()
+variable x1,y1,x,y,d,zh,yh,fwj,k,m,t
+x1=input("x1=")
+y1=input("y1=")
+x=input("x=")
+y=input("y=")
+d=input("d=")
+zh=input("zh=")
+yh=input("yh=")
+fwj=input("fwj=")
+k=input("k=")
+m=input("m=")
+t=input("t=")
+
+Variable x2,y2,n,g,j,q,l,r,z
+n=(1/k)*m
+x2=round(x1+cosd(fwj)*n,2)
+y2=round(y1+sind(fwj)*n,2)
+print("x2=="+x2+"\n")
+print("y2=="+y2+"\n")
+g=Sqrt((x2-x)**2+(y2-y)**2)
+j=atand((y2-y)/(x2-x))
+If(j<0)
+j=j+360
+endif
+q=Asind((d/2)/g)
+l=j-q
+print("\n")
+Print("L\n"+l+"\n")
+r=j+q
+Print("R\n"+r+"\n")
+z=Atand((zh+yh-t)/g)+90
+Print("Z\n"+z)
+Return
+Endf

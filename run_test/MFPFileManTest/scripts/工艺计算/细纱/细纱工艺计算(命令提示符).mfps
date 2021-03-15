@@ -1,0 +1,195 @@
+function gy_xi_sha()
+variable ji_xing,Tt,n_qian,n_qian_yu_she,n_ding,Ta,D1,D2
+variable Za,Zb,Zc,Zd,Ze,Zk,Zj,Zh,Zm
+variable i_zong_yu_she,i_hou,i_zong
+do
+ji_xing=input("细纱机型：")
+until or(ji_xing==128,ji_xing==502,ji_xing==506,ji_xing==513)
+variable g_cu,g_sha,ying_zhi,tex
+
+variable cu_sha_gen_shu
+do
+cu_sha_gen_shu=input("单根纺填1，赛络纺填2：")
+until or(cu_sha_gen_shu==1,cu_sha_gen_shu==2)
+
+g_sha=input("细纱定量=")
+g_cu=input("粗纱定量=")
+variable i_zong_g
+i_zong_g=round(g_cu*10*cu_sha_gen_shu/g_sha,2)
+print("重量牵伸倍数="+i_zong_g+"\n")
+variable qian_shen_xiao_lv
+qian_shen_xiao_lv=input("牵伸效率(推荐1.04)=")
+i_zong_yu_she=round(i_zong_g*qian_shen_xiao_lv,2)
+print("机械牵伸倍数="+i_zong_yu_she+"\n")
+print("\n")
+
+
+if ji_xing==513
+print("请选择后区牵伸倍数\n")
+xi_sha_hou513()
+print("\n")
+print("输入所选后区牵伸倍数对应的牙齿数\n")
+
+
+Zh=input("后牵伸牙Zh=")
+i_hou=round(62.5/Zh,3)
+print("你选择的后区牵伸倍数="+i_hou+"\n")
+
+print("机械牵伸倍数="+i_zong_yu_she+"\n")
+
+print("\n")
+variable xuan_ze1
+xuan_ze1=input("查看总牵伸牙齿填1,否则填别的数：")
+if xuan_ze1==1
+xi_sha_zong_ya513(i_zong_yu_she,Zh)
+print("\n")//输出总牵伸牙齿表
+else
+endif
+
+print("输入所选总牵伸倍数对应的牙齿数\n")
+while true
+Ze=input("Ze=")
+Zd=input("Zd=")
+if Ze+Zd>99
+break
+endif
+if Ze+Zd<99
+print("轻重牙总齿数小于100，可能无法安装\n")
+variable xuan_ze
+xuan_ze=input("重新选择填1，继续填其他数：")
+if xuan_ze!=1
+break
+endif
+endif
+loop
+i_zong=round(1050.463*Ze/Zd/Zh,2)
+print("你选择的总牵伸倍数="+i_zong+"\n")
+
+variable Tt_yu_she
+Tt_yu_she=input("预设捻度=")
+print("选择捻度\n")
+xi_sha_nian_du513(Tt_yu_she)
+print("\n")
+print("输入所选捻度对应的牙齿数\n")
+Zb=input("捻度对牙Zb=")
+Za=126-Zb
+print("捻度对牙Za="+Za+"\n")
+Zc=input("捻度牙Zc=")
+ Tt=round(2857.2*Zb/Za/Zc,1)
+ tex=round(1.085*10*g_sha,1)
+ Ta=round(Tt*sqrt(tex))
+ print("你选择的捻度="+Tt+"\n")
+ print("捻系数="+Ta+"\n")
+ 
+ 
+n_qian_yu_she=input("输入大概的前罗拉速度=")
+print("\n")
+xi_sha_n_qian513(Tt,n_qian_yu_she)
+print("\n")
+print("选择前罗拉速度，填写所对应的电机轮和主轴轮\n")
+D1=input("电机轮D1=")
+D2=input("主轴轮D2=")
+n_qian=round(7.1078*Za/Zb*Zc*D1/D2)
+print("你确定的前罗拉转速="+n_qian+"\n")
+n_ding=round(15950*D1/D2)
+print("锭速="+n_ding+"\n")
+print("\n")
+print("工艺单如下：\n")
+print("工序：细纱\n")
+print("机型：513W\n")
+print("粗纱定量="+g_cu+"\n")
+print("设计干重="+g_sha+"\n")
+print("设计捻度="+Tt+"\n")
+print("捻系数="+Ta+"\n")
+print("捻度对牙Zb/Za="+Zb+"/"+Za+"\n")
+print("捻度牙Zc="+Zc+"\n")
+print("总牵伸倍数="+i_zong+"\n")
+print("轻重牙Ze/Zd="+Ze+"/"+Zd+"\n")
+print("后区牵伸倍数="+i_hou+"\n")
+print("后牵伸牙Zh="+Zh+"\n")
+print("电机轮(D1)/主轴轮(D2)="+D1+"/"+D2+"\n")
+print("锭速="+n_ding+"\n")
+print("前罗拉转速="+n_qian+"\n")
+endif
+
+if ji_xing==502
+print("选择总牵伸倍数\n")
+xi_sha_zong_ya502(i_zong_yu_she)
+print("\n")
+print("输入所选总牵伸倍数对应的牙齿数\n")
+
+do
+Zk=input("Zk=")
+until or(Zk==72,Zk==55)
+Zj=95-Zk
+print("Zj="+Zj+"\n")
+Ze=input("Ze=")
+Zd=input("Zd=")
+i_zong=round(7.0956*Ze/Zd*Zk/Zj,2)
+print("您选择的总牵伸倍数="+i_zong+"\n")
+
+variable Tt_yu_she
+Tt_yu_she=input("预设捻度=")
+print("选择捻度\n")
+xi_sha_nian_du502(Tt_yu_she)
+print("\n")
+print("输入所选捻度对应的牙齿数\n")
+Zb=input("捻度对牙Zb=")
+Za=126-Zb
+print("捻度对牙Za="+Za+"\n")
+Zc=input("捻度牙Zc=")
+ Tt=round(3428.58*Zb/Za/Zc,1)
+ tex=round(1.085*10*g_sha,1)
+ Ta=round(Tt*sqrt(tex))
+ print("你选择的捻度="+Tt+"\n")
+ print("捻系数="+Ta+"\n")
+ 
+n_qian_yu_she=input("输入大概的前罗拉速度=")
+print("\n")
+xi_sha_n_qian502(Tt,n_qian_yu_she)
+print("\n")
+print("选择前罗拉速度，填写所对应的电机轮和主轴轮\n")
+D1=input("电机轮D1=")
+D2=input("主轴轮D2=")
+n_qian=round(5.964*Za/Zb*Zc*D1/D2)
+print("你确定的前罗拉转速="+n_qian+"\n")
+n_ding=round(16060*D1/D2)
+print("锭速="+n_ding+"\n")
+
+print("选择后区牵伸倍数\n")
+xi_sha_hou502()
+Zm=input("Zm=")
+Zh=input("Zh=")
+i_hou=round(1.0188*Zm/Zh,3)
+print("你选择的后区牵伸倍数="+i_hou+"\n")
+
+
+
+print("\n*************************************\n")
+print("工艺单如下：\n")
+print("工序：细纱\n")
+print("机型：502\n")
+print("粗纱定量="+g_cu+"\n")
+print("设计干重="+g_sha+"\n")
+print("设计捻度="+Tt+"\n")
+print("捻系数="+Ta+"\n")
+print("捻度对牙Zb/Za="+Zb+"/"+Za+"\n")
+print("捻度牙Zc="+Zc+"\n")
+print("总牵伸倍数="+i_zong+"\n")
+print("牵伸对牙Zk/Zj="+Zk+"/"+Zj+"\n")
+print("轻重牙Ze/Zd="+Ze+"/"+Zd+"\n")
+print("后区牵伸倍数="+i_hou+"\n")
+print("后牵伸牙Zm/Zh="Zm+"/"+Zh+"\n")
+print("电机轮(D1)/主轴轮(D2)="+D1+"/"+D2+"\n")
+print("锭速="+n_ding+"\n")
+print("前罗拉转速="+n_qian+"\n")
+endif
+
+
+
+
+
+
+endf
+
+

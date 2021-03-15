@@ -1,0 +1,166 @@
+Help
+@language:simplified_chinese
+函数qi_fang()仅适用于命令提示符，用于计算分厂F1603转杯纺工艺。根据提示输入有关参数即可操作。
+@end
+endh
+function gy_qi_fang()
+variable Ne,tex,nian_xi_shu,g_tiao,g_sha,f_gei,f_yin,f_juan,d_g,d,k,D1,D2,D3,n_bei,n_fen,Tm,Tt,Ta,v_gei,v_yin,v_juan,qian_shen_xiao_lv,G
+variable Z1,Z2,Z3,Z4,Z5,Z6,
+variable xuan_ze2
+do
+xuan_ze2=input("计算大厂气流纺选1，分厂填2\n请选择：")
+until or(xuan_ze2==1,xuan_ze2==2)
+
+Ne=input("纱线支数=")
+tex=round(583.1/Ne,1)
+g_sha=round(tex/10.85,3)
+print("tex="+tex+"\n")
+print("纱线干重="+g_sha+"\n")
+
+print("选择分梳辊速度\n")
+n_fen()
+print("输入所选分梳辊速度对应的轮子\n")
+D3=input("D3=")
+n_fen=round(1430/23.5*(D3+2.3))
+print("你选择的分梳辊速度="+n_fen+"\n")
+
+
+while (true)
+Tt=input("设计捻度=")
+print("选择纺杯转速和引纱速度\n")
+
+qi_fang_n_bei(Tt)
+print("\n")
+
+
+print("\n")
+print("输入所选纺杯速度对应的轮子\n")
+D1=input("D1=")
+D2=input("D2=")
+n_bei=round(2880*17.23*D1/D2)
+print("你选择的纺杯速度="+n_bei+"\n")
+
+
+print("\n")
+print("捻度="+Tt+"\n")
+
+Ta=round(Tt*pow(tex,1/2))
+print("捻系数="+Ta+"\n")
+Tm=Tt*10
+v_yin=round(n_bei/Tm,1)
+print("引纱速度="+v_yin+"\n")
+
+if xuan_ze2==2
+f_yin=round(v_yin/1.998,2)
+
+endif
+if xuan_ze2==1
+print("选择引纱频率\n")
+f_yin(v_yin)
+//加入Z1,Z2牙齿表
+Z1=input("Z1=")
+Z2=input("Z2=")
+f_yin=round(v_yin/3.39*Z2/Z1,2)
+endif
+print("引纱频率="+f_yin+"\n")
+variable xuan_ze
+do
+xuan_ze=input("满足要求填1，重新选择纺杯速度和捻度填2：")
+until or(xuan_ze==1,xuan_ze==2)
+if xuan_ze==1
+break
+endif
+loop
+g_tiao=input("熟条定量=")
+d_g=round(g_tiao*20/g_sha,2)
+print("重量牵伸="+d_g+"\n")
+
+qian_shen_xiao_lv=input("牵伸效率=")
+d=round(qian_shen_xiao_lv*d_g,2)
+print("机械牵伸="+d+"\n")
+v_gei=round(v_yin/d,2)
+if xuan_ze2==2
+f_gei=round(f_yin*67.96/d,2)
+endif
+if xuan_ze2==1
+print("选择给棉频率\n")
+f_gei(Z1,Z2,d,f_yin,v_gei)
+//Z3~Z6表
+Z3=input("Z3=")
+Z4=input("Z4=")
+Z5=input("Z5=")
+Z6=input("Z6=")
+f_gei=round(f_yin*72.281/d*Z1/Z2*Z4/Z3*Z6/Z5,2)
+endif
+
+print("给棉速度="+v_gei+"\n")
+print("给棉频率="+f_gei+"\n")
+
+if xuan_ze2==2
+k=input("卷绕张力=")
+f_juan=round(f_yin*k*1.25,2)
+print("卷绕频率="+f_juan+"\n")
+endif
+if xuan_ze2==1
+print("选择卷绕张力\n")
+qi_fang_zhang_li()
+//加入卷绕函数
+G=input("卷绕张力牙G=")
+k=round(70/g,2)
+print("卷绕张力="+k+"\n")
+endif
+variable d_bei,zu_nian_tou
+
+print("\n****************************************\n")
+print("气流纺工艺单\n")
+print("熟条定量="+g_tiao+"\n")
+print("纱线干重="+g_sha+"\n")
+print("纱线号数="+tex+"\n")
+print("设计捻度="+Tt+"\n")
+print("捻系数="+Ta+"\n")
+print("分梳辊速度="+n_fen+"\n")
+print("纺杯速度="+n_bei+"\n")
+print("D1/D2/D3="+D1+"/"+D2+"/"+D3+"\n")
+print("重量牵伸="+d_g+"\n")
+print("机械牵伸="+d+"\n")
+if xuan_ze2==1
+print("Z1/Z2="+Z1+"/"+Z2+"\n")
+print("Z3/Z4/Z5/Z6="+Z3+"/"+Z4+"/"+Z5+"/"+Z6+"\n")
+endif
+print("引纱速度="+v_yin+"\n")
+print("引纱频率="+f_yin+"\n")
+print("给棉速度="+v_gei+"\n")
+print("给棉频率="+f_gei+"\n")
+if xuan_ze2==2
+print("卷绕频率="+f_juan+"\n")
+endif
+if xuan_ze2==1
+print("卷绕张力牙G="+G+"\n")
+endif
+print("卷绕张力="+k+"\n")
+print("选择合适的纺杯直径，阻捻头\n")
+print("****************************************\n")
+endf
+
+Help
+@language:simplified_chinese
+函数qi_fang_g()仅适用于用于命令提示符，用于调节气流纺重量，根据纱线支数，当前称重，回潮，当前给棉频率可以计算出要输入的给棉频率。
+@end
+endh
+function qi_fang_g()
+variable tex,g_sha,hui_chao,Ne,g_cheng,zhi_pian,f_xian,f_mu_biao,g_mu_biao
+
+Ne=input("纱线支数=")
+tex=round(583.1/Ne,1)
+g_sha=round(tex/10.85,3)
+print("纱线干重="+g_sha+"\n")
+g_cheng=input("当前纺重=")
+hui_chao=input("回潮=")
+g_mu_biao=round(g_sha*(1+hui_chao/100),3)
+print("目标纺重="+g_mu_biao+"\n")
+zhi_pian=round((g_cheng/(1+hui_chao/100)-g_sha)/g_sha*100,2)
+print("支偏="+zhi_pian+"%\n")
+f_xian=input("当前给棉频率=")
+f_mu_biao=round(g_mu_biao/g_cheng*f_xian,2)
+print("应输给棉频率="+f_mu_biao+"\n")
+endf

@@ -1,0 +1,15 @@
+function biao()
+variable x,y,z
+print("─────────────────\n")
+for x=1 to 5 step 1
+for y=2 to 5 step 1
+z=x*y+""
+variable s
+strlen(z+s)=4
+strlen(x+"")=4
+print("Z="+z+s+"│X="+x+"│Y="+y+"\t\n")
+
+next
+next
+print("─────────────────\n")
+endf

@@ -1,0 +1,526 @@
+﻿<html>
+	<head>
+		<title>可编程科学计算器帮助</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">可编程科学计算器的新特性</h2>
+		
+		<p style="font-family:verdana;color:red;">
+<b>可编程科学计算器已经在百度贴吧安家了，请到<a href="http://tieba.baidu.com/f?kw=mfp" target="_blank">百度MFP吧</a>参加对可编程科学计算器以及MFP编程语言的讨论以获得最快捷的帮助和最新的信息。</b>
+		</p>
+
+		<p style="font-family:verdana;color:magenta;">
+<b>1.6.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 二维图形表达式绘图引擎在1.6.5.48中得到显著改进。由于引入缓存技术以及对拖动事件响应进行了优化，现在计算器对图形各种操作更加快速和敏感。但要注意，由于对表达式绘图必须在新的值计算表达式结果，如果表达式过于复杂，用户仍然会感觉到明显的延迟。
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 支持绘制2维或3维隐函数图形。注意只有当隐函数可解，才能够绘制图形。4次或者4次以上的多项式由于根表达式过于复杂，虽然可解，但无法绘图。。如果绘制包含两个变量的隐函数，最多4个根表达式将会被绘制出。如果是3个变量的隐函数，根据情况计算器可能会对每个变量求根，然后为每个变量绘制出最多2个解表达式。这样一来，一个单一的3变量的隐函数，可能意味着绘制出6条图形，整个求解绘图过程将会花费比较长的时间。还要注意，隐函数必须是等式，而不能是赋值式，比如x**2+y**2=4-z**2是非法的，而x**2+y**2==4-z**2则是正确的；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 函数size，zeros和ones的返回值和参数定义有所改变。现在，如果是计算一个数值，而不是矩阵的尺寸，size函数返回[]而不是[0]。同理，如果参数是[]，zeros返回0而ones返回1；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 一定程度的性能提升；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 很多错误得到了修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.6.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 1.6.4.46版在数学表达式识别正确率和速度方面有了进一步的提升，此外不定积分功能也进一步加强；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 加入数学公式拍照识别的功能。用户可以进入智慧计算器后点击照相机图标按钮进入数学公式拍照识别。注意现阶段只支持打印体数学公式识别，手写体识别还在发展完善中；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 提供了Unicode字符串和整数数组相互转换的函数conv_str_to_ints以及conv_ints_to_str；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 提供了system函数直接运行一个系统命令；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 允许用户隐藏3维图形的坐标轴和标题；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 一些小的错误的修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.6.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 从1.6.3.44开始对启动智慧计算器和命令提示符时预定义函数库装载过程进行了优化，启动速度大大加快；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 提供了一整套完整的文件操作函数包括create_file、copy_file、delete_file、cd、dir、pwd、fopen、fclose、fprintf、fscanf、freadline、fread、fwrite等等。现在命令提示符完全可以当成安卓设备的一个外壳程序（shell）来使用。用户可以在里面对安卓设备中的任何文件进行读写操作，只要用户有这个权限。当然，这项新功能虽然强大，但也很危险。强烈建议用户把所有的文件操作限制在应用的目录（AnMath）中。同时，建议用户在应用的目录（AnMath）下创建一个data目录用于保存个人数据，以方便管理；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 提供了计算矩阵的秩的rank函数；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 提供了新的输入输出函数包括printf、scanf、sprintf、sscanf；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 提供了新的字符串操作函数包括split、trim、trim_left和trim_right；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 提供了pause函数用于暂停运行中的程序，用户可以敲击Enter键继续；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7. 提供了一整套日期和时间的函数；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	8. 一些小的错误的修正；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.6.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 支持不定积分以及用自适应Gauss-Kronrod法做定积分计算；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 界面支持西班牙文，但帮助文档的翻译还在进行中，感谢网友Gabriel Horacio Diez的协助；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 一些其他小的改进和错误修正；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 从1.6.2版开始，本软件中嵌入了百度移动广告服务。这一新的特性是针对国内的用户，只有当系统语言为简体中文时才会被激活，世界其他地方的用户不受影响。百度移动广告服务需要读取用户大致位置和移动设备状态，以针对不同人群推送不同的广告。我们郑重承诺，百度和我们均不会存储用户的私人数据，用户的隐私得到充分保护；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.6.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 在同一幅图中绘制更多的曲线。现在不论是2D，3D还是极坐标图形都能包含最多8条曲线（曲面）；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 优化了极坐标图形的绘制；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 一些其他小的改进和错误修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.6.0版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 更快的计算速度。经过测试，基于JAVA的可编程科学计算器在电脑上计算速度是以前各版本的10倍，在安卓设备上，由于速度瓶颈未必是在计算上，并且用户通常一次只运行一个小的命令，对计算速度的提高，用户感受可能并非非常明显。但对于大部分计算，速度仍然可以达到以前的1.5到3倍，具体取决于安卓设备的硬件条件；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. MFP编程语言现在可以处理任意大的数，比如，如果计算1000的1000次方，以前的版本会报溢出错误，现在用户可以得到结果为10的3000次方；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 计算结果更精确。著名的类Matlab数学软件Octave采用双精度数进行内部计算所以其实际精度只能达到约10E-17。但MFP则可以达到5*10E-48。当数值小于这个值时，MFP会视该值为0；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 支持无穷大和NaN。由于这项新的特征，本软件将不会再抛出除0异常。用户必须自己在代码中处理。MFP提供了一系列的新函数，比如is_nan_or_inf、is_inf、includes_nan以及includes_inf。使用这些函数用户可以轻松判断一个数是否是无穷或者NaN，或者一个复数或者矩阵是否包括无穷或者NaN。用户也可以用系统预定义的变量inf和nan来生成无穷和NaN值并进行计算；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 计算特征值和特征向量。注意这是非常消耗内存和CPU资源的计算。强烈建议，在安卓设备上不要计算超过6*6的矩阵，在个人电脑不要计算超过8*8的矩阵。否则可能会内存不足或者用户陷入长时间等待；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 支持自定义智慧计算器和命令提示符的键盘。用户现在不但可以自定义函数键盘，还可以自定义数字和运算符键盘。用户还可以自由改变按键高度，宽度以及按键上的字的颜色；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7. 一些其他小的改进和错误修正；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.5.6版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 完全支持2进制，8进制和16进制整数和小数。2进制由0b起头，比如0b0011101和0b11.1001。8进制由一个额外的0起头，比如02751和00.23561。16进制0x起头，比如0xEFF6和0x23FAB.DF24。此外，还提供了新的进制转换函数。原有的进制转换函数，也就是int*to*（比如int10to2以及int2to16），被新的conv_*_to_*（比如conv_hex_to_dec）函数所取代，并将在1.6版中被移除。新的进制转换函数全部支持整数和小数；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加新的函数sum_over和product_over；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 改进了智慧计算器的自定义输入面板；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 改善了主界面；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 为避免和if语句混淆，将if函数重命名为iff；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 一些其他小的改进和错误修正；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.5.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 支持绘制极坐标曲线图。在智慧计算器工具中，如果用户输入的一个或者一组表达式仅仅包含两个变量，并且这两个变量中至少有一个是希腊字母α、β、γ或者θ，智慧计算器将生成极坐标曲线图。智慧计算器自带的输入键盘中也带有一个θ按钮，以方便用户输入；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了input函数，用户可以在程序运行的时候输入变量值；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 支持多SD卡存储器，用户可以选择将可编程科学计算器的数据和基于JAVA的可编程科学计算器保存在任何一个SD卡存储器中；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 改进了其它一些小的功能，修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 为命令提示符，程序编辑器，绘图和积分计算提供了输入键盘，方便用户快速输入函数和参数，输入键盘类似于智慧计算器的输入键盘，可以左右滑动以切换到不同的输入模式，在普通键盘模式下会启动字典功能，大大加快了输入速度；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了计算伴随矩阵和余因子阵的函数adj和cofactor；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 注意：在google的AdView控件中存在一个bug，会造成在横竖屏切换或者多线程并发运行时智慧计算器无法载入输入结果，此外历史纪录和帮助窗口也会一片空白。我们正在和google沟通，希望能尽快解决这个问题，与此同时，在本版中，智慧计算器，命令提示符，绘图和积分计算暂时不允许横竖屏切换，但功能没有任何变化。如果用户在使用本版软件时依然发现存在输入结果一片空白的问题，可以按退回键退出软件（注意不是仅仅退出智慧计算器），再重启软件即可。同时希望发现问题的用户能够和我们联系。我们的email是cyzsoft@gmail.com；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 在智慧计算器结果窗口和历史纪录中显示出绘制出的图形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了三个快捷方便的绘图函数，plot_exprs，plot_2d_data和plot_3d_data，用户只需要在命令提示符中运行命令诸如plot_exprs("2*log(x)", "sin(x)"), plot_2d_data([2, 4, 5, 7], [1.8, 2.2, 3.4, 5.8]), plot_3d_data([[5,6,8],[4,9,3],[8,1,6],[2,4,7]])就可以绘制出图形而不必考虑图形各种的设置；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了通过表达式直接绘制图形的功能。用户只需要在智慧计算器中输入一个或多个（不多于4个）表达式，比如：2*x、y=4 + sin(x)、 x + y == z，然后点击绘制图形按钮，智慧计算器将自动为用户绘制出二维或三维图形（取决于变量的总数）。图形绘制好后，用户还可以调整变量的绘制范围；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.5.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了自由缩放，旋转，平移，调整3维图形的功能。增加了绘制填充表面和网格的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了绘制3维图形的功能。该功能通过调用plot3D或者plot_multi_xyz函数来实现。用户也可以通过内置的绘制3维图形工具来设置和绘制3维图形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.4.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了侦测曲线奇异点的功能（也就是x或者y的值不是有限大的实数），现在诸如双曲线，y == tan(x)的曲线可以被正确绘制出来了。需要注意的是，如果想侦测曲线奇异点，用户必须设置步长为自动；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了IF函数，本函数类似于Excel中的IF函数但是更强大，现在用户可以用一行语句来实现一个if程序块的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.4.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 支持安卓3安卓4的界面风格，安卓3安卓4的用户将会看到这项变化；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了快速傅立叶变换函数FFT和逆函数IFFT；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 修改了版本号的显示方式，在版本号的末尾添加了修改批次，比如1.4.1.21，21就是修改批次；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 大大缩短了将基于JAVA的可编程科学计算器拷贝到SD卡上的时间；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了解数学方程式的功能，也就是说现在用户可以通过本软件求解诸如x**2 + 2*x == 3或x + y == 9和y - x == i的方程和方程组。请参考solve和slvreto帮助以获取更多信息；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 将计算器程序升级为智慧计算器程序，智慧计算器支持变量和解方程；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 增加忽略大小写的字符串比较函数；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.3.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了roots函数用于计算高次多项式的根。比如，运行roots(5+4i, 0.79i, 0, 5.41-3.83i, 0.788)我们可以得到多项式方程(5+4i)*x**4 + 0.79i*x**3 +(5.41 - 3.83i)*x + 0.788 = 0的根；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加nCr和nPr函数用于计算排列组合；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 增加对数组连续多次索引的支持，比如，如果数组a = [[1,2],[3,4]]，那么a[1,0](=3)、a[1][0](=3)、[[1,2],[3,4]][0,1](=2)和[[1,2],[3,4]][0][0](=1)都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 允许在声明变量时对之进行初始化，也就是说，类似variable a = "hello, world", b, c = a + 7, d=[2,3,[5,8]]的语句现在都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 允许在多行命令中使用块语句（也就是for ... next、if ... elseif ... else ... endif、try ... catch ... endtry等等）。但要注意的是，运行于Windows，Linux和MacOSX的可编程科学计算器和运行于安卓的可编程科学计算器的命令提示符换行操作略有不同。在安卓系统中，用户在命令中插入一个ENTER键可以在本命令中开始新的一行，如果ENTER在命令末尾被键入，则完成输入开始运行命令；在个人电脑中，用户键入SHIFT-ENTER在本命令中开始新的一行，而不论在命令末尾或中间键入ENTER，都会完成输入开始运行命令；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.增加了计算助手，该助手提供使用者常数值，也可以进行单位转换，该计算助手可以在进入计算器或者命令行工具后，点击手机菜单键来启动；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 增加了绘制图形时自动决定步长的功能，同时增加了x，y等比例缩放，放大，缩小，充满窗口按键用于缩放图形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 增加了文件管理器的剪切复制粘贴功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 更高的计算精度；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5. 增加了将本软件安装到SD卡的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6. 修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.7版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支持科学计数，也就是说从本版本开始用户输入1.23e-003都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.更高的计算精度，对非常小的数值更好的支持；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.2.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.修正了一个非常严重的错误，此错误会导致用户在输入英文字符时一并重复输入前面已经输入的字符。此错误是由一些输入法的单词智能辨识预测功能（predictive texting）造成的，在以前的版本中用户需要手动关闭输入法的这项功能，现在软件自动禁止此功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.增加命令提示符窗口横向纵向切换的功能；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.针对大屏幕高分辨率设备对界面进行了优化；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.2.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本软件增加了在命令提示符中定义变量和快速输入上一次命令或结果的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.增加了函数plot2dEx并且显著提高了绘图速度；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.增加了函数is_zeros和is_eye functions用于判断一个矩阵是否为0矩阵或者单位阵；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.针对大屏幕设备对界面进行了优化；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5.增加了字符串加的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6.增加了积分和绘图的例子以帮助使用者了解如何使用这两个功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7.修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本软件增加了增加了用于计算行列式值的函数deter，以及用于生成全部包括0元素或者1元素的函数zeros和ones；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.本软件增加了正负号对矩阵的支持；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.2.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本软件增加了增加了矩阵左除，右除和整数次方的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.本软件增加矩阵计算的函数；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本软件增加了增加了一个新的强大工具，用户现在可以自定义计算器的输入键盘，这样一来，用户可以非常快捷地输入他们开发的函数，大大提高了工作效率；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.提供了对二进制，十进制和16进制数进行转换的函数以及基于角度计算的三角函数；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.1.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1. 增加了一个主界面以列出本软件的所有功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2. 当软件从后台切换到前台时自动加载函数库；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3. 大大减少了启动时间；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4. 修正了一些错误。
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.1.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本软件增加了显示启动状态的功能。可编程科学计算器启动时需要将内置的，预定义的和用户定义的函数库载入，需要将预定义的函数拷贝到存储卡的例子文件夹中，还需要将基于JAVA的，可运行于任何安装了JAVA支持的Windows、MacOSX和Linux的可编程科学计算器拷贝到存储卡中（此操作仅仅当用户安装或升级本软件时才会进行），如果移动设备硬件性能较低，启动过程可能需要花费比较长的时间。如果启动过程太长，界面不再响应，用户可能会认为软件程序已经死机。而这一新的特性将可以告诉用户启动时本软件在做什么；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.对界面作了一些小的改进。
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.本软件增加了自带了基于JAVA的，可运行于任何安装了JAVA支持的Windows、MacOSX和Linux的可编程科学计算器。用户只需要用一根USB连接线连接移动设备和个人电脑，在移动磁盘中找到 AnMath子目录，进入子目录并在个人电脑中运行JMathCmd.jar。用户可以在个人电脑中编写和测试程序并存入移动设备中，以便以后在移动设备中使用；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.加强了对三角，双曲三角和指数对数函数的复数支持，换句话说， 类似于sin(3 + 4i)、atan(0.9-47.33i)和log(-7-9.2*i)都是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了一些错误；
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.0.5版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.用户可以开启或者禁止按键震动，缺省为禁止；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.修正了当使用中文输入法时，命令提示符对话框可能会崩溃的错误；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修改了帮助窗口的字体和颜色，并且用户可以扩大或缩小字体；
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.0.4版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支持矩阵除法，换言之，表达式如[[19, 22],[43, 50]]/[[1, 2],[3, 4]]是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.支持try/catch语句。这样一来，开发人员可以侦测和处理运行时的异常；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.支持复数次幂（底数必须是正数），换言之，表达式如exp(3 + 2i) and 5 **(-3.1i)是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.增加了在程序启动时显示新特性显示对话框的功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5.修正了矩阵操作和switch/case语句执行时的一些错误。
+		</p>
+		<p style="font-family:verdana;color:magenta;">
+<b>1.0.3版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支持矩阵的加减乘法和转秩，换言之，表达式如[3 + 4i, 5 + 7i] * [[2], [9-3.56i]]和[[5 - 6i, 3.1] - [4.83, 2.88i], [3*8.48 + sqrt(4.2)*i]]'现在是合法的了；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.支持多行语句，也就是说一条长的语句现在可以分成若干行编辑；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.修正了矩阵操作和位操作时的一些错误。
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.0.2版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.修正了使用“//”作为语句注释时的一个错误；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.修正了在图形标题中使用“；”和“：”的一个错误；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.改进了用户界面；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.改进了当用户把移动设备连接到PC时软件的性能。
+		</p>
+		<p style="font-family:verdana;color:green;">
+<b>1.0.1版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.修正了当用户把移动设备连接到PC时程序可能崩溃的错误；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.添加了在图形中显示网格的新功能；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.当绘制图形或者积分时如果用户输入有误显示详细出错信息。
+		</p>
+		<p style="font-family:verdana;color:red;">
+<b>1.0版</b>
+		</p>
+		<p style="font-family:verdana;color:black;">
+	1.支持复数；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	2.支持数组和矩阵；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	3.支持（高次）积分；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	4.能够绘制二维图形；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	5.支持字符串；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	6.可编程；
+		</p>
+		<p style="font-family:verdana;color:black;">
+	7.支持其他计算器所具有的基本操作。
+		</p>
+	</body>
+</html>

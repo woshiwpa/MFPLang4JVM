@@ -1,0 +1,99 @@
+Help
+@language:simplified_chinese
+输入机型，R，S，A，B，Tdc，Fc，F，E，G，H得出机型，总牵伸，主牵伸，后区牵伸及张力牵伸
+@end
+endh
+Function bing_tiao_E(ji_xing,R,S,A,B,Tdc,Fc,F,E,G,H)
+variable i_zong,i_hou,i_zhu,zhang_li
+if ji_xing==320
+i_zong=xiao_shu_dian(67/39*54/44*S/R*B/A*Fc/Tdc,3)
+i_zhu=xiao_shu_dian(S/R*F/E*H/G,3)
+i_hou=xiao_shu_dian(i_zong/1.018/i_zhu,3)
+zhang_li=xiao_shu_dian(51/35*R/S,3)
+ return [ji_xing,i_zong,i_zhu,i_hou,zhang_li]
+ 
+endif
+R=27
+S=39
+ji_xing=311
+i_zong=xiao_shu_dian(67/27*54/44*B/A*Fc/Tdc,3)
+i_zhu=xiao_shu_dian(39/27*F/E*H/G,3)
+i_hou=xiao_shu_dian(i_zong/1.018/i_zhu,3)
+zhang_li=1.0087
+ 
+return [ji_xing,i_zong,i_zhu,i_hou,zhang_li]
+endf
+
+
+ Help
+@language:simplified_chinese
+默认张力牵伸1.012时输入A，B，Tdc，Fc，F，E，G，H得出总牵伸，主牵伸，中区牵伸，后区牵伸及张力牵伸
+@end
+endh
+Function bing_tiao_fen_pei()
+variable R,S,i_zong,i_hou,i_zhu,zhang_li,A,B,Tdc,Fc,F,E,G,H
+R=25
+S=36
+A=input("A=")
+B=111-A
+print("B="+B+"\n")
+Tdc=input("Tdc=")
+Fc=input("Fc=")
+i_zong=round(10**3*(67/39*54/44*S/R*B/A*Fc/Tdc))/10**3 
+print("总牵伸倍数="+i_zong+"\n")
+F=input("F=")
+E=100-F
+print("E="+E+"\n")
+G=input("G=")
+H=input("H=")
+
+i_zhu=round(10**3*S/R*F/E*H/G)/10**3
+print("主牵伸倍数="+i_zhu+"\n\n")
+i_hou=round(10**3*i_zong/1.018/i_zhu)/10**3
+zhang_li=round(10**3*51/35*R/S)/10**3
+
+ 
+ print("牵伸分配"+i_zong+"="+i_zhu+"×1.018×"+i_hou+"\n"+"张力="+zhang_li+"\n")
+endf
+
+
+ 
+Help
+@language:simplified_chinese
+输入A,B,C,D,E,F,H,J,K得出牵伸分配
+@end
+endh
+function FA322B(A,B,C,D,E,F,H,J,K)
+variable i_zong,i_zhu,i_hou,zhang_li
+i_zong=round(10**3*(A/B*44/49*D/C*F/E*H/40*28/J*1/1.1517))/10**3
+i_hou=round(10**3*(95/K*H/40*28/J/1.018*1/1.1517))/10**3
+i_zhu=round(10**3*(i_zong/1.018/i_hou))/10**3
+zhang_li=round(10**4*(B/A*49/44*51/35))/10**4
+
+return [[i_zong,i_zhu,1.018,i_hou],[zhang_li]]
+
+endf
+
+ 
+Help
+@language:simplified_chinese
+默认张力1.026即A=49,B=31,H=60,J=30时，输入C,D,E,F,K得出牵伸分配
+@end
+endh
+function FA322(C,D,E,F,K)
+variable A,B,H,J
+A=49
+B=31
+H=60
+J=30
+variable i_zong,i_zhu,i_hou,zhang_li
+i_zong=round(10**3*(A/B*44/49*D/C*F/E*H/40*28/J*1/1.1517))/10**3
+i_hou=round(10**3*(95/K*H/40*28/J/1.018*1/1.1517))/10**3
+i_zhu=round(10**3*(i_zong/1.018/i_hou))/10**3
+zhang_li=round(10**4*(B/A*49/44*51/35))/10**4
+
+return [[i_zong,i_zhu,1.018,i_hou],[zhang_li]]
+
+endf
+
+ 

@@ -1,0 +1,20 @@
+
+citingspace test__sc :: scb
+function asd(a,b,c)
+    variable sumval =0
+    for variable idx = 9 to 19 step 1
+        sin(a+b-c)
+        sumval =sumval + cosd(idx)
+        using citingspace :: __sin_test__::z
+        sin(a+b-c)
+        sumval = sumval - cos(idx)
+    next
+    return sumval
+endf
+endcs
+
+function testNoReturn(a, b)
+	print("in call ::__sin_test__::sin(3), it is wrong. Otherwise, it is right\n")
+	sin(3)
+	using citingspace ::__sin_test__
+endf

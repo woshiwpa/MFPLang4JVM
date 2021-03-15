@@ -1,0 +1,11 @@
+::test_compile,3,3
+::mfp::math::log_exp::sqrt,1,1
+::biao,0,0
+::mfp::math::trigon::sinh,1,1
+::xiao_shu_dian,2,2
+::xi_sha_zong_ya513_pai_xu,0,0
+::myf_sort_duo_wei,2,2
+::xi_sha_zong_ya513_pai_xu,2,2
+::bing_tiao_zhu_ya311_320,0,0
+::mfp::math::trigon::tanh,1,1
+::mfp::math::trigon::cosh,1,1

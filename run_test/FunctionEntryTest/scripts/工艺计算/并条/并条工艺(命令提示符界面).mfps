@@ -1,0 +1,140 @@
+function gy_bing()
+variable mian_tiao_zhong_lei,g_tiao_wei,g_tiao_wei1,g_tiao_wei2,g_tiao_wei3,g_tiao_wei4,g_tiao_wei5,g_tiao,bing_he_shu,i_zong,i_hou,i_hou_yu_she,i_zhu,i_zhu_,i_zong_g,i_zong_xuan,ji_xing,D1,D2,A,B,C,D,E,F,G,H,K,Tdc,Fc,R,S,n_qian,bing_he_shu1,bing_he_shu2,bing_he_shu3,bing_he_shu4,bing_he_shu5
+do
+ji_xing=input("并条机型：")
+until or(ji_xing==311,ji_xing==320,ji_xing==322)
+g_tiao=input("输出棉条干重=")
+print("\n")
+print("输入e可结束喂入设定\n")
+print("\n")
+variable g_tiao_wei_s,bing_he_shu_s,index=0,zong_bing_he_shu=0
+
+while (true)
+
+ g_tiao_wei=input("喂入第"+(index+1)+"种棉条干重=")
+ if g_tiao_wei==e
+ break
+ endif
+ bing_he_shu=input("第"+(index+1)+"种棉条根数=")
+
+set_array_elem(g_tiao_wei_s,index,g_tiao_wei)
+set_array_elem(bing_he_shu_s,index,bing_he_shu)
+index=index+1
+zong_bing_he_shu=zong_bing_he_shu+bing_he_shu
+loop
+print("\n喂入棉条有"+index+"种，共"+zong_bing_he_shu+"根\n")
+
+variable zong_g_wei=0
+for variable idx=0 to index-1 step 1
+zong_g_wei=zong_g_wei+g_tiao_wei_s[idx]*bing_he_shu_s[idx]
+next
+i_zong_g=round(zong_g_wei/g_tiao,3)
+
+print("重量牵伸倍数="+i_zong_g+"\n")
+if or(ji_xing==311,ji_xing==320)
+print("选择需要的总牵伸倍数\n")
+
+bing_tiao_zong_ya311_320(i_zong_g)
+
+
+print("输入所需牵伸倍数对应的牙齿数\n")
+do
+A=input("A=")
+until or(A==44,A==52,A==59,A==67)
+B=111-A
+print("B="+B+"\n")
+Tdc=input("Tdc=")
+do
+Fc=input("Fc=")
+until or(Fc==98,Fc==99,Fc==100,Fc==101)
+if ji_xing==311
+R=27
+S=39
+i_zong=round(67/27*54/44*B/A*Fc/Tdc,3)
+endif
+if ji_xing==320
+R=25
+S=36
+i_zong=round(67/39*54/44*S/R*B/A*Fc/Tdc,3)
+endif
+print("您选择的牵伸倍数="+i_zong+"\n")
+i_hou_yu_she=input("预设后区牵伸倍数=")
+ i_zhu311_320(i_zong,i_hou_yu_she)
+print("输入所选牵伸倍数所对应的牙齿数\n")
+
+do
+F=input("F=")
+until or(F==71,F==77)
+E=100-F
+print("E="+E+"\n")
+do
+G=input("G=")
+H=input("H=")
+until or(and(G==71,H==58),and(G==61,H==58),and(G==61,H==75),and(G==71,H==75),and(G==61,H==81),and(G==71,H==81))
+
+i_zhu=round(S/R*F/E*H/G,3)
+print("您选择的主牵伸倍数="+i_zhu+"\n")
+i_hou=round(i_zong/1.018/i_zhu,3)
+print("后区牵伸倍数="+i_hou+"\n")
+
+if ji_xing==311
+print("选择前罗拉速度\n")
+n_qian311()
+D1=input("D1=")
+D2=input("D2=")
+n_qian=round(232.203*D1/D2)
+print("前罗拉速度="+n_qian+"\n")
+endif
+print("\n")
+print("工艺单如下：\n")
+print("设计干重="+g_tiao+"\n")
+print("A/B="+A+"/"+B+"\n")
+print("Tdc/Fc="+Tdc+"/"+Fc+"\n")
+print("F/E="+F+"/"+E+"\n")
+print("G/H="+G+"/"+H+"\n")
+print("总牵伸倍数="+i_zong+"\n")
+print("主牵伸倍数="+i_zhu+"\n")
+print("中区牵伸倍数="+1.018+"\n")
+print("后区牵伸倍数="+i_hou+"\n")
+print("牵伸分配:"+i_zong+"="+i_zhu+" x "+1.018+" x "+i_hou+"\n")
+endif
+if ji_xing==322
+print("选择需要的设计牵伸倍数\n")
+print("\n")
+bing_tiao_zong_ya322(i_zong_g)
+print("输入你选择总牵伸倍数对应的牙齿数\n")
+C=62
+D=98
+print("C="+C+"\n")
+print("D="+D+"\n")
+E=input("E=")
+do
+F=input("F=")
+until or(F==164,F==165,F==166)
+A=49
+B=31
+H=60
+variable J=30
+
+ i_zong=round(A/B*44/49*D/C*F/E*H/40*28/J*1/1.1517,3)
+ print("您选择的总牵伸倍数="+i_zong+"\n")
+
+print("选择预设后区牵伸倍数：\n")
+bing_tiao_hou_ya322()
+K=input("选择K=")
+i_hou=round(95/K*H/40*28/J/1.018*1/1.1517,3)
+print("您选的后区牵伸倍数="+i_hou+"\n")
+i_zhu=round(i_zong/1.018/i_hou,3)
+print("\n")
+print("工艺单如下：\n")
+print("C/D="+C+"/"+D+"\n")
+print("E/F="+E+"/"+F+"\n")
+print("K="+K+"\n")
+print("总牵伸倍数="+i_zong+"\n")
+print("主牵伸倍数="+i_zhu+"\n")
+print("中区牵伸倍数="+1.018+"\n")
+print("后区牵伸倍数="+i_hou+"\n")
+print("牵伸分配:"+i_zong+"="+i_zhu+" x "+1.018+" x "+i_hou+"\n")
+
+endif
+endf

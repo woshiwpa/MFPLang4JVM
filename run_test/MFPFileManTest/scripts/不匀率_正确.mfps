@@ -1,0 +1,33 @@
+function bu_yun_lv(...)
+if opt_argc < 1
+Throw "Need at least one parameter!"
+Endif
+Variable oldSum_value
+oldSum_value=0
+For variable index = 1 to opt_argc step 1
+oldSum_value=oldSum_value+opt_argv[index-1]
+Next
+Variable old_value
+old_value=0
+old_value=oldSum_value/opt_argc
+Variable n
+n=0
+Variable m
+m=0
+Variable newSum_value
+newSum_value=0
+While n!=opt_argc
+if opt_argv[n]< old_value
+newSum_value=newSum_value+opt_argv[n]
+m=m+1
+Endif
+n=n+1
+Loop
+if m==0
+return 0
+Endif
+Variable new_value
+new_value=0
+new_value=newSum_value/m
+return (old_value-new_value)*(2*m)/(old_value*opt_argc)
+Endf

@@ -1,0 +1,51 @@
+          if and(i_zong>23,i_zong<=30)
+          set_array_elem(s2,ge_shu2,[i_zong,Ze,Zd])
+          ge_shu2=ge_shu2+1
+          endif
+           if and(i_zong>30,i_zong<=40)
+          set_array_elem(s3,ge_shu3,[i_zong,Ze,Zd])
+          ge_shu3=ge_shu3+1
+          endif
+           if and(i_zong>40,i_zong<=50)
+          set_array_elem(s4,ge_shu4,[i_zong,Ze,Zd])
+          ge_shu4=ge_shu4+1
+          endif
+           if and(i_zong>50,i_zong<=60)
+          set_array_elem(s5,ge_shu5,[i_zong,Ze,Zd])
+          ge_shu5=ge_shu5+1
+          endif
+       endif
+       endif
+       next
+next
+     s2=myf_sort_duo_wei(0,s2)
+     for variable idx=0 to ge_shu2-1 step 1
+     i_zong=s2[idx,0]
+     Ze=s2[idx,1]
+     Zd=s2[idx,2] 
+      print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+      next
+      print("\n")
+      s3=myf_sort_duo_wei(0,s3)
+     for variable idx=0 to ge_shu3-1 step 1
+     i_zong=s3[idx,0]
+     Ze=s3[idx,1]
+     Zd=s3[idx,2] 
+      print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+      next
+      print("\n")
+      s4=myf_sort_duo_wei(0,s4)
+     for variable idx=0 to ge_shu4-1 step 1
+     i_zong=s4[idx,0]
+     Ze=s4[idx,1]
+     Zd=s4[idx,2] 
+      print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+      next
+      print("\n")
+      s5=myf_sort_duo_wei(0,s5)
+     for variable idx=0 to ge_shu5-1 step 1
+     i_zong=s5[idx,0]
+     Ze=s5[idx,1]
+     Zd=s5[idx,2] 
+      print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+      next

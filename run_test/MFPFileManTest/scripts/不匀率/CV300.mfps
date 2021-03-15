@@ -1,0 +1,79 @@
+Help
+@language:simplified_chinese
+函数cv300在输入任意个100*数据后计算结果依次为平均值(3位)，总个数，以下平均，以下个数，不匀率(保留2位)，变异系数。
+@end
+endh
+function cv300(...)
+if opt_argc < 1
+Throw "Need at least one parameter!"
+Endif
+Variable oldSum_value
+oldSum_value=0
+For variable index = 1 to opt_argc step 1
+oldSum_value=oldSum_value+opt_argv[index-1]
+Next
+Variable old_value
+old_value=0
+old_value=xiao_shu(10**1*(oldSum_value/opt_argc))/10**1
+Variable n
+n=0
+Variable m
+m=0
+Variable newSum_value
+newSum_value=0
+While n!=opt_argc
+if opt_argv[n]< old_value
+newSum_value=newSum_value+opt_argv[n]
+m=m+1
+Endif
+n=n+1
+Loop
+if m==0
+return [old_value/100,opt_argc,0,0,0]
+Endif
+Variable new_value
+new_value=0
+new_value=xiao_shu(10**1*newSum_value/m)/10**1
+variable cv
+cv=xiao_shu(10**4*((old_value-new_value)/100*(2*m)/(old_value/100*opt_argc)))/10**4
+
+
+if opt_argc < 1
+Throw "至少输入1个参数!"
+Endif
+Variable avg_value
+avg_value=0
+For variable index = 1 to opt_argc step 1
+avg_value=avg_value+opt_argv[index-1]
+Next
+avg_value=xiao_shu(avg_value/opt_argc,3)
+variable t
+t=0
+for variable index =1 to opt_argc step 1
+t=t+(opt_argv[index-1]-avg_value)**2
+next
+
+
+ 
+return [old_value/100,opt_argc,new_value/100,m,100*cv,"变异系数",xiao_shu(100*pow(t/(opt_argc-1) ,0.5)/avg_value,2)]
+
+Endf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

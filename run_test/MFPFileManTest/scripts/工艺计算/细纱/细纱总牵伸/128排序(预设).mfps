@@ -1,0 +1,47 @@
+function xi_sha_zong_ya128_pai_xu(i_zong_yu_she)
+variable Ze,Zd,i_zong,Ze_Zd_s=[35,37,38,39,40,41,42,43,44,45,47,48,49,50,51,52,53,54,55,57,60,61,65,66,67,68,69,70,71,72,73,74,75,76,77,79]
+variable s2,ge_shu2=0,x
+x=input("临近范围=")
+for variable idx1=0 to 35 step 1
+Zd=Ze_Zd_s[idx1]
+       for variable idx2=0 to 35 step 1
+       Ze=Ze_Zd_s[idx2]
+       if Ze+Zd>99
+       i_zong=round(17.93*Ze/Zd,2)
+       if and(i_zong<55,i_zong>23)
+          if and(i_zong>i_zong_yu_she-x,i_zong<=i_zong_yu_she+x)
+          set_array_elem(s2,ge_shu2,[i_zong,Ze,Zd])
+          ge_shu2=ge_shu2+1
+          endif
+           
+       endif
+       endif
+       next
+next
+     s2=myf_sort_duo_wei(0,s2)
+     for variable idx=0 to ge_shu2-1 step 1
+     i_zong=s2[idx,0]
+     Ze=s2[idx,1]
+     Zd=s2[idx,2] 
+      print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+      next
+      
+
+           
+endf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

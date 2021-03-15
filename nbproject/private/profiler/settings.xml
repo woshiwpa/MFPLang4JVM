@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+<entry key="org.netbeans.modules.profiler.v2.features.MethodsFeature_SelectedMethodsMode_SELECTION_FLAG">com.cyzapps.Jfcalc.FuncEvaluator,evaluateFunction,(Lcom/cyzapps/Oomfp/MemberFunction;Ljava/lang/String;Ljava/util/LinkedList;Ljava/util/LinkedList;Ljava/util/LinkedList;Lcom/cyzapps/Jmfp/ProgContext;)Lcom/cyzapps/Jfcalc/DataClass; java.math.BigDecimal,doubleValue,()D com.cyzapps.Jfcalc.FuncEvaluator,evaluateMFPDefinedFunction,(Lcom/cyzapps/Jmfp/FunctionEntry;Ljava/lang/String;Ljava/util/LinkedList;)Lcom/cyzapps/Jfcalc/DataClass; </entry>
+<entry key="ACTIVATED_FEATURES">#org.netbeans.modules.profiler.v2.features.MethodsFeature@</entry>
+<entry key="org.netbeans.modules.profiler.v2.features.MethodsFeature_SETTINGS_FLAG">true</entry>
+<entry key="org.netbeans.modules.profiler.v2.features.MethodsFeature_SelectedClassesMode_SELECTION_FLAG">java.math.MutableBigInteger,*, </entry>
+<entry key="org.netbeans.modules.profiler.v2.features.MethodsFeature_MODE_FLAG">ProjectClassesMode</entry>
+</properties>

@@ -1,0 +1,4 @@
+function csqrt(x)
+variable y
+y=pow(x,0.5)
+return y

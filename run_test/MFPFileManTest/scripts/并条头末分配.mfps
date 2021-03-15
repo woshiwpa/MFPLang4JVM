@@ -1,0 +1,10 @@
+function bing_gen(b,c)
+variable x1,x2,d
+d=sqrt(b**2+4*c)
+x1=round((b+d)/2,2)
+x2=round((b-d)/2,2)
+if x2>0
+x1=x2
+else
+return([x1,x1-b])
+endif

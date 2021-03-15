@@ -1,0 +1,238 @@
+function xi_sha_nian_du513()
+variable Za,Zb,Zc,Tt,Zb_s=[78,74,68,62,58,52,46,40]
+
+for variable idx=0 to 8-1 step 1
+Zb=Zb_s[idx]
+Za=126-Zb
+    for Zc=34 to 41 step 1
+    Tt=round(2857.2*Zb/Za/Zc,1)
+    print("捻度="+Tt+"，Zb/Za="+Zb+"/"+Za+"，Zc="+Zc+"\n")
+    next
+next
+endf
+
+function xi_sha_zong_ya513()
+variable Ze,Zd,Zh,i_zong,Ze_Zd_s=[25,27,28,30,31,32,33,34,35,36,37,38,39,40,41,42,43,46,48,51,52,55,57,58,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78],Zh_s=[37,39,41,43,45,46,48,50,52,54,57,60]
+
+while (true)
+print("Zh=[37,39,41,43,45,46,48,50,52,54,57,60]\n")
+
+Zh=input("后牵伸牙Zh=")
+     variable idx=0
+    for  idx=0 to 11 step 1
+    if Zh==Zh_s[idx]
+    break
+    endif
+    next
+        if (idx<12)
+        break
+        endif
+    
+
+loop
+
+
+
+for  variable idx1=39 to 0 step -1
+print("\n")
+Zd=Ze_Zd_s[idx1]
+      for variable idx2=0 to 39 step 1
+      Ze=Ze_Zd_s[idx2]
+      if Ze+Zd>99
+            i_zong=round(1050.463*Ze/Zd/Zh,2)
+            if and(i_zong>20,i_zong<50)
+            print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+            endif
+       endif
+       next
+next
+endf
+
+function xi_sha_hou513()
+variable Zh,i_hou,Zh_s=[37,39,41,43,45,46,48,50,52,54,57,60]
+for variable idx=0 to 11 step 1
+Zh=Zh_s[idx]
+i_hou=round(62.5/Zh,3)
+print("后区牵伸倍数："+i_hou+"，Zh="+Zh+"\n")
+next
+endf
+
+
+function xi_sha_D513()
+variable D1,D2,ding_su,D1_s=[180,165,155,145,140],D2_s=[140,145,155,165,180,205]
+for variable idx1=0 to 4 step 1
+D1=D1_s[idx1]
+        for variable idx2=0 to 5 step 1
+        D2=D2_s[idx2]
+        ding_su=round(15950*D1/D2)
+        print("锭速:"+ding_su+"，D1/D2="+D1+"/"+D2+"\n")
+        next
+next
+endf
+
+function xi_sha_Juan513()
+ variable Zf,Zg,Zf_s=[37,35,33,30,28,27,25,23,21,19]
+ for variable idx=0 to 9 step 1
+ Zf=Zf_s[idx]
+ Zg=94-Zf
+ print("Zf/Zg="+Zf+"/"+Zg+"\n")
+ next
+ endf
+ 
+ 
+ function xi_sha_n_qian513()
+variable n_qian,n_ding,D1,D2,Tt,n_qian_yu_she,
+variable D1_s=[180,165,155,145,140],D2_s=[140,145,155,165,180,205]
+
+Tt=input("捻度=")
+
+for variable idx1=0 to 4 step 1
+D1=D1_s[idx1]
+        for variable idx2=0 to 5 step 1
+        D2=D2_s[idx2]
+        n_ding=round(15950*D1/D2)
+        n_qian=round(100*n_ding/Tt/(3.14*25))
+        
+        //此处可加条件显示
+        print("前罗拉转速："+n_qian+"，锭速="+n_ding+"，D1/D2="+D1+"/"+D2+"\n")
+        next
+next
+print("请注意，表中速度与实际计算值略有误差\n")
+endf
+
+ 
+选择接近函数
+function xi_sha_zong_ya513(i_zong_yu_she,Zh)
+variable Ze,Zd,i_zong,Ze_Zd_s=[25,27,28,30,31,32,33,34,35,36,37,38,39,40,41,42,43,46,48,51,52,55,57,58,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78],Zh_s=[37,39,41,43,45,46,48,50,52,54,57,60]
+
+variable x
+x=input("临近范围=")
+while (true)
+     variable idx=0
+    for  idx=0 to 11 step 1
+    if Zh==Zh_s[idx]
+    break
+    endif
+    next
+        if (idx<12)
+        break
+        endif
+    
+
+loop
+
+
+
+for  variable idx1=39 to 0 step -1
+
+Zd=Ze_Zd_s[idx1]
+      for variable idx2=0 to 39 step 1
+      Ze=Ze_Zd_s[idx2]
+      if Ze+Zd>99
+            i_zong=round(1050.463*Ze/Zd/Zh,2)
+            if and(i_zong>20,i_zong<50,i_zong>i_zong_yu_she-x,i_zong<i_zong_yu_she+x)
+            print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+            endif
+       endif
+       next
+next
+endf
+
+
+function xi_sha_nian_du513(Tt_yu_she)
+variable Za,Zb,Zc,Tt,Zb_s=[78,74,68,62,58,52,46,40]
+
+for variable idx=0 to 8-1 step 1
+Zb=Zb_s[idx]
+Za=126-Zb
+    for Zc=34 to 41 step 1
+    Tt=round(2857.2*Zb/Za/Zc,1)
+    if and(Tt<Tt_yu_she+6,Tt>Tt_yu_she-6)
+    print("捻度="+Tt+"，Zb/Za="+Zb+"/"+Za+"，Zc="+Zc+"\n")
+    endif
+    next
+next
+endf
+
+
+function xi_sha_n_qian513(Tt,n_qian_yu_she,)
+variable n_qian,n_ding,D1,D2,
+variable D1_2s=[220,210,200,190,180,170,160,150,140]
+
+variable s,ge_shu=0,x
+x=input("临近范围=")
+print("请稍等......\n")
+
+for variable idx1=0 to 8 step 1
+D1=D1_2s[idx1]
+        for variable idx2=0 to 8 step 1
+        D2=D1_2s[idx2]
+        n_ding=round(15950*D1/D2)
+        n_qian=round(100*n_ding/Tt/(3.14*25))
+        
+        if and(n_qian<n_qian_yu_she+x,n_qian>n_qian_yu_she-x)
+        //此处可加条件显示
+        set_array_elem(s,ge_shu,[n_qian,n_ding,D1,D2])
+        ge_shu=ge_shu+1
+        endif
+        next
+next
+s=myf_sort_duo_wei(0,s)
+for variable idx=0 to ge_shu-1 step 1
+n_qian=s[idx,0]
+n_ding=s[idx,1]
+D1=s[idx,2]
+D2=s[idx,3]
+        print("前罗拉转速："+n_qian+"，锭速="+n_ding+"，D1/D2="+D1+"/"+D2+"\n")
+next
+print("请注意，表中速度与实际计算值略有误差\n")
+
+endf
+
+function xi_sha_zong_ya513_pai_xu(i_zong_yu_she,Zh)
+variable Ze,Zd,i_zong,Ze_Zd_s=[25,27,28,30,31,32,33,34,35,36,37,38,39,40,41,42,43,46,48,51,52,55,57,58,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78],Zh_s=[37,39,41,43,45,46,48,50,52,54,57,60]
+
+variable x
+x=input("临近范围=")
+print("计算中......\n")
+while (true)
+     variable idx=0
+    for  idx=0 to 11 step 1
+    if Zh==Zh_s[idx]
+    break
+    endif
+    next
+        if (idx<12)
+        break
+        endif
+    
+
+loop
+
+
+variable s,ge_shu=0
+for  variable idx1=39 to 0 step -1
+
+Zd=Ze_Zd_s[idx1]
+      for variable idx2=0 to 39 step 1
+      Ze=Ze_Zd_s[idx2]
+      if Ze+Zd>99
+            i_zong=round(1050.463*Ze/Zd/Zh,2)
+            if and(i_zong>20,i_zong<50,i_zong>i_zong_yu_she-x,i_zong<i_zong_yu_she+x)
+            set_array_elem(s,ge_shu,[i_zong,Ze,Zd])
+            ge_shu=ge_shu+1
+            endif
+          endif
+            next
+next
+print("\n***************************************\n")
+s=myf_sort_duo_wei(0,s)
+for variable idx=0 to ge_shu-1 step 1
+i_zong=s[idx,0]
+Ze=s[idx,1]
+Zd=s[idx,2]
+            print("总牵伸倍数="+i_zong+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+            next
+            print("\n***************************************\n")
+endf
+

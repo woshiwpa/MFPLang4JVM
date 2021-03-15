@@ -1,0 +1,54 @@
+
+
+function inTopCS2(a, b)
+endf
+
+	citingspace CS_D
+
+	using citingspace CS_E::CS_F
+	function inCSD(a)
+		@compulsory_link get_functions("inCSD_CSE_CSF2")
+	endf
+
+		citingspace CS_E::CS_F
+
+		function inCSD_CSE_CSF2(a, b)
+		endf
+
+		endcs
+
+		citingspace CS_G::CS_H::CS_I
+
+		function inCSD_CSG_CSH_CSI(a, b, c, d)
+			@compulsory_link get_functions("inCSD_CSG_CSH_CSI")
+			::CS_D::CS_G::inCSD_CSG(a,b,c,d,1)
+			@compulsory_link get_functions(::CS_D::CS_G::inCSD_CSG)
+			@compulsory_link get_functions("::CS_D::CS_G::inCSD_CSG2")
+		endf
+
+		endcs
+	endcs
+
+function inTopCS3(a, b)
+	select a
+	case 2
+	using citingspace CS_D
+	break
+	using citingspace CS_D::CS_E::CS_F
+	case 3
+	using citingpsace CS_D::CS_G
+	@compulsory_link get_all_referred_units()
+	endif
+endf
+
+function inTopCS4(a, b, ...)
+	select a
+	case 2
+	using citingspace CS_D
+	break
+	using citingspace CS_D::CS_E::CS_F
+	case 3
+	@compulsory_link get_functions("inCSD")
+	@compulsory_link get_functions("inCSD_CSE_CSF2")
+	endif
+endf

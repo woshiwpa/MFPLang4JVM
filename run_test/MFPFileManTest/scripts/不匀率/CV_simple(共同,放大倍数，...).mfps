@@ -1,0 +1,18 @@
+Help
+@language:simplified_chinese
+函数格式为 CV_simple(共同数字，放大10的几次方倍，平均值保留位数，[要计算的数...])，计算结果依次为[平均值，总个数，以下平均，以下个数，不匀率(保留2位)]。
+@end
+endh
+
+function CV_simple(gong_tong,fang_da,f,s)
+variable bu_yun_lv,zong_ping_jun,zong_ge_shu,yi_xia_ping_jun,yi_xia_ge_shu
+if count(s)<1
+throw "至少要对一个数进行计算"
+endif
+zong_ge_shu=count(s)
+zong_ping_jun=average(f-fang_da,s)/10**fang_da+gong_tong
+yi_xia_ge_shu=count_smaller(f-fang_da,s)
+yi_xia_ping_jun=average_smaller(f-fang_da,s)/10**fang_da+gong_tong
+bu_yun_lv=xiao_shu(100*2*yi_xia_ge_shu*(zong_ping_jun-yi_xia_ping_jun)/(zong_ping_jun*zong_ge_shu),2)
+return [zong_ping_jun,zong_ge_shu,yi_xia_ping_jun,yi_xia_ge_shu,bu_yun_lv]
+endf

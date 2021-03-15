@@ -1,0 +1,155 @@
+Help
+@language:simplified_chinese
+在命令提示符界面计算并条机牵伸分配，总牵伸，主牵伸，后区牵伸及张力牵伸
+@end
+endh
+Function bing_tiao()
+variable ji_xing,R,S,Tdc,Fc,G
+variable i_zong,i_zhu,i_hou,zhang_li,A,B,C,D,E,F,H,J,K
+
+variable ji_xing_s=[311,320,322]
+while (true)
+ji_xing = input("并条机型(311,320,322) :") 
+variable idx = 0 
+for idx = 0 to  3- 1 step 1
+ if ji_xing == ji_xing_s[idx] // OK，现在我们发现输入和数组中的 第idx号元素一样 .... //在这里输入您的代码。 
+ break 
+ endif 
+ next
+
+if (idx < 3) // 输入和数组中的某一个元素一样，跳 出死循环 
+break 
+endif
+loop
+
+if ji_xing==311
+R=27
+S=39
+do
+print("输入A(44,52,59,67)\n")
+A=input("总牵伸牙A=")
+until or(A==44,A==59,A==52,A==67)
+B=111-A
+print("总牵伸牙B="+B+"\n")
+Tdc=input("轻重牙Tdc=")
+Fc=input("冠牙Fc=")
+do
+print("输入F(71,77)\n")
+F=input("主牵伸牙F=")
+until or(F==71,F==77)
+E=100-F
+print("主牵伸牙E="+E+"\n")
+G=input("主牵伸牙G=")
+H=input("主牵伸牙H=")
+i_zong=round(67/27*54/44*B/A*Fc/Tdc,3)
+i_zhu=round(39/27*F/E*H/G,3)
+i_hou=round(i_zong/1.018/i_zhu,3)
+zhang_li=1.0087
+elseif ji_xing==320
+print("压辊—前罗拉张力 默认为1.012时填1，否则填2。\n")
+variable xuan_ze
+
+variable xuan_ze_s=[1,2]
+while (true)
+xuan_ze = input("输入1或2 :") 
+variable idx = 0 
+for idx = 0 to  2- 1 step 1
+ if xuan_ze == xuan_ze_s[idx] // OK，现在我们发现输入和数组中的 第idx号元素一样 .... //在这里输入您的代码。 
+ break 
+ endif 
+ next
+
+if (idx < 2) // 输入和数组中的某一个元素一样，跳 出死循环 
+break 
+endif
+loop
+
+if xuan_ze==1
+R=25
+S=36
+elseif xuan_ze==2
+R=input("压辊—前罗拉 张力牙R=")
+S=input("压辊—前罗拉 张力牙S=")
+else
+endif
+do
+print("输入A(44,52,59,67)\n")
+A=input("总牵伸牙A=")
+until or(A==44,A==59,A==52,A==67)
+B=111-A
+print("总牵伸牙B="+B+"\n")
+Tdc=input("轻重牙Tdc=")
+Fc=input("冠牙Fc=")
+do
+print("输入F(71,77)\n")
+F=input("主牵伸牙F=")
+until or(F==71,F==77)
+E=100-F
+print("主牵伸牙E="+E+"\n")
+G=input("主牵伸牙G=")
+H=input("主牵伸牙H=")
+
+i_zong=round(67/39*54/44*S/R*B/A*Fc/Tdc,3)
+i_zhu=round(S/R*F/E*H/G,3)
+i_hou=round(i_zong/1.018/i_zhu,3)
+zhang_li=round(51/35*R/S,3)
+
+
+elseif ji_xing==322
+
+print("压辊—前罗拉张力 默认为1.026时填1，否则填2。\n")
+variable xuan_ze
+
+variable xuan_ze_s=[1,2]
+while (true)
+xuan_ze = input("输入1或2 :") 
+variable idx = 0 
+for idx = 0 to  2- 1 step 1
+ if xuan_ze == xuan_ze_s[idx] // OK，现在我们发现输入和数组中的 第idx号元素一样 .... //在这里输入您的代码。 
+ break 
+ endif 
+ next
+
+if (idx < 2) // 输入和数组中的某一个元素一样，跳 出死循环 
+break 
+endif
+loop
+if xuan_ze==1
+A=49
+B=31
+H=60
+J=30
+
+elseif xuan_ze==2
+A=input("压辊—前罗拉 张力牙A=")
+B=input("压辊—前罗拉 张力牙B=")
+H=60
+J=30
+else
+endif
+C=62
+print("总牵伸牙C=62\n")
+D=98
+print("总牵伸牙D=98\n")
+E=input("轻重牙E=")
+F=input("冠牙F=")
+do
+print("输入K(78,81,84,87,90,93)\n")
+K=input("后牵伸牙K=")
+until or(K==78,K==81,K==84,K==87,K==90,K==93)
+
+i_zong=round(A/B*44/49*D/C*F/E*H/40*28/J*1/1.1517,3)
+i_hou=round(95/K*H/40*28/J/1.018*1/1.1517,3)
+i_zhu=round(i_zong/1.018/i_hou,3)
+zhang_li=round(B/A*49/44*51/35,4)
+else
+endif
+print("总牵伸倍数="+i_zong+"\n")
+print("主牵伸倍数="+i_zhu+"\n")
+print("中区牵伸倍数="+1.018+"\n")
+print("后区牵伸倍数="+i_hou+"\n")
+print("牵伸分配:"+i_zong+"="+i_zhu+" x "+1.018+" x "+i_hou+"\n")
+print("压辊—前罗拉张力="+zhang_li+"\n")
+
+
+endf

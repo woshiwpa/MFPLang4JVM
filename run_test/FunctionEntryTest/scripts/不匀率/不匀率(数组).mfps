@@ -1,0 +1,28 @@
+function CV_byl(shu_zu,f)
+variable zong_he=0,zong_ping_jun,yi_xia_he=0,yi_xia_ping_jun,zong_ge_shu=size(shu_zu)[0],yi_xia_ge_shu=0,byl
+
+for variable idx=0 to zong_ge_shu-1 step 1
+zong_he=zong_he+shu_zu[idx]
+next
+zong_ping_jun=round(zong_he/zong_ge_shu,f)
+for variable idx=0 to zong_ge_shu-1 step 1
+if shu_zu[idx]<zong_ping_jun
+yi_xia_he=yi_xia_he+shu_zu[idx]
+yi_xia_ge_shu=yi_xia_ge_shu+1
+endif
+next
+
+if yi_xia_ge_shu==0
+yi_xia_ping_jun=0
+byl=0
+else
+yi_xia_ping_jun=round(yi_xia_he/yi_xia_ge_shu,f)
+byl=round(100*((zong_ping_jun-yi_xia_ping_jun)*2*yi_xia_ge_shu/(zong_ping_jun*zong_ge_shu)),2)
+endif
+print("总平均="+zong_ping_jun+"\n")
+print("总个数="+zong_ge_shu+"\n")
+print("以下平均="+yi_xia_ping_jun+"\n")
+print("以下个数="+yi_xia_ge_shu+"\n")
+print("不匀率="+byl+"%\n")
+endf
+

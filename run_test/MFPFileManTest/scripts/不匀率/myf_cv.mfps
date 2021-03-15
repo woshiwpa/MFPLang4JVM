@@ -1,0 +1,11 @@
+function myf_cv(...)
+variable input_list="",cv
+for variable idx = 0 to opt_argc -1 step 1
+ input_list = input_list + opt_argv[idx] 
+if idx != opt_argc - 1 
+input_list = input_list + ", " 
+endif 
+next 
+cv=evaluate("stdev(" + input_list + ")/avg(" + input_list + ")") 
+return cv 
+endf

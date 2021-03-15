@@ -1,0 +1,15 @@
+function zhu_jie_sha_gy()
+ variable g_hun_he_sha,g_ji_sha,jie_ju_min,jie_ju_max,jie_ju,jie_chang_min,jie_chang_max,jie_chang,jie_chang_pian_cha,jie_ju_pian_cha,g_cu,E,ii,hun_he_sha,ji_sha
+ jie_chang_min=input("最短节长=")
+ jie_chang_max=input("最长节长=")
+ jie_chang=(jie_chang_min+jie_chang_max)/2
+ jie_chang_pian_cha=round((jie_chang_max-jie_chang)/jie_chang,2)
+ print("平均节长="+jie_chang+"，偏差±"+jie_chang_pian_cha+"\n")
+
+ jie_ju_min=input("最短节距=")
+ jie_ju_max=input("最长节距")
+  jie_ju=(jie_ju_min+jie_ju_max)/2
+ jie_ju_pian_cha=round((jie_ju_max-jie_ju)/jie_ju,2)
+ print("平均节距="+jie_ju+"，偏差±"+jie_ju_pian_cha+"\n")
+ 
+endf

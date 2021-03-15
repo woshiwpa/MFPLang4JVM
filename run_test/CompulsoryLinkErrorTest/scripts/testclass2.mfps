@@ -1,0 +1,200 @@
+
+citingspace AAAA
+citingspace BBB::DeF
+
+using citingspace ::AAA
+class A_new_class:GrandChildClass, eE  :: childclass
+	variable self A = 3.5*sin(pi/6), y = cccc:: staticfunc(-2.3, 3.8)
+	using citingspace ::AAAA::cccc
+	variable self jj = 6, b = staticfunc(6, -5)
+	
+	class inner_class : testclass
+		public variable self a = -7
+		private variable self a_private = 9.9999
+		public function __init__(self, a)
+			self.a = -sqrt(a)
+		endf
+		private function setas(self, b_value)
+			print_line("in my private function, current path is " + get_src_file_path())
+			self.a = -sqrt(b_value)
+			self.a_private = staticfunc(self.a, self.a_private)
+		endf
+		function classStatic(a, b)
+			return a**2 + 2*a*b + b**2
+		endf
+		
+		function getPrivateA(self)
+			print_line("in my public function, current path is " + get_src_file_path())
+			return self.a_private
+		endf
+		function setPrivateA(self, b_value)
+			self.setas(b_value)
+		endf
+	endclass
+	variable self innerObj = inner_class()
+	
+	using citingspace ::EE
+	function memberFunc(self, a, b)
+		grandChildClass:: __init__(self, [a, b, a+b])	// this hould be GrandChildClass's __init__ function
+		variable c = inner_class :: classStatic(a, b)
+		print_line("after c = inner_class :: classStatic(" + a + ", " + b + "), c = " + c)
+		variable k = inner_class()
+		k.__init__(a)
+		print_line("after k.__init__(" + a + "), k.a = " + k.a)
+		variable m = childclass()
+		print_line("m == m.super[0] is " + (m == m.super[0]))
+		childclass::setB(m, -57)
+		print_line("m.b after childclass::setB(m, -57) = " + m.getB())
+		print_line("before inner_class setas, its a and private a are " + k.a + ", " + k.getPrivateA() + " respectively.")
+		k.setPrivateA(78)
+		print_line("before inner_class setas(78), its a and private a are " + k.a + ", " + k.getPrivateA() + " respectively.")
+	endf
+endclass
+
+endcs // citingspace BBB::DeF
+
+citingspace CCCc
+
+function staticFunc(a, b)
+	return a**2 + b**2 - 2*a*b
+endf
+
+endcs // citingspace CCCC
+endcs // citingspace AAAA
+
+citingspace incompleteCls::more
+class A_new_class
+	variable self aa = [[5,6],[8,9]] *[2,4], bb = tan(0.75*pi), cc = "VIP", dd = e**3i
+	
+	help
+		This is inner_class of A_new_class in citingspace incompleteCls::more
+	endh
+	
+	
+	class inner_class :::aaaa::bbb::def::a_new_class::inner_class
+		variable self memberNew
+		help
+			This is newSqr function of inner_class of A_new_class in incompleteCls::more
+		endh
+		function newSqr(self, a)
+			return a*self.memberNew**2
+		endf
+	endclass
+endclass
+
+class B_new_class
+	variable self aa = [[5,6],[8,9]] *[2,4], bb = tan(0.75*pi), cc = "VIP", dd = e**3i
+	
+	help
+		This is inner_class of A_new_class in citingspace incompleteCls::more
+	endh
+	
+	
+	class inner_class
+		variable self memberNew
+		help
+			This is newSqr function of inner_class of A_new_class in incompleteCls::more
+		endh
+		function newSqr(self, a)
+			return a*self.memberNew**2
+		endf
+	endclass
+endclass
+
+endcs // citingspace imcompletecls::more
+
+function testMemberVarCallParamClient()
+	variable local_interface, remote_interface, ret
+	local_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "127.0.0.1")	// client address
+	ret = ::mfp::paracomp::connect::initialize_local(local_interface, false)
+	print("initialize_local ret = " + ret + "\n")
+
+	remote_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "127.0.0.1")	// server address
+	ret = ::mfp::paracomp::connect::connect(local_interface, remote_interface)	// connect to server from client
+	print("connect ret = " + ret + "\n")
+
+	// return of connect function is a dictionary. The value of "CONNECT" key is the connection object definition
+	// if connect failed, the value of "CONNECT" key is NULL.
+	variable conn = ::mfp::data_struct::array_based::get_value_from_abdict(ret, "CONNECT")
+
+	using citingspace aaaa
+	using citingspace ee
+	variable aCls = aaaa::testclass(), cCls = aaaa::bbb:: DEF ::a_new_class(), dCls = bbb :: def :: a_new_class()
+	aCls.a = "hekko, 48"
+	cCls.  innerObj . a = ["LCH"]
+	dCls .  innerObj . a = 27	// variable dcls.innerObj.a is used as a lock for synchronization between call block thread and the current thread
+	variable bCls = childclass()
+	bCls  .  A = 3+7i
+	bcls . super [0 ] . a = 13 //"bcls super A"
+	call conn on   acls  . a  , bCls .  a , dcls .  innerObj .  a // only updates of variables acls.a, bcls.a and dcls.innerObj.a in the call block thread can be seen by the current thread
+		print("Before suspend_until_cond(dcls.innerObj.a, 888), dcls.innerObj.a = " + dcls . innerObj .a + "\n")
+		suspend_until_cond(dcls . innerObj . a, 888)	// block until dcls.innerObj.a's value is updated to 888
+		print("After suspend_until_cond(dcls.innerObj.a, 888), dcls.innerObj.a = " + dcls.innerObj.a + "\n")
+		sleep(5000)	//sleep 5 seconds to ensure that the thread which launches this call block can arrive at suspend_until_cond
+		dcls .  innerObj .  a = 213	// change dcls.innerObj.a's value. The thread that launches this call block will receive the new value and then it can resume
+		//sleep the call block thread again. Now the thread which launches this call block should
+		//have arrived at print_line("ccls.innerObj.a = " + ccls.innerObj.a). Because the call block hasn't returned, the thread which
+		//launches this call block cannot read ccls.innerObj.a's value so it is blocked again.
+		sleep(5000)
+		acls.a = 88
+		bcls .  A = "KIL"
+		variable bClsSuper = bcls.super [ 0 ]
+		for   bClsSuper  . a = 7 to 22 step 1
+			print_line("Now bcls.super[0].a = " + bcls . super [0 ] . a)
+		next
+
+		@compulsory_link get_all_functions()
+		ccls. innerObj . setPrivateA(3.78)
+		print_line("ccls. innerObj.private a is " + ccls .innerObj . getPrivateA())
+
+		dcls. innerObj . setPrivateA(9+i)
+		print_line("dcls. innerObj.private a is " + Dcls .innerObj . getPrivateA())
+		variable x, y
+		solve x , y
+			x + 7 == y - 9
+			x + acls . a*y == 14
+		slvreto   bClsSuper  . a
+		print_line("After solver x, y, bClsSuper.a = " + bcls . super [0 ] . a)
+		solve x
+			x**3 + 2*x == acls . a
+		slvreto bClsSuper  . a
+		print_line("After solver x, bClsSuper.a = " + bcls . super [0 ] . a)
+		return 54
+	endcall ccls .  innerObj .  a
+
+	sleep(10000)	//sleep 10 seconds to wait for call block thread to start and arrive at suspend_until_cond
+	dcls.innerObj.a = 888	//change dcls.innerObj.a's value to 888. After dcls.innerObj.a's new value is received by the call block, it can continue
+	suspend_until_cond(dcls . innerObj . a)	// block the current thread waiting for change of dcls.innerObj.a's value
+	print_line("New value of dcls.innerObj.a is " + dcls.innerObj.a)
+	//when we can get back ccls.innerObj.a's value, call block must have returned
+	print_line("ccls.innerObj.a = " + ccls.innerObj.a) // the current thread is blocked here. It will continue after ccls.innerObj.a's new value is returned from the call block
+	// only after value of ccls.innerObj.a has been retrieved, we can print acls.a and b.A's values and we can see
+	// that they have been updated. If we print a and b's values before print("ccls.a = " + ccls.a), we
+	// MAY see acls.a and b.a are not updated.
+	print("acls.a = " + acls.a + " bcls.a = " + bcls . A)
+
+	close_out_connection(local_interface, remote_interface)	// close connection
+	close_local(local_interface, false)	// close local interface
+	
+	print_line("\nBefore local call, bcls.super[0].a = " + bcls.super[0].a + " , ccls.innerObj.a = " + ccls .  innerObj .  a)
+	call local
+		bcls . super [0 ] . a = 333
+		return bcls . super [0 ] . a * 2
+	endcall ccls .  innerObj .  a
+	print_line("After local call, ccls.innerObj.a = " + ccls .  innerObj .  a + " , bcls.super[0].a = " + bcls.super[0].a)	
+endf
+
+function testMemberVarCallParamServer()
+	variable local_interface, ret
+	local_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "127.0.0.1")	// server address
+	ret = ::mfp::paracomp::connect::initialize_local(local_interface, true)
+	print("initialize_local ret = " + ret + "\n")
+	// listen to any connection request. A listen thread will work in the background
+	ret = ::mfp::paracomp::connect::listen(local_interface)	
+	print("listen ret = " + ret + "\n")
+	// This input statement prevents server to quit if server code is a simple MFPS script
+	// and runs from bash or Windows command line. In Android or MFP JAVA GUI, the following
+	// input statement is not required as long as Scientific Calculator Plus app / MFP
+	// JCmdline program is still running, because server is not terminated anyway.
+	//input("Press any key to exit\n", "S")
+endf

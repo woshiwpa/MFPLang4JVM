@@ -1,0 +1,87 @@
+function gy()
+variable gong_xu,nei_rong,ji_xing
+print("\n")
+print("清花：1\n")
+print("梳棉：2\n")
+print("并条：3\n")
+print("精梳：4\n")
+print("粗纱：5\n")
+print("细纱：6\n")
+print("气流纺：7\n")
+gong_xu=input("要计算的工序=")
+
+if gong_xu==1
+endif
+if gong_xu==2
+endif
+if gong_xu==3
+print("并条工艺：1\n")
+print("并条总牵伸牙：2\n")
+print("并条后区牵伸：3\n")
+nei_rong=input("选择要计算的内容=")
+   if nei_rong==1
+   gy_bing()
+   endif
+   if nei_rong==2
+   ji_xing=input("机型=")
+      if  or(ji_xing==311,ji_xing==320)
+      bing_tiao_zong_ya311_320()
+      endif
+      if ji_xing==322
+      bing_tiao_zong_ya322()
+      endif
+   endif
+   if nei_rong==3
+   if  or(ji_xing==311,ji_xing==320)
+      bing_tiao_hou311_320()
+      endif
+      if ji_xing==322
+      bing_tiao_hou322()
+      endif
+   endif
+endif
+if gong_xu==4
+endif
+if gong_xu==5
+print("粗纱工艺：1\n")
+print("粗纱频率和速度：2\n")
+print("粗纱轮子查询：3\n")
+print("粗纱捻度：4\n")
+nei_rong=input("选择要计算的内容=")
+   if nei_rong==1
+   gy_cu_sha()
+   endif
+   if nei_rong==2
+   n_qian456_423()
+   endif
+   if nei_rong==3
+   cu_sha_xian_d()
+   endif
+   if nei_rong==4
+   ji_xing=input("粗纱机型：")
+      if ji_xing==456
+      Tt456()
+      endif
+      if ji_xing==423
+      Tt423()
+      endif
+    endif
+   
+endif
+if gong_xu==6
+print("细纱工艺：1\n")
+gy_xi_sha()
+endif
+if gong_xu==7
+print("气流纺工艺：1\n")
+print("气流纺调重量：2\n")
+nei_rong=input("选择项目：")
+   if nei_rong==1
+   gy_qi_fang()
+   endif
+   if nei_rong==2
+   qi_fang_g()
+   endif
+endif
+endf
+

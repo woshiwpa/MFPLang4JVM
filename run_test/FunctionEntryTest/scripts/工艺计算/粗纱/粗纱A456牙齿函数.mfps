@@ -1,0 +1,137 @@
+function n_qian456_f(Z2,Z1)
+print("****************************************\n")
+variable Tm,Tt,n_qian_min,n_qian_max,n_ding_min,n_ding_max,D1,D1_s=[145,155,165],D2,D2_s=[250,280,295,325],f_min=15,f_max=50
+Tt=round(4.4*Z2/Z1,3)
+print("当前捻度="+Tt+"\n")
+Tm=10*Tt
+for variable idx=0 to 2 step 1
+D1=D1_s[idx]
+     for variable idx=0 to 3 step 1
+     D2=D2_s[idx]
+n_ding_min=round(1564.44*D1/D2*f_min/50)
+n_qian_min=round(404.68*Z1/Z2*D1/D2*f_min/50)
+
+n_ding_max=round(1564.44*D1/D2*f_max/50)
+n_qian_max=round(404.68*Z1/Z2*D1/D2*f_max/50)
+print("频率：15~50时，锭速："+n_ding_min+"~"+n_ding_max+"\n前罗拉速度："+n_qian_min+"~"+n_qian_max+"\nD1/D2="+D1+"/"+D2+"\n")
+next
+next
+print("****************************************\n")
+
+endf
+
+function Tt456(g_sha,Tt_yu_she)
+print("****************************************\n")
+
+variable Tt,Tm,tex,Ta,x,s,ge_shu=0,Z1,Z2,Z2_s=[67,58,49,42,36,30]
+x=input("临近范围=")
+print("正在努力计算中\n")
+tex=round(g_sha*100*1.085,1)
+ for variable idx2=0 to 5  step 1
+     Z2=Z2_s[idx2]
+     for Z1=42 to 62 step 1
+     Tt=round(4.4*Z2/Z1,3)
+     Ta=round(Tt*sqrt(tex))
+     if  and(Tt<6.5,Tt>3.6,Tt<=Tt_yu_she+x,Tt>=Tt_yu_she-x)
+     set_array_elem(s,ge_shu,[Tt,Ta,Z2,Z1])
+     ge_shu=ge_shu+1
+     endif
+     next
+next
+s=myf_sort_duo_wei(0,s)
+for variable idx=0 to ge_shu-1 step 1
+Tt=s[idx,0]
+Ta=s[idx,1]
+Z2=s[idx,2]
+Z1=s[idx,3]
+     print("捻度="+Tt+",捻系数="+Ta+",Z2/Z1="+Z2+"/"+Z1+"\n")
+next
+print("****************************************\n")
+
+endf
+
+
+function i_zong456()
+print("****************************************\n")
+
+variable i_zong,Z8,Z7,
+Z8=68
+    for Z7=46 to 26 step -1
+    i_zong=round(4.588*Z8/Z7,2)
+    print("牵伸倍数="+i_zong+"，Z8/Z7="+Z8+"/"+Z7+"\n")
+next
+for Z8=46 to 26 step -1
+
+    for Z7=46 to 26 step -1
+    i_zong=round(4.588*Z8/Z7,2)
+    print("牵伸倍数="+i_zong+"，Z8/Z7="+Z8+"/"+Z7+"\n")
+    next
+next
+print("****************************************\n")
+
+endf
+
+
+function i_zong456(i_zong_yu_she)
+print("****************************************\n")
+
+variable i_zong,Z8,Z7,x,s,ge_shu=0,Z8_s=[68,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26]
+x=input("临近范围=")
+print("正在计算，请耐心等待\n")
+for variable idx=0 to 21 step 1
+Z8=Z8_s[idx]
+    for Z7=46 to 26 step -1
+    i_zong=round(4.588*Z8/Z7,2)
+        if and(i_zong<=i_zong_yu_she+x,i_zong>=i_zong_yu_she-x)
+        set_array_elem(s,ge_shu,[i_zong,Z8,Z7])
+        ge_shu=ge_shu+1
+        endif
+        next
+next
+s=myf_sort_duo_wei(0,s)
+for variable idx=0 to ge_shu-1 step 1
+i_zong=s[idx,0]
+Z8=s[idx,1]
+Z7=s[idx,2]
+print("牵伸倍数="+i_zong+"，Z8/Z7="+Z8+"/"+Z7+"\n")
+next
+print("****************************************\n")
+
+endf
+
+function Tt456()//不排序
+variable Tt_yu_she,g_sha
+g_sha=input("粗纱干重=")
+Tt_yu_she=input("输入大概的捻度=")
+print("****************************************\n")
+
+variable Tt,Tm,tex,Ta,x,s,ge_shu=0,Z1,Z2,Z2_s=[67,58,49,42,36,30]
+x=input("临近范围=")
+print("正在计算中↣↣↣↣↣↣\n")
+tex=round(g_sha*100*1.085,1)
+ for variable idx2=0 to 5  step 1
+     Z2=Z2_s[idx2]
+     for Z1=42 to 62 step 1
+     Tt=round(4.4*Z2/Z1,3)
+     Ta=round(Tt*sqrt(tex))
+     if  and(Tt<6.5,Tt>3.6,Tt<=Tt_yu_she+x,Tt>=Tt_yu_she-x)
+     set_array_elem(s,ge_shu,[Tt,Ta,Z2,Z1])
+     ge_shu=ge_shu+1
+     endif
+     next
+next
+for variable idx=0 to ge_shu-1 step 1
+Tt=s[idx,0]
+Ta=s[idx,1]
+Z2=s[idx,2]
+Z1=s[idx,3]
+     print("捻度="+Tt+",捻系数="+Ta+",Z2/Z1="+Z2+"/"+Z1+"\n")
+next
+print("****************************************\n")
+
+endf
+
+
+f_xiao=input("小纱频率=")
+n_qian=round(404.68*D1/D2*Z1/Z2*f_xiao/50)
+print("前罗拉速度="+n_qian+"\n")

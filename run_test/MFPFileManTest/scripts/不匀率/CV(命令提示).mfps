@@ -1,0 +1,123 @@
+Help
+@language:simplified_chinese
+函数CV()用于计算不匀率，按提示依次输入数据，可得出变异系数和不匀率。注意：平均值保留位数会影响变异系数的数值！
+@end
+endh
+
+function CV()
+variable f,zong_ge_shu=0,shu_ru_zhi=0,zong_he=0,zong_ping_jun=0,yi_xia_ge_shu=0,yi_xia_he=0,yi_xia_ping_jun,bu_yun_lv,cv,shu_ru_s,index=0
+print("\n")
+f=input("输入平均值要保留的位数=")
+print("\n温馨提示：输入 e 可以查看结果\n\n")
+variable xuan_ze
+do
+while (true)
+
+shu_ru_zhi=input("输入第"+(index+1)+"个数：")
+if shu_ru_zhi==e
+break
+endif
+set_array_elem(shu_ru_s,index,shu_ru_zhi)
+index=index+1
+loop
+
+do
+zong_ge_shu=0
+zong_ping_jun=0
+zong_he=0
+yi_xia_he=0
+yi_xia_ping_jun=0
+yi_xia_ge_shu=0//清空缓存值，否则继续添加数据时数据会叠加产生错误
+
+for variable idx=0 to index-1 step 1
+zong_he=zong_he+shu_ru_s[idx]
+zong_ge_shu=zong_ge_shu+1
+
+zong_ping_jun=round(zong_he/zong_ge_shu,f)
+next
+for variable idx=0 to index-1 step 1
+if shu_ru_s[idx]<zong_ping_jun
+
+if false//测试开始
+print("\n小于平均数的数有：第"+(idx+1)+"个，其值="+shu_ru_s[idx]+"\n")
+endif//结束
+yi_xia_ge_shu=yi_xia_ge_shu+1
+
+yi_xia_he=yi_xia_he+shu_ru_s[idx]
+endif
+next
+if yi_xia_ge_shu==0
+yi_xia_he=0
+bu_yun_lv=0.00
+cv=0.00
+else
+yi_xia_ping_jun=round(yi_xia_he/yi_xia_ge_shu,f)
+bu_yun_lv=round((zong_ping_jun-yi_xia_ping_jun)*2*yi_xia_ge_shu/(zong_ping_jun*zong_ge_shu)*100,2)//计算不匀率
+endif
+print("\n要计算的数："+shu_ru_s+"\n")
+
+cv_s(shu_ru_s,f)
+//计算变异系数
+
+
+while (true)
+if zong_ge_shu<1
+break
+endif
+print("\n")
+
+
+print("总平均值="+zong_ping_jun+"\n")
+print("总个数="+zong_ge_shu+"\n")
+print("以下平均="+yi_xia_ping_jun+"\n")
+print("以下个数="+yi_xia_ge_shu+"\n")
+print("不匀率="+bu_yun_lv+"%\n")
+print("\n")
+if (true)
+break
+endif
+loop
+if zong_ge_shu<1
+print("请至少输入一个数据\n")
+endif
+
+
+
+print("继续添加数据请填1，修改数据填2，计算范围填3\n")
+xuan_ze=input("请选择：")
+
+if xuan_ze==2
+while true
+variable idx2
+idx2=input("修改第几个数：")
+if idx2==e
+print("修改完毕\n")
+break
+endif
+if idx2>zong_ge_shu
+print("你没有这么多数\n")
+break
+endif
+
+variable element_reset
+print("将第"+idx2+"个数修改为：")
+element_reset=input("")
+shu_ru_s[idx2-1]=element_reset
+loop
+endif
+if xuan_ze==1
+break
+endif
+until and(xuan_ze!=1,xuan_ze!=2)
+
+until xuan_ze!=1
+print("\n计算范围\n")
+fan_wei_s(shu_ru_s,zong_ge_shu,zong_ping_jun)
+print("\n计算支偏\n")
+print("\n")
+zhi_pian(zong_ping_jun)
+endf
+
+
+//以上为一般不匀率计算。
+

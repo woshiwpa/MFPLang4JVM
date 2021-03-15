@@ -1,0 +1,1009 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnPrevious" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnNext" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+              <Component id="btnOK" pref="104" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Component id="tabbedPanelAllInputs" alignment="0" pref="455" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="tabbedPanelAllInputs" min="-2" pref="673" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnOK" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnPrevious" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnNext" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JTabbedPane" name="tabbedPanelAllInputs">
+      <Properties>
+        <Property name="tabPlacement" type="int" value="3"/>
+        <Property name="name" type="java.lang.String" value="tabbedPanelAllInputs" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel1">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="jPanel1" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="tab1">
+                <Property name="tabTitle" type="java.lang.String" value="tab1"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane2" alignment="0" pref="440" max="32767" attributes="1"/>
+                          <Component id="lblAppIcon" alignment="0" pref="440" max="32767" attributes="1"/>
+                          <Component id="lblAppPkgId" alignment="0" pref="440" max="32767" attributes="1"/>
+                          <Component id="lblAppVersion" alignment="0" pref="440" max="32767" attributes="1"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="chkBoxUseDefaultAppDescription" alignment="0" pref="434" max="32767" attributes="1"/>
+                                  <Component id="lblAppName" alignment="0" pref="430" max="32767" attributes="1"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="lblIconShown" min="-2" pref="67" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                              <Component id="btnAppIcon" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="lblAppWorkingFolder" alignment="0" pref="317" max="32767" attributes="1"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="txtFieldAppWorkingFolder" min="-2" pref="109" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="txtFieldAppVersionStr" min="-2" pref="128" max="-2" attributes="1"/>
+                                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                              <Component id="txtFieldAppVersionCode" min="-2" pref="75" max="-2" attributes="1"/>
+                                          </Group>
+                                          <Component id="txtFieldAppName" alignment="0" min="-2" pref="232" max="-2" attributes="1"/>
+                                          <Component id="txtFieldAppPkgId" alignment="0" min="-2" pref="231" max="-2" attributes="1"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblAppName" min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtFieldAppName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblAppPkgId" min="-2" pref="90" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtFieldAppPkgId" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblAppVersion" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtFieldAppVersionCode" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFieldAppVersionStr" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblAppIcon" min="-2" pref="49" max="-2" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnAppIcon" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblIconShown" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblAppWorkingFolder" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
+                          <Component id="txtFieldAppWorkingFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="chkBoxUseDefaultAppDescription" min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" pref="107" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lblAppName">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_application_name_prompt() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="lblAppName" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtFieldAppName">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="txtFieldAppName" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblAppPkgId">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_application_pkg_id_prompt() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="lblAppPkgId" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtFieldAppPkgId">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="txtFieldAppPkgId" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblAppVersion">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_application_version_prompt() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="lblAppVersion" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtFieldAppVersionStr">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="txtFieldAppVersionStr.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="txtFieldAppVersionStr.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="txtFieldAppVersionStr" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtFieldAppVersionCode">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="txtFieldAppVersionCode.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="txtFieldAppVersionCode.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="txtFieldAppVersionCode" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblAppIcon">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_application_icon_selector_prompt() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="lblAppIcon" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnAppIcon">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="JCmdLineApp.getStringsClass().get_select()" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="btnAppIcon" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAppIconActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="chkBoxUseDefaultAppDescription">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_help_use_default_app_description_or_type() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="chkBoxUseDefaultAppDescription" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkBoxUseDefaultAppDescriptionActionPerformed"/>
+              </Events>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jScrollPane2" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="txtAreaAppDescription">
+                  <Properties>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="lineWrap" type="boolean" value="true"/>
+                    <Property name="rows" type="int" value="5"/>
+                    <Property name="name" type="java.lang.String" value="txtAreaAppDescription" noResource="true"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="lblIconShown">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" resourceKey="lblIconShown.foreground"/>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="lblIconShown.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="lblIconShown.text"/>
+                <Property name="name" type="java.lang.String" value="lblIconShown" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblAppWorkingFolder">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_application_working_folder_prompt() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="lblAppWorkingFolder.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="lblAppWorkingFolder" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtFieldAppWorkingFolder">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="txtFieldAppWorkingFolder.text"/>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_application_working_folder_hint() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="txtFieldAppWorkingFolder" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <Properties>
+            <Property name="horizontalScrollBar" type="javax.swing.JScrollBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="null"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="jScrollPane1" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="tab2">
+                <Property name="tabTitle" type="java.lang.String" resourceKey="jScrollPane1.TabConstraints.tabTitle"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="panelStep2">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="panelStep2" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="0" attributes="1">
+                                  <Component id="lblFunctionName" min="-2" pref="122" max="-2" attributes="1"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="txtFieldFunctionName" min="-2" pref="120" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="chkBoxUseOptionalParam" min="-2" pref="152" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnAdd" min="-2" max="-2" attributes="1"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnDeleteAll" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jScrollPane5" alignment="0" min="-2" pref="404" max="-2" attributes="1"/>
+                              <Component id="jScrollPane4" alignment="0" min="-2" pref="403" max="-2" attributes="1"/>
+                              <Component id="panelParams" alignment="0" min="-2" max="-2" attributes="1"/>
+                              <Component id="lblFunctionDescription" alignment="0" min="-2" pref="352" max="-2" attributes="1"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblFunctionName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldFunctionName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="chkBoxUseOptionalParam" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lblFunctionDescription" min="-2" pref="66" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnDeleteAll" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="panelParams" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="486" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="lblFunctionName">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_function_name_prompt() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblFunctionName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldFunctionName">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldFunctionName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="chkBoxUseOptionalParam">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_with_optional_params() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="chkBoxUseOptionalParam" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Container class="javax.swing.JPanel" name="panelParams">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="panelParams" noResource="true"/>
+                  </Properties>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <EmptySpace min="0" pref="412" max="32767" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <EmptySpace min="0" pref="198" max="32767" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                </Container>
+                <Component class="javax.swing.JButton" name="btnAdd">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="JCmdLineApp.getStringsClass().get_add()" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="btnAdd" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnDeleteAll">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="JCmdLineApp.getStringsClass().get_delete_all()" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="btnDeleteAll" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteAllActionPerformed"/>
+                  </Events>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="jScrollPane4" noResource="true"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="txtAreaFunctionDescription">
+                      <Properties>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="rows" type="int" value="5"/>
+                        <Property name="name" type="java.lang.String" value="txtAreaFunctionDescription" noResource="true"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JLabel" name="lblFunctionDescription">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_function_description_prompt() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblFunctionDescription" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="jScrollPane5" noResource="true"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="txtAreaFunctionHelp">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" resourceKey="txtAreaFunctionHelp.background"/>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="rows" type="int" value="5"/>
+                        <Property name="name" type="java.lang.String" value="txtAreaFunctionHelp" noResource="true"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+          <Properties>
+            <Property name="horizontalScrollBar" type="javax.swing.JScrollBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="null"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="jScrollPane3" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="tab3">
+                <Property name="tabTitle" type="java.lang.String" resourceKey="jScrollPane3.TabConstraints.tabTitle"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="panelStep3">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="panelStep3" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblApkFileName" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblKeyStoreName" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblKeyValidPeriod" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblKeyName" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblKeyStorePasswdAgain" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblKeyStorePasswd" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblKeyPasswdAgain" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblKeyPasswd" alignment="0" pref="152" max="32767" attributes="1"/>
+                                      <Component id="lblSelectKey" alignment="0" pref="152" max="32767" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="passwdFieldKeyPasswdAgain" alignment="1" pref="263" max="32767" attributes="0"/>
+                                      <Component id="passwdFieldKeyPasswd" alignment="1" pref="263" max="32767" attributes="0"/>
+                                      <Component id="txtFieldKeyValidPeriod" alignment="1" pref="263" max="32767" attributes="0"/>
+                                      <Component id="txtFieldKeyName" alignment="1" pref="263" max="32767" attributes="0"/>
+                                      <Component id="passwdFieldKeyStorePasswdAgain" alignment="1" pref="263" max="32767" attributes="0"/>
+                                      <Component id="comboSelectKey" alignment="0" pref="263" max="32767" attributes="0"/>
+                                      <Component id="txtFieldKeyStoreName" alignment="0" pref="263" max="32767" attributes="0"/>
+                                      <Component id="passwdFieldKeyStorePasswd" alignment="0" pref="263" max="32767" attributes="0"/>
+                                      <Component id="txtFieldApkFileName" alignment="0" pref="263" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblYourStreetNumber" alignment="0" pref="171" max="32767" attributes="1"/>
+                                      <Component id="lblYourCity" alignment="0" pref="171" max="32767" attributes="1"/>
+                                      <Component id="lblYourState" alignment="0" pref="171" max="32767" attributes="1"/>
+                                      <Component id="lblYourDepartment" alignment="0" pref="171" max="32767" attributes="1"/>
+                                      <Component id="lblYourCompany" alignment="0" pref="171" max="32767" attributes="1"/>
+                                      <Component id="lblYourCountry" alignment="0" pref="171" max="32767" attributes="1"/>
+                                      <Component id="lblYourStateCode" alignment="0" pref="171" max="32767" attributes="1"/>
+                                      <Component id="lblYourName" alignment="0" pref="171" max="32767" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtFieldYourCountry" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourStateCode" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourState" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourCity" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourStreetNumber" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourCompany" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourDepartment" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourName" alignment="1" pref="242" max="32767" attributes="1"/>
+                                  </Group>
+                              </Group>
+                              <Component id="lblPersonalInfo" alignment="0" pref="425" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="lblYourWebSite" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="lblYourEmail" alignment="0" pref="128" max="32767" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtFieldYourWebSite" pref="287" max="32767" attributes="1"/>
+                                      <Component id="txtFieldYourEmail" alignment="0" pref="287" max="32767" attributes="1"/>
+                                  </Group>
+                              </Group>
+                              <Component id="lblContactDetails" alignment="0" pref="425" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblApkFileName" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="txtFieldApkFileName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="comboSelectKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSelectKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblKeyStoreName" alignment="3" min="-2" pref="77" max="-2" attributes="0"/>
+                              <Component id="txtFieldKeyStoreName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblKeyStorePasswd" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="passwdFieldKeyStorePasswd" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblKeyStorePasswdAgain" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="passwdFieldKeyStorePasswdAgain" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblKeyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldKeyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblKeyValidPeriod" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldKeyValidPeriod" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblKeyPasswd" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="passwdFieldKeyPasswd" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblKeyPasswdAgain" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="passwdFieldKeyPasswdAgain" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lblPersonalInfo" min="-2" pref="27" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourDepartment" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourDepartment" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourCompany" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourCompany" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourStreetNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourStreetNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourCity" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourCity" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourState" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourState" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourStateCode" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourStateCode" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourCountry" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourCountry" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                          <Component id="lblContactDetails" min="-2" pref="27" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblYourWebSite" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFieldYourWebSite" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="160" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="lblApkFileName">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_apk_name() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblApkFileName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldApkFileName">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldApkFileName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="comboSelectKey">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="comboSelectKey" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboSelectKeyActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblSelectKey">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_select_apk_signiture_key() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblSelectKey" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKeyStoreName">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_keystore_name() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblKeyStoreName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldKeyStoreName">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldKeyStoreName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKeyStorePasswd">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_keystore_password() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblKeyStorePasswd" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JPasswordField" name="passwdFieldKeyStorePasswd">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="passwdFieldKeyStorePasswd.text"/>
+                    <Property name="name" type="java.lang.String" value="passwdFieldKeyStorePasswd" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKeyStorePasswdAgain">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_password_again() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblKeyStorePasswdAgain" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JPasswordField" name="passwdFieldKeyStorePasswdAgain">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="passwdFieldKeyStorePasswdAgain.text"/>
+                    <Property name="name" type="java.lang.String" value="passwdFieldKeyStorePasswdAgain" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKeyName">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_key_name() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblKeyName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldKeyName">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldKeyName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKeyValidPeriod">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_key_valid_period() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblKeyValidPeriod" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldKeyValidPeriod">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" resourceKey="txtFieldKeyValidPeriod.toolTipText"/>
+                    <Property name="name" type="java.lang.String" value="txtFieldKeyValidPeriod" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JPasswordField" name="passwdFieldKeyPasswd">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="passwdFieldKeyPasswd.text"/>
+                    <Property name="name" type="java.lang.String" value="passwdFieldKeyPasswd" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKeyPasswd">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_key_password() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblKeyPasswd" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKeyPasswdAgain">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_password_again() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblKeyPasswdAgain" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JPasswordField" name="passwdFieldKeyPasswdAgain">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="passwdFieldKeyPasswdAgain.text"/>
+                    <Property name="name" type="java.lang.String" value="passwdFieldKeyPasswdAgain" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblPersonalInfo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_personal_information() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblPersonalInfo" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourName">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourName">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_name() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourName" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourDepartment">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourDepartment" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourDepartment">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_department() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourDepartment" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourCompany">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourCompany" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourCompany">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_company() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourCompany" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourStreetNumber">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourStreetNumber" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourStreetNumber">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_street_no() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourStreetNumber" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourCity">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourCity" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourCity">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_city() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourCity" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourState">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourState" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourState">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_state() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourState" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourStateCode">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourStateCode" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourStateCode">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_state_code() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourStateCode" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourCountry">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourCountry" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourCountry">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_country() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourCountry" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourEmail">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourEmail" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourEmail">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_email() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourEmail" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblYourWebSite">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_website() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblYourWebSite" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtFieldYourWebSite">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtFieldYourWebSite" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblContactDetails">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="&quot;&lt;html&gt;&lt;p&gt;&quot; + JCmdLineApp.getStringsClass().get_please_input_your_contact_details() + &quot;&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="lblContactDetails" noResource="true"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="btnPrevious">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_back()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnPrevious" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnNext">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_go_to_next()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnNext" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnOK">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JCmdLineApp.getStringsClass().get_ok()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="btnOK" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOKActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>

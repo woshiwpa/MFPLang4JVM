@@ -1,0 +1,48 @@
+function xi_sha_zong_ya506_pai_xu(i_zong_yu_she)
+variable Ze,Zd,Zh,Zj,Zk,i_zong,Ze_Zd_s=[20,25,27,31,32,33,34,35,36,37,38,39,42,44,45,47,48,50,52,54,58,60,62,64,68,70,71,72,74,75,77,79,80,81,82,83,84,85,86,87,88],Zk_s=[81,62]
+variable s2,ge_shu2=0,x
+x=input("临近范围=")
+for variable idx1=0 to 1 step 1
+print("\n")
+Zk=Zk_s[idx1]
+Zj=106-Zk
+       for variable idx2=0 to 40 step 1
+       Zd=Ze_Zd_s[idx2]
+            for variable idx3=0 to 40 step 1
+            Ze=Ze_Zd_s[idx3]
+            i_zong=round(6.9667*Ze/Zd*Zk/Zj,2)
+            if and(i_zong<55,i_zong>23)
+            if Ze+Zd>99
+            
+            if and(i_zong>i_zong_yu_she-x,i_zong<=i_zong_yu_she+x)
+          set_array_elem(s2,ge_shu2,[i_zong,Zk,Zj,Ze,Zd])
+          ge_shu2=ge_shu2+1
+          endif
+         
+       endif
+       endif
+       next
+next
+next
+     s2=myf_sort_duo_wei(0,s2)
+     for variable idx=0 to ge_shu2-1 step 1
+     i_zong=s2[idx,0]
+     Zk=s2[idx,1]
+     Zj=s2[idx,2] 
+     Ze=s2[idx,3] 
+     Zd=s2[idx,4] 
+      print(i_zong+"，Zk/Zj="+Zk+"/"+Zj+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+      next
+    
+
+endf
+
+
+
+
+
+
+
+
+
+

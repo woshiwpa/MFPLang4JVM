@@ -1,0 +1,43 @@
+Help
+@language:simplified_chinese
+函数100cv在输入任意个放大100倍的数据后计算结果依次为平均值，总个数，以下平均，以下个数，不匀率(保留2位)。
+@end
+endh
+function cv100_3(...)
+if opt_argc < 1
+Throw "Need at least one parameter!"
+Endif
+Variable oldSum_value
+oldSum_value=0
+For variable index = 1 to opt_argc step 1
+oldSum_value=oldSum_value+opt_argv[index-1]
+Next
+Variable old_value
+old_value=0
+old_value=xiao_shu(oldSum_value/opt_argc)
+Variable n
+n=0
+Variable m
+m=0
+Variable newSum_value
+newSum_value=0
+While n!=opt_argc
+if opt_argv[n]< old_value
+newSum_value=newSum_value+opt_argv[n]
+m=m+1
+Endif
+n=n+1
+Loop
+if m==0
+return [old_value/100,opt_argc,0,0,0]
+Endif
+Variable new_value
+new_value=0
+new_value=xiao_shu(newSum_value/m)
+variable cv
+cv=xiao_shu(100*(old_value/100-new_value/100)*(2*m)/(old_value/100*opt_argc),2)
+
+return [old_value/100,opt_argc,new_value/100,m,cv]
+
+Endf
+

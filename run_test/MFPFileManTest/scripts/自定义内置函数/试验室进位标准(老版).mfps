@@ -1,0 +1,35 @@
+function jin_wei(x)
+x=jin_wei(x,0)
+return x
+endf
+
+
+Help
+@language:simplified_chinese
+对浮点数保留y位小数的取舍方案为：多于y+1位小数直接四舍五入，少于y+1位小数直接保留原数，等于y+1位小数时，如果第y+1位不为5，直接四舍五入，如果是5，判断第y位数，第y位数是奇数，将5进位，第y位数是偶数，将5舍弃。
+@end
+endh
+function jin_wei(x,y)
+
+
+if  x-xiao_shu(x,y+1)!=0 //判断x有多于y+1位小数(或少于y+1位)时，直接四舍五入
+x=xiao_shu(x,y)
+else
+if  ((10**(y+1))*x-10*(ceil((10**y)*x)-1))!=5
+
+//判断第y+1位小数不为5时，直接四舍五入。
+x=xiao_shu(x,y)
+else//只要y+1位，且第y+1位数是5时
+variable t
+t=((ceil((10**y)*x)-1)-(ceil((10**(y-1))*x)-1)*10)/2
+if ceil(t)-t==0//判断第y位是偶数时，舍去5，保留前y位。
+x=(ceil(10**y*x)-1)/10**y
+else //第y位为奇数时，将5进位。
+x=ceil(10**y*x)/10**y
+endif
+endif
+endif
+return x
+
+endf
+

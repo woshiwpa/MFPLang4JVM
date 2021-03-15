@@ -1,0 +1,156 @@
+function cu_sha_n_ding423()
+print("****************************************\n")
+
+variable n_ding,D1,D1_s=[173,207],D2=210,f
+print("D2="+D2+"\n")
+f=input("最高频率f=")
+for variable idx=0 to 1 step 1
+D1=D1_s[idx]
+
+n_ding=round(960*D1/D2*47/54*47/32*f/50)
+print("锭速="+n_ding+"，D1/D2="D1+"/"+D2+"\n")
+print("****************************************\n")
+
+endf
+
+
+function Tt423()
+print("****************************************\n")
+
+variable Tt,Tm,Ta,Z10,Z11,Z13,Z14,Z3,Z3_s=[31,32,33,34,35,36,37,38]
+for variable idx=0 to 7 step 1
+Z3=Z3_s[idx]
+Tt=round(182.24/Z3,3)
+print("捻度="+Tt+"，Z3="+Z3+"\n")
+next
+print("****************************************\n")
+
+endf
+
+
+function Ta423()
+print("****************************************\n")
+
+variable g_cu,Tt,Tm,Ta,Z10,Z11,Z13,Z14,Z3,Z3_s=[31,32,33,34,35,36]
+g_cu=input("粗纱干重=")
+for variable idx=0 to 5 step 1
+Z3=Z3_s[idx]
+Tt=round(182.24/Z3,3)
+Ta=round(Tt*sqrt(g_cu*108.5))
+print("捻度="+Tt+"，捻系数="+Ta+"，Z3="+Z3+"\n")
+next
+print("****************************************\n")
+
+endf
+
+
+
+function n_qian423()
+print("****************************************\n")
+
+variable n_qian,n_ding,Z3,Tt,Tm,D1,D1_s=[173,207],D2=210,f
+D1=input("电机轮D1(173,207)=")
+print("D2="+D2+"\n")
+
+f=input("最高频率f=")
+Z3=input("捻度牙Z3=")
+Tt=round(182.24/Z3,3)
+print("捻度="+Tt+"\n")
+Tm=10*Tt
+n_ding=round(960*D1/D2*47/54*47/32*f/50)
+n_qian=round(n_ding/Tt*100/3.14/28.5)
+print("锭速="+n_ding+"，前罗拉速度="+n_qian+"\n")
+print("****************************************\n")
+
+endf
+
+function f423()
+print("****************************************\n")
+
+variable n_qian,n_ding,Z3,Tt,Tm,Z3,D1,D1_s=[173,207],D2=210,f
+D1=input("电机轮D1(173,207)=")
+print("D2="+D2+"\n")
+
+n_qian=input("前罗拉速度=")
+Z3=input("捻度牙Z3=")
+Tt=round(182.24/Z3,3)
+print("捻度="+Tt+"\n")
+Tm=10*Tt
+f=round(n_qian*3.14*28.5/100*Tt*50/960*32/47*54/47*D2/D1,2)
+print("最高频率="+f+"，前罗拉速度="+n_qian+"\n")
+print("****************************************\n")
+
+endf
+
+function i_zong423()
+print("****************************************\n")
+
+variable i_zong,Z1,chang_shu
+for Z1=39 to 51 step 1
+i_zong=round(332/Z1,2)
+print("牵伸倍数="+i_zong+"，Z1="+Z1+"\n")
+next
+print("****************************************\n")
+
+endf
+
+//接近函数
+function cu_sha_n_ding423(D1)
+print("****************************************\n")
+
+variable n_ding,D1_s=[173,207],D2=210,f
+
+print("D2="+D2+"\n")
+f=input("最高频率f=")
+n_ding=round(960*D1/D2*47/54*47/32*f/50)
+print("锭速="+n_ding+"\n")
+print("****************************************\n")
+
+endf
+
+function f423(n_qian,Tt,D1)
+print("****************************************\n")
+
+variable n_qian,n_ding,Tt,Tm,Z3,D1,D1_s=[173,207],D2=210,f
+print("D2="+D2+"\n")
+Tm=10*Tt
+f=round(n_qian/100*3.14*28.5*Tt*50/960*32/47*54/47*D2/D1,2)
+print("最高频率="+f+"，前罗拉速度="+n_qian+"\n")
+print("****************************************\n")
+
+endf
+
+
+function n_qian423_f(Z3)
+print("****************************************\n")
+variable Tt,Tm,n_qian_min,n_qian_max,n_ding_min,n_ding_max,D1,D1_s=[173,207],D2=210,f_min=15,f_max=50
+Tt=round(182.24/Z3,3)
+print("当前捻度="+Tt+"\n")
+Tm=10*Tt
+for variable idx=0 to 1 step 1
+D1=D1_s[idx]
+n_ding_min=round(960*D1/D2*47/54*47/32*f_min/50)
+n_qian_min=round(n_ding_min/Tt*100/3.14/28.5)
+
+n_ding_max=round(960*D1/D2*47/54*47/32*f_max/50)
+n_qian_max=round(n_ding_max/Tt*100/3.14/28.5)
+print("频率：15~50时，锭速："+n_ding_min+"~"+n_ding_max+"\n前罗拉速度："+n_qian_min+"~"+n_qian_max+"\nD1/D2="+D1+"/"+D2+"\n")
+next
+print("****************************************\n")
+
+endf
+
+function Tt423(g_sha)
+print("****************************************\n")
+
+variable Tt,Tm,Ta,Tex,Z10,Z11,Z13,Z14,Z3,Z3_s=[31,32,33,34,35,36,37,38]
+tex=round(g_sha*100*1.085,1)
+for variable idx=0 to 7 step 1
+Z3=Z3_s[idx]
+Tt=round(182.24/Z3,3)
+Ta=round(Tt*sqrt(tex))
+print("捻度="+Tt+"，捻系数="+Ta+"，Z3="+Z3+"\n")
+next
+print("****************************************\n")
+
+endf

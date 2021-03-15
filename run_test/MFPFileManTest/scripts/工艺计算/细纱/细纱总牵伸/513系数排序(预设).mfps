@@ -1,0 +1,75 @@
+function xi_sha_zong_ya513_pai_xu(i_zong_yu_she)
+variable Ze,Zd,Zh,i_zong,Ze_Zd_s=[25,27,28,30,31,32,33,34,35,36,37,38,39,40,41,42,43,46,48,51,52,55,57,58,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78],Zh_s=[37,39,41,43,45,46,48,50,52,54,57,60]
+variable s2,ge_shu2=0,x
+x=input("临近范围=")
+variable xi_shu
+
+while (true)
+print("Zh=[37,39,41,43,45,46,48,50,52,54,57,60]\n")
+
+Zh=input("后牵伸牙Zh=")
+     variable idx=0
+    for  idx=0 to 11 step 1
+    if Zh==Zh_s[idx]
+    break
+    endif
+    next
+        if (idx<12)
+        break
+        endif
+    
+
+loop
+
+
+
+for  variable idx1=39 to 0 step -1
+Zd=Ze_Zd_s[idx1]
+      for variable idx2=0 to 39 step 1
+      Ze=Ze_Zd_s[idx2]
+      if Ze+Zd>99
+            i_zong=round(1050.463*Ze/Zd/Zh,2)
+            xi_shu=round(1050.463*Ze/Zd,4)
+            if and(i_zong>23,i_zong<55)
+            
+             if and(i_zong>i_zong_yu_she-x,i_zong<=i_zong_yu_she+x)
+          set_array_elem(s2,ge_shu2,[i_zong,Ze,Zd,xi_shu])
+          ge_shu2=ge_shu2+1
+          endif
+          
+       endif
+       endif
+       next
+next
+     s2=myf_sort_duo_wei(0,s2)
+     for variable idx=0 to ge_shu2-1 step 1
+     i_zong=s2[idx,0]
+     Ze=s2[idx,1]
+     Zd=s2[idx,2] 
+     xi_shu=s2[idx,3] 
+      print("系数="+xi_shu+"，Ze/Zd="+Ze+"/"+Zd+"，E("+Zh+")="+i_zong+"\n")
+      next
+     
+
+    
+endf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

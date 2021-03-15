@@ -1,0 +1,112 @@
+function xi_sha_zong_ya513_pai_xu()
+variable Ze,Zd,Zh,i_zong,Ze_Zd_s=[25,27,28,30,31,32,33,34,35,36,37,38,39,40,41,42,43,46,48,51,52,55,57,58,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78],Zh_s=[37,39,41,43,45,46,48,50,52,54,57,60]
+variable s2,s3,s4,s5,ge_shu2=0,ge_shu3=0,ge_shu4=0,ge_shu5=0
+variable xi_shu
+
+while (true)
+print("Zh=[37,39,41,43,45,46,48,50,52,54,57,60]\n")
+
+Zh=input("后牵伸牙Zh=")
+     variable idx=0
+    for  idx=0 to 11 step 1
+    if Zh==Zh_s[idx]
+    break
+    endif
+    next
+        if (idx<12)
+        break
+        endif
+    
+
+loop
+
+
+
+for  variable idx1=39 to 0 step -1
+
+Zd=Ze_Zd_s[idx1]
+      for variable idx2=0 to 39 step 1
+      Ze=Ze_Zd_s[idx2]
+      if Ze+Zd>99
+            i_zong=round(1050.463*Ze/Zd/Zh,2)
+            xi_shu=round(1050.463*Ze/Zd,4)
+            if and(i_zong>23,i_zong<55)
+            
+                      if and(i_zong>23,i_zong<=30)
+          set_array_elem(s2,ge_shu2,[i_zong,Ze,Zd,xi_shu])
+          ge_shu2=ge_shu2+1
+          endif
+           if and(i_zong>30,i_zong<=40)
+          set_array_elem(s3,ge_shu3,[i_zong,Ze,Zd,xi_shu])
+          ge_shu3=ge_shu3+1
+          endif
+           if and(i_zong>40,i_zong<=50)
+          set_array_elem(s4,ge_shu4,[i_zong,Ze,Zd,xi_shu])
+          ge_shu4=ge_shu4+1
+          endif
+           if and(i_zong>50,i_zong<=60)
+          set_array_elem(s5,ge_shu5,[i_zong,Ze,Zd,xi_shu])
+          ge_shu5=ge_shu5+1
+          endif
+       endif
+       endif
+       next
+next
+     s2=myf_sort_duo_wei(0,s2)
+     for variable idx=0 to ge_shu2-1 step 1
+     i_zong=s2[idx,0]
+     Ze=s2[idx,1]
+     Zd=s2[idx,2] 
+     xi_shu=s2[idx,3] 
+      print("系数="+xi_shu+"，Ze/Zd="+Ze+"/"+Zd+"，E("+Zh+")="+i_zong+"\n")
+      next
+      print("\n")
+      s3=myf_sort_duo_wei(0,s3)
+     for variable idx=0 to ge_shu3-1 step 1
+     i_zong=s3[idx,0]
+     Ze=s3[idx,1]
+     Zd=s3[idx,2] 
+     xi_shu=s3[idx,3]
+      print("系数="+xi_shu+"，Ze/Zd="+Ze+"/"+Zd+"，E("+Zh+")="+i_zong+"\n")
+      next
+      print("\n")
+      s4=myf_sort_duo_wei(0,s4)
+     for variable idx=0 to ge_shu4-1 step 1
+     i_zong=s4[idx,0]
+     Ze=s4[idx,1]
+     Zd=s4[idx,2] 
+     xi_shu=s4[idx,3]
+      print("系数="+xi_shu+"，Ze/Zd="+Ze+"/"+Zd+"，E("+Zh+")="+i_zong+"\n")
+      next
+      print("\n")
+      s5=myf_sort_duo_wei(0,s5)
+     for variable idx=0 to ge_shu5-1 step 1
+     i_zong=s5[idx,0]
+     Ze=s5[idx,1]
+     Zd=s5[idx,2] 
+     xi_shu=s5[idx,3]
+      print("系数="+xi_shu+"，Ze/Zd="+Ze+"/"+Zd+"，E("+Zh+")="+i_zong+"\n")
+      next
+
+    
+endf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

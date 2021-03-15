@@ -1,0 +1,63 @@
+
+citingspace AAAA
+citingspace BBB::DeF
+
+class ClassWithNoPublicFunc : object
+	class innerClassNoPublicFunc
+		variable self abc
+		
+		function __init__(self, value)
+			print_line("in __init__")
+			self.abc = value
+		endf
+		
+		private function myMemberFunc(self, value)
+			print_line("in aaaa::bbb::def::ClassWithNoPublicFunc::innerClassNoPublicFunc::myMemberFunc")
+			using citingspace ::aaab:: bbb :: def
+			ClassWithPublicFunc().publicMemberFunc(value, value * 2, value * 3)
+			self.abc = value ** 2.3
+		endf
+	endclass
+
+	private function myMemberFunc(self, a, b, c)
+		//variable clsObj = innerClassNoPublicFunc()
+		//clsObj.__init__(37)
+		using citingspace ::aaac::bbb::def
+		print_line("::aaac::bbb::def::ClassBold().super = " + ClassBold().super)
+		return (a**2 + b**2 + c**2) /// innerClassNoPublicFunc.abc
+	endf
+endclass
+
+class ClassWithNoPublicFunc2 : object
+	class innerClassNoPublicFunc
+		variable self abc
+		
+		function __init__(self, value)
+			print_line("in __init__")
+			self.abc = value
+		endf
+		
+		private function myMemberFunc(self, value)
+			print_line("Now in aaaa::bbb::def::ClassWithNoPublicFunc2::innerClassNoPublicFunc::myMemberFunc")
+			using citingspace ::aaab:: bbb :: def
+			variable newValue = ClassWithPublicFunc().publicMemberFunc(value, value * 2, value * 3)
+			self.abc = newValue ** 2.3
+		endf
+	endclass
+
+	public function myMemberFunc(self, a, b, c)
+		innerClassNoPublicFunc clsObj = innerClassNoPublicFunc()
+		clsObj.__init__(37)
+
+		return (a**2 + b**2 + c**2) /// innerClassNoPublicFunc.abc
+	endf
+
+	public function myMemberFunc2(self, a, b, c)
+		variable bald = aaac::bbb::def::classbold()
+		
+		return (a**2 + b**2 + c**2) /// innerClassNoPublicFunc.abc
+	endf
+endclass
+
+endcs // BBB::DeF
+endcs // AAAA

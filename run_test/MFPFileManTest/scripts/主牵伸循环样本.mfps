@@ -1,0 +1,6 @@
+主牵伸倍数选择while
+
+
+while (true)
+i_zhu_xuan=input("选择主牵伸倍数=")
+if  i_zhu_xuan==

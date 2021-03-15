@@ -1,0 +1,26 @@
+
+Help
+@language:simplified_chinese
+函数用于计算一个数组元素的变异系数，f表示平均值要保留的小数位数。
+@end
+endh
+function CV_s(shu_zu,f)
+variable n,cv
+n=size(shu_zu)[0],
+if n < 1
+Throw "至少输入1个参数!"
+Endif
+Variable avg_value
+avg_value=0
+For variable index = 1 to n  step 1
+avg_value=avg_value+shu_zu[index-1]
+Next
+avg_value=round(avg_value/n,f)
+variable t
+t=0
+for variable index =1 to n step 1
+t=t+(shu_zu[index-1]-avg_value)**2
+next
+cv=round(100*pow(t/(n-1) ,0.5)/avg_value,2)
+print("\n变异系数="+cv+"%\n")
+Endf

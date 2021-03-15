@@ -1,0 +1,15 @@
+Function stdev(...)
+	If opt_argc < 2
+		Throw "Need at least two parameter!"
+	Endif
+	Variable avg_value, avg_square
+	avg_value = 0
+	avg_square = 0
+	For variable index = 1 to opt_argc step 1
+		avg_value = avg_value + opt_argv[index - 1]
+		avg_square = avg_square + opt_argv[index - 1] * opt_argv[index - 1]
+	Next
+	avg_value = avg_value/opt_argc
+	avg_square = avg_square/opt_argc
+	Return sqrt(opt_argc/(opt_argc - 1) * (avg_square - avg_value ** 2))
+Endf

@@ -1,0 +1,10 @@
+Help
+@language:simplified_chinese
+输入特克斯便可计算出纱线英支数
+@end
+endh
+function ying_zhi(x)
+variable t
+t=xiao_shu_dian(583.1/x,1)
+return t
+endf

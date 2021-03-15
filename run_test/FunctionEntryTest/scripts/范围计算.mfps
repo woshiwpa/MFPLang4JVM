@@ -1,0 +1,95 @@
+Help
+@language:simplified_chinese
+函数fan_wei依次输入干重、回潮、范围后可算出重量范围值，结果依次为重量下限，上限(保留2位小数)
+@end
+endh
+function fan_wei(gan_zhong,hui_chao,fan_wei)
+variable shi_zhong
+shi_zhong=gan_zhong*(1+hui_chao/100)
+return [round(10**2*shi_zhong*(1-fan_wei/100))/10**2, xiao_shu_dian(shi_zhong*(1+fan_wei/100),2)]
+endf
+
+function fan_wei()
+variable gan_zhong,hui_chao,fan_wei,shi_zhong,ying_zhi,tex,zhi_pian_p,zhi_pian_m,g_max,g_min
+print("\n")
+variable xuan_ze
+do
+xuan_ze=input("已知干重填1，已知纺重填2，已知纱线英支数填3：")
+print("\n")
+until or(xuan_ze==1,xuan_ze==2,xuan_ze==3)
+if xuan_ze==1
+gan_zhong=input("设计干重=")
+hui_chao=input("回潮=")
+endif
+if xuan_ze==2
+gan_zhong=input("称得平均重量=")
+hui_chao=0
+endif
+if xuan_ze==3
+ying_zhi=input("纱线英支数=")
+tex=round(583.1/ying_zhi)
+gan_zhong=round(tex/10/1.085,3)
+print("干重="+gan_zhong+"\n")
+hui_chao=input("回潮=")
+endif
+zhi_pian_m=input("最小控制范围：-")
+zhi_pian_p=input("最大控制范围：+")
+g_min=round(gan_zhong*(1+hui_chao/100)*(1-zhi_pian_m/100),2)
+g_max=round(gan_zhong*(1+hui_chao/100)*(1+zhi_pian_p/100),2)
+print("范围："+g_min+"～"+g_max+"\n")
+endf
+
+ 接近函数
+ function fan_wei(ping_jun)
+ variable g_min,g_max,fan_wei,idx=1
+ print("\n提示：在控制范围处输入e可结束\n")
+ print("\n")
+ while true 
+
+ fan_wei=input("第"+idx+"个控制范围=±")
+  if fan_wei==e
+  print("\n范围计算结束\n")
+ break
+ endif
+
+ g_min=round(ping_jun*(1-fan_wei/100),2)
+ g_max=round(ping_jun*(1+fan_wei/100),2)
+ print("范围"+idx+"="+g_min+"～"+g_max+"\n")
+ idx=idx+1
+ loop
+ endf
+ 
+ 
+  function fan_wei_s(shu_zu,index,ping_jun)
+ variable g_min,g_max,fan_wei,idx=1,zhi_pian
+ print("\n提示：在控制范围处输入e可结束\n")
+ print("\n")
+ while true 
+ fan_wei=input("\n第"+idx+"个控制范围=±")
+  if fan_wei==e
+  print("\n范围计算结束\n")
+ break
+ endif
+
+ g_min=round(ping_jun*(1-fan_wei/100),2)
+ g_max=round(ping_jun*(1+fan_wei/100),2)
+ print("范围"+idx+"="+g_min+"～"+g_max+"\n")
+ idx=idx+1
+ variable x=0
+ for variable idx=0 to index-1 step 1
+ if shu_zu[idx]<g_min
+ zhi_pian=round(100*(shu_zu[idx]-ping_jun)/ping_jun,2)
+ print("\n偏轻：第"+(idx+1)+"个="+shu_zu[idx]+"，支偏="+zhi_pian+"%\n")
+ elseif shu_zu[idx]>g_max
+  zhi_pian=round(100*(shu_zu[idx]-ping_jun)/ping_jun,2)
+
+  print("\n偏重：第"+(idx+1)+"个="+shu_zu[idx]+"，支偏=+"+zhi_pian+"%\n")
+  else
+  x=x+1
+ endif
+ if x==index
+ print("\n没有超范围数据\n")
+ endif
+ next
+ loop
+ endf

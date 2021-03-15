@@ -1,0 +1,20 @@
+function bian_geng_bing()
+variable ji_xing,g_tiao,g_wei,gen_shu,i_zong
+variable A,B,Tdc,Fc,F,E,G,H,R,S
+ji_xing=input("并条机型=")
+print("输入变前牵伸牙齿\n")
+A=input("A=")
+B=input("B=")
+Tdc=input("Tdc=")
+Fc=input("Fc=")
+if ji_xing==320
+R=25
+S=36
+i_zong=round(67/39*54/44*S/R*B/A*Fc/Tdc,3)
+endif
+print("变前总牵伸倍数="+i_zong+"\n")
+
+
+
+
+endf

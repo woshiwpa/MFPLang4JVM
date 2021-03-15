@@ -1,0 +1,773 @@
+
+#This is an example for artificial neural network.
+#这是人工神经网的例子。
+
+@execution_entry mfpexample :: run_ANN(@) 
+
+citingspace ::mfpexample
+
+function run_ANN_server()
+	variable protocol = "TCPIP", localInterface, secondDevInterface, thirdDevInterface
+	print("Please select a valid TCPIP address from your local addresses:\n")
+	print_all_host_tcp_addresses()
+	print("\n")
+	variable localAddress = input("My TCPIP address is:\n", "S")
+	localAddress = trim(localAddress)
+	localInterface = ::mfp::paracomp::connect::generate_interface(protocol, localAddress)
+	variable ret = ::mfp::paracomp::connect::initialize_local(localInterface, true)
+	print("initialize_local server ret = " + ret + "\n")
+	ret = ::mfp::paracomp::connect::initialize_local(localInterface, false)
+	print("initialize_local client ret = " + ret + "\n")
+	ret = ::mfp::paracomp::connect::listen(localInterface)
+	print("listen ret = " + ret + "\n")
+endf
+
+function run_ANN()
+	variable sleepInterval = 20 // sleep 20m to wait for finish of last sending to avoid queue built up.睡20毫秒等上一個发送过程的結束，以避免等待对列太长。
+	variable protocol = "TCPIP", localInterface, secondDevInterface, thirdDevInterface
+	print("Please select a valid TCPIP address from your local addresses:\n")
+	print_all_host_tcp_addresses()
+	print("\n")
+	variable localAddress = input("My TCPIP address is:\n", "S")
+	localAddress = trim(localAddress)
+	variable secondDeviceAddress = input("TCPIP address of the 2nd device, or simply press ENTER if you only have one device:\n", "S")
+	secondDeviceAddress = trim(secondDeviceAddress)
+	variable thirdDeviceAddress = ""
+	if secondDeviceAddress != ""
+		thirdDeviceAddress = input("TCPIP address of the 3rd device, or simply press ENTER if you only have two devices:\n", "S")
+		thirdDeviceAddress = trim(thirdDeviceAddress)
+	endif
+	localInterface = ::mfp::paracomp::connect::generate_interface(protocol, localAddress)
+	variable ret = ::mfp::paracomp::connect::initialize_local(localInterface, false) // make localInterface a client. 讓localInterface做客戶端。
+	print("initialize_local client ret = " + ret + "\n")
+	ret = ::mfp::paracomp::connect::initialize_local(localInterface, true)
+	print("initialize_local server ret = " + ret + "\n")
+	ret = ::mfp::paracomp::connect::listen(localInterface)
+	print("listen ret = " + ret + "\n")
+
+	variable sample = generate_data()
+	variable X = sample[0], y = sample[1]
+	
+	variable W1 = [[1.24737338, 0.28295388, 0.69207227], [1.58455078, 1.32056292, -0.69103982]]
+	variable b1 = [[0, 0, 0]]
+	variable W2 = [[0.5485338, -0.08738612], [-0.05959343, 0.23705916], [0.08316359, 0.8396252]]
+	variable b2 = [[0, 0]]
+	variable epsilon = 0.01, regLambda = 0.01
+	// create ANN
+	// 创建人工神经网
+	variable allNodes
+	if secondDeviceAddress == ""
+		allNodes = master_mind(W1, b1, W2, b2, localAddress)
+	elseif thirdDeviceAddress == ""
+		allNodes = master_mind(W1, b1, W2, b2, localAddress, secondDeviceAddress)
+	else
+		allNodes = master_mind(W1, b1, W2, b2, localAddress, secondDeviceAddress, thirdDeviceAddress)
+	endif
+	
+	allNodes = build_ANN(allNodes, y, localAddress)
+	
+	variable numOfTrainBatches = 19, dataLoss = alloc_array([numOfTrainBatches], 0)
+	
+	variable xCoordMax = -100000000.0, xCoordMin = 100000000.0, yCoordMax = -100000000.0, yCoordMin = 100000000.0
+	for variable idx = 0 to size(X)[0] - 1 step 1
+		if xCoordMax < X[idx, 0]
+			xCoordMax = X[idx, 0]
+		endif
+		if xCoordMin > X[idx, 0]
+			xCoordMin = X[idx, 0]
+		endif
+		if yCoordMax < X[idx, 1]
+			yCoordMax = X[idx, 1]
+		endif
+		if yCoordMin > X[idx, 1]
+			yCoordMin = X[idx, 1]
+		endif
+	next
+	variable h = 0.1
+	variable xSize = ceil((xCoordMax - xCoordMin) / h + 1)
+	variable ySize = ceil((yCoordMax - yCoordMin) / h + 1)
+	variable testData = alloc_array(xSize * ySize), testDataOutput
+	for variable xIdx = 0 to xSize - 1 step 1
+		for variable yIdx = 0 to ySize - 1 step 1
+			testData[xIdx * ySize + yIdx] = [xCoordMin + xIdx * h, yCoordMin + yIdx * h]
+		next
+	next
+	
+	// dont worry about duplicate connect object as connect object can be reused.
+	// 连接对象可以重用所以不用担心重复连接。
+	variable node0Interface = ::mfp::paracomp::connect::generate_interface("TCPIP", allNodes[0][3])
+	ret = ::mfp::paracomp::connect::connect(localInterface, node0Interface)
+	print("For msg sending, connect from " + localAddress + " to " + allNodes[0][3] + " ret = " + ret + "\n")
+	variable connNode0 = ::mfp::data_struct::array_based::get_value_from_abdict(ret, "CONNECT")
+	variable node1Interface = ::mfp::paracomp::connect::generate_interface("TCPIP", allNodes[1][3])
+	ret = ::mfp::paracomp::connect::connect(localInterface, node1Interface)
+	print("For msg sending, connect from " + localAddress + " to " + allNodes[1][3] + " ret = " + ret + "\n")
+	variable connNode1 = ::mfp::data_struct::array_based::get_value_from_abdict(ret, "CONNECT")
+	// send first batch of data to trigger the program.
+	// note that destination connect id is the address that the destination call was initialized from, i.e. localAddress
+	// 发送第一批数据启动程序。注意目标connect id是目标call程序块的发起地址（也就是localAddress）
+	// we do not add try catch protection for the first two messages. If we cannot send the first two messages, we will fail anyway.
+	// 对于前两个消息包的发送，我们不用try...catch加以保护。如果我们无法发送前两个消息，就意味着整个程序的失败。
+	::mfp::paracomp::connect::send_sandbox_message(connNode0, node0Interface, localAddress, allNodes[0][4], [-1, true, 0, X[0, 0]])
+	::mfp::paracomp::connect::send_sandbox_message(connNode1, node1Interface, localAddress, allNodes[1][4], [-1, true, 0, X[0, 1]])
+
+	variable localCallRet
+	call local
+		variable nonTrainStart = numOfTrainBatches * size(X)[0]
+		variable outputRet = alloc_array([xSize * ySize], null)
+		while true
+			variable msg = receive_sandbox_message(localInterface, -1)	// block mode.阻塞模式。
+			variable interfaceInfo = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "InterfaceInfo")
+			variable connectId = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "ConnectId")
+			variable callId = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "CallId")
+			variable msgData = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "Message")
+			variable remoteNodeId = msgData[0], isTrain = msgData[1], msgIdx = msgData[2], inputVal = msgData[3]
+			if msgIdx >= nonTrainStart	// must be !isTrain.这一定不是训练数据。
+				variable testDataIdx = msgIdx - nonTrainStart
+				outputRet[testDataIdx] = inputVal
+				if testDataIdx >= xSize * ySize - 1
+					break
+				endif
+				try
+					::mfp::paracomp::connect::send_sandbox_message(connNode0, node0Interface, localAddress, allNodes[0][4], [-1, false, msgIdx + 1, testData[testDataIdx + 1, 0]])
+				catch
+					print("Cannot sand message from local call via " + connNode0 + " to interface " + node0Interface + " connectId " + localAddress + " callId " + allNodes[0][4] + " mesage is " + [-1, false, msgIdx + 1, testData[testDataIdx + 1, 0]] + "\n")
+				endtry
+				try
+					::mfp::paracomp::connect::send_sandbox_message(connNode1, node1Interface, localAddress, allNodes[1][4], [-1, false, msgIdx + 1, testData[testDataIdx + 1, 1]])
+				catch
+					print("Cannot sand message from local call via " + connNode1 + " to interface " + node1Interface + " connectId " + localAddress + " callId " + allNodes[1][4] + " mesage is " + [-1, false, msgIdx + 1, testData[testDataIdx + 1, 1]] + "\n")
+				endtry
+			else
+				variable batchId = floor(msgIdx / size(X)[0])
+				if y[mod(msgIdx, size(X)[0])] == 0
+					dataLoss[batchId] = dataLoss[batchId] - log(inputVal)
+				else // y[mod(msgIdx, size(X)[0])] == 1
+					dataLoss[batchId] = dataLoss[batchId] - log(1 - inputVal)
+				endif
+				if (batchId + 1) * size(X)[0] == msgIdx + 1
+					// add regulatization term to loss (optional). 将regulatization加入误差（可做可不做）
+					variable weightSqr = msgData[4]
+					dataLoss[batchId] = dataLoss[batchId] + regLambda / 2 * weightSqr
+					dataLoss[batchId] = dataLoss[batchId] / size(X)[0]
+				endif
+				if msgIdx == nonTrainStart - 1
+					//send test data.发送测试数据。
+					try
+						::mfp::paracomp::connect::send_sandbox_message(connNode0, node0Interface, localAddress, allNodes[0][4], [-1, false, nonTrainStart, testData[0, 0]])
+					catch
+						print("Cannot sand message from local call via " + connNode0 + " to interface " + node0Interface + " connectId " + localAddress + " callId " + allNodes[0][4] + " mesage is " + [-1, false, nonTrainStart, testData[0, 0]] + "\n")
+					endtry
+					try
+						::mfp::paracomp::connect::send_sandbox_message(connNode1, node1Interface, localAddress, allNodes[1][4], [-1, false, nonTrainStart, testData[0, 1]])
+					catch
+						print("Cannot sand message from local call via " + connNode1 + " to interface " + node1Interface + " connectId " + localAddress + " callId " + allNodes[1][4] + " mesage is " + [-1, false, nonTrainStart, testData[0, 1]] + "\n")
+					endtry
+				else
+					//send train data.发送训练数据。
+					variable xIdx = mod(msgIdx + 1, size(X)[0])
+					try
+						::mfp::paracomp::connect::send_sandbox_message(connNode0, node0Interface, localAddress, allNodes[0][4], [-1, true, msgIdx + 1, X[xIdx, 0]])
+					catch
+						print("Cannot sand message from local call via " + connNode0 + " to interface " + node0Interface + " connectId " + localAddress + " callId " + allNodes[0][4] + " mesage is " + [-1, true, msgIdx + 1, X[xIdx, 0]] + "\n")
+					endtry
+					try
+						::mfp::paracomp::connect::send_sandbox_message(connNode1, node1Interface, localAddress, allNodes[1][4], [-1, true, msgIdx + 1, X[xIdx, 1]])
+					catch
+						print("Cannot sand message from local call via " + connNode1 + " to interface " + node1Interface + " connectId " + localAddress + " callId " + allNodes[1][4] + " mesage is " + [-1, true, msgIdx + 1, X[xIdx, 1]] + "\n")
+					endtry
+				endif
+			endif
+		loop
+		return outputRet
+	endcall localCallRet
+	
+	variable trainData0Cnt = 0, trainData1Cnt = 0
+	variable idx0 = 0, idx1 = 0
+	for variable idx = 0 to size(y)[0] - 1 step 1
+		if y[idx] == 0
+			trainData0Cnt = trainData0Cnt + 1
+		else
+			trainData1Cnt = trainData1Cnt + 1
+		endif
+	next
+	
+	variable trainData0 = alloc_array(trainData0Cnt), trainData1 = alloc_array(trainData1Cnt)
+	idx0 = 0
+	idx1 = 0
+	for variable idx = 0 to size(y)[0] - 1 step 1
+		if y[idx] == 0
+			trainData0[idx0] = X[idx]
+			idx0 = idx0 + 1
+		else
+			trainData1[idx1] = X[idx]
+			idx1 = idx1 + 1
+		endif
+	next
+	testDataOutput = ::mfp::data_struct::array_based::get_value_from_abdict(localCallRet, "CALL_BLOCK_RETURN") // blocked at here until testDataOuput get value. 在这一行被暂停知道testDataOutput获得值
+	for variable idx = 0 to numOfTrainBatches - 1 step 1
+		print_line("Error on batch " + idx + " is " + dataLoss[idx])
+	next
+	variable testData0Cnt = 0, testData1Cnt = 0
+	for variable idx = 0 to size(testDataOutput)[0] - 1 step 1
+		if testDataOutput[idx] >= 0.5
+			testData0Cnt = testData0Cnt + 1
+		else
+			testData1Cnt = testData1Cnt + 1
+		endif
+	next
+	
+	variable testData0 = alloc_array(testData0Cnt), testData1 = alloc_array(testData1Cnt)
+	idx0 = 0
+	idx1 = 0
+	for variable idx = 0 to size(testDataOutput)[0] - 1 step 1
+		if testDataOutput[idx] >= 0.5
+			testData0[idx0] = testData[idx]
+			idx0 = idx0 + 1
+		else
+			testData1[idx1] = testData[idx]
+			idx1 = idx1 + 1
+		endif
+	next
+	
+	variable width = xCoordMax - xCoordMin, height = yCoordMax - yCoordMin
+	plot_multi_xy("ANN_test_result", "chart_type:multiXY;chart_title:ANN test result;x_title:x;x_min:" + (xCoordMin - width/3) + ";x_max:" + (xCoordMax + width/3) + ";x_labels:6;y_title:y;y_min:" + (yCoordMin - height/3) + ";y_max:" + (yCoordMax + height/3) + ";y_labels:5;background_color:black;show_grid:false", _
+	"curve_label:train 0;point_color:blue;point_style:x;point_size:5;line_color:blue;line_style:solid;line_size:0", trainData0'[0], trainData0'[1], _
+	"curve_label:train 1;point_color:red;point_style:x;point_size:5;line_color:red;line_style:solid;line_size:0", trainData1'[0], trainData1'[1], _
+	"curve_label:test 0;point_color:green;point_style:circle;point_size:5;line_color:green;line_style:solid;line_size:0", testData0'[0], testData0'[1], _
+	"curve_label:test 1;point_color:magenta;point_style:circle;point_size:5;line_color:magenta;line_style:solid;line_size:0", testData1'[0], testData1'[1])
+endf
+
+function master_mind(W1, b1, W2, b2, localAddress, ...)
+	// here we define ANN topology. A node in the topology chart is a perceptron.
+	// A node is defined like [[[0,0.5],[3,1.3],[2,1]], 0.3, [4,8]], where [[0,0.5],
+	// [3,1.3],[2,1]] is a list of input nodes and corresponding input weights. 0.3
+	// is the bias adjustment. [4,8] is a list of output nodes. if a node number is
+	// negative, it means input/output is from external。
+	// 这里我们定义人工神经网的拓扑图。在拓扑图中一个节点就是一个神经元。每个节
+	// 点的定义类似于[[[0,0.5],[3,1.3],[2,1]], 0.3, [4,8]]。这里[[0,0.5],[3,1.3],
+	// [2,1]]是输入节点和对应的信号强度。0.3是偏向矫正。[4,8]是输出节点。如果一个
+	// 节点的值是负值，意味着从外部环境输入/输出。
+	variable n0 = [[[-1, 1.0]], 0, [2, 3, 4, 7], localAddress, null], n1 = [[[-1, 1.0]], 0, [2, 3, 4, 7], localAddress, null]
+	variable n2 = [[[0, W1[0,0]], [1, W1[1,0]]], b1[0,0], [5, 6, 7], localAddress, null], _
+			n3 = [[[0, W1[0,1]], [1, W1[1,1]]], b1[0,1], [5, 6, 7], localAddress, null], _
+			n4 = [[[0, W1[0,2]], [1, W1[1,2]]], b1[0,2], [5, 6, 7], localAddress, null]
+	variable n5 = [[[2, W2[0,0]], [3, W2[1,0]], [4, W2[2,0]]], b2[0,0], [7], localAddress, null], _
+			n6 = [[[2, W2[0,1]], [3, W2[1,1]], [4, W2[2,1]]], b2[0,1], [7], localAddress, null]
+	variable n7 = [[[0, 1.0], [1, 1.0], [2, 1.0], [3, 1.0], [4, 1.0], [5, 1.0], [6, 1.0]], 0, [-1], localAddress, null]	// back-propagation node
+	variable remoteAddress1 = null, remoteAddress2 = null
+	if opt_argc >= 2
+		remoteAddress1 = opt_argv[0]
+		remoteAddress2 = opt_argv[1]
+		n7[3] = n2[3] = n1[3] = remoteAddress1
+		n5[3] = n4[3] = remoteAddress2
+	elseif opt_argc == 1
+		remoteAddress1 = opt_argv[0]
+		n2[3] = n1[3] = remoteAddress1
+		n5[3] = n4[3] = remoteAddress1
+	endif
+	return [n0, n1, n2, n3, n4, n5, n6, n7]
+endf
+
+function update_nodes(allNodes, W1, b1, W2, b2)
+	allNodes[2, 0, 0, 1] = W1[0, 0]
+	allNodes[2, 0, 1, 1] = W1[1, 0]
+	allNodes[2, 1] = b1[0, 0]
+	allNodes[3, 0, 0, 1] = W1[0, 1]
+	allNodes[3, 0, 1, 1] = W1[1, 1]
+	allNodes[3, 1] = b1[0, 1]
+	allNodes[4, 0, 0, 1] = W1[0, 2]
+	allNodes[4, 0, 1, 1] = W1[1, 2]
+	allNodes[4, 1] = b1[0, 2]
+	allNodes[5, 0, 0, 1] = W2[0, 0]
+	allNodes[5, 0, 1, 1] = W2[1, 0]
+	allNodes[5, 0, 2, 1] = W2[2, 0]
+	allNodes[5, 1] = b2[0, 0]
+	allNodes[6, 0, 0, 1] = W2[0, 1]
+	allNodes[6, 0, 1, 1] = W2[1, 1]
+	allNodes[6, 0, 2, 1] = W2[2, 1]
+	allNodes[6, 1] = b2[0, 1]
+	return allNodes
+endf
+
+function get_params_from_nodes(allNodes)
+	variable W1 = [[0, 0, 0], [0, 0, 0]], W2 = [[0, 0], [0, 0], [0, 0]]
+	variable b1 = [[0, 0, 0]], b2 = [[0, 0]]
+	W1[0, 0] = allNodes[2, 0, 0, 1]
+	W1[1, 0] = allNodes[2, 0, 1, 1]
+	b1[0, 0] = allNodes[2, 1]
+	W1[0, 1] = allNodes[3, 0, 0, 1]
+	W1[1, 1] = allNodes[3, 0, 1, 1]
+	b1[0, 1] = allNodes[3, 1]
+	W1[0, 2] = allNodes[4, 0, 0, 1]
+	W1[1, 2] = allNodes[4, 0, 1, 1]
+	b1[0, 2] = allNodes[4, 1]
+	W2[0, 0] = allNodes[5, 0, 0, 1]
+	W2[1, 0] = allNodes[5, 0, 1, 1]
+	W2[2, 0] = allNodes[5, 0, 2, 1]
+	b2[0, 0] = allNodes[5, 1]
+	W2[0, 1] = allNodes[6, 0, 0, 1]
+	W2[1, 1] = allNodes[6, 0, 1, 1]
+	W2[2, 1] = allNodes[6, 0, 2, 1]
+	b2[0, 1] = allNodes[6, 1]
+	return [W1, b1, W2, b2]
+endf
+
+function build_ANN(allNodes, y, firstDevLocalAddr)
+	for variable nodeIdx = 0 to size(allNodes)[0] - 1 step 1
+		variable callRet	// return or exception value of the call block. call程序块的返回值或者异常。
+		variable localInterface = ::mfp::paracomp::connect::generate_interface("TCPIP", firstDevLocalAddr)
+		variable remoteAddress = allNodes[nodeIdx, 3]
+		variable remoteInterface = ::mfp::paracomp::connect::generate_interface("TCPIP", remoteAddress)
+		variable ret = ::mfp::paracomp::connect::connect(localInterface, remoteInterface)
+		print("build ANN, connect from " + firstDevLocalAddr + " to " + remoteAddress + " ret = " + ret + "\n")
+		variable connObj = ::mfp::data_struct::array_based::get_value_from_abdict(ret, "CONNECT")
+		variable callId = -1
+		call connObj on allNodes, callId	// do not add nodeIdx in the parameter list because it will change.nodeIdx不能作为call程序块的参数因为它的值会改变。
+			variable callInfo = get_call_info()
+			variable allNodesB4Update = allNodes
+			callId = callInfo[0]	// callInfo[0] is the call id of the current call session. callInfo[0]是当前call程序块的call id。
+			// the following statement means, if variable allNodes is synchronized by remote,
+			// and if the udated allNodes is not equal to its previous value, i.e. allNodesB4Update,
+			// we continue. Otherwise, we block.
+			// Note that allNodes is a call block parameter, thus when it is synchronized by remote,
+			// its whole value is replaced, even if only an array element is changed. So before
+			// update, allNodes and allNodesB4Update point to the same memory, but after update,
+			// allNodes and allNodesB4Update do not point to the same memory. This is different from
+			// local updating, which only change the array element so that allNodes and
+			// allNodesB4Update always point to the same memory before and after local updating.
+			// 以下语句的意思是，如果变量allNodes被远端同步，并且更新后的新值和原来的值（保存在allNodesB4Update
+			// 中）不同，那么程序就继续。否则程序暂停。
+			// 注意allNodes是call程序块的一个参数，所以当它被远端同步时，即便只是更新数组中的某一个元素，它的整个
+			// 值都会被重置。所以，更新之前，allNodes和allNodesB4Update是指向同一块内存的，但是更新之后，
+			// allNodes和allNodesB4Update指向不同的内存。这就是远端同步和本地更新的区别所在。如果是本地更新，并
+			// 且只是更新数组中的一个元素，在更新之前和更新完成后，allNodes和allNodesB4Update都指向相同的内存。
+			suspend_until_cond(allNodes, true, "!=", allNodesB4Update)
+			variable localAddress = allNodes[nodeIdx, 3]	// local address
+			variable localInterface = ::mfp::paracomp::connect::generate_interface("TCPIP", localAddress)
+			variable inputs, lastBatchIdx = -1
+			inputs = alloc_array(size(allNodes[nodeIdx, 0])[0])
+			for variable inputIdx = 0 to size(inputs)[0] - 1 step 1
+				inputs[inputidx] = [allNodes[nodeIdx, 0, inputIdx, 0], -1, []]
+			next
+			// connect its targeting address! 连接他其目标地址！
+			variable ret, connects
+			connects = alloc_array(size(allNodes[nodeIdx, 2]), null)
+			for variable remoteIdx = 0 to size(connects)[0] - 1 step 1
+				// remoteAddress by default is the 1st device address
+				// 远端地址的缺省值是第一个设备的地址
+				variable remoteAddress = allNodes[0, 3]
+				if allNodes[nodeIdx, 2, remoteIdx] != -1
+					remoteAddress = allNodes[allNodes[nodeIdx, 2, remoteIdx], 3]
+				endif
+				
+				// Even if remote is local, we still connect. remote就算是在本地，仍然需连接。
+				variable remoteInterface = ::mfp::paracomp::connect::generate_interface("TCPIP", remoteAddress)
+				ret = ::mfp::paracomp::connect::connect(localInterface, remoteInterface)
+				print("TO DESTINATION: connect from " + localAddress + " to " + remoteAddress + " ret = " + ret + "\n")
+				// dont worry about duplicate connect object as connect object can be reused.
+				// 连接对象可以重用所以不用担心重复连接。
+				variable conn = ::mfp::data_struct::array_based::get_value_from_abdict(ret, "CONNECT")
+				connects[remoteIdx] = [remoteInterface, conn]
+			next
+			
+			variable dW2 = [[0, 0], [0, 0], [0, 0]], db2 = [[0, 0]], dW1 = [[0, 0, 0], [0, 0, 0]], db1 = [[0, 0, 0]]
+			while true
+				variable msg = receive_sandbox_message(-1)	// block mode.阻塞模式。
+				variable interfaceInfo = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "InterfaceInfo")
+				variable connectId = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "ConnectId")
+				variable remoteCallId = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "CallId")
+				variable msgData = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "Message")
+				variable remoteNodeId = msgData[0], isTrain = msgData[1], msgIdx = msgData[2], inputVal = msgData[3]
+				variable thisBatchIdx = 1E10
+				for variable remoteIdx = 0 to size(inputs)[0] - 1 step 1
+					if inputs[remoteIdx][0] == remoteNodeId
+						if msgIdx > inputs[remoteIdx][1]
+							// now we need to place the new inputVal to the value list
+							// the value list includes all value from latest remote idx
+							// to lastBatchIdx (excl). If one batch is missing, put null
+							// in it.
+							// 现在我们需要把新的inputVal放入值的序列中。值得序列包括所有从当前
+							// 批次到thisBatchIdx之后的一批的所有的值。如果有数据还没有到，就放入
+							// null。
+							variable inputValList = alloc_array([msgIdx - inputs[remoteIdx][1]], null)
+							inputValList[0] = [inputVal, isTrain]
+							inputs[remoteIdx][1] = msgIdx
+							inputs[remoteIdx][2] = concat_ablists(inputValList, inputs[remoteIdx][2])
+						elseif msgIdx > lastBatchIdx
+							// this is a passed message batch id, however, it may include missing data.
+							// 这不是一个最新的批次，但它有可能包含失去的数据。
+							inputs[remoteIdx][2][inputs[remoteIdx][1] - msgIdx] = [inputVal, isTrain]
+						endif
+					endif
+					if inputs[remoteIdx][1] < thisBatchIdx
+						thisBatchIdx = inputs[remoteIdx][1]
+					endif
+				next
+				if thisBatchIdx > lastBatchIdx
+					// this is a new batch.
+					//这是新的一批数据。
+					variable inputVals = alloc_array(size(inputs)[0])
+					variable inputValsValid = true
+					for variable remoteIdx = 0 to size(inputs)[0] - 1 step 1
+						inputVals[remoteIdx] = inputs[remoteIdx][2][inputs[remoteIdx][1] - thisBatchIdx]
+						if inputVals[remoteIdx] == null
+							inputValsValid = false
+							break
+						endif
+					next
+					if inputValsValid
+						// all values are valid. 所有的值都是合法的。
+						variable isThisTrain = inputVals[0, 1]
+						for variable remoteIdx = 0 to size(inputs)[0] - 1 step 1
+							variable oldValueList = inputs[remoteIdx][2]
+							inputs[remoteIdx][2] = alloc_array([inputs[remoteIdx][1] - thisBatchIdx], null)
+							for variable msgBatchIdx = 0 to size(inputs[remoteIdx][2])[0] - 1 step 1
+								inputs[remoteIdx][2][msgBatchIdx] = oldValueList[msgBatchIdx]
+							next
+						next
+						lastBatchIdx = thisBatchIdx	// update lastBatchIdx.更新lastBatchIdx。
+						// now calculate output.//计算输出。
+						variable output, addInfo
+						if nodeIdx != 7
+							// forward propagation nodes
+							// 前向傳播節點
+							variable minInputCnt = min(size(allNodes[nodeIdx][0])[0], size(inputVals)[0])
+							variable idx, sumOfWeightedInput = 0
+							for idx = 0 to minInputCnt - 1 step 1
+								sumOfWeightedInput = sumOfWeightedInput + allNodes[nodeIdx][0][idx][1] * inputVals[idx, 0]
+							next
+							output = sumOfWeightedInput + allNodes[nodeIdx][1]
+							if or(nodeIdx == 2, nodeIdx == 3, nodeIdx == 4)
+								variable expOutput = exp(Output), expMinusOutput = exp(-Output)
+								output = (expOutput - expMinusOutput)/(expOutput + expMinusOutput)
+							elseif or(nodeIdx == 5, nodeIdx == 6)
+								output = exp(output)
+							endif
+						else
+							if isThisTrain
+								// back-propagation node
+								// 後向傳播調整參數的節點
+								// back-propagation
+								variable params = get_params_from_nodes(allNodes)
+								variable W1 = params[0], b1 = params[1], W2 = params[2], b2 = params[3]
+								variable delta3 = [[inputVals[5, 0]/(inputVals[5, 0]+inputVals[6, 0]), inputVals[6, 0]/(inputVals[5, 0]+inputVals[6, 0])]]
+								variable yIndex = mod(thisBatchIdx, size(y)[0])
+								delta3[0, y[yIndex]] = delta3[0, y[yIndex]] - 1
+								dW2 = dW2 + [[inputVals[2, 0]], [inputVals[3, 0]], [inputVals[4, 0]]] * delta3
+								db2 = db2 + delta3
+								variable delta2 = delta3 * W2'
+								delta2[0, 0] = delta2[0, 0] * (1 - inputVals[2, 0] **2)
+								delta2[0, 1] = delta2[0, 1] * (1 - inputVals[3, 0] **2)
+								delta2[0, 2] = delta2[0, 2] * (1 - inputVals[4, 0] **2)
+								dW1 = dW1 + [[inputVals[0, 0]], [inputVals[1, 0]]] * delta2
+								db1 = db1 + delta2
+								if mod(thisBatchIdx + 1, size(y)[0]) == 0
+									// ok, update W and b.進行參數更新
+									// add regularization terms (b1 and b2 don't have regularization terms)
+									// 加入regularization（只有W1和W2有）
+									variable epsilon = 0.01, regLambda = 0.01
+									dW1 = dW1 + regLambda * W1
+									dW2 = dW2 + regLambda * W2
+									
+									// gradient descent parameter update
+									//根据梯度更新参数
+									W1 = W1 - epsilon * dW1
+									b1 = b1 - epsilon * db1
+									W2 = W2 - epsilon * dW2
+									b2 = b2 - epsilon * db2
+					
+									// calculate regulatization term to loss. 计算egulatization的误差部分
+									variable weightSqr = 0
+									for variable idx = 0 to size(W1)[0] - 1 step 1
+										for variable idx1 = 0 to size(W1)[1] - 1 step 1
+											weightSqr = weightSqr + W1[idx, idx1] ** 2
+										next
+									next
+									for variable idx = 0 to size(W2)[0] - 1 step 1
+										for variable idx1 = 0 to size(W2)[1] - 1 step 1
+											weightSqr = weightSqr + W2[idx, idx1] ** 2
+										next
+									next
+									addInfo = weightSqr
+									
+									// update allNodes, allNotes new value will be propagated to all other nodes
+									//更新allNodes好让别的call程序块知道。
+									allNodes = update_nodes(allNodes, W1, b1, W2, b2)
+									
+									// reset dW1, db1, dW2 and db2
+									// 重設dw1，db1，dW2和db2
+									dW2 = [[0, 0], [0, 0], [0, 0]]
+									db2 = [[0, 0]]
+									dW1 = [[0, 0, 0], [0, 0, 0]]
+									db1 = [[0, 0, 0]]
+								endif
+							endif
+							output = inputVals[5, 0]/(inputVals[5, 0] + inputVals[6, 0])
+						endif
+						variable msg2Next = [nodeIdx, isThisTrain, thisBatchIdx, output, addInfo]
+						// now lets send start message to other nodes
+						// 现在发送消息给别的节点
+						for variable connIdx = 0 to size(connects)[0] - 1 step 1
+							variable remoteNodeId = allNodes[nodeIdx, 2, connIdx]
+							if remoteNodeId != -1
+								// send the output to remote
+								// 将输出发给远端
+								variable remoteCallId = allNodes[remoteNodeId, 4]
+								if remoteCallId != null
+									try
+										::mfp::paracomp::connect::send_sandbox_message(connects[connIdx, 1], connects[connIdx, 0], firstDevLocalAddr, remoteCallId, msg2Next)
+									catch
+										print("Cannot sand message from " + callInfo + " via " + connects[connIdx, 1] + " to interface " + connects[connIdx, 0] + " connectId " + firstDevLocalAddr + " callId " + remoteCallId + " mesage is " + msg2Next + "\n")
+									endtry
+								endif
+							else
+								// send to the main entity of the 1st device
+								// 发送给第一个设备的main entity
+								try
+									::mfp::paracomp::connect::send_sandbox_message(connects[connIdx, 1], msg2Next)
+								catch
+									print("Cannot sand message from " + callInfo + " to " + connects[connIdx, 1] + "\n")
+								endtry
+							endif
+						next
+						if and(nodeIdx != 7, isThisTrain, mod(thisBatchIdx + 1, size(y)[0]) == 0)
+							// actually there is still very very remote possiblity that allNodes change before suspend_until_cond(allNodes)
+							// but here we just want to test suspend_until_cond(allNodes) so we don't care.
+							// 事实上，理论上存在非常非常小的可能性，allNodes在调用suspend_until_cond(allNodes)已经被改变了。但现在我们仅仅是想测试
+							// suspend_until_cond(allNodes)所以我们不在乎。
+							suspend_until_cond(allNodes)
+						endif
+					endif
+				endif
+			loop
+		endcall callRet
+		suspend_until_cond(callId, false, "!=", -1)
+		// set callId in allNodes. Note that when this happens, call session cannot see the change.
+		//将callId填入allNodes。注意这时call程序块还看不到allNodes的变化
+		allNodes[nodeIdx, 4] = callId
+		call local
+			print("callId = " + callId + " callRet = " + callRet + "\n")
+		endcall
+	next
+	allNodes = allNodes  // update allNodes so that other call sessions and main entity can know.更新allNodes好让别的call程序块和主entity知道。
+	return allNodes // let parent function know allNodes' new value. 讓調用build_ANN的函數知道allNodes的新的值。
+endf
+
+function generate_data()
+	// create training inputs and target outputs.
+	// 创建训练输入和目标输出。
+	variable X =  [[ 0.74346118,  0.46465633], _
+				   [ 1.65755662, -0.63203157], _
+				   [-0.15878875,  0.25584465], _
+				   [-1.088752  , -0.39694315], _
+				   [ 1.768052  , -0.25443213], _
+				   [ 1.95416454, -0.12850579], _
+				   [ 0.93694537,  0.36597075], _
+				   [ 0.88446589, -0.47595401], _
+				   [ 0.80950246,  0.3505231 ], _
+				   [ 1.2278091 , -0.64785108], _
+				   [-0.38454276,  0.50916381], _
+				   [ 0.09252135, -0.31618454], _
+				   [ 1.79531658, -0.32235591], _
+				   [ 1.43861749, -0.15796611], _
+				   [-0.82364866,  0.86822754], _
+				   [ 0.99633397,  0.1731019 ], _
+				   [ 0.66388701,  0.94659669], _
+				   [ 0.13229471, -0.26032619], _
+				   [ 0.2482245 ,  0.7860477 ], _
+				   [-1.00392102,  1.15207238], _
+				   [ 2.08208438,  0.00715606], _
+				   [ 0.87081342, -0.4366643 ], _
+				   [ 0.37268327,  1.01743002], _
+				   [ 1.26735927, -0.11813675], _
+				   [-0.13270154,  1.26653562], _
+				   [ 0.20331   ,  0.19519454], _
+				   [ 1.98373996, -0.11222315], _
+				   [ 1.82749513, -0.03085446], _
+				   [-0.03857867,  0.0838378 ], _
+				   [ 0.03351023,  0.63113817], _
+				   [ 0.94193283,  0.63204507], _
+				   [-0.39131894,  0.40925201], _
+				   [ 0.88357043, -0.35868845], _
+				   [-0.01141219,  0.30437635], _
+				   [ 0.75877114,  0.76057045], _
+				   [ 1.79414416,  0.28323389], _
+				   [ 0.56116634, -0.0330033 ], _
+				   [ 0.87161309,  0.01715969], _
+				   [-0.75191922,  0.63798317], _
+				   [-0.21911253,  0.49662864], _
+				   [ 0.63711933, -0.55537183], _
+				   [-0.25531442,  0.83953933], _
+				   [ 0.57753017,  0.64564015], _
+				   [ 0.15931878, -0.02835184], _
+				   [ 1.53296943, -0.36277826], _
+				   [-0.24648981,  1.09136047], _
+				   [ 1.16443301,  0.01495781], _
+				   [-0.70574528,  0.54883003], _
+				   [ 0.16919147, -0.30895665], _
+				   [ 1.0717818 , -0.40141988], _
+				   [-0.8970433 ,  0.87690996], _
+				   [ 0.4828491 , -0.21452374], _
+				   [ 2.25536302,  0.02862685], _
+				   [-0.62523133,  0.03868576], _
+				   [ 1.22821377, -0.50119159], _
+				   [ 0.84248307,  0.55728315], _
+				   [ 0.45857236,  0.5017019 ], _
+				   [ 0.98031957, -0.56811367], _
+				   [ 0.1059936 ,  0.90514125], _
+				   [-0.21582418,  1.03521642], _
+				   [ 0.06721632, -0.1649077 ], _
+				   [-1.07873435,  0.36644163], _
+				   [ 1.60172165, -0.37604995], _
+				   [ 1.02592325,  0.42143427], _
+				   [ 1.06739115, -0.38783511], _
+				   [-1.35462041,  0.28524762], _
+				   [-0.20784982,  1.09043495], _
+				   [ 1.61652485, -0.29469483], _
+				   [ 0.26375409,  0.91508367], _
+				   [-0.99805184,  0.62420544], _
+				   [ 0.62273618, -0.52804644], _
+				   [-1.0873102 ,  0.78128608], _
+				   [ 0.01262924, -0.59715374], _
+				   [-0.52953439,  0.69307316], _
+				   [ 0.78362442, -0.25844144], _
+				   [-0.94262451,  0.57258351], _
+				   [ 0.09048712,  0.0890939 ], _
+				   [ 0.99716574,  0.35017425], _
+				   [ 0.4630177 ,  0.86392418], _
+				   [ 0.71787709, -0.09708361], _
+				   [ 2.13330659,  0.11200406], _
+				   [-0.41467068,  0.92254691], _
+				   [ 0.6233932 , -0.69422694], _
+				   [ 2.04970274,  0.66368306], _
+				   [-0.00353234,  0.21487064], _
+				   [-0.27631969,  1.34161045], _
+				   [ 0.82262609, -0.02317445], _
+				   [-0.46610015,  0.98764879], _
+				   [ 0.64426474, -0.36209808], _
+				   [ 1.96682571,  0.2646737 ], _
+				   [ 0.71060915,  0.80990546], _
+				   [ 1.12820353,  0.4664342 ], _
+				   [ 1.99150162,  0.02534858], _
+				   [-0.66342048,  0.85301441], _
+				   [ 2.0436285 ,  0.24563453], _
+				   [ 1.77377397, -0.10513907], _
+				   [ 1.773464  , -0.34102513], _
+				   [ 0.66137686, -0.31314104], _
+				   [-1.15442774,  0.40574243], _
+				   [ 0.04167562, -0.07462092], _
+				   [ 1.40426435, -0.93206382], _
+				   [ 1.99317676,  0.48903983], _
+				   [ 0.17673342,  1.3178874 ], _
+				   [ 1.12344625, -0.09556327], _
+				   [-0.64018301,  0.75214137], _
+				   [ 0.17295579,  0.60135526], _
+				   [-0.97644617,  0.03612864], _
+				   [-0.56357758,  1.15774717], _
+				   [ 1.60440089, -0.35116358], _
+				   [ 0.13387667,  0.6944329 ], _
+				   [-0.59909677,  0.76903039], _
+				   [ 0.1023533 ,  1.09326207], _
+				   [-0.22047436,  1.28343927], _
+				   [-0.70416708,  0.30649274], _
+				   [ 0.95709601,  0.30502143], _
+				   [ 1.65936346, -0.70351567], _
+				   [ 0.18911691,  0.64887424], _
+				   [ 2.02773677,  0.25021451], _
+				   [ 0.6515764 , -0.40677494], _
+				   [ 0.55688998,  0.26120887], _
+				   [ 0.81816111,  0.78952806], _
+				   [-0.48367053,  0.43679813], _
+				   [-0.14739828,  0.22556193], _
+				   [ 0.11834786,  0.99156023], _
+				   [-0.25253387,  0.18776697], _
+				   [-0.93313522,  0.73385959], _
+				   [ 0.6975216 , -0.11832611], _
+				   [ 0.33332321,  0.14006592], _
+				   [ 1.06519327, -0.38867949], _
+				   [ 1.9369961 ,  0.63112161], _
+				   [ 1.05840957,  0.51858443], _
+				   [-0.50840939,  0.55259494], _
+				   [-1.32109805,  0.51437657], _
+				   [ 0.29449971, -0.26078938], _
+				   [ 1.33653621, -0.18005761], _
+				   [ 1.51241178,  0.11081331], _
+				   [ 1.01934807, -0.17993629], _
+				   [-1.13305483,  0.11109962], _
+				   [ 2.07463826,  0.51253705], _
+				   [ 0.73451679,  0.5346233 ], _
+				   [-0.12213442,  0.15292037], _
+				   [-0.0557186 ,  0.57286794], _
+				   [ 0.45046033,  1.09585861], _
+				   [-0.7204608 ,  1.01733354], _
+				   [-0.33698825,  0.89060661], _
+				   [ 1.0628775 ,  0.17231496], _
+				   [ 0.34005355,  0.32486358], _
+				   [ 1.24491552, -0.5137574 ], _
+				   [ 0.30966003,  1.16677531], _
+				   [-0.06114159, -0.02921072], _
+				   [ 0.48281721, -0.43196099], _
+				   [ 1.68734249, -0.6872367 ], _
+				   [ 0.80862106,  0.28415372], _
+				   [ 0.29809162,  0.82211432], _
+				   [ 0.8496547 , -0.30507345], _
+				   [-0.3802171 ,  0.88414623], _
+				   [ 1.32734432, -0.48056888], _
+				   [ 0.23337057,  0.10750568], _
+				   [ 0.68841773,  1.15068264], _
+				   [ 0.6779624 ,  0.78024482], _
+				   [ 0.3395913 , -0.02223857], _
+				   [ 1.30440877, -0.52950917], _
+				   [ 0.75307594,  0.8526869 ], _
+				   [ 1.4298847 , -0.21080222], _
+				   [ 0.55631903, -0.70781481], _
+				   [ 1.45384401,  0.12718529], _
+				   [ 0.3203754 ,  0.87271389], _
+				   [ 0.53148147, -0.27424077], _
+				   [ 1.51658699, -0.45069719], _
+				   [ 0.99826403, -0.80979075], _
+				   [ 0.63918299,  0.96606739], _
+				   [-1.2855903 ,  0.10677262], _
+				   [-1.07840959,  0.56402523], _
+				   [-0.57716798,  0.2942259 ], _
+				   [ 0.25403599, -0.00644002], _
+				   [ 0.91722632, -0.29657499], _
+				   [ 1.43380709,  0.69183071], _
+				   [-0.70851168,  0.49617855], _
+				   [-0.64683386,  0.46971252], _
+				   [ 0.30143461,  0.76398572], _
+				   [ 1.48069489, -0.3572808 ], _
+				   [-1.02663961,  0.41265823], _
+				   [ 1.89660871,  0.25413209], _
+				   [ 2.04251223, -0.46074593], _
+				   [ 1.92673019,  0.40817963], _
+				   [ 0.35766276,  1.0872811 ], _
+				   [ 0.1240315 ,  0.67672995], _
+				   [ 0.97332087, -0.70530678], _
+				   [-0.72894228,  0.44179419], _
+				   [-0.69863061,  0.77620293], _
+				   [-0.93516752,  0.43520803], _
+				   [ 0.45166927,  1.00185497], _
+				   [ 0.87629641,  0.28951999], _
+				   [ 0.88155818,  0.23925957], _
+				   [-0.07795147,  0.27995261], _
+				   [-0.56365899,  0.8918972 ], _
+				   [ 1.6049806 ,  0.13835516], _
+				   [ 0.27695668,  0.01210816], _
+				   [ 0.25919429,  1.04104213], _
+				   [ 1.5215205 , -0.1258923 ]]
+	variable y =  [0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, _
+				   0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, _
+				   1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, _
+				   0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, _
+				   1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, _
+				   0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, _
+				   0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, _
+				   1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, _
+				   1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, _
+				   0, 1]
+	return [X, y]
+endf
+
+endcs

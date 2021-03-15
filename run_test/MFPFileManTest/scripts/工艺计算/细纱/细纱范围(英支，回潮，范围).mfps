@@ -1,0 +1,13 @@
+Help
+@language:simplified_chinese
+输入英支，回潮，范围得出干重，范围
+@end
+endh
+
+function xi_sha_fan_wei(ying_zhi,hui_chao,fan_wei)
+variable tex,gan_zhong,shi_zhong
+tex=round(10*(583.1/ying_zhi))/10
+gan_zhong=round(10**3*(tex/1.085/10))/10**3
+shi_zhong=gan_zhong*(1+hui_chao/100)
+return [gan_zhong,[round(10**2*shi_zhong*(1-fan_wei/100))/10**2, xiao_shu_dian(shi_zhong*(1+fan_wei/100),2)]]
+endf

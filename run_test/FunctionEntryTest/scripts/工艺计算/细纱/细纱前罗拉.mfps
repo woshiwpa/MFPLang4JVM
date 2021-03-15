@@ -1,0 +1,22 @@
+function xi_sha_n_qian513()
+print("****************************************\n")
+
+variable n_qian,n_ding,D1,D2,Tt,n_qian_yu_she,
+variable D1_s=[240,235,230,220,200,180,170,165,160,150,140],D2_s=D1_s
+
+Tt=input("捻度=")
+
+for variable idx1=0 to 10 step 1
+D1=D1_s[idx1]
+        for variable idx2=0 to 10 step 1
+        D2=D2_s[idx2]
+        n_ding=round(15950*D1/D2)
+        n_qian=round(100*n_ding/Tt/(3.14*25))
+        
+        //此处可加条件显示
+        print("前罗拉速度："+n_qian+"，锭速="+n_ding+"，D1/D2="+D1+"/"+D2+"\n")
+        next
+next
+print("****************************************\n")
+
+endf

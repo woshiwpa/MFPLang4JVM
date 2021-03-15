@@ -1,0 +1,63 @@
+function zhi_pian_Ne()
+variable tex,g_sha,hui_chao,Ne,g_cheng,zhi_pian,g_mu_biao
+Ne=input("纱线支数=")
+tex=round(583.1/Ne,1)
+g_sha=round(tex/10.85,3)
+print("纱线干重="+g_sha+"\n")
+g_cheng=input("纺重=")
+hui_chao=input("回潮=")
+g_mu_biao=round(g_sha*(1+hui_chao/100),3)
+print("目标纺重="+g_mu_biao+"\n")
+zhi_pian=round((g_cheng/(1+hui_chao/100)-g_sha)/g_sha*100,2)
+print("支偏="+zhi_pian+"%\n")
+endf
+
+
+
+function zhi_pian()
+variable tex,g_sha,hui_chao,Ne,g_cheng,zhi_pian
+print("\n")
+g_sha=input("设计干重=")
+hui_chao=input("回潮=")
+do
+g_cheng=input("纺重=")
+zhi_pian=round((g_cheng/(1+hui_chao/100)-g_sha)/g_sha*100,2)
+print("支偏="+zhi_pian+"%\n\n")
+until g_cheng==e
+endf
+
+Help
+@language:simplified_chinese
+函数zhi_pian在依次输入称重、回潮、干重后可计算出支偏(保留2位小数)
+@end
+endh
+function zhi_pian(cheng_zhong,hui_chao,gan_zhong)
+variable shi_ji_gan_zhong,zhi_pian
+shi_ji_gan_zhong=cheng_zhong/(1+hui_chao/100)
+zhi_pian=100*(shi_ji_gan_zhong-gan_zhong)/gan_zhong
+return round(10**2*zhi_pian)/10**2
+endf
+
+
+Help
+@language:simplified_chinese
+函数zhi_pian_ying_zhi在依次输入称重、回潮、英支后可计算出干重，标准湿重和支偏(保留2位小数)
+@end
+endh
+function zhi_pian_ying_zhi(cheng_zhong,hui_chao,ying_zhi)
+variable shi_ji_gan_zhong,zhi_pian,gan_zhong,shi_zhong
+gan_zhong=yarn_dry(ying_zhi)
+shi_ji_gan_zhong=cheng_zhong/(1+hui_chao/100)
+zhi_pian=100*(shi_ji_gan_zhong-gan_zhong)/gan_zhong
+shi_zhong=round(10**3*(gan_zhong*(1+hui_chao/100)))/10**3
+return [gan_zhong,shi_zhong,round(10**2*zhi_pian)/10**2]
+endf
+
+//接近函数
+function zhi_pian(g_cheng)
+variable tex,g_sha,hui_chao,Ne,zhi_pian
+g_sha=input("设计干重=")
+hui_chao=input("回潮=")
+zhi_pian=round((g_cheng/(1+hui_chao/100)-g_sha)/g_sha*100,2)
+print("支偏="+zhi_pian+"%\n")
+endf

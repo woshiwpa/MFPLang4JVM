@@ -1,0 +1,41 @@
+Help
+@language:simplified_chinese
+函数mian_juan300在输入后两位数据后计算结果依次为平均值，总个数，以下平均，以下个数，不匀率。
+@end
+endh
+function mian_juan300(...)
+if opt_argc < 1
+Throw "Need at least one parameter!"
+Endif
+Variable oldSum_value
+oldSum_value=0
+For variable index = 1 to opt_argc step 1
+oldSum_value=oldSum_value+opt_argv[index-1]
+Next
+Variable old_value
+old_value=0
+old_value=round(10**2*(oldSum_value/opt_argc))/10**2
+Variable n
+n=0
+Variable m
+m=0
+Variable newSum_value
+newSum_value=0
+While n!=opt_argc
+if opt_argv[n]< old_value
+newSum_value=newSum_value+opt_argv[n]
+m=m+1
+Endif
+n=n+1
+Loop
+if m==0
+return [round(10**2*(300+old_value))/10**2,opt_argc,0,0,0]
+Endif
+Variable new_value
+new_value=0
+new_value=round(10**2*(newSum_value/m))/10**2
+variable cv
+cv=(old_value-new_value)*(2*m)/((300+old_value)*opt_argc)
+return [300+old_value,opt_argc,300+new_value,m,round(10**2*100*cv)/10**2]
+
+Endf

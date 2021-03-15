@@ -1,0 +1,126 @@
+function xi_sha_nian_du506()
+variable Za,Zb,Zc,Tt,Zb_s=[86,82,75,68,62,58,52]
+
+for variable idx=0 to 8-1 step 1
+Zb=Zb_s[idx]
+Za=120-Zb
+    for Zc=31 to 42 step 1
+    Tt=round(2016.4*Zb/Za/Zc,1)
+    print("捻度="+Tt+"，Zb/Za="+Zb+"/"+Za+"，Zc="+Zc+"\n")
+    next
+next
+endf
+
+function xi_sha_D506()
+variable D1,D2,ding_su,D1_s=[210,200,190,180,170],D2_s=[180,190,200,210,220,230,240]
+for variable idx1=0 to 4 step 1
+print("\n")
+D1=D1_s[idx1]
+        for variable idx2=0 to 6 step 1
+        D2=D2_s[idx2]
+        ding_su=round(16060*D1/D2)
+        print("锭速:"+ding_su+"，D1/D2="+D1+"/"+D2+"\n")
+        next
+next
+endf
+
+function xi_sha_hou506()
+variable Zh,Zm,i_hou,Zh_s=[27],Zm_s=[35,33,32,31,30,29,28,27,26]
+for variable idx1=0 to 8 step 1
+print("\n")
+Zm=Zm_s[idx1]
+     for variable idx2=0 to 0 step 1
+     Zh=Zh_s[idx2]
+     i_hou=round(1.0577*Zm/Zh,3)
+     print("后区牵伸倍数："+i_hou+"，Zm/Zh="+Zm+"/"+Zh+"\n")
+     next
+next
+endf
+
+
+function xi_sha_Juan506()
+ variable Zf,Zg,Zf_s=[77,70,66,64,62,60,54,52,50,48,45]
+ for variable idx=0 to 10 step 1
+ Zf=Zf_s[idx]
+ Zg=122-Zf
+ print("Zf/Zg="+Zf+"/"+Zg+"\n")
+ next
+ endf
+ 
+function xi_sha_zong_ya506()
+variable Ze,Zd,Zh,Zj,Zk,i_zong,Ze_Zd_s=[20,25,27,31,32,33,34,35,36,37,38,39,42,44,45,47,48,50,52,54,58,60,62,64,68,70,71,72,74,75,77,79,80,81,82,83,84,85,86,87,88],Zk_s=[81,62]
+for variable idx1=0 to 1 step 1
+print("\n")
+Zk=Zk_s[idx1]
+Zj=106-Zk
+       for variable idx2=0 to 40 step 1
+       print("\n")
+       Zd=Ze_Zd_s[idx2]
+            for variable idx3=0 to 40 step 1
+            Ze=Ze_Zd_s[idx3]
+            i_zong=round(6.9667*Ze/Zd*Zk/Zj,2)
+            if and(i_zong<55,i_zong>25)
+            if Ze+Zd>99
+            print(i_zong+"，Zk/Zj="+Zk+"/"+Zj+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+           endif
+           endif
+            next
+       next
+next
+
+endf
+
+
+
+选择接近函数
+
+function xi_sha_zong_ya506(i_zong_yu_she)
+variable Ze,Zd,Zh,Zj,Zk,i_zong,Ze_Zd_s=[20,25,27,31,32,33,34,35,36,37,38,39,42,44,45,47,48,50,52,54,58,60,62,64,68,70,71,72,74,75,77,79,80,81,82,83,84,85,86,87,88],Zk_s=[81,62]
+
+variable x
+x=input("临近范围=")
+for variable idx1=0 to 1 step 1
+print("\n")
+Zk=Zk_s[idx1]
+Zj=106-Zk
+       for variable idx2=0 to 40 step 1
+       
+       Zd=Ze_Zd_s[idx2]
+            for variable idx3=0 to 40 step 1
+            Ze=Ze_Zd_s[idx3]
+            i_zong=round(6.9667*Ze/Zd*Zk/Zj,2)
+            if and(i_zong<55,i_zong>23,i_zong<i_zong_yu_she+x,i_zong>i_zong_yu_she-x)
+            if Ze+Zd>99
+            print(i_zong+"，Zk/Zj="+Zk+"/"+Zj+"，Ze/Zd="+Ze+"/"+Zd+"\n")
+           endif
+           endif
+            next
+       next
+next
+
+endf
+
+
+function xi_sha_nian_du506(yu_she)
+variable Za,Zb,Zc,Tt,fan_wei,Zb_s=[86,82,75,68,62,58,52]
+fan_wei=input("显示范围=")
+for variable idx=0 to 7-1 step 1
+Zb=Zb_s[idx]
+Za=120-Zb
+    for Zc=31 to 42 step 1
+    Tt=round(2016.4*Zb/Za/Zc,1)
+    if abs(Tt-yu_she)<=fan_wei
+    print("捻度="+Tt+"，Zb/Za="+Zb+"/"+Za+"，Zc="+Zc+"\n")
+    endif
+    next
+next
+endf
+
+
+
+
+
+
+
+
+

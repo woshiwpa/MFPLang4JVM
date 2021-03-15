@@ -1,0 +1,5 @@
+function nxs(nian_du,gan_zhong)
+variable tex
+tex=108.5*gan_zhong
+return nian_du*pow(tex,0.5)
+endf

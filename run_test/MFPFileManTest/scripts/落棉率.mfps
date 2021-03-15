@@ -1,0 +1,42 @@
+function luo_mian_lv()
+variable g_tiao,g_luo,g_juan1,g_juan2,g_juan,luo_mian_lv
+variable luo_ping_jun=0
+variable xuan_ze
+do
+print("计算普精落棉填1，高精落棉填2\n")
+xuan_ze=input("请选择：")
+until or(xuan_ze==1,xuan_ze==2)
+
+if xuan_ze==1
+for variable idx1=1 to 6 step 1
+g_juan1=input("第"+idx1+"个测前棉卷重量=")
+g_juan2=input("第"+idx1+"个测后棉卷重量=")
+g_juan=g_juan1-g_juan2
+g_luo=input("第"+idx1+"个落棉重量=")
+luo_mian_lv=round(g_luo/g_juan*100,2)
+print("第"+idx1+"个落棉率="+luo_mian_lv+"%\n\n")
+luo_ping_jun=(luo_ping_jun+luo_mian_lv)/idx1
+next
+print("平均落棉率="+luo_ping_jun+"%\n")
+endif
+
+if xuan_ze==2
+variable idx2=0.luo_mian_lv_s
+print("在棉条重量处输入e可以结束\n")
+while true
+
+g_tiao=input("第"+(idx2+1)+"棉条重量=")
+if g_tiao==e
+break
+endif
+g_luo=input("第"+(idx2+1)+"落棉重量=")
+luo_mian_lv]=round(g_luo/(g_tiao+g_luo)*100,2)
+print("第"+(idx2+1)+"个落棉率="+luo_mian_lv+"%\n")
+set_array_elem(luo_mian_lv_s,idx2,luo_mian_lv)
+idx2=idx2+1
+
+for variable idx3=0 to idx2 step 1
+luo_mian_lv
+
+endif
+endf

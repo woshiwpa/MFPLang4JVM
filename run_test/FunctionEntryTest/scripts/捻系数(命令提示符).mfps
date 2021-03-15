@@ -1,0 +1,43 @@
+Help
+@language:simplified_chinese
+函数Tt用于在命令提示符界面计算捻系数，输入英支数和捻度可得到结果
+@end
+endh
+
+function Ta()
+variable Tt,Ne,Ta,tex,g_sha,g_cu,g
+print("\n")
+
+variable xuan_ze
+do
+xuan_ze=input("计算粗纱填1，计算细纱填2：")
+until or(xuan_ze==1,xuan_ze==2)
+if xuan_ze==1
+g_cu=input("粗纱干重=")
+g=g_cu
+tex=round(g_cu*100*1.085,1)
+endif
+if xuan_ze==2
+
+variable xuan_ze2
+do
+xuan_ze2=input("已知英支数填1，已知干重填2：")
+until or(xuan_ze2==1,xuan_ze2==2)
+if xuan_ze2==1
+Ne=input("纱线英支=")
+tex=round(583.1/Ne,1)
+g_sha=round(tex/10/1.085,3)
+endif
+if xuan_ze2==2
+g_sha=input("纱线干重=")
+tex=round(g_sha*10*1.085,1)
+endif
+g=g_sha
+endif
+print("TEX="+tex+"\n")
+print("干重="+g+"\n")
+Tt=input("捻度=")
+Ta=round(Tt*sqrt(tex))
+print("\n")
+print("捻系数="+Ta+"\n")
+endf

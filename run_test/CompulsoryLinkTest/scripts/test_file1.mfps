@@ -1,0 +1,71 @@
+
+	citingspace CS_A::CS_B
+
+	@compulsory_link get_all_referred_units()
+
+	function inCSA_CSB(a, b, c)
+		if false
+			@compulsory_link get_functions("intopcs", "intopcs2(3)", "::CS_D::CS_E :: cs_F::inCSD_CSE_CSF", "inCSD_CSE_CSF2")
+		endif
+	endf
+
+		citingspace CS_C
+
+			citingspace ::CS_D::CS_E :: cs_F
+
+			function inCSD_CSE_CSF()
+			endf
+			function inCSD_CSE_CSF2()
+				@compulsory_link get_functions("inCSD_CSE_CSF2(2)")
+			endf
+
+			endcs
+
+		function inCSA_CSB_CSC(a)
+			select a
+			using citingspace ::CS_D::CS_G
+			@compulsory_link get_functions("inCSD_CSG(2)")
+			case 2
+				break
+				using citingspace ::CS_D::CS_G
+				@compulsory_link get_functions("inCSD_CSG2(5)")				
+			case 3
+				@compulsory_link get_functions("inCSD_CSG(3)")
+				if true
+					break
+				endif
+				using citingspace ::CS_D::CS_G
+				@compulsory_link get_functions("inCSD_CSG(4)")
+				using citingspace ::CS_D::CS_E :: cs_F
+			default
+				@compulsory_link get_functions("inCSD_CSE_CSF2")
+			ends
+		endf
+		endcs
+
+		citingspace ::CS_D::CS_G
+
+		function inCSD_CSG(a, b)
+		endf
+
+		function inCSD_CSG(a, b, c)
+		endf
+
+		function inCSD_CSG(a, b, c, d)
+		endf
+		
+		function inCSD_CSG(a, b, c, d, e)
+			CS_H::CS_I::inCSD_CSG_CSH_CSI(a,b,c,d)
+		endf
+
+		function inCSD_CSG2(a, b, c, d, e)
+			@compulsory_link get_functions("CS_H::CS_I::inCSD_CSG_CSH_CSI(4)")
+			@compulsory_link get_functions("CS_D::inCSD")
+		endf
+
+		endcs
+
+	endcs
+
+function inTopCS(a, ...)
+endf

@@ -1,0 +1,15 @@
+function fang_da_xi_shu322()
+variable Go,Gi,Wi,Wii,t,A,An
+print("\n")
+t=input("正常喂入总根数=")
+print("减掉一根后根数="+(t-1)+"\n")
+Gi=round(-1/t,4)
+print("gi="+round(Gi*100,2)+"%\n")
+Wi=input(t+"根时平均重量=")
+Wii=input((t-1)+"根时平均重量=")
+Go=round((Wii-Wi)/Wi,4)
+print("go="+round(Go*100,2)+"%\n")
+A=input("当前放大系数=")
+An=round(A*Gi/(Gi-Go))
+print("调后放大系数="+An+"\n")
+endf

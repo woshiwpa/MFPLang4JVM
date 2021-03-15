@@ -1,0 +1,9 @@
+
+citingspace AAAC
+citingspace BBB::DeF
+
+class ClassBold
+endclass
+
+endcs // BBB::DeF
+endcs // AAAC

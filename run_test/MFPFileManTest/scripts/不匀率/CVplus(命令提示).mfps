@@ -1,0 +1,101 @@
+function CVplus()
+print("省略所有数据的共同部分，剩余部分放大需要的倍数后输入，结果正常显示\n")
+print("\n")
+variable f,fang_da_bei_shu,zong_ge_shu=0,shu_ru_zhi=0,zong_he=0,zong_ping_jun=0,yi_xia_ge_shu=0,yi_xia_he=0,yi_xia_ping_jun,bu_yun_lv,cv,shu_ru_s,index=0
+f=input("结果中平均值保留小数点后位数=")
+print("\n")
+variable gong_tong
+gong_tong=input("共同部分数字=")
+print("\n")
+
+print("不放大填0，即10的0次方，放大100倍填2，即10的2次方\n")
+print("\n")
+fang_da_bei_shu=input("放大10的几次方倍=")
+print("温馨提示：输入 e 可以查看结果\n")
+do
+while (true)
+
+shu_ru_zhi=input("输入第"+(index+1)+"个数：")
+if shu_ru_zhi==e
+break
+endif
+set_array_elem(shu_ru_s,index,shu_ru_zhi)
+index=index+1
+zong_he=zong_he+shu_ru_zhi
+zong_ge_shu=zong_ge_shu+1
+
+zong_ping_jun=round(zong_he/zong_ge_shu,f-fang_da_bei_shu)
+loop
+
+yi_xia_he=0
+yi_xia_ping_jun=0
+yi_xia_ge_shu=0//清空缓存值，否则继续添加数据时数据会叠加产生错误
+
+for variable idx=0 to index-1 step 1
+if shu_ru_s[idx]<zong_ping_jun
+yi_xia_ge_shu=yi_xia_ge_shu+1
+
+yi_xia_he=yi_xia_he+shu_ru_s[idx]
+endif
+next
+if yi_xia_ge_shu==0
+yi_xia_he=0.00
+bu_yun_lv=0.00
+cv=0.00
+else
+yi_xia_ping_jun=round(yi_xia_he/yi_xia_ge_shu,f-fang_da_bei_shu)
+
+zong_ping_jun=gong_tong+zong_ping_jun/10**fang_da_bei_shu
+yi_xia_ping_jun=gong_tong+yi_xia_ping_jun/10**fang_da_bei_shu
+
+ //将结果恢复
+
+bu_yun_lv=round((zong_ping_jun-yi_xia_ping_jun)*2*yi_xia_ge_shu/(zong_ping_jun*zong_ge_shu)*100,2)
+
+for variable idx=0 to zong_ge_shu-1 step 1
+shu_ru_s[idx]=gong_tong+shu_ru_s[idx]/10**fang_da_bei_shu
+next
+print("\n要计算的数："+shu_ru_s+"\n")
+cv_s(shu_ru_s,f)
+for variable idx=0 to zong_ge_shu-1 step 1
+shu_ru_s[idx]=(shu_ru_s[idx]-gong_tong)*10**fang_da_bei_shu
+next//恢复放大输入数，方便加入数据
+
+endif
+
+while (true)
+
+if zong_ge_shu<1
+break
+endif
+print("\n")
+
+
+print("\n")
+print("总平均值="+zong_ping_jun+"\n")
+print("总个数="+zong_ge_shu+"\n")
+print("以下平均="+yi_xia_ping_jun+"\n")
+print("以下个数="+yi_xia_ge_shu+"\n")
+print("不匀率="+bu_yun_lv+"%\n")
+print("\n")
+
+if (true)
+break
+endif
+loop
+if zong_ge_shu<1
+print("请至少输入一个数据\n")
+endif
+print("是否添加数据?添加请填1，结束计算填其余数\n")
+variable xuan_ze
+xuan_ze=input("请选择：")
+until xuan_ze!=1
+
+for variable idx=0 to zong_ge_shu-1 step 1
+shu_ru_s[idx]=gong_tong+shu_ru_s[idx]/10**fang_da_bei_shu
+next
+print("\n要计算的数："+shu_ru_s+"\n")
+
+fan_wei_s(shu_ru_s,zong_ge_shu,zong_ping_jun)
+
+endf

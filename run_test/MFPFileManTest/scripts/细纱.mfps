@@ -1,0 +1,163 @@
+Help
+@language:simplified_chinese
+依次输入机型、Za、Zb、Zc、Zd、Ze、Zm、Zh、Zk、Zj，D1、D2可以计算出捻度，前罗拉速度，锭速，总牵伸，后区牵伸。
+@end
+endh
+function xi_sha()
+variable nian_du,ding_su,qian_luo_la_su,i_hou,i_zong,Za,Zb,Zc,Zd,Ze,Zk,Zj,Zm,Zh,D1,D2,ji_xing
+ji_xing=input("细纱机型：")
+if ji_xing==513
+Zb=input("Zb=")
+Za=126-Zb
+Zb=input("Zb=")
+Za=input("Za=")
+Zc=input("Zc=")
+Zc=input("Zc=")
+nian_du=round(2857.2*Zb/Za/Zc,2)
+print("捻度=")
+print(nian_du)
+print("\n")
+D1=input("D1=")
+D2=input("D1=")
+ding_su=round(15950*D1/D2)
+print("锭速=")
+print(ding_su)
+print("\n")
+qian_luo_la_su=round(7.1078*Za*Zc/Zb*D1/D2)
+print("n前=")
+print(qian_luo_la_su)
+print("\n")
+Zh=input("Zh=")
+i_hou=round(62.5/Zh,3)
+
+Ze=input("Ze=")
+Zd=input("Zd=")
+i_zong=round(1050.463*Ze/Zd/Zh,2)
+print("i后=")
+print(i_hou)
+print("\n")
+print("i_总=")
+print(i_zong)
+print("\n")
+print("\n")
+print ("细纱机型："+ji_xing+"\n")
+print("捻度="+nian_du+"\n")
+print("n前="+qian_luo_la_su+"\n")
+print("锭速="+ding_su+"\n")
+print("i_总="+i_zong+"\n")
+print("i_后="+i_hou+"\n")
+
+endif
+if ji_xing==502
+Zb=input("Zb=")
+Za=126-Zb
+print("Za="+Za+"\n")
+Zc=input("Zc=")
+nian_du=round(3428.58*Zb/Za/Zc,1)
+print("捻度="+nian_du+"\n")
+D1=input("D1=")
+D2=input("D2=")
+ding_su=round(16060*D1/D2)
+qian_luo_la_su=round(5.964*Za*Zc/Zb*D1/D2,0)
+print("锭速="+ding_su+"\n"+"前罗拉转速="+qian_luo_la_su+"\n")
+Zm=input("Zm=")
+Zh=input("Zh=")
+i_hou=round(1.0188*Zm/Zh,3)
+print("后区牵伸倍数="+i_hou+"\n")
+Zk=input("Zk=")
+Zj=95-Zk
+print("Zj="+Zj+"\n")
+Ze=input("Ze=")
+Zd=input("Zd=")
+i_zong=round(7.0956*Ze/Zd*Zk/Zj,2)
+print("总牵伸倍数="+i_zong+"\n")
+
+endif
+if ji_xing==506
+nian_du=2016.4*Zb/Za/Zc
+ding_su=16060*D1/D2
+qian_luo_la_su=10.138*Za*Zc/Zb*D1/D2
+i_hou=1.0577*Zm/Zh
+i_zong=6.9667*Ze/Zd*Zk/Zj
+return [ji_xing,nian_du,qian_luo_la_su,ding_su,i_zong,i_hou]
+
+endif
+if ji_xing==128
+
+nian_du=73.88*Zb/Za
+ding_su=16411*D1/D2
+qian_luo_la_su=282.816*Za/Zb*D1/D2
+i_hou=0.03769*Zh
+i_zong=17.93*Ze/Zd
+return [ji_xing,nian_du,qian_luo_la_su,ding_su,i_zong,i_hou]
+
+endif
+return "error ji_xing"
+
+endf
+
+
+Help
+@language:simplified_chinese
+依次输入Za、Zb、Zc、Zd、Ze、Zm，D1、D2可以计算出513w的捻度，前罗拉速度，锭速，总牵伸，后区牵伸。
+@end
+endh
+function xi_sha_513w(Za,Zb,Zc,Zd,Ze,Zh,D1,D2)
+variable ji_xing,nian_du,ding_su,qian_luo_la_su,i_hou,i_zong
+ji_xing=513
+nian_du=2857.2*Zb/Za/Zc
+ding_su=15950*D1/D2
+qian_luo_la_su=7.1078*Za*Zc/Zb*D1/D2
+i_hou=62.5/Zh
+i_zong=1050.463*Ze/Zd/Zh
+return [ji_xing,round(10*nian_du)/10,round(100*qian_luo_la_su)/100,round(ding_su),round(100*i_zong)/100,round(100*i_hou)/100]
+
+
+Help
+@language:simplified_chinese
+依次输入Za、Zb、Zc、Zd、Ze、Zm、Zh、Zk、Zj，D1、D2可以计算出FA506捻度，前罗拉速度，锭速，总牵伸，后区牵伸。
+@end
+endh
+function xi_sha506(Za,Zb,Zc,Zd,Ze,Zh,Zm,Zk,Zj,D1,D2)
+variable nian_du,ding_su,qian_luo_la_su,i_hou,i_zong,ji_xing
+ji_xing=506
+nian_du=2016.84*Zb/Za/Zc
+ding_su=16060*D1/D2
+qian_luo_la_su=10.138*Za*Zc/Zb*D1/D2
+i_hou=1.0577*Zm/Zh
+i_zong=6.0667*Ze/Zd*Zk/Zj
+
+return [ji_xing,round(10*nian_du)/10,round(100*qian_luo_la_su)/100,round(ding_su),round(100*i_zong)/100,round(100*i_hou)/100]
+
+Help
+@language:simplified_chinese
+依次输入Za、Zb、Zd、Ze,Zh，D1、D2可以计算出捻度，前罗拉速度，锭速，总牵伸，后区牵伸。
+@end
+endh
+function xi_sha128(Za,Zb,Zd,Ze,Zh,D1,D2)
+variable nian_du,ding_su,qian_luo_la_su,i_hou,i_zong,ji_xing
+ji_xing=128
+nian_du=73.88*Zb/Za
+ding_su=16411*D1/D2
+qian_luo_la_su=282.816*Za/Zb*D1/D2
+i_hou=0.03769*Zh
+i_zong=17.93*Ze/Zd
+
+return [ji_xing,round(10*nian_du)/10,round(100*qian_luo_la_su)/100,round(ding_su),round(100*i_zong)/100,round(100*i_hou)/100]
+
+
+Help
+@language:simplified_chinese
+依次输入Za、Zb、Zc,Zd、Ze,Zh，Zm,Zk,Zj,D1、D2可以计算出502捻度，前罗拉速度，锭速，总牵伸，后区牵伸。
+@end
+endh
+function xi_sha502(Za,Zb,Zc,Zd,Ze,Zh,D1,D2)
+variable nian_du,ding_su,qian_luo_la_su,i_hou,i_zong,ji_xing
+ji_xing==502
+nian_du=3428.58*Zb/Za/Zc
+ding_su=16060*D1/D2
+qian_luo_la_su=5.964*Za*Zc/Zb*D1/D2
+i_hou=1.0188*Zm/Zh
+i_zong=7.0956*Ze/Zd*Zk/Zj
+
+return [ji_xing,round(10*nian_du)/10,round(100*qian_luo_la_su)/100,round(ding_su),round(100*i_zong)/100,round(100*i_hou)/100]

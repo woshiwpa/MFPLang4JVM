@@ -1,0 +1,34 @@
+function tiao_ya_bing_tiao()
+variable g_xian,g_hou,Tdc,Tdc_xian,Fc,Fc_xian,i_xi_shu,i_xi_shu_xian
+g_xian=input("当前称重=")
+print("输入当前车上牙齿数\n")
+Tdc_xian=input("轻重牙Tdc=")
+Fc_xian=input("冠牙Fc=")
+i_xi_shu_xian=round(67/39*54/44*Fc_xian/Tdc_xian,3)
+print("当前牵伸常数="+i_xi_shu_xian+"\n")
+print("选择接近的牵伸常数\n")
+
+for Tdc=41 to 31 step -1
+        for Fc=98 to 101 step 1
+        i_xi_shu=round(67/39*54/44*Fc/Tdc,3)
+        if and(i_xi_shu<i_xi_shu_xian+0.5,i_xi_shu>i_xi_shu_xian-0.5)
+        print("牵伸常数："+i_xi_shu+"，Tdc/Fc="+Tdc+"/"+Fc+"\n")
+        endif
+        next
+next
+print("偏轻选择比当前小的牵伸常数，偏重选择比当前小的牵伸常数\n")
+
+     do
+i_xi_shu=input("选择调后牵伸常数=")
+g_hou=round(g_xian*i_xi_shu_xian/i_xi_shu,3)
+print("调后重量="+g_hou+"\n")
+
+      print("是否满足要求?\n")
+      variable xuan_ze
+      xuan_ze=input("需要重新选择请填1，否则填别的数字：")
+      until  xuan_ze!=1
+        
+
+
+endf
+
