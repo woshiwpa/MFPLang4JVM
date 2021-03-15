@@ -1,2 +1,4 @@
 # MFPLang4JVM
-MFP, i.e. Mathematical language For Parallel computing, is a object oriented scripting language aiming at solving mathematical problems and undertaking complicated tasks. It runs on both JVM and Android.
+MFP, i.e. Mathematical language For Parallel computing, is a scripting language aiming at solving mathematical problems and undertaking complicated tasks by taking advantage of parallel computing. It runs on both JVM and Android.
+MFPLang4JVM is the source of MFP language interpreter running on JVM. It was developed by Tony Cui using JAVA + Apache Netbeans 12.3. MFP language has also been implemented in Android. The Android app is called Scientific Calculator Plus. This app can be downloaded at https://play.google.com/store/apps/details?id=com.cyzapps.AnMath&hl=en&gl=US .
+To build MFP, start Apache NetBeans IDE, open MFPLang project, go to Files panel on the left side of the window, right click build.xml, select run target -> other targets -> package-for-store, JMFPLang.jar file will be generated in store folder.
