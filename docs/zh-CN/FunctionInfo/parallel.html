@@ -1,0 +1,92 @@
+<html>
+<head>
+<title>可编程科学计算器帮助</title>
+<meta http-equiv=Content-Type content="text/html; charset=UTF-8"></head>
+<body style="background-color:white;">
+<h2 style="color:blue">可编程科学计算器帮助:并行计算函数</h2>
+<table border="1" style="font-family:times;color:green;">
+<tr>
+<th>函数名</th>
+<th>函数帮助信息</th>
+</tr>
+<tr>
+<td><center>close_local</center></td>
+<td><p>::mfp::paracomp::connect::close_local(2) :</p>
+<p>close_local(local_info, is_server)关闭一个local对象。第一个参数，local_info，包含被关闭的local对象的信息。这些信息是generate_interface函数的返回值。第二个参数，is_server，是一个可选的布尔值参数。它决定是关闭一个服务端的local对象还是客户端的local对象。它的缺省值是false。本函数的一个例子为close_local(a_generated_interface, false)。</p>
+</td>
+</tr>
+<tr>
+<td><center>close_out_connection</center></td>
+<td><p>::mfp::paracomp::connect::close_out_connection(1...) :</p>
+<p>close_out_connection关闭一个客户端的连接对象。它有两种工作模式。第一种工作模式有两个参数。第一个参数，local_info，包含被关闭的连接对象所在客户端的local对象的信息。这些信息是generate_interface函数的返回值。第二个参数，remote_info，包含被关闭的连接对象所在服务器端的local对象的信息。这些信息同样也是generate_interface函数的返回值。第二种工作模式只有一个参数，就是客户端通过调用connect函数得到的连接对象。本函数的一个例子为close_out_connection(a_generated_client_interface, a_generated_server_interface)。</p>
+</td>
+</tr>
+<tr>
+<td><center>connect</center></td>
+<td><p>::mfp::paracomp::connect::connect(3) :</p>
+<p>connect(local_info, remote_info, not_reuse_exist)初始化一个从由local_info定义的本地网络界面对象到由remote_info定义的服务端网络界面对象的连接。local_info和remote_info均由调用generate_interface函数获得。第三个参数not_reuse_exist是一个布尔值。如果是True，意味着该函数重新建立一个新的连接，而不是使用已有的连接（如果存在已有连接的话）。该参数是可选参数，缺省值为False。如果成功本函数返回基于数组的字典，字典中的"CONNECT"关键字对应的是连接对象的定义，如果失败本函数返回的字典中的"CONNECT"关键字对应的是NULL，同时还有一个"ERROR"关键字指向错误信息。</p>
+</td>
+</tr>
+<tr>
+<td><center>generate_interface</center></td>
+<td><p>::mfp::paracomp::connect::generate_interface(2) :</p>
+<p>generate_interface(protocol, address)返回一个本地interface对象的定义。它需要两个参数。第一个参数是基于字符串的通信协议名，比如"TCPIP"；第二个参数是基于字符串的地址，比如"10.32.202.78"。第二个参数是可选参数，缺省值为本机的localhost地址，比如，对于"TCPIP"协议，本机localhost地址是"127.0.0.1"。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_all_connect_call_ids</center></td>
+<td><p>::mfp::paracomp::connect::get_all_connect_call_ids(1...) :</p>
+<p>get_all_connect_call_ids返回服务器端一个用于监听的地址所有的连接id或者一个连接的所有call沙盒id。它有两种模式。第一种调用模式只有一个参数，为一个代表服务端本地信息的对象。 该对象为generate_interface函数的返回值。在这种模式下，本函数的返回值为所有从客户端连入的连接的id数组。注意如果本地信息不合法，本函数将抛出异常。如果不是在服务端，将返回一个空数组。 第二种调用模式有两个参数。第一个参数为一个代表服务端本地信息的对象。 该对象为generate_interface函数的返回值。第二个参数为一个服务端连接对象的id（该id可以通过调用get_call_info函数得到）。第二种模式下的返回值是该连接的所有call沙盒id的数组。注意如果本地信息不合法，本函数将抛出异常。如果不是在服务端或者连接id不存在，将返回NULL。本函数的一个例子是get_all_connect_call_ids(server_interface, connect_id)。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_all_host_addresses</center></td>
+<td><p>::mfp::paracomp::host::get_all_host_addresses(1) :</p>
+<p>get_all_host_addresses(protocol_name)返回protocol_name协议在本机的所有界面的所有地址。参数protocol_name是可选的。如果没有给出protocol_name参数或者给出是一个空的字符串，本函数返回本机所有被支持的通信协议在本机所有界面的所有地址。本函数的一个例子是get_all_host_addresses("TCPIP")。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_call_info</center></td>
+<td><p>::mfp::paracomp::connect::get_call_info(0) :</p>
+<p>本函数如果不是在一个call沙盒中被调用，将会返回NULL。否则本函数返回一个数组。数组的第一个元素是调用本函数的call沙盒的id。数组的第二个元素是调用本函数的call沙盒所在的连接的id，数组的第三个元素是存有本地信息的对象。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_local_host_address</center></td>
+<td><p>::mfp::paracomp::host::get_local_host_address(1) :</p>
+<p>get_local_host_address(protocol_name)返回protocol_name协议在本机的localhost地址。本函数的一个例子是get_local_host_address("TCPIP")。</p>
+</td>
+</tr>
+<tr>
+<td><center>initialize_local</center></td>
+<td><p>::mfp::paracomp::connect::initialize_local(2) :</p>
+<p>initialize_local(local_info, is_server)初始化一个本地interface对象。该对象由local_info定义（local_info是调用generate_interface的返回结果）。这个函数的第二个参数是一个布尔值，为true时初始化服务端interface对象，为false时初始化客户端interface对象。这个参数可以省略，其缺省值是false。本函数如果成功返回true，否则返回false。</p>
+</td>
+</tr>
+<tr>
+<td><center>listen</center></td>
+<td><p>::mfp::paracomp::connect::listen(1) :</p>
+<p>listen(local_info)在一个本地interface对象上侦听外部的连接请求。参数local_info是调用generate_interface函数的返回值。listen如果成功，返回true，否则返回false。</p>
+</td>
+</tr>
+<tr>
+<td><center>receive_sandbox_message</center></td>
+<td><p>::mfp::paracomp::connect::receive_sandbox_message(1...) :</p>
+<p>receive_sandbox_message函数返回沙盒或者MFP主进程发送的信息。发送者可能位于一个和本地有直接连接（这里指的是通过MFP的connect函数构成的连接）的远端MFP实例中（可能是一个call沙盒或者该MFP实例的主进程），也可能就是本地MFP实例的一个call沙盒或者该MFP实例的主进程。它有两种工作模式。第一种工作模式只有一个参数，也就是等待的时间。如果是0，则意味着没有等待，立即返回。如果队列中有消息，则返回队列中的第一个消息，否则，返回NULL。如果等待时间小于0，则意味着阻塞模式。也就是说如果队列中没有消息，函数将会阻塞。如果等待时间是正数，则代表等待的毫秒数。如果等待时间过去之后队列中仍然没有消息，则返回NULL。如果本函数是在沙盒中被调用，则必须采用第一种工作模式。第二种工作模式有两个参数。第一个参数为一个代表本地信息（也就是监听地址）的对象。它告诉本函数选择哪一个本地地址收取消息。该信息对象可由调用generate_interface函数返回得到。第二个参数则是等待时间，其具体意义参见第一种工作模式。如果本函数是在MFP主进程中被调用，则必须采用第二种工作模式。本函数如果返回一个合法的消息，该返回值则是一个基于数组的字典。其中，“InterfaceInfo”的字段是发送端的本地信息，包括协议和地址。如果发送端和接收端位于同一个MFP实例中，发送端并非通过loopback连接来发送消息给接收端，并且接收端是该MFP实例的一个call沙盒而发送端是该MFP实例的主进程，这个字段则为NULL。“ConnectId”的字段是发送端的连接ID，如果发送端是MFP实例的主进程，该字段为一个空字符串。“CallId”的字段是发送端的call沙盒ID，如果发送端是MFP实例的主进程，该字段为0。“Message”的字段是消息的内容。本函数的两个例子为receive_sandbox_message(-1)和receive_sandbox_message(local_info, -1)。</p>
+</td>
+</tr>
+<tr>
+<td><center>send_sandbox_message</center></td>
+<td><p>::mfp::paracomp::connect::send_sandbox_message(1...) :</p>
+<p>send_sandbox_message函数将消息发送到沙盒或MFP主进程。它具有四种工作模式。第一种工作模式是从沙盒向其本地MFP主进程发送消息。在这种情况下，该功能只有一个参数，即消息内容。请注意，消息内容不必是字符串。例如，send_sandbox_message([1,2,3])从沙盒向本地MFP主进程发送[1,2,3]。第二种工作模式是将消息从MFP主进程或沙盒发送到本地沙盒。在这种情况下，该功能需要四个参数。第一个参数是本地信息对象。可以从generate_interface函数获得此本地信息对象。启动接收方沙盒的call请求被本地信息对象所代表的接口地址接受。第二个参数是接收方沙盒的连接ID，如果接口基于TCPIP协议，则为接收方本地接口的地址。第三个参数是接收方沙盒的call沙盒Id。最后一个参数是消息内容。此模式的一个示例是send_sandbox_message(local_info,"127.0.0.1",1,238.975+3.01i)。第三种工作模式是将消息从本地沙盒或MFP主进程发送到远端MFP主进程。请注意，本地MFP实例必须已经通过调用connect函数连接到远端MFP实例。此模式需要两个参数。第一个是从connect函数返回的连接对象（即返回值的“CONNECT”字段）。第二个参数是消息内容。一个示例是send_sandbox_message(conn1,"Hello!")。最后一种工作模式是将消息从本地沙盒或MFP主进程发送到远端沙盒。请注意，本地MFP实例必须通过调用connect函数连接到远端MFP实例。此模式需要五个参数。第一个参数是从连接函数返回的连接对象（即返回值的“CONNECT”字段）。第二个参数是从generate_interface函数获得的远程接口对象。此远程接口位于连接的另一端。远程接口接受了启动接收方沙盒的call请求。第三个参数是接收方沙盒的连接ID，如果接口基于TCPIP协议，则为远端接口的地址。第四个参数是接收方沙盒的call沙盒ID。最后一个参数是消息内容。此模式的一个示例是send_sandbox_message(conn1,remote_info,"192.168.1.139",4,[[1,2],[3,4]])。</p>
+</td>
+</tr>
+<tr>
+<td><center>suspend_until_cond</center></td>
+<td><p>::mfp::paracomp::threading::suspend_until_cond(4) :</p>
+<p>此函数将挂起当前线程，直到满足特定条件为止。它有四个参数。第一个参数为变量名称。请注意，变量名不是字符串。第二个参数是布尔值。如果为TRUE，则该函数仅在写入变量的值（不必更改）之后才开始检查条件是否满足。否则，函数将在调用函数时立即检查是否满足条件。此参数是可选的。默认情况下为TRUE。第三个参数是运算符字符串。当前此参数仅支持以下值，即""，"=="，"!="，">"，"<"，">="和"<="。""表示如果变量值被写入（未必是被更改），则满足条件。其他运算符意味着使用运算符比较变量的值。如果比较返回TRUE，则满足条件。此参数也是可选的。默认情况下为""。最后一个参数是要比较的值。这也是一个可选参数。如果运算符为""，此参数没有任何作用。对于其他运算符，默认情况下，此参数的值为变量的当前值。例如，suspend_until_cond(a)等于调用suspend_until_cond(a,TRUE,"")，这意味着挂起当前线程，直到变量a被另一个线程写入。另一个示例是suspend_until_cond(a,FALSE,"!=")，这意味着挂起当前线程，直到变量a的值更改为止。第三个示例是suspend_until_cond(a,TRUE,">=",37)，这意味着挂起当前线程，直到写入变量a（不一定更改a的值），并且写入后的值不小于37。如果写入后的值无法和37进行比较，例如a新的值为"Hello"，则当前线程仍然被阻塞。</p>
+</td>
+</tr>
+</table>
+</body>
+</html>
