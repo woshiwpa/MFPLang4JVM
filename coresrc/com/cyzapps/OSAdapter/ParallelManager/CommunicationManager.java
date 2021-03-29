@@ -136,8 +136,7 @@ public abstract class CommunicationManager {
 	    
     public abstract boolean initOutLocal(LocalKey localInfo, boolean reuseExisting) throws ErrProcessor.JFCALCExpErrException;
 	
-	// this function doesn't throw any exception
-	public CallCommPack getReceivedCallRequestInfo(String callReqReturn) throws ClassNotFoundException, IOException {
+	public CallCommPack getReceivedCallRequestInfo(String callReqReturn) throws ClassNotFoundException, ClassCastException, IOException {
 		Object obj = deserialize(callReqReturn);
 		CallCommPack ret = (CallCommPack) obj;
 		return ret;

@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>MFP language Help: Game programming</title>
+	</head>
+	<body style="background-color:White;">
+		<h2 style="color:blue">MFP language Help: A rabbit jumping game</h2>
+		<p style="font-family:verdana;color:black;">
+			Rabbit jumping game, as the name suggested, is that a rabbit jumps from one cliff to another cliff through a number of elevators. Each elevator is a list of cells. There are predators, e.g. eagle and tiger, in some cells. When the rabbit jumps from the left cliff to the right, it can only temporarily stay in the cells without predator. Otherwise, it will be eaten. Moreover, if it is stuck in between two cells, or if the rabbit's standing cell moves out of jumping area, the player fails.
+		</p>
+		<p style="font-family:verdana;color:black;">
+			When the rabbit arrives at the right side, it turns to a super rabbit. This time it can jump into the cells with predator and eat the predator. After it jumps back to the left side, the player passes the game and moves to the next level.
+		</p>
+		<p style="font-family:verdana;color:black;">
+			Rabbit jumping game is logically more sophisticated than <a href="hungry_snake.html" target="_self">the hungry snake game</a> and <a href="gem_gem.html" target="_self">the gem crush game</a>. But as the other examples, it minimizes the number of screen painting activities by drawing in buffered image and then posting the image to screen. As such its performance is still good. Player may find its animation is more smooth than the gem crush game.
+		</p>
+		<p style="font-family:verdana;color:black;">
+			The sample code and its auxiliary files have been zipped in package. Click <a href="game_examples.zip" target="_self">here</a> to download zipped package of game examples. Unzip it and copy the game_examples folder into the scripts folder next to the JMFPLang.jar file, as shown in the following chart.
+		</p>
+		<img src="place_to_unzip_examples.PNG" alt="place to unzip examples" />
+		<p style="font-family:verdana;color:black;">
+			The source script, i.e. super_bunny.mfps is in super_bunny subfolder of game_examples folder. Its auxiliary files are also located in the same folder. To launch the example, simply start JMFPLang.jar file and in the command line run <i>gdi_test::game_test::super_bunny::run()</i>. Player can also navigate to the folder where JMFPLang.jar is located and then run the script in Windows Command/Powershell or Linux bash by typing <i>java -jar JMFPLang.jar -f scripts\game_examples\super_bunny\super_bunny.mfps</i>.
+		</p>
+		<p style="font-family:verdana;color:black;">
+			Thanks to MFP's support to both JVM and Android, the rabit jumping game can run not only in PC with Java installed, but also in Android as an app or a script. The following charts snapshot the game on the two platforms. The top one is the game running in Windows + JVM and the second one is running in Android as an app.
+		</p>
+		<p><img src="super_rabbit_JVM.PNG" style="height: 50%;" alt="super rabbit JVM" /></p>
+		<p><img src="super_rabbit_Android.png" style="height: 50%;" alt="super rabbit Android" /></p>
+	</body>
+</html>

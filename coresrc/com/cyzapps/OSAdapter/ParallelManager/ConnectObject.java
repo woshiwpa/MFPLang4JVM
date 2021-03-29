@@ -137,7 +137,7 @@ public abstract class ConnectObject {
             CallCommPack callCommPack = null;
             try {
                 callCommPack = (CallCommPack) FuncEvaluator.msCommMgr.deserialize(info.content);    // assume FuncEvaluator.msCommMgr is not null
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException | ClassCastException ex) {
                 Logger.getLogger(ConnectObject.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
             }
