@@ -143,6 +143,10 @@ public class DataClassClass extends DataClass {
             if (DCHelper.isDataClassType(datum, DCHelper.DATATYPES.DATUM_NULL))    {
                 return true;
             }
+        } else if (getClassInstance().getClassDefinition() == null) {
+            // this is possible when we deserialize a object whose class definition doesn't exist
+            // in the destination system.
+            throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
         } else  {
             MemberFunction mf = getClassInstance().getClassDefinition().mfEquals;
             ProgContext progContext = new ProgContext();
@@ -243,6 +247,10 @@ public class DataClassClass extends DataClass {
             // class instance's member function doesn't support self being null
             // so that we have to use a standalone if branch to do it here.
             return new DataClassClass();
+        } else if (getClassInstance().getClassDefinition() == null) {
+            // this is possible when we deserialize a object whose class definition doesn't exist
+            // in the destination system.
+            throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
         } else  {
             MemberFunction mf = getClassInstance().getClassDefinition().mfDeepCopy;
             ProgContext progContext = new ProgContext();
@@ -307,6 +315,10 @@ public class DataClassClass extends DataClass {
             // class instance's member function doesn't support self being null
             // so that we have to use a standalone if branch to do it here.
             strOutput = "NULL";
+        } else if (getClassInstance().getClassDefinition() == null) {
+            // this is possible when we deserialize a object whose class definition doesn't exist
+            // in the destination system.
+            throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
         } else  {
             MemberFunction mf = getClassInstance().getClassDefinition().mfToString;
             ProgContext progContext = new ProgContext();
@@ -360,6 +372,10 @@ public class DataClassClass extends DataClass {
     public int getHashCode() throws JFCALCExpErrException {
         if (DCHelper.isDataClassType(this, DCHelper.DATATYPES.DATUM_NULL)) {
             return 0;
+        } else if (getClassInstance().getClassDefinition() == null) {
+            // this is possible when we deserialize a object whose class definition doesn't exist
+            // in the destination system.
+            throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
         }
         MemberFunction mf = getClassInstance().getClassDefinition().mfHash;
         ProgContext progContext = new ProgContext();

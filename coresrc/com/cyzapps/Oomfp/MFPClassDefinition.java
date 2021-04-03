@@ -496,6 +496,10 @@ public final class MFPClassDefinition extends CitingSpaceDefinition {
                 throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_NULL_REFERENCE);
             }
             DataClassClass selfClassObj = DCHelper.lightCvtOrRetDCClass(selfObj);
+            if (selfClassObj.getClassInstance().getClassDefinition() == null) {
+                // this could happen in deserialization.
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
+            }
             return new DataClassClass(selfClassObj.getClassInstance().copySelf());
         }
     }
@@ -521,6 +525,10 @@ public final class MFPClassDefinition extends CitingSpaceDefinition {
                 throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_NULL_REFERENCE);
             }
             DataClassClass selfClassObj = DCHelper.lightCvtOrRetDCClass(selfObj);
+            if (selfClassObj.getClassInstance().getClassDefinition() == null) {
+                // this could happen in deserialization.
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
+            }
             return new DataClassClass(selfClassObj.getClassInstance().cloneSelf());
         }
     }

@@ -155,7 +155,7 @@ public final class MFPClassInstance implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + getClassDefinition().hashCode();
+        hash = 31 * hash + ((getClassDefinition() == null)?0 : getClassDefinition().hashCode());
         hash = 31 * hash + Arrays.hashCode(parents);
         hash = 31 * hash + Arrays.hashCode(privateVariables);
         hash = 31 * hash + Arrays.hashCode(publicVariables);
@@ -180,7 +180,7 @@ public final class MFPClassInstance implements Serializable {
     }
     
     private void copyFrom(MFPClassInstance src) throws ErrProcessor.JFCALCExpErrException {
-        if (getClassDefinition() != src.getClassDefinition()) {
+        if (getClassDefinition() == null || getClassDefinition() != src.getClassDefinition()) {
             throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
         }
         for (int idx = 0; idx < getClassDefinition().parentClassInfos.length; idx ++) {
@@ -201,6 +201,8 @@ public final class MFPClassInstance implements Serializable {
             // because this object (self) has been initialized successfully,
             // so that new MFPClassInstance(classDefinition) and copyFrom will
             // never throw exception.
+            // also, copySelf function is used only in defaultCopy function.
+            // defaultCopy has already checked if getClassDefinition returns null.
             cpy = new MFPClassInstance(getClassDefinition());
             cpy.copyFrom(this);
         } catch (ErrorProcessor.JMFPCompErrException ex) {
@@ -212,7 +214,7 @@ public final class MFPClassInstance implements Serializable {
     }
     
     private void cloneFrom(MFPClassInstance src) throws ErrProcessor.JFCALCExpErrException {
-        if (getClassDefinition() != src.getClassDefinition()) {
+        if (getClassDefinition() == null || getClassDefinition() != src.getClassDefinition()) {
             throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_MFP_CLASS_TYPE);
         }
         for (int idx = 0; idx < getClassDefinition().parentClassInfos.length; idx ++) {
@@ -233,6 +235,8 @@ public final class MFPClassInstance implements Serializable {
             // because this object (self) has been initialized successfully,
             // so that new MFPClassInstance(classDefinition) and copyFrom will
             // never throw exception.
+            // also, cloneSelf function is used only in defaultClone function.
+            // defaultClone has already checked if getClassDefinition returns null.
             clone = new MFPClassInstance(getClassDefinition());
             clone.cloneFrom(this);  // cloneFrom may still throw JFCALCExpErrException
         } catch (ErrorProcessor.JMFPCompErrException ex) {
@@ -263,6 +267,7 @@ public final class MFPClassInstance implements Serializable {
         // here, varName has been small letters.
         if (varName.equals("this")) {
             Statement_function sf = progContext.mstaticProgContext.getCallingFunc();
+            // sf.getOwnerClassDef() will never return null because if it returns null, satatement_function will never be analysed.
             MFPClassDefinition funcOwnerClassDef = sf == null ? null:sf.getOwnerClassDef();
             if (sf == null) {
                 return null;    // we are not in a member function call, as this is private, it means it is invisible.
@@ -314,6 +319,7 @@ public final class MFPClassInstance implements Serializable {
             // self or the owner is the same class as ownerClassDef. Note that private function cannot be
             // overridden. 
             Statement_function sf = progContext.mstaticProgContext.getCallingFunc();
+            // sf.getOwnerClassDef() will never return null because if it returns null, satatement_function will never be analysed.
             MFPClassDefinition funcOwnerClassDef = sf == null ? null:sf.getOwnerClassDef();
             if (getClassDefinition() == funcOwnerClassDef) {
                 // same class definition.
