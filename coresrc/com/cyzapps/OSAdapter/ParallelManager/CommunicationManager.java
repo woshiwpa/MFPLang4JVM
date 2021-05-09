@@ -15,9 +15,22 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class CommunicationManager {
-    
+
+    /**
+     * get local host information
+     * @param protocolName : protocol name must have been trimmed and upper case, i.e. WEBRTC or TCPIP
+     * @param additionalParam
+     * @return
+     * @throws ErrProcessor.JFCALCExpErrException
+     */
     public abstract String getLocalHost(String protocolName, String additionalParam) throws ErrProcessor.JFCALCExpErrException ;
-    
+
+    /**
+     * get all addresses of the protocol
+     * @param protocolName : protocol name must have been trimmed and upper case, i.e. WEBRTC or TCPIP
+     * @return
+     * @throws ErrProcessor.JFCALCExpErrException
+     */
     public abstract Map<String, Map<String, Set<String>>> getAllAddresses(String protocolName) throws ErrProcessor.JFCALCExpErrException;
     
     // a map of remote come-in connect objects

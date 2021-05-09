@@ -5,7 +5,7 @@
  * and open the template in the editor
 .*/
 
- package com.cyzapps.OSAdapter.ParallelManager;
+package com.cyzapps.OSAdapter.ParallelManager;
 import com.cyzapps.Jfcalc.ErrProcessor;
 import com.cyzapps.OSAdapter.ParallelManager.ConnectObject;
 import java.io.DataInputStream;

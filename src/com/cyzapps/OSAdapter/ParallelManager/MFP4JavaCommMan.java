@@ -34,7 +34,7 @@ import java.util.logging.Logger;
 public class MFP4JavaCommMan extends CommunicationManager {
     @Override
     public String getLocalHost(String protocolName, String additionalInfo) throws JFCALCExpErrException {
-        if (protocolName.trim().equals("TCPIP")) {
+        if (protocolName.equals("TCPIP")) {
             try {
                 InetAddress localhost = InetAddress.getLocalHost();
                 String address = localhost.getHostAddress();
@@ -92,7 +92,7 @@ public class MFP4JavaCommMan extends CommunicationManager {
     @Override
     public boolean initInLocal(LocalObject.LocalKey localInfo, boolean reuseExisting) throws JFCALCExpErrException {
         // protocol and address are both case sensative
-        if (localInfo.getProtocolName().trim().equals("TCPIP")) {
+        if (localInfo.getProtocolName().equals("TCPIP")) {
             if (reuseExisting && existInLocal(localInfo)) {
                 return true;
             } else {
@@ -112,7 +112,7 @@ public class MFP4JavaCommMan extends CommunicationManager {
     @Override
     public boolean initOutLocal(LocalObject.LocalKey localInfo, boolean reuseExisting) throws JFCALCExpErrException {
         // protocol and address are both case sensative
-        if (localInfo.getProtocolName().trim().equals("TCPIP")) {
+        if (localInfo.getProtocolName().equals("TCPIP")) {
             if (reuseExisting && existOutLocal(localInfo)) {
                 return true;
             } else {
