@@ -90,6 +90,9 @@ public class MFP4JavaCommMan extends CommunicationManager {
     }
 
     @Override
+    public boolean generateLocal(LocalObject.LocalKey localInfo) { return true;}
+
+    @Override
     public boolean initInLocal(LocalObject.LocalKey localInfo, boolean reuseExisting) throws JFCALCExpErrException {
         // protocol and address are both case sensative
         if (localInfo.getProtocolName().equals("TCPIP")) {

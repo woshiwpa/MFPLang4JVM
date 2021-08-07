@@ -186,8 +186,8 @@ public class CallObject {
         
         /**
          * This function writes lib files and load citing space definition for this thread. 
-         * @param initMapUserLibPath2Bytes map from path to source lib file
-         * @param initMapUserResourcePath2Bytes map from path to resource file 
+         * @param initSetUserLibPath2Bytes set of map from path to source lib file
+         * @param initSetUserResourcePath2Bytes set of map from path to resource file
          * @throws IOException 
          */
         public void loadLibs4Request(Set<PathAndBytes> initSetUserLibPath2Bytes, Set<PathAndBytes> initSetUserResourcePath2Bytes) throws IOException {
@@ -402,7 +402,7 @@ public class CallObject {
                 LocalObject.LocalKey destInterface = callCommPack.interfaceInfoDest;
                 if (destInterface == null) {
                     // destination is main entity
-                     LocalObject localObj = CallObject.this.getConnectObject().getProtocolObject();
+                    LocalObject localObj = CallObject.this.getConnectObject().getProtocolObject();
                     try {
                         LocalObject.SandBoxMessage sbm = new LocalObject.SandBoxMessage(callCommPack.interfaceInfoSrc,
                                                                                         callCommPack.connectIdSrc,

@@ -252,6 +252,8 @@ public class ErrProcessor {
         ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED,
         /* unknown host */
         ERROR_UNKNOWN_HOST,
+        /* cannot generate local */
+        ERROR_CANNOT_GENERATE_LOCAL,
         /* interface unavailable */
         ERROR_INTERFACE_UNAVAILABLE,
         /* connect unavailable */
@@ -624,6 +626,9 @@ public class ErrProcessor {
                 break;
             case ERROR_UNKNOWN_HOST:
                 strErrorType = "UNKNOWN_HOST_EXCEPTION";
+                break;
+            case ERROR_CANNOT_GENERATE_LOCAL:
+                strErrorType = "CANNOT_GENERATE_LOCAL_EXCEPTION";
                 break;
             case ERROR_INTERFACE_UNAVAILABLE:
                 strErrorType = "INTERFACE_UNAVAILABLE_EXCEPTION";
@@ -1004,6 +1009,9 @@ public class ErrProcessor {
                 break;
             case ERROR_UNKNOWN_HOST:
                 strErrorMsg = "Unknown host!";
+                break;
+            case ERROR_CANNOT_GENERATE_LOCAL:
+                strErrorMsg = "Cannot generate local!";
                 break;
             case ERROR_INTERFACE_UNAVAILABLE:
                 strErrorMsg = "Interface unavailable!";

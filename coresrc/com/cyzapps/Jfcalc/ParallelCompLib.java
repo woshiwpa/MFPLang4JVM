@@ -138,6 +138,10 @@ public class ParallelCompLib {
             if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
             }
+            CommunicationManager commMgr = FuncEvaluator.msCommMgr;
+            if (commMgr == null) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
+            }
             // protocol must be trimmed and up cased before saving
             String strProtocol = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue().trim().toUpperCase(Locale.US);
             String strAddress = "";
@@ -146,13 +150,14 @@ public class ParallelCompLib {
                 strAddress = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue().trim();	// address must be trimmed too
             } else {
                 // address is not provided
-                CommunicationManager commMgr = FuncEvaluator.msCommMgr;
-                if (commMgr == null) {
-                    throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
-                }
                 strAddress = commMgr.getLocalHost(strProtocol, null);
             }
-            
+
+            boolean generateLocalResult = commMgr.generateLocal(new LocalObject.LocalKey(strProtocol, strAddress));
+            if (!generateLocalResult) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_CANNOT_GENERATE_LOCAL);
+            }
+
             DataClass datumReturn = ArrayBasedDictionary.createArrayBasedDict();
             datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "PROTOCOL",
             		new DataClassString(strProtocol));

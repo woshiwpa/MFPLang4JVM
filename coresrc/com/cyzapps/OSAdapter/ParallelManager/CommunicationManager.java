@@ -32,7 +32,9 @@ public abstract class CommunicationManager {
      * @throws ErrProcessor.JFCALCExpErrException
      */
     public abstract Map<String, Map<String, Set<String>>> getAllAddresses(String protocolName) throws ErrProcessor.JFCALCExpErrException;
-    
+
+    public abstract boolean generateLocal(LocalKey localInfo);
+
     // a map of remote come-in connect objects
     protected Map<LocalObject.LocalKey, LocalObject> allInLocals = new ConcurrentHashMap<LocalObject.LocalKey, LocalObject>();
     public Boolean existInLocal(LocalObject.LocalKey localKey) {
