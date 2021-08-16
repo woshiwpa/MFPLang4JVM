@@ -129,6 +129,7 @@ public class Annotation extends StatementType {
                         } else {
                             // constructor
                             CompileAdditionalInfo cai = new CompileAdditionalInfo();
+                            // this function will return a class module itself.
                             LinkedList<ModuleInfo> listModules = mfpClsDef.getReferredModules(cai);
                             ModuleInfo.mergeIntoList(listModules, lNewModuleInfo);
                         }

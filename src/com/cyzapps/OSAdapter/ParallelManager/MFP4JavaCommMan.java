@@ -56,7 +56,11 @@ public class MFP4JavaCommMan extends CommunicationManager {
         }
     }
     
-
+    @Override
+    public boolean setLocalAddess(String protocolName, String interfaceName, String[] addresses, String[][] additionalInfo) {
+        return false;
+    }
+    
     @Override
     public Map<String, Map<String, Set<String>>> getAllAddresses(String protocolName) throws JFCALCExpErrException {
         Map<String, Map<String, Set<String>>> map2Ret = new HashMap<String, Map<String, Set<String>>>();

@@ -48,7 +48,11 @@ import com.cyzapps.PlotAdapter.XYChartOperator;
 import com.cyzapps.PlotAdapter.XYExprChart;
 import com.cyzapps.PlotAdapter.XYExprChartOperator;
 import com.cyzapps.adapter.ChartOperator.ChartCreationParam;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.event.DocumentListener;
 import jcmdline.JCmdLineApp.JMCmdRecord;
 
@@ -56,7 +60,7 @@ import jcmdline.JCmdLineApp.JMCmdRecord;
  * The application's main frame.
  */
 public class JCmdLineView extends FrameView {
-
+    
     public JCmdLineView(SingleFrameApplication app) {
         super(app);
 
@@ -211,6 +215,48 @@ public class JCmdLineView extends FrameView {
                 onTextChange();
             }
 
+        });
+
+        txtAreaOutput.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger())
+                    doPop(e);
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger())
+                    doPop(e);
+            }
+
+            private void doPop(MouseEvent e) {
+                JPopupMenu contextMenu = new JPopupMenu();
+                JMenuItem selectAllItem = new JMenuItem(JCmdLineApp.getStringsClass().get_menu_select_all());
+                selectAllItem.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        selectAllMenuItemActionPerformed(evt);
+                    }
+                });
+                JMenuItem copyItem = new JMenuItem(JCmdLineApp.getStringsClass().get_menu_copy());
+                copyItem.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        copyMenuItemActionPerformed(evt);
+                    }
+                });
+                JMenuItem pasteItem = new JMenuItem(JCmdLineApp.getStringsClass().get_menu_paste());
+                pasteItem.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        pasteMenuItemActionPerformed(evt);
+                    }
+                });
+            
+                contextMenu.add(selectAllItem);
+                contextMenu.add(copyItem);
+                contextMenu.add(pasteItem);
+                contextMenu.show(e.getComponent(), e.getX(), e.getY());
+            }
         });
 
         // need not to disable txtAreaOutput internal copy function.

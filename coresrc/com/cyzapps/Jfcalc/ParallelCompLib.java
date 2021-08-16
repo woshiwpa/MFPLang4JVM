@@ -122,7 +122,59 @@ public class ParallelCompLib {
         }
     }
     static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Get_local_host_addressFunction());}
-        
+
+    public static class Set_local_host_addressFunction extends BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Set_local_host_addressFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::paracomp::host::set_local_host_address";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 4;
+            mnMinParamNum = 4;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws JFCALCExpErrException
+        {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            // make sure the protocol name is capitalized.
+            String strProtocolName = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue().trim().toUpperCase(Locale.US);
+            if (!strProtocolName.equals("WEBRTC")) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
+            }
+            String strInterfaceName = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue().trim().toLowerCase(Locale.US);
+            String strAddress = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue().trim().toLowerCase(Locale.US);
+            if (!CommunicationManager.isValidEmailAddr(strAddress)) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);    // email address is invalid
+            }
+            DataClassArray arrayAdditionalInfo = DCHelper.lightCvtOrRetDCArray(listParams.removeLast());
+            String[] arrayAddInfoStrs = new String[arrayAdditionalInfo.getDataListSize()];
+            for (int idx = 0; idx < arrayAddInfoStrs.length; idx ++) {
+                int[] idxArray = new int[1];
+                idxArray[0] = idx;
+                arrayAddInfoStrs[idx]
+                        = DCHelper.lightCvtOrRetDCString(arrayAdditionalInfo.getDataAtIndex(idxArray)).getStringValue().trim();
+            }
+
+            CommunicationManager commMgr = FuncEvaluator.msCommMgr;
+            if (commMgr == null) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
+            }
+            String[] addresses = new String[1];
+            addresses[0] = strAddress;
+            String[][] additionalInfo = new String[1][];
+            additionalInfo[0] = arrayAddInfoStrs;
+            boolean settingResult = commMgr.setLocalAddess(strProtocolName, strInterfaceName, addresses, additionalInfo);
+            if (!settingResult) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
+            }
+
+            return null;
+        }
+    }
+    static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Set_local_host_addressFunction());}
+
     public static class Generate_interfaceFunction extends BaseBuiltInFunction {
 		private static final long serialVersionUID = 1L;
 

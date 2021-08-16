@@ -371,36 +371,36 @@ public class ModuleInfo implements Serializable {
                 if (bShouldAdd) {
                     listRu.add(refUnit);
                 }
-            } else if (eachReferred.mnModuleType == ModuleInfo.FUNCTION_MODULE) {
-                boolean bProcessedEntry = false;
-                for (GetReferredFuncEntriesParamStruct existParamStruct : processedParamStructs)    {
-                    if (existParamStruct.mbOptionalParam == false
-                            && existParamStruct.mnNumOfParams == eachReferred.mnModuleParam1
-                            && existParamStruct.mstrShrinkedRawName.equals(eachReferred.mstrModuleName)) {
-                        bProcessedEntry = true;
-                        break;
-                    }
-                }
-                if (bProcessedEntry) {
-                    continue;   // no need to process it again.
-                }
-                LinkedList<ReferenceUnit> listTheseRUs = getReferenceUnits(eachReferred.mstrModuleName,
-                                                                                eachReferred.mnModuleParam1,
-                                                                                false, processedParamStructs, cai);
-                // check and filter off duplicates.
-                for (ReferenceUnit ruThis : listTheseRUs)    {
-                    boolean bShouldAdd = true;
-                    for (ReferenceUnit ruAdded : listRu)  {
-                        if (ruAdded.equals(ruThis)) {
-                            bShouldAdd = false;
-                            break;
-                        }
-                    }
-                    if (bShouldAdd) {
-                        listRu.add(ruThis);
-                    }
-                }
             }
+			// have to remove duplicates for both class module and function module
+			boolean bProcessedEntry = false;
+			for (GetReferredFuncEntriesParamStruct existParamStruct : processedParamStructs)    {
+				if (existParamStruct.mbOptionalParam == false
+						&& existParamStruct.mnNumOfParams == eachReferred.mnModuleParam1
+						&& existParamStruct.mstrShrinkedRawName.equals(eachReferred.mstrModuleName)) {
+					bProcessedEntry = true;
+					break;
+				}
+			}
+			if (bProcessedEntry) {
+				continue;   // no need to process it again.
+			}
+			LinkedList<ReferenceUnit> listTheseRUs = getReferenceUnits(eachReferred.mstrModuleName,
+																			eachReferred.mnModuleParam1,
+																			false, processedParamStructs, cai);
+			// check and filter off duplicates.
+			for (ReferenceUnit ruThis : listTheseRUs)    {
+				boolean bShouldAdd = true;
+				for (ReferenceUnit ruAdded : listRu)  {
+					if (ruAdded.equals(ruThis)) {
+						bShouldAdd = false;
+						break;
+					}
+				}
+				if (bShouldAdd) {
+					listRu.add(ruThis);
+				}
+			}
         }
         
         return listRu;
@@ -461,36 +461,36 @@ public class ModuleInfo implements Serializable {
                     if (bShouldAdd) {
                         listRu.add(refUnit);
                     }
-                } else if (eachReferred.mnModuleType == ModuleInfo.FUNCTION_MODULE) {
-                    boolean bProcessedEntry = false;
-                    for (GetReferredFuncEntriesParamStruct existParamStruct : processedParamStructs)    {
-                        if (existParamStruct.mbOptionalParam == false
-                                && existParamStruct.mnNumOfParams == eachReferred.mnModuleParam1
-                                && existParamStruct.mstrShrinkedRawName.equals(eachReferred.mstrModuleName)) {
-                            bProcessedEntry = true;
-                            break;
-                        }
-                    }
-                    if (bProcessedEntry) {
-                        continue;   // no need to process it again.
-                    }
-                    LinkedList<ReferenceUnit> listTheseRUs = getReferenceUnits(eachReferred.mstrModuleName,
-                                                                                    eachReferred.mnModuleParam1,
-                                                                                    false, processedParamStructs, cai);
-                    // check and filter off duplicates.
-                    for (ReferenceUnit ruThis : listTheseRUs)    {
-                        boolean bShouldAdd = true;
-                        for (ReferenceUnit ruAdded : listRu)  {
-                            if (ruAdded.equals(ruThis)) {
-                                bShouldAdd = false;
-                                break;
-                            }
-                        }
-                        if (bShouldAdd) {
-                            listRu.add(ruThis);
-                        }
-                    }
                 }
+				// have to remove duplicates for both class module and function module
+				boolean bProcessedEntry = false;
+				for (GetReferredFuncEntriesParamStruct existParamStruct : processedParamStructs)    {
+					if (existParamStruct.mbOptionalParam == false
+							&& existParamStruct.mnNumOfParams == eachReferred.mnModuleParam1
+							&& existParamStruct.mstrShrinkedRawName.equals(eachReferred.mstrModuleName)) {
+						bProcessedEntry = true;
+						break;
+					}
+				}
+				if (bProcessedEntry) {
+					continue;   // no need to process it again.
+				}
+				LinkedList<ReferenceUnit> listTheseRUs = getReferenceUnits(eachReferred.mstrModuleName,
+																				eachReferred.mnModuleParam1,
+																				false, processedParamStructs, cai);
+				// check and filter off duplicates.
+				for (ReferenceUnit ruThis : listTheseRUs)    {
+					boolean bShouldAdd = true;
+					for (ReferenceUnit ruAdded : listRu)  {
+						if (ruAdded.equals(ruThis)) {
+							bShouldAdd = false;
+							break;
+						}
+					}
+					if (bShouldAdd) {
+						listRu.add(ruThis);
+					}
+				}
             }
         }
         

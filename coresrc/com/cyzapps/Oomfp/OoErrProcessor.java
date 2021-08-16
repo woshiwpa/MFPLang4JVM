@@ -11,6 +11,8 @@ public class OoErrProcessor {
         ERROR_INVALID_CLASS_OR_CITINGSPACE,
         /* space names don't match */
         ERROR_SPACE_NAMES_DONT_MATCH,
+        /* space name conflict */
+        ERROR_SPACE_NAME_CONFLICT,
     }
 
     /* Definition of the error structure. */
@@ -28,6 +30,9 @@ public class OoErrProcessor {
                 break;
             case ERROR_SPACE_NAMES_DONT_MATCH:
                 strErrorType = "SPACE_NAMES_DONT_MATCH";
+                break;
+            case ERROR_SPACE_NAME_CONFLICT:
+                strErrorType = "SPACE_NAME_CONFLICT";
                 break;
             default:
                 ;    /*NO_ERROR_STATE returns "NO_EXCEPTION"*/
@@ -48,6 +53,9 @@ public class OoErrProcessor {
                 break;
             case ERROR_SPACE_NAMES_DONT_MATCH:
                 strErrorMsg = "Space names don't match!";
+                break;
+            case ERROR_SPACE_NAME_CONFLICT:
+                strErrorMsg = "Space name conflict!";
                 break;
             default:
                 ;    /*NO_ERROR_STATE returns null*/

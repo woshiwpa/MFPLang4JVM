@@ -31,6 +31,7 @@ import com.cyzapps.Jmfp.Statement_class;
 import com.cyzapps.OSAdapter.ParallelManager.CallObject;
 import com.cyzapps.adapter.MFPAdapter;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -644,18 +645,30 @@ public final class MFPClassDefinition extends CitingSpaceDefinition {
         return null;
     }
 
+    // note that this function will return class module itself.
     public LinkedList<ModuleInfo> getReferredModules(CompileAdditionalInfo cai) {
         LinkedList<ModuleInfo> listAllModules2Ret = new LinkedList<ModuleInfo>();
         if (this == MFPClassDefinition.OBJECT) {
             return listAllModules2Ret;  // never add object class as it is not user defined.
         }
         String absFuncNameWithCS = this.mstrFullNameWithCS;
-        LinkedList<ModuleInfo> list2Merge = new LinkedList<ModuleInfo>();
         ModuleInfo moduleInfo = new ModuleInfo();
         moduleInfo.mnModuleType = ModuleInfo.CLASS_MODULE;
         moduleInfo.mstrModuleName = absFuncNameWithCS;
         moduleInfo.setClassDef(this);
         listAllModules2Ret.add(moduleInfo);
+
+        // Although not formally supported, variable initialization may include function calls
+        for (ClassVariableInfo varInfo: privateVariables) {
+            LinkedList<ModuleInfo> listAllVariableModules = varInfo.getReferredModules(cai);
+            // now merge this module
+            ModuleInfo.mergeIntoList(listAllVariableModules, listAllModules2Ret);
+        }
+        for (ClassVariableInfo varInfo: publicVariables) {
+            LinkedList<ModuleInfo> listAllVariableModules = varInfo.getReferredModules(cai);
+            // now merge this module
+            ModuleInfo.mergeIntoList(listAllVariableModules, listAllModules2Ret);
+        }     
         
         LinkedList<MemberFunction> allMfs = new LinkedList<MemberFunction>();
         allMfs.addAll(privateFunctions);    // private functions
@@ -695,4 +708,53 @@ public final class MFPClassDefinition extends CitingSpaceDefinition {
         }
         return listAllModules2Ret;
     }
+
+    @Override
+    public void LinkCitingSpaceDefinition() throws OoErrProcessor.JOoMFPErrException {
+        if (mstrarrayCS == null || (mstrarrayCS.length > 0 && mstrarrayCS[0].length() != 0)) {
+            throw new OoErrProcessor.JOoMFPErrException(OoErrProcessor.ERRORTYPES.ERROR_INVALID_CLASS_OR_CITINGSPACE);  // absolute citing space.
+        }
+        CitingSpaceDefinition csdAddIn = CitingSpaceDefinition.getTopCSD();
+        if (mstrarrayCS.length > 1) {
+            // this means it is not a top level cs
+            for (int idx = 1; idx < mstrarrayCS.length; idx ++) {
+                String strSpaceName = mstrarrayCS[idx];
+                int idx1 = 0;
+                int nThisCsdCSDefCnt = csdAddIn.mlistCitingSpaceDefs.size();
+                for (; idx1 < nThisCsdCSDefCnt; idx1 ++) {
+                    if (csdAddIn.mlistCitingSpaceDefs.get(idx1).mstrPureName.equals(strSpaceName)) {
+                        // the cs exists
+                        if (idx == mstrarrayCS.length - 1) {
+                            // the cs does exist and it conflicts with the MFPClassDefinition
+                            if (csdAddIn.mlistCitingSpaceDefs.get(idx1) instanceof MFPClassDefinition)  {
+                                // destination is a class, replace it
+                                csdAddIn.mlistCitingSpaceDefs.set(idx1, this);
+                            } else {
+                                // destination is a normal citingspace
+                                throw new OoErrProcessor.JOoMFPErrException(OoErrProcessor.ERRORTYPES.ERROR_SPACE_NAME_CONFLICT);  // absolute citing space.                                
+                            }
+                        }
+                        csdAddIn = csdAddIn.mlistCitingSpaceDefs.get(idx1);
+                        break;
+                    }
+                }
+                if (idx1 == nThisCsdCSDefCnt) {
+                    // the cs does not exists
+                    CitingSpaceDefinition csd = this;
+                    if (idx < mstrarrayCS.length - 1) {
+                        // intermedium cs.
+                        String[] strarrayCS = new String[csdAddIn.mstrarrayCS.length + 1];
+                        System.arraycopy(csdAddIn.mstrarrayCS, 0, strarrayCS, 0, csdAddIn.mstrarrayCS.length);
+                        strarrayCS[csdAddIn.mstrarrayCS.length] = strSpaceName;
+                        csd = new CitingSpaceDefinition(strarrayCS);
+                    }
+                    csdAddIn.mlistCitingSpaceDefs.add(csd);
+                    csdAddIn = csd;
+                }
+            }
+        } else {
+            // top level CS, do nothing.
+        }
+    }
+    
 }

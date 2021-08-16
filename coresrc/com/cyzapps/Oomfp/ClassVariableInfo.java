@@ -9,6 +9,8 @@ package com.cyzapps.Oomfp;
 import com.cyzapps.Jfcalc.DCHelper;
 import com.cyzapps.Jfcalc.DataClass;
 import com.cyzapps.Jfcalc.DataClassNull;
+import com.cyzapps.Jmfp.CompileAdditionalInfo;
+import com.cyzapps.Jmfp.ModuleInfo;
 import com.cyzapps.Jmfp.ProgContext;
 import com.cyzapps.Jmfp.Statement;
 import com.cyzapps.Jmfp.VariableOperator;
@@ -19,6 +21,8 @@ import com.cyzapps.adapter.MFPAdapter;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -66,4 +70,21 @@ public class ClassVariableInfo implements Serializable {
             }
         }           
     }
+    
+    public LinkedList<ModuleInfo> getReferredModules(CompileAdditionalInfo cai) {
+        LinkedList<ModuleInfo> listModules = new LinkedList<ModuleInfo>();
+        if (memberInitialValueStr != null && memberInitialValueStr.length() > 0) {
+            ProgContext progContext = new ProgContext();
+            progContext.mstaticProgContext.setCitingSpacesExplicitly(m_lCitingSpaces);
+            try {
+                listModules = ModuleInfo.getReferredModulesFromString(memberInitialValueStr, progContext);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ClassVariableInfo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            return new LinkedList<ModuleInfo>();
+        }
+        return listModules;
+    }
 }
+    

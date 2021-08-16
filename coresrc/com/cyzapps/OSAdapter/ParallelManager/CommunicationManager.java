@@ -10,6 +10,7 @@ import com.cyzapps.Jmfp.VariableOperator;
 import com.cyzapps.OSAdapter.ParallelManager.LocalObject.LocalKey;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,6 +34,16 @@ public abstract class CommunicationManager {
      */
     public abstract Map<String, Map<String, Set<String>>> getAllAddresses(String protocolName) throws ErrProcessor.JFCALCExpErrException;
 
+    /**
+     * set address(es) for an interface of a protocol. Note that it only works for WEBRTC, never call this
+     * function for TCPIP. If new address(es) are set, return True, else return False.
+     * @param protocolName
+     * @param interfaceName
+     * @param addresses
+     * @param additionalInfo
+     * @return
+     */
+    public abstract boolean setLocalAddess(String protocolName, String interfaceName, String[] addresses, String[][] additionalInfo);
     public abstract boolean generateLocal(LocalKey localInfo);
 
     // a map of remote come-in connect objects
@@ -168,4 +179,171 @@ public abstract class CommunicationManager {
 	public abstract String serialize(Object sobj) throws IOException;
 	
     public abstract Object deserialize(String s) throws IOException, ClassNotFoundException;
+
+    // assume the email address has been lowercased.
+    public static boolean isRecommendedEmailAddr(String email) {
+        if (email.endsWith("@outlook.com") || email.endsWith("@hotmail.com")
+                || email.endsWith("@gmail.com") || email.endsWith("@qq.com")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static class EmailInfo {
+        // initialize the strings to avoid NullPointerException.
+        public String emailAddress = "";
+        public String emailPassword = "";
+        public String emailSmtpServer = "";
+        public int emailSmtpPort;
+        public int emailSmtpSSLSupport = 0; // 0 means not support, 1 means support, others means not sure
+        public String emailImapServer = "";
+        public int emailImapPort;
+        public int emailImapSSLSupport = 0; // 0 means not support, 1 means support, others means not sure
+    }
+
+    public static boolean isValidEmailAddr(String email) {
+        if (email == null) {
+            return false;
+        } else {
+            String strEmail = email.trim();
+            String[] parts = strEmail.split("@");
+            if (parts.length != 2) {
+                return false;
+            } else if (!isValidHostname(parts[1])) {
+                return false;
+            } else if (parts[0].trim().length() != parts[0].length()) {
+                return false;
+            } else if (parts[0].length() < 1) {
+                return false;
+            } else {
+                for (int idx = 0; idx < parts[0].length(); idx ++) {
+                    if (parts[0].substring(idx, idx + 1).trim().length() == 0) {
+                        return false;   // should include no blank.
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    public static boolean isValidHostname(String server) {
+        if (server == null) {
+            return false;
+        } else {
+            String strSvr = server.trim();
+            if (strSvr.length() < 4) {
+                return false;
+            } else {
+                String[] parts = strSvr.split("\\.");
+                if (parts.length < 2) {
+                    return false;
+                } else if (parts[parts.length - 1].length() < 2) {
+                    return false;
+                } else {
+                    for (String str : parts) {
+                        if (str.length() < 1) {
+                            return false;
+                        } else if (str.trim().length() != str.length()) {
+                            return false;
+                        } else {
+                            for (int idx = 0; idx < str.length(); idx ++) {
+                                if (str.substring(idx, idx + 1).trim().length() == 0) {
+                                    return false;   // should include no blank.
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isValidEmailInfo(EmailInfo emailInfo) {
+        if (!isValidEmailAddr(emailInfo.emailAddress)) {
+            return false;
+        }
+        if (emailInfo.emailPassword == null || emailInfo.emailPassword.trim().length() == 0) {
+            return false;
+        }
+        if (!isValidHostname(emailInfo.emailSmtpServer)) {
+            return false;
+        }
+        if (emailInfo.emailSmtpPort <= 0) {
+            return false;
+        }
+        if (!isValidHostname(emailInfo.emailImapServer)) {
+            return false;
+        }
+        if (emailInfo.emailImapPort <= 0) {
+            return false;
+        }
+
+        // no need to validate ssl
+        return true;
+    }
+
+    public static String getImapServer(String emailAddr) {
+        String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
+        if (emailAddrLower.endsWith("gmail.com")) {
+            return "imap.gmail.com";
+        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+            return "imap-mail.outlook.com";
+        } else if (emailAddrLower.endsWith("qq.com")) {
+            return "imap.qq.com";
+        } else {
+            return null;
+        }
+    }
+
+    public static int getImapPort(String emailAddr) {
+        String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
+        if (emailAddrLower.endsWith("gmail.com")) {
+            return 993;
+        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+            return 993;
+        } else if (emailAddrLower.endsWith("qq.com")) {
+            return 993;
+        } else {
+            return -1;
+        }
+    }
+
+    public static String getSmtpServer(String emailAddr) {
+        String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
+        if (emailAddrLower.endsWith("gmail.com")) {
+            return "smtp.gmail.com";
+        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+            return "smtp-mail.outlook.com";
+        } else if (emailAddrLower.endsWith("qq.com")) {
+            return "smtp.qq.com";
+        } else {
+            return null;
+        }
+    }
+
+    public static int getSmtpPort(String emailAddr) {
+        String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
+        if (emailAddrLower.endsWith("gmail.com")) {
+            return 587;
+        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+            return 587;
+        } else if (emailAddrLower.endsWith("qq.com")) {
+            return 587;
+        } else {
+            return -1;
+        }
+    }
+
+    public static Integer getSSL(String emailAddr) {
+        String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
+        if (emailAddrLower.endsWith("gmail.com")) {
+            return -1;
+        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+            return -1;
+        } else if (emailAddrLower.endsWith("qq.com")) {
+            return -1;
+        } else {
+            return null;
+        }
+    }
 }

@@ -94,9 +94,11 @@ public class CompulsoryLinkErrorTest {
         ::incompletecls::more::a_new_class::inner_class::newsqr(2)
         ::incompletecls::more::b_new_class::inner_class::newsqr(2)
         ::aaab::bbb::def::classwithpublicfunc::publicmemberfunc(4)
+        ::aaaa::bbb::def::a_new_class
         ::aaaa::bbb::def::classwithnopublicfunc2
         ::aaac::bbb::def::classbold
         ::aaaa::bbb::def::classwithnopublicfunc
+        ::aaaa::bbb::def::a_new_class::inner_class
         ::aaaa::bbb::def::classwithnopublicfunc::innerclassnopublicfunc
         ::aaab::bbb::def::classwithpublicfunc
         ::aaaa::bbb::def::classwithnopublicfunc2::innerclassnopublicfunc
@@ -106,7 +108,7 @@ public class CompulsoryLinkErrorTest {
         ::incompletecls::more::b_new_class::inner_class
         */
         //printReferredUnits(listAllReferredUnits);
-        assertEquals(25, listAllReferredUnits.size());
+        assertEquals(27, listAllReferredUnits.size());
         assertEquals(4, listAllReferredPaths.size());
     }
     

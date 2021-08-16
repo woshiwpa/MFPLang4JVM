@@ -807,8 +807,12 @@ public class AEFunction extends AbstractExpr {
             return listModules;
         } else {
             // constructor
-            CompileAdditionalInfo cai = new CompileAdditionalInfo();
-            listModules = mfpClsDef.getReferredModules(cai);
+            ModuleInfo moduleInfo = new ModuleInfo();
+            moduleInfo.mnModuleType = ModuleInfo.CLASS_MODULE;
+            moduleInfo.mstrModuleName = mfpClsDef.mstrFullNameWithCS;
+            moduleInfo.mnModuleParam1 = mlistChildren.size();   // number of parameters is still needed as CLASS_MODULE will also be treated as a function.
+            moduleInfo.setClassDef(mfpClsDef);
+            ModuleInfo.mergeModuleInfo2List(moduleInfo, listModules);
             return listModules;
         }
     }
