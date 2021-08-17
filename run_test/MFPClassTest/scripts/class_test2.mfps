@@ -1,0 +1,51 @@
+class TestLoopRefer1: A
+	variable self a = TestLoopRefer2::staticF()
+	
+	variable self b = TestLoopRefer2()
+endclass
+
+class TestLoopRefer3
+	function func1(self)
+		TestLoopRefer4()
+	endf
+endclass
+
+class TestLoopRefer5
+	function staticF()
+		TestLoopRefer4()
+	endf
+endclass
+
+function test_variable_loop_ref()
+	TestLoopRefer1()
+endf
+
+function test_function_loop_ref()
+	TestLoopRefer3()
+endf
+
+function test_static_func_ref()
+	TestLoopRefer5()
+endf
+
+class TestSelfVariableRefer
+	variable self c = TestSelfRefer()
+endclass
+
+class TestSelfFuncRefer
+	function __init__(self)
+		variable a = TestSelfRefer()
+	endf
+endclass
+
+class TestSelfStaticFuncRefer
+	function staticF()
+		variable a = TestSelfRefer()
+	endf
+endclass
+
+function test_self_ref()
+	TestSelfVariableRefer()
+	TestSelfFuncRefer()
+	TestSelfStaticFuncRefer()
+endf

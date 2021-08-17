@@ -1,0 +1,55 @@
+class A
+public variable self aa
+endclass
+
+
+class B
+public variable self bb1 = A()
+public function func1(self)
+    return "In func1"
+endf
+public function static_func1()
+    return "In static_func1"
+endf
+endclass
+
+class B
+public variable self bb2 = A()
+public function func2(self)
+    return "In func2"
+endf
+public function static_func2()
+    return "In static_func2"
+endf
+endclass
+
+
+citingspace C
+public function func1()
+    return "In func1"
+endf
+endcs
+
+citingspace C
+public function func2()
+    return "In func2"
+endf
+endcs
+
+function test_same_name_cls_cs()
+	variable bb = B()
+	C::func1()
+	C::func2()
+endf
+
+class TestLoopRefer2: TestLoopRefer1
+	function staticF()
+	endf
+endclass
+
+
+class TestLoopRefer4
+	function func1(self)
+		TestLoopRefer3()
+	endf
+endclass
