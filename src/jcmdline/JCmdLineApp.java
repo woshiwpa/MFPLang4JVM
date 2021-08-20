@@ -102,7 +102,7 @@ import org.json.simple.parser.ParseException;
  */
 public class JCmdLineApp extends SingleFrameApplication {
 
-    public static final String STRING_APP_VERSION = "2.0.0.84";
+    public static final String STRING_APP_VERSION = "2.0.1.86";
     public static final String STRING_APP_FOLDER = getProgramFolder();
     public static final String STRING_APP_VENDOR = "cyzsoft ( cyzsoft@gmail.com )";
     public static final String STRING_APP_HOMEPAGE = "https://play.google.com/store/apps/details?id=com.cyzapps.AnMath";
