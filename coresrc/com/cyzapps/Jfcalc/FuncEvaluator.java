@@ -29,6 +29,7 @@ import com.cyzapps.Jsma.ExprAnalyzer;
 import com.cyzapps.Jsma.PatternManager;
 import com.cyzapps.Multimedia.MultimediaManager;
 import com.cyzapps.OSAdapter.ParallelManager.CommunicationManager;
+import com.cyzapps.OSAdapter.RtcMMediaManager;
 import com.cyzapps.Oomfp.CitingSpaceDefinition;
 import com.cyzapps.Oomfp.MFPClassDefinition;
 import com.cyzapps.Oomfp.MFPClassInstance;
@@ -77,6 +78,8 @@ public class FuncEvaluator    {
     public static PatternManager mspm = null;    
     
     public static CommunicationManager msCommMgr = null;
+
+    public static RtcMMediaManager msRtcMMediaManager = null;
     
     public static abstract class FileOperator    {
         public abstract boolean outputGraphFile(String strFileName, String strFileContent) throws IOException;

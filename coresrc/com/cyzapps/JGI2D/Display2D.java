@@ -64,4 +64,12 @@ public abstract class Display2D implements DisplayLib.IGraphicDisplay {
         double dstX1, double dstY1, double dstX2, double dstY2,
         PaintingExtraInfo paintingExtras);
     public abstract void repaint();
-} 
+
+    public abstract int addRtcVideoOutput(int left, int top, int width, int height, boolean enableSlide);
+    public abstract boolean startLocalStream(int videoOutputId);
+    public abstract int[] getRtcVideoOutputLeftRight(int id);
+    public abstract int getRtcVideoOutputCount();
+    public abstract boolean linkVideoStream(String peerId, int trackId, int videoOutputId);
+    public abstract boolean unlinkVideoStream(String peerId, int trackId);
+    public abstract int unlinkVideoStream(int videoOutputId);
+}

@@ -104,8 +104,8 @@ public class MFPAdapterTest {
     @Test
     public void testFunctionHelpBlock() {
         assertTrue(MFPAdapter.getFunctionHelp("::aaakkk::aaakkk1", "", new LinkedList<String[]>()).equals("::aaakkk::aaakkk1(0) :\n"));
-        assertTrue(MFPAdapter.getFunctionHelp("::aaakkk::aaakkk2", "", new LinkedList<String[]>()).equals("::aaakkk::aaakkk2(0) :\n  this is help block 3\n"));
-        assertTrue(MFPAdapter.getFunctionHelp("::aaakkk3", "", new LinkedList<String[]>()).equals("::aaakkk3(0) :\n  this is help block 5\n"));
+        assertTrue(MFPAdapter.getFunctionHelp("::aaakkk::aaakkk2", "", new LinkedList<String[]>()).equals("::aaakkk::aaakkk2(0) :\n  this is help block 3\r\n"));
+        assertTrue(MFPAdapter.getFunctionHelp("::aaakkk3", "", new LinkedList<String[]>()).equals("::aaakkk3(0) :\n  this is help block 5\r\n"));
         assertTrue(MFPAdapter.getFunctionHelp("::aaakkk4", "", new LinkedList<String[]>()).equals("::aaakkk4(0) :\n"));
     }
     

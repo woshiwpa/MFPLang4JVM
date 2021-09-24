@@ -750,4 +750,39 @@ public class FlatGDI extends Display2D {
             update();
         }
     }
+
+    @Override
+    public int addRtcVideoOutput(int left, int top, int width, int height, boolean enableSlide) {
+        return -1;   // RTC Video is not supported by ImageDisplay
+    }
+
+    @Override
+    public boolean startLocalStream(int videoOutputId) {
+        return false;   // RTC Video is not supported by ImageDisplay
+    }
+
+    @Override
+    public int[] getRtcVideoOutputLeftRight(int id) {
+        return new int[0];   // RTC Video is not supported by ImageDisplay
+    }
+
+    @Override
+    public int getRtcVideoOutputCount() {
+        return 0;   // RTC Video is not supported by ImageDisplay
+    }
+
+    @Override
+    public boolean linkVideoStream(String peerId, int trackId, int videoOutputId) {
+        return false;   // RTC Video is not supported by ImageDisplay
+    }
+
+    @Override
+    public boolean unlinkVideoStream(String peerId, int trackId) {
+        return false;   // RTC Video is not supported by ImageDisplay
+    }
+
+    @Override
+    public int unlinkVideoStream(int videoOutputId) {
+        return 0;   // RTC Video is not supported by ImageDisplay
+    }
 }
