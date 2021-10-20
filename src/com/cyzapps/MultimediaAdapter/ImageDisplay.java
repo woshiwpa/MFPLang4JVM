@@ -1196,6 +1196,40 @@ public class ImageDisplay extends Display2D {
     }
 
     @Override
+    public void stopLocalStream() {
+        
+    }
+
+    @Override
+    public boolean startVideoCapturer() {
+        return false;
+    }
+
+    @Override
+    public void stopVideoCapturer() {
+    }
+
+    @Override
+    public boolean setVideoTrackEnable(int idx, boolean enable) {
+        return false;
+    }
+
+    @Override
+    public boolean getVideoTrackEnable(int idx) {
+        return false;
+    }
+
+    @Override
+    public boolean setAudioTrackEnable(int idx, boolean enable) {
+        return false;
+    }
+
+    @Override
+    public boolean getAudioTrackEnable(int idx) {
+        return false;
+    }
+
+    @Override
     public int[] getRtcVideoOutputLeftRight(int id) {
         return new int[0];   // RTC Video is not supported by ImageDisplay
     }

@@ -6,18 +6,15 @@
  */
 package com.cyzapps.OSAdapter.ParallelManager;
 
-import com.cyzapps.Jfcalc.DataClassNull;
 import com.cyzapps.Jfcalc.ErrProcessor;
 import com.cyzapps.OSAdapter.ParallelManager.ConnectObject.ConnectAdditionalInfo;
 import com.cyzapps.OSAdapter.ParallelManager.ConnectObject.ConnectSettings;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import static com.cyzapps.OSAdapter.ParallelManager.TCPIPConnMan.REMOTE_LISTEN_PORT;
 
 /**
  *
@@ -60,14 +57,27 @@ public class TCPIPLocalMan extends LocalObject {
     }
     
     @Override
-    public void connect(String address, boolean reuseExisting)
+    public String[] connect(String address, boolean reuseExisting)
                             throws ErrProcessor.JFCALCExpErrException, IOException     {
-        if (reuseExisting && allOutConnects.containsKey(address)) {
-            return;
+        String ipAddr = TCPIPConnMan.getIPAddress(address);
+        int ipPort = TCPIPConnMan.getIPPort(address);
+        if (ipPort == 0) {
+            ipPort = REMOTE_LISTEN_PORT;
         }
-        final TCPIPConnMan tcpipConnMan = new TCPIPConnMan(this, false, address, new ConnectSettings(), new ConnectAdditionalInfo());
+        String fullAddress = ipAddr + ":" + ipPort;
+        // note that for TCPIP, we cannot reuse a reverse connection because
+        // if remote is within NAT, let's say remote address is 10.0.1.11, router's
+        // external address is 192.168.1.100, and you have two connections, one is
+        // from router and the other is from within NAT. When the server wants to
+        // select a reverse to reuse, it cannot identify which one is linked to
+        // router and which one is linked to within NAT.
+        if (reuseExisting && containConnectAddr(fullAddress)) {
+            ConnectObject connObj = getConnect(fullAddress);
+            return new String[] {connObj.getSourceAddress(), fullAddress};
+        }
+        final TCPIPConnMan tcpipConnMan = new TCPIPConnMan(this, false, fullAddress, new ConnectSettings(), new ConnectAdditionalInfo());
         tcpipConnMan.activate();
-        allOutConnects.put(address, tcpipConnMan);   // we reconnect it if the connect has been there.
+        addConnect(fullAddress, tcpipConnMan);   // we reconnect it if the connect has been there.
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -76,6 +86,7 @@ public class TCPIPLocalMan extends LocalObject {
             }
         });
         thread.start();
+        return new String[] {tcpipConnMan.getSourceAddress(), fullAddress};
     }
 
     @Override
@@ -83,7 +94,7 @@ public class TCPIPLocalMan extends LocalObject {
         String ipAddr = TCPIPConnMan.getIPAddress(address);
         int ipPort = TCPIPConnMan.getIPPort(address);
         if (ipPort == 0) {
-            ipPort = TCPIPConnMan.REMOTE_LISTEN_PORT;
+            ipPort = REMOTE_LISTEN_PORT;
         }
         if (serverSocket != null) {
             // close old server socket.
@@ -126,7 +137,7 @@ public class TCPIPLocalMan extends LocalObject {
         }
     }
     @Override
-    public void accept() throws ErrProcessor.JFCALCExpErrException, IOException {
+    public ConnectObject accept() throws ErrProcessor.JFCALCExpErrException, IOException {
         if (serverSocket == null) {
             throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_FUNCTION_PROCESSION);
         }
@@ -138,6 +149,8 @@ public class TCPIPLocalMan extends LocalObject {
         // port is still unique.
         //InetAddress clientAddr = socket.getRemoteSocketAddress();
         //InetSocketAddress addr = (InetSocketAddress)serverSocket.getLocalSocketAddress();
+        // but keep in mind that clientAddr, if NAT exists, is the address seen by server
+        // which could be different from client's real address.
         // here we do not use an unique id as remote address. We did worry that remote IP address
         // may change in a mobile network. But actually this is not true. However, before
         // accept is called inside activate function, we dont know what remote address is
@@ -147,7 +160,7 @@ public class TCPIPLocalMan extends LocalObject {
         final TCPIPConnMan tcpipConnMan = new TCPIPConnMan(this, true, remoteAddr, new ConnectSettings(), new ConnectAdditionalInfo()); // empty remote address means it is server side
         tcpipConnMan.activate(serverSocket);
         // Here we do not use remote port, only remote address as the key.
-        allInConnects.put(tcpipConnMan.getAddress(), tcpipConnMan);
+        addConnect(tcpipConnMan.getAddress(), tcpipConnMan);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -156,5 +169,6 @@ public class TCPIPLocalMan extends LocalObject {
             }
         });
         thread.start();
+        return tcpipConnMan;
     }
 }

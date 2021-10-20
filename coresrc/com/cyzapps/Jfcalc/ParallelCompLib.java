@@ -228,7 +228,7 @@ public class ParallelCompLib {
         public Initialize_localFunction() {
             mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::initialize_local";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
-            mnMaxParamNum = 3;
+            mnMaxParamNum = 2;
             mnMinParamNum = 1;
         }
         @Override
@@ -239,10 +239,6 @@ public class ParallelCompLib {
             }
             
             DataClass datumLocalInterface = listParams.removeLast();
-            DataClass datumIsServer = new DataClassSingleNum(DATATYPES.DATUM_MFPBOOL, MFPNumeric.FALSE);
-            if (listParams.size() > 0) {
-                datumIsServer = listParams.removeLast();
-            }
             DataClass datumSettings = ArrayBasedDictionary.createArrayBasedDict();
             if (listParams.size() > 0) {
             	datumSettings = listParams.removeLast();
@@ -268,19 +264,13 @@ public class ParallelCompLib {
             	strAddress = DCHelper.lightCvtOrRetDCString(datumAddress).getStringValue().trim();
             }
             
-            boolean isServer = DCHelper.lightCvtOrRetDCMFPBool(datumIsServer).getDataValue().booleanValue();
             LocalObject.LocalKey localInfo = new LocalObject.LocalKey(strProtocol, strAddress);
             CommunicationManager commMgr = FuncEvaluator.msCommMgr;
             if (commMgr == null) {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
             }
-            if (isServer) {
-                boolean ret = commMgr.initInLocal(localInfo, true); // always reuse existing local
-                return new DataClassSingleNum(DATATYPES.DATUM_MFPBOOL, ret ? MFPNumeric.TRUE : MFPNumeric.FALSE);
-            } else {
-                boolean ret = commMgr.initOutLocal(localInfo, true); // always reuse existing local
-                return new DataClassSingleNum(DATATYPES.DATUM_MFPBOOL, ret ? MFPNumeric.TRUE : MFPNumeric.FALSE);
-            }
+            boolean ret = commMgr.initLocal(localInfo, true); // always reuse existing local
+            return new DataClassSingleNum(DATATYPES.DATUM_MFPBOOL, ret ? MFPNumeric.TRUE : MFPNumeric.FALSE);
         }
     }
     static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Initialize_localFunction());}
@@ -291,7 +281,7 @@ public class ParallelCompLib {
         public Close_localFunction() {
             mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::close_local";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
-            mnMaxParamNum = 2;
+            mnMaxParamNum = 1;
             mnMinParamNum = 1;
         }
         @Override
@@ -302,10 +292,6 @@ public class ParallelCompLib {
             }
             
             DataClass datumLocalInterface = listParams.removeLast();
-            DataClass datumIsServer = new DataClassSingleNum(DATATYPES.DATUM_MFPBOOL, MFPNumeric.FALSE);
-            if (listParams.size() > 0) {
-                datumIsServer = listParams.removeLast();
-            }
             DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(
             		datumLocalInterface,
             		"PROTOCOL"
@@ -327,30 +313,26 @@ public class ParallelCompLib {
             	strAddress = DCHelper.lightCvtOrRetDCString(datumAddress).getStringValue().trim();
             }
             
-            boolean isServer = DCHelper.lightCvtOrRetDCMFPBool(datumIsServer).getDataValue().booleanValue();
-            
             LocalObject.LocalKey localInfo = new LocalObject.LocalKey(strProtocol, strAddress);
             CommunicationManager commMgr = FuncEvaluator.msCommMgr;
             if (commMgr == null) {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
             }
-            LocalObject localObj = commMgr.removeLocal(localInfo, isServer);
+            LocalObject localObj = commMgr.removeLocal(localInfo);
             
             if (localObj != null) {
                 localObj.shutdown();
-            } else {
-                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
-            }
+            }   // not need to throw exception if interface is unavailable.
             return null;
         }
     }
     static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Close_localFunction());}
 
-    public static class Close_out_connectionFunction extends BaseBuiltInFunction {
+    public static class Close_connectionFunction extends BaseBuiltInFunction {
 		private static final long serialVersionUID = 1L;
 
-        public Close_out_connectionFunction() {
-            mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::close_out_connection";
+        public Close_connectionFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::close_connection";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
             mnMaxParamNum = 2;
             mnMinParamNum = 1;
@@ -428,21 +410,19 @@ public class ParallelCompLib {
             if (commMgr == null) {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
             }
-            LocalObject localObj = commMgr.findOutLocal(localInfo);
+            LocalObject localObj = commMgr.findLocal(localInfo);
             
             if (localObj != null) {
-                if (localObj.allOutConnects.containsKey(strRemoteAddress)) {
-                    ConnectObject connObj = localObj.allOutConnects.remove(strRemoteAddress);
-                    if (connObj != null) {
-                        connObj.shutdown();
-                        return null;
-                    }
+                ConnectObject connObj = localObj.removeConnect(strRemoteAddress);
+                if (connObj != null) {
+                    connObj.shutdown();
+                    return null;
                 }
             }
             throw new JFCALCExpErrException(ERRORTYPES.ERROR_CONNECT_UNAVAILABLE);
         }
     }
-    static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Close_out_connectionFunction());}
+    static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Close_connectionFunction());}
     
     public static class ListenFunction extends BaseBuiltInFunction {
 		private static final long serialVersionUID = 1L;
@@ -489,7 +469,7 @@ public class ParallelCompLib {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
             }
             // now connect to remote.
-            final LocalObject localObj = commMgr.findInLocal(localConnPntInfo);
+            final LocalObject localObj = commMgr.findLocal(localConnPntInfo);
             if (localObj == null) {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
             }
@@ -501,7 +481,8 @@ public class ParallelCompLib {
                         while(!localObj.isShutdown()) {
                             try {
                                 try {
-                                    localObj.accept();
+                                    ConnectObject connObj = localObj.accept();
+                                    localObj.enqueConnObj(connObj);
                                 } catch(IOException ex1) {
                                     ex1.printStackTrace();
                                     continue;  // should I break if returned exception is not null.
@@ -522,7 +503,167 @@ public class ParallelCompLib {
     }
     //public final static FcloseFunction BUILTINFUNC_Fclose = new Initialize_localFunction();
     static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new ListenFunction());}
-    
+
+    public static class AcceptFunction extends BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public AcceptFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::accept";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws JFCALCExpErrException
+        {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+
+            DataClass datumLocalInterface = listParams.removeLast();
+            DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(
+                    datumLocalInterface,
+                    "PROTOCOL"
+            );
+            String strProtocol = "";
+            if (null == datumProtocol) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
+            } else {
+                strProtocol = DCHelper.lightCvtOrRetDCString(datumProtocol).getStringValue().trim();
+            }
+            DataClass datumAddress = ArrayBasedDictionary.getArrayBasedDictValue(
+                    datumLocalInterface,
+                    "ADDRESS"
+            );
+            String strAddress = "";
+            if (null == datumAddress) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
+            } else {
+                strAddress = DCHelper.lightCvtOrRetDCString(datumAddress).getStringValue().trim();
+            }
+
+            LocalObject.LocalKey localConnPntInfo = new LocalObject.LocalKey(strProtocol, strAddress);
+
+            CommunicationManager commMgr = FuncEvaluator.msCommMgr;
+            if (commMgr == null) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
+            }
+            // now connect to remote.
+            final LocalObject localObj = commMgr.findLocal(localConnPntInfo);
+            if (localObj == null) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
+            }
+            try {
+                ConnectObject connObj = localObj.dequeConnObj();
+                DataClass datumReturn = ArrayBasedDictionary.createArrayBasedDict();
+                DataClass datumConnect = ArrayBasedDictionary.createArrayBasedDict();
+                DataClass datumSettings = ArrayBasedDictionary.createArrayBasedDict();
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "PROTOCOL",
+                        new DataClassString(localObj.getProtocolName()));
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS",
+                        new DataClassString(localObj.getAddress()));
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "SOURCE_ADDRESS",
+                        new DataClassString(connObj.getSourceAddress()));
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "ADDRESS",
+                        new DataClassString(connObj.getAddress()));
+                datumSettings = ArrayBasedDictionary.setArrayBasedDictValue(datumSettings, "MIN_MFP_VERSION",
+                        new DataClassSingleNum(DATATYPES.DATUM_MFPINT, new MFPNumeric(connObj.getSettings().minMFPVersion)));
+                datumSettings = ArrayBasedDictionary.setArrayBasedDictValue(datumSettings, "REQUIRED_LIBS",
+                        new DataClassString(connObj.getSettings().allRequiredLibName));
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "CONNECT", datumConnect);
+                // we assume datumSettings will never change and we use its reference instead of a copy.
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "SETTINGS", datumSettings);
+                return datumReturn;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return new DataClassNull();
+            }
+        }
+    }
+    //public final static FcloseFunction BUILTINFUNC_Fclose = new Initialize_localFunction();
+    static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new AcceptFunction());}
+
+    public static class Get_incoming_connectFunction extends BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Get_incoming_connectFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::get_incoming_connect";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 2;
+            mnMinParamNum = 2;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws JFCALCExpErrException
+        {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+
+            DataClass datumLocalInterface = listParams.removeLast();
+            DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(
+                    datumLocalInterface,
+                    "PROTOCOL"
+            );
+            String strProtocol = "";
+            if (null == datumProtocol) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
+            } else {
+                strProtocol = DCHelper.lightCvtOrRetDCString(datumProtocol).getStringValue().trim();
+            }
+            DataClass datumAddress = ArrayBasedDictionary.getArrayBasedDictValue(
+                    datumLocalInterface,
+                    "ADDRESS"
+            );
+            String strAddress = "";
+            if (null == datumAddress) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
+            } else {
+                strAddress = DCHelper.lightCvtOrRetDCString(datumAddress).getStringValue().trim();
+            }
+
+            LocalObject.LocalKey localConnPntInfo = new LocalObject.LocalKey(strProtocol, strAddress);
+
+            CommunicationManager commMgr = FuncEvaluator.msCommMgr;
+            if (commMgr == null) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
+            }
+            // now connect to remote.
+            final LocalObject localObj = commMgr.findLocal(localConnPntInfo);
+            if (localObj == null) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
+            }
+
+            DataClass datumRemoteAddress = listParams.removeLast();
+            String remoteAddr = DCHelper.lightCvtOrRetDCString(datumRemoteAddress).getStringValue();
+            ConnectObject connObj = localObj.getConnect(remoteAddr);
+            if (connObj != null) {
+                DataClass datumReturn = ArrayBasedDictionary.createArrayBasedDict();
+                DataClass datumConnect = ArrayBasedDictionary.createArrayBasedDict();
+                DataClass datumSettings = ArrayBasedDictionary.createArrayBasedDict();
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "PROTOCOL",
+                        new DataClassString(localObj.getProtocolName()));
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS",
+                        new DataClassString(localObj.getAddress()));
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "SOURCE_ADDRESS",
+                        new DataClassString(connObj.getSourceAddress()));
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "ADDRESS",
+                        new DataClassString(connObj.getAddress()));
+                datumSettings = ArrayBasedDictionary.setArrayBasedDictValue(datumSettings, "MIN_MFP_VERSION",
+                        new DataClassSingleNum(DATATYPES.DATUM_MFPINT, new MFPNumeric(connObj.getSettings().minMFPVersion)));
+                datumSettings = ArrayBasedDictionary.setArrayBasedDictValue(datumSettings, "REQUIRED_LIBS",
+                        new DataClassString(connObj.getSettings().allRequiredLibName));
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "CONNECT", datumConnect);
+                // we assume datumSettings will never change and we use its reference instead of a copy.
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "SETTINGS", datumSettings);
+                return datumReturn;
+            } else {
+                return new DataClassNull();
+            }
+        }
+    }
+    //public final static FcloseFunction BUILTINFUNC_Fclose = new Initialize_localFunction();
+    static {CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Get_incoming_connectFunction());}
+
     public static class ConnectFunction extends BaseBuiltInFunction {
 		private static final long serialVersionUID = 1L;
 
@@ -693,20 +834,22 @@ public class ParallelCompLib {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
             }
             // now connect to remote.
-            LocalObject localObj = commMgr.findOutLocal(localConnPntInfo);
+            LocalObject localObj = commMgr.findLocal(localConnPntInfo);
             if (localObj == null) {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
             }
             DataClass datumReturn = ArrayBasedDictionary.createArrayBasedDict();
             DataClass datumConnect = ArrayBasedDictionary.createArrayBasedDict();
             try {
-                localObj.connect(strRemoteAddress, !bNotReuseExistingConnect);
-	            datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "PROTOCOL",
-	            		new DataClassString(strLocalProtocol));
-	            datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS",
-	            		new DataClassString(strLocalAddress));
+                String[] addresses = localObj.connect(strRemoteAddress, !bNotReuseExistingConnect);
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "PROTOCOL",
+                        new DataClassString(strLocalProtocol));
+                datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS",
+                        new DataClassString(strLocalAddress));
+	            datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "SOURCE_ADDRESS",
+	            		new DataClassString(addresses[0]));
 	            datumConnect = ArrayBasedDictionary.setArrayBasedDictValue(datumConnect, "ADDRESS",
-	            		new DataClassString(strRemoteAddress));
+	            		new DataClassString(addresses[1]));
 	            datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "CONNECT", datumConnect);
 	            // we assume datumSettings will never change and we use its reference instead of a copy.
 	            datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "SETTINGS", datumSettings);
@@ -837,7 +980,7 @@ public class ParallelCompLib {
         public Get_all_connect_call_idsFunction() {
             mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::get_all_connect_call_ids";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
-            mnMaxParamNum = 2;
+            mnMaxParamNum = 3;
             mnMinParamNum = 1;
         }
         @Override
@@ -874,7 +1017,7 @@ public class ParallelCompLib {
             if (commMgr == null) {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
             }
-            LocalObject localObj = commMgr.findInLocal(localInfo);
+            LocalObject localObj = commMgr.findLocal(localInfo);
             if (localObj == null) {
                 throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
             }
@@ -887,8 +1030,8 @@ public class ParallelCompLib {
             
             if (connectId == null) {
                 // we return all connect ids
-                Iterator<String> itr = localObj.allInConnects.keySet().iterator();
-                int numberOfConnects = localObj.allInConnects.size();
+                Iterator<String> itr = localObj.getAllConnectAddrSet().iterator();
+                int numberOfConnects = localObj.getAllConnectAddrSet().size();
                 DataClass[] listConnectIds = new DataClass[numberOfConnects];
                 int idx = 0;
                 while (itr.hasNext()) {
@@ -899,21 +1042,37 @@ public class ParallelCompLib {
                 DataClass retValue = new DataClassArray(listConnectIds);
                 return retValue;
             } else {
-                // we return all incoming call ids for a particular connect id
+                // we return all incoming or outgoing call ids for a particular connect id
                 // if the connect id doesn't exist, return null
-                if (localObj.allInConnects.containsKey(connectId)) {
-                    ConnectObject connectObj = localObj.allInConnects.get(connectId);
-                    Iterator<Integer> itr = connectObj.allCalls.keySet().iterator();
-                    int numberOfCalls = connectObj.allCalls.size();
-                    DataClass[] listCallIds = new DataClass[numberOfCalls];
-                    int idx = 0;
-                    while (itr.hasNext()) {
-                        DataClassSingleNum datum = new DataClassSingleNum(DATATYPES.DATUM_MFPINT, new MFPNumeric(itr.next()));
-                        listCallIds[idx] = datum;
-                        idx ++;
+                if (localObj.containConnectAddr(connectId)) {
+                    DataClass datumIsIn = listParams.removeLast();
+                    boolean  bIsIn = DCHelper.lightCvtOrRetDCMFPBool(datumIsIn).getDataValue().booleanValue();
+                    ConnectObject connectObj = localObj.getConnect(connectId);
+                    if (bIsIn) {
+                        Iterator<Integer> itr = connectObj.allInCalls.keySet().iterator();
+                        int numberOfCalls = connectObj.allInCalls.size();
+                        DataClass[] listCallIds = new DataClass[numberOfCalls];
+                        int idx = 0;
+                        while (itr.hasNext()) {
+                            DataClassSingleNum datum = new DataClassSingleNum(DATATYPES.DATUM_MFPINT, new MFPNumeric(itr.next()));
+                            listCallIds[idx] = datum;
+                            idx++;
+                        }
+                        DataClass retValue = new DataClassArray(listCallIds);
+                        return retValue;
+                    } else {
+                        Iterator<Integer> itr = connectObj.allOutCalls.keySet().iterator();
+                        int numberOfCalls = connectObj.allOutCalls.size();
+                        DataClass[] listCallIds = new DataClass[numberOfCalls];
+                        int idx = 0;
+                        while (itr.hasNext()) {
+                            DataClassSingleNum datum = new DataClassSingleNum(DATATYPES.DATUM_MFPINT, new MFPNumeric(itr.next()));
+                            listCallIds[idx] = datum;
+                            idx++;
+                        }
+                        DataClass retValue = new DataClassArray(listCallIds);
+                        return retValue;
                     }
-                    DataClass retValue = new DataClassArray(listCallIds);
-                    return retValue;
                 } else {
                     return new DataClassNull();
                 }
@@ -945,6 +1104,7 @@ public class ParallelCompLib {
             
             
             if (listParams.size() > 0) {
+                // retrieve message for the whole interface
                 DataClass datumLocalInterface = listParams.removeLast();
                 DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(
                         datumLocalInterface,
@@ -972,7 +1132,7 @@ public class ParallelCompLib {
                 if (commMgr == null) {
                     throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
                 }
-                LocalObject localObj = commMgr.findInLocal(localInfo);
+                LocalObject localObj = commMgr.findLocal(localInfo);
                 if (localObj == null) {
                     throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
                 }
@@ -994,13 +1154,22 @@ public class ParallelCompLib {
                             ? new DataClassNull() : sbm.getInterfaceInfo().toDataClass();
                     DataClass connectId = new DataClassString(sbm.getConnectId());
                     DataClass callId = new DataClassSingleNum(DATATYPES.DATUM_MFPINT, new MFPNumeric(sbm.getCallId()));
+                    DataClass transConnectSrcLocal = new DataClassString(sbm.getTransConnectSrcLocal());
+                    DataClass transConnectSrcRemote = new DataClassString(sbm.getTransConnectSrcRemote());
+                    DataClass transConnectDestLocal = new DataClassString(sbm.getTransConnectDestLocal());
+                    DataClass transConnectDestRemote = new DataClassString(sbm.getTransConnectDestRemote());
                     retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "InterfaceInfo", localKeyData);
                     retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "ConnectId", connectId);
                     retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "CallId", callId);
+                    retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectSrcLocal", transConnectSrcLocal);
+                    retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectSrcRemote", transConnectSrcRemote);
+                    retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectDestLocal", transConnectDestLocal);
+                    retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectDestRemote", transConnectDestRemote);
                     retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "Message", sbm.getMessage());
                     return retValue;
                 }
             } else {
+                // retrieve message for the current call object
                 Long thisThreadId = Thread.currentThread().getId();
                 if (CallObject.msmapThreadId2SessionInfo.containsKey(thisThreadId)) {
                     CallObject callObj = CallObject.msmapThreadId2SessionInfo.get(thisThreadId).getCallObject();
@@ -1019,9 +1188,17 @@ public class ParallelCompLib {
                                 ? new DataClassNull() : sbm.getInterfaceInfo().toDataClass();
                         DataClass connectId = new DataClassString(sbm.getConnectId());
                         DataClass callId = new DataClassSingleNum(DATATYPES.DATUM_MFPINT, new MFPNumeric(sbm.getCallId()));
+                        DataClass transConnectSrcLocal = new DataClassString(sbm.getTransConnectSrcLocal());
+                        DataClass transConnectSrcRemote = new DataClassString(sbm.getTransConnectSrcRemote());
+                        DataClass transConnectDestLocal = new DataClassString(sbm.getTransConnectDestLocal());
+                        DataClass transConnectDestRemote = new DataClassString(sbm.getTransConnectDestRemote());
                         retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "InterfaceInfo", localKeyData);
                         retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "ConnectId", connectId);
                         retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "CallId", callId);
+                        retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectSrcLocal", transConnectSrcLocal);
+                        retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectSrcRemote", transConnectSrcRemote);
+                        retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectDestLocal", transConnectDestLocal);
+                        retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "TransConnectDestRemote", transConnectDestRemote);
                         retValue = ArrayBasedDictionary.setArrayBasedDictValue(retValue, "Message", sbm.getMessage());
                         return retValue;
                     }
@@ -1088,7 +1265,7 @@ public class ParallelCompLib {
                     if (commMgr == null) {
                         throw new JFCALCExpErrException(ERRORTYPES.ERROR_COMMUNICATION_MANAGER_NOT_INITIALIZED);
                     }
-                    LocalObject localObj = commMgr.findInLocal(localInfo);
+                    LocalObject localObj = commMgr.findLocal(localInfo);
                     if (localObj == null) {
                         throw new JFCALCExpErrException(ERRORTYPES.ERROR_INTERFACE_UNAVAILABLE);
                     }
@@ -1097,33 +1274,35 @@ public class ParallelCompLib {
                     DataClass datumCallId = listParams.removeLast();
                     int callId = DCHelper.lightCvtOrRetDCMFPInt(datumCallId).getDataValue().intValue();
                     CallObject callObj = null;
-                    if (localObj.allInConnects.containsKey(connectId)) {
-                        ConnectObject connectObj = localObj.allInConnects.get(connectId);
-                        if (connectObj.allCalls.containsKey(callId)) {
-                            callObj = connectObj.allCalls.get(callId);
+                    if (localObj.containConnectAddr(connectId)) {
+                        ConnectObject connectObj = localObj.getConnect(connectId);
+                        if (connectObj.allInCalls.containsKey(callId)) {
+                            callObj = connectObj.allInCalls.get(callId);
                         } else {
                             throw new JFCALCExpErrException(ERRORTYPES.ERROR_CALL_OBJECT_UNAVAILABLE);
                         }
                     } else {
                         throw new JFCALCExpErrException(ERRORTYPES.ERROR_CONNECT_UNAVAILABLE);
-                    }   if (callObj == null) {
+                    }
+                    if (callObj == null) {
                         throw new JFCALCExpErrException(ERRORTYPES.ERROR_CALL_OBJECT_UNAVAILABLE);
                     }
                     Long thisThreadId = Thread.currentThread().getId();
                     SandBoxMessage sbm;
                     if (CallObject.msmapThreadId2SessionInfo.containsKey(thisThreadId)) {
-                        // it is sent from a local sandbox. We need to abtain source information.
+                        // it is sent from a local sandbox. We need to obtain source information.
                         CallObject callObjSrc = CallObject.msmapThreadId2SessionInfo.get(thisThreadId).getCallObject();
                         ConnectObject connectObjSrc = callObjSrc.getConnectObject();
                         int callIdSrc = callObjSrc.getCallPoint();
                         String connectIdSrc = connectObjSrc.getAddress();
                         LocalObject localObjSrc = connectObjSrc.getProtocolObject();
                         LocalObject.LocalKey localInterfaceSrc = localObjSrc.getLocalKey();
-                        sbm = new SandBoxMessage(localInterfaceSrc, connectIdSrc, callIdSrc, datumMessage);
+                        // because it is a local to local message, transmission connect information is always "".
+                        sbm = new SandBoxMessage(localInterfaceSrc, connectIdSrc, callIdSrc, "", "", "", "", datumMessage);
                     } else {
                         // it is sent from local main entity, so localKey (i.e. interface info) is null,
-                        // connect id is "" and call id is 0.
-                        sbm = new SandBoxMessage(null, "", 0, datumMessage);
+                        // connect key is "", connect id is "" and call id is 0.
+                        sbm = new SandBoxMessage(null,  "", 0, "", "","", "", datumMessage);
                     }
                     try {
                         callObj.sandBoxMessageQueue.put(sbm);
@@ -1151,7 +1330,9 @@ public class ParallelCompLib {
                         LocalObject localObj = callObj.getConnectObject().getProtocolObject();
                         try {
                             // interface info is null implies that it is a local message.
-                            SandBoxMessage sbm = new SandBoxMessage(null, connectId, callId, datumMessage);
+                            // connectLocalSeenFromRemote is "" because it is a local message
+                            // because it is a local to local message, transmission connect information is always "".
+                            SandBoxMessage sbm = new SandBoxMessage(null, connectId, callId, "", "", "", "", datumMessage);
                             localObj.sandBoxIncomingMessageQueue.put(sbm);
                         } catch (InterruptedException ex) {
                             // will not be here.

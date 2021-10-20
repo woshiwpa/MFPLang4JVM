@@ -21,13 +21,13 @@ public class CallCommPack implements Serializable {
 	
 	public int callPoint;
 	public int index;
-	// at this moment, TYPE is "initialize": initialization,
-    // TYPE is "replyinit": reply to initialization,
+	// at this moment,
+    // TYPE is "initialize": initialization,
     // TYPE is "value": value exchange,
 	// TYPE is "return": return,
     // TYPE is "exception": exception
+    // TYPE is "data": data message exchange,
 	public static final String INITIALIZE_COMMAND = "initialize";
-    public static final String MAINTAIN_COMMAND = "maintain";
 	public static final String VALUE_COMMAND = "value";
 	public static final String RETURN_COMMAND = "return";
 	public static final String EXCEPTION_COMMAND = "exception";
@@ -109,13 +109,7 @@ public class CallCommPack implements Serializable {
             initSetUserResourcePath2Bytes.add(new PathAndBytes(path, mapUserResourcePath2Bytes.get(path)));
         }
 	}
-	
-    public CallCommPack(int callPnt, int Idx) {
-        callPoint = callPnt;
-        index = Idx;
-        cmd = MAINTAIN_COMMAND;
-    }
-    
+
 	public CallCommPack(int callPnt, int Idx, String variableName, DataClass variableValue) {
         callPoint = callPnt;
         index = Idx;
@@ -141,6 +135,15 @@ public class CallCommPack implements Serializable {
 	
 	public CallCommPack(int callPnt, LocalKey interfInfoSrc, String conntIdSrc, int pntCallIdSrc,
             LocalKey interfInfoDest, String conntIdDest, int clIdDest, DataClass dtValue) {
+	    // note that callcommpack can be sent from a call object of source connect in an interface
+        // to the second local interface then transmitted to a remote interface (via an intermediate
+        // connect) and then to a call object of destination connect in the second remote interface.
+        // Therefore, at most there are 4 interfaces involved, 1. local source interface; 2. local
+        // transmit interface; 3. remote transmit interface; 4. remote destination interface. And
+        // there are at most 3 connect objects involved, 1. Source connect object; 2. transmission
+        // connect link 3. destination connect object. Therefore, connect Src and connect Dest may
+        // have nothing with data transmission. For example, connect Src and connect Dest may both
+        // webRTC connect objects while the data link to transmit this CallCommPack is actually TCPIP.
         callPoint = callPnt;
         index = 1;
         cmd = DATA_COMMAND;

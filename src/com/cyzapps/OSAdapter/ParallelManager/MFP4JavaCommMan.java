@@ -97,15 +97,15 @@ public class MFP4JavaCommMan extends CommunicationManager {
     public boolean generateLocal(LocalObject.LocalKey localInfo) { return true;}
 
     @Override
-    public boolean initInLocal(LocalObject.LocalKey localInfo, boolean reuseExisting) throws JFCALCExpErrException {
+    public boolean initLocal(LocalObject.LocalKey localInfo, boolean reuseExisting) throws JFCALCExpErrException {
         // protocol and address are both case sensative
         if (localInfo.getProtocolName().equals("TCPIP")) {
-            if (reuseExisting && existInLocal(localInfo)) {
+            if (reuseExisting && existLocal(localInfo)) {
                 return true;
             } else {
                 TCPIPLocalMan tcpipLocalMan = new TCPIPLocalMan(localInfo.getLocalAddress());
                 if (tcpipLocalMan.activate()){
-                    allInLocals.put(localInfo, tcpipLocalMan);
+                    allLocals.put(localInfo, tcpipLocalMan);
                     return true;
                 } else {
                     return false;
@@ -115,27 +115,6 @@ public class MFP4JavaCommMan extends CommunicationManager {
             throw new JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_PARAMETER);
         }
     }
-
-    @Override
-    public boolean initOutLocal(LocalObject.LocalKey localInfo, boolean reuseExisting) throws JFCALCExpErrException {
-        // protocol and address are both case sensative
-        if (localInfo.getProtocolName().equals("TCPIP")) {
-            if (reuseExisting && existOutLocal(localInfo)) {
-                return true;
-            } else {
-                TCPIPLocalMan tcpipLocalMan = new TCPIPLocalMan(localInfo.getLocalAddress());
-                if (tcpipLocalMan.activate()){
-                    allOutLocals.put(localInfo, tcpipLocalMan);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        } else {
-            throw new JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_PARAMETER);
-        }
-    }
-
     
     @Override
 	public String serialize(Object sobj) throws IOException {

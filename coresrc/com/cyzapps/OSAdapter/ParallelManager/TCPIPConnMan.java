@@ -7,9 +7,7 @@
 
 package com.cyzapps.OSAdapter.ParallelManager;
 import com.cyzapps.Jfcalc.ErrProcessor;
-import com.cyzapps.OSAdapter.ParallelManager.ConnectObject;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
@@ -81,22 +79,32 @@ public class TCPIPConnMan extends ConnectObject {
     public String getRemoteIPAddr() {
         return remoteIPAddr;
     }
-    protected int remoteIPClientPort = 0; // remote IP client port, for server side TCPIP Conn only
+    protected int remoteIPPort = 0; // remote IP client port, for server side TCPIP Conn only
     public int getRemoteIPPort() {
-        return remoteIPClientPort;
+        return remoteIPPort;
     }
     public static final int REMOTE_LISTEN_PORT = 62512;
     
     protected AtomicInteger currentCallPoint = new AtomicInteger();
-    
+
     public TCPIPConnMan(LocalObject po, Boolean isIn, String addr, ConnectSettings config, ConnectAdditionalInfo addInfo)
-                throws ErrProcessor.JFCALCExpErrException {
-        super(po, isIn, addr, config, addInfo);
+            throws ErrProcessor.JFCALCExpErrException {
+        super(po, isIn, false, addr, config, addInfo);
         localIPAddr = getIPAddress(po.getAddress());
-        localIPPort = getIPPort(po.getAddress());
-        remoteIPAddr = addr;
+        localIPPort = 0;    // For outgoing connect, I intentionally set localIPPort to zero so that in code server side can easily find client's address.
+        if (isIn) {
+            localIPPort = getIPPort(po.getAddress());
+            if (localIPPort == 0) {
+                localIPPort = REMOTE_LISTEN_PORT;
+            }
+        }
     }
-    
+
+    @Override
+    public String getSourceAddress() {
+        return localIPAddr + ":" + localIPPort;
+    }
+
     @Override
     public void shutdown() {
         super.shutdown();
@@ -110,14 +118,20 @@ public class TCPIPConnMan extends ConnectObject {
             }
         }
     }
-    
-    public void activate() throws IOException {
+
+    public void activate() throws IOException, ErrProcessor.JFCALCExpErrException {
         socket = new Socket();
         socket.bind(new InetSocketAddress(localIPAddr, localIPPort));
+        localIPPort = socket.getLocalPort();    // Now we know what IP port we are using, we have to update localIPPort here.
         Logger.getLogger(TCPIPConnMan.class.getName()).info(Thread.currentThread() + ": bind " + localIPAddr + ":" + localIPPort);
 
-        socket.connect(new InetSocketAddress(remoteIPAddr, REMOTE_LISTEN_PORT));
-        Logger.getLogger(TCPIPConnMan.class.getName()).info(Thread.currentThread() + ": connect " + remoteIPAddr + ":" + REMOTE_LISTEN_PORT);
+        remoteIPAddr = TCPIPConnMan.getIPAddress(address);
+        remoteIPPort = TCPIPConnMan.getIPPort(address);
+        if (remoteIPPort == 0) {
+            remoteIPPort = REMOTE_LISTEN_PORT;
+        }
+        socket.connect(new InetSocketAddress(remoteIPAddr, remoteIPPort));
+        Logger.getLogger(TCPIPConnMan.class.getName()).info(Thread.currentThread() + ": connect " + remoteIPAddr + ":" + remoteIPPort);
     }
     
     public void activate(ServerSocket serverSocket) throws IOException {
@@ -128,7 +142,8 @@ public class TCPIPConnMan extends ConnectObject {
         // update address, which is also remote ip address (port is not included).
         // note that remote address will be the key of this incoming connection in the inconnect map.
         address = remoteIPAddr = remoteSocketAddr.getAddress().getHostAddress();
-        remoteIPClientPort = remoteSocketAddr.getPort();
+        remoteIPPort = remoteSocketAddr.getPort();
+        address += ":" + remoteIPPort;
         Logger.getLogger(TCPIPConnMan.class.getName()).info(Thread.currentThread() + ": After serverSocket accept");
     }
 
@@ -146,7 +161,9 @@ public class TCPIPConnMan extends ConnectObject {
             Logger.getLogger(TCPIPConnMan.class.getName()).info(Thread.currentThread() + ": socket is null which means it hasn't been initialized or has been destroyed, return!");
         } else {
             try {
-                //TCP IP send
+                //TCP IP send. First of all, we need to set src connect's local and remote.
+                packedCallRequestInfo.srcLocalAddr = getSourceAddress();
+                packedCallRequestInfo.srcRemoteAddr = address;
                 oOut = new ObjectOutputStream(socket.getOutputStream());
                 oOut.writeObject(packedCallRequestInfo);
                 oOut.flush();

@@ -11,10 +11,12 @@ import com.cyzapps.JGI2D.EventLib;
 import com.cyzapps.JPlatformHW.PlatformInfo;
 import com.cyzapps.Jfcalc.BuiltInFunctionLib;
 import com.cyzapps.Jfcalc.BuiltInFunctionLib.BaseBuiltInFunction;
+import com.cyzapps.Jfcalc.ExDataLib;
 import com.cyzapps.Jfcalc.IOLib;
 import com.cyzapps.Jfcalc.MFPDateTime;
 import com.cyzapps.Jfcalc.ParallelCompLib;
 import com.cyzapps.Jfcalc.PlotLib;
+import com.cyzapps.Jfcalc.RTCMMediaLib;
 import com.cyzapps.Jfcalc.ReflectionLib;
 import com.cyzapps.Jfdatastruct.ArrayBasedDictionary;
 import com.cyzapps.Jfdatastruct.ArrayBasedList;
@@ -927,5 +929,7 @@ public class CitingSpaceDefinition extends SpaceMember {
         AnnotationLib.call2Load(LangFileManager.mbOutputCSDebugInfo);
         PlatformInfo.call2Load(LangFileManager.mbOutputCSDebugInfo);
         ParallelCompLib.call2Load(LangFileManager.mbOutputCSDebugInfo);
+        RTCMMediaLib.call2Load(LangFileManager.mbOutputCSDebugInfo);
+        ExDataLib.call2Load(LangFileManager.mbOutputCSDebugInfo);
     }
 }

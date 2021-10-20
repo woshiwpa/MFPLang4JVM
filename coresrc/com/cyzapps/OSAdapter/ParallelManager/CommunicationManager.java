@@ -47,17 +47,17 @@ public abstract class CommunicationManager {
     public abstract boolean generateLocal(LocalKey localInfo);
 
     // a map of remote come-in connect objects
-    protected Map<LocalObject.LocalKey, LocalObject> allInLocals = new ConcurrentHashMap<LocalObject.LocalKey, LocalObject>();
-    public Boolean existInLocal(LocalObject.LocalKey localKey) {
-        for(Map.Entry<LocalObject.LocalKey, LocalObject> entry: allInLocals.entrySet()) {
+    protected Map<LocalObject.LocalKey, LocalObject> allLocals = new ConcurrentHashMap<LocalObject.LocalKey, LocalObject>();
+    public Boolean existLocal(LocalObject.LocalKey localKey) {
+        for(Map.Entry<LocalObject.LocalKey, LocalObject> entry: allLocals.entrySet()) {
             if (entry.getValue().matchKey(localKey)) {
                 return true;
             }
         }
         return false;
     }
-    public LocalObject findInLocal(LocalObject.LocalKey localKey) {
-        for(Map.Entry<LocalObject.LocalKey, LocalObject> entry: allInLocals.entrySet()) {
+    public LocalObject findLocal(LocalObject.LocalKey localKey) {
+        for(Map.Entry<LocalObject.LocalKey, LocalObject> entry: allLocals.entrySet()) {
             if (entry.getValue().matchKey(localKey)) {
                 return entry.getValue();
             }
@@ -65,27 +65,8 @@ public abstract class CommunicationManager {
         return null;
     }
 	    
-    public abstract boolean initInLocal(LocalKey localInfo, boolean reuseExisting) throws ErrProcessor.JFCALCExpErrException;
-	
-    // a map of protocol name and protocol object.
-	protected Map<LocalObject.LocalKey, LocalObject> allOutLocals = new ConcurrentHashMap<LocalObject.LocalKey, LocalObject>();
-    public Boolean existOutLocal(LocalObject.LocalKey localKey) {
-        for(Map.Entry<LocalObject.LocalKey, LocalObject> entry: allOutLocals.entrySet()) {
-            if (entry.getValue().matchKey(localKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public LocalObject findOutLocal(LocalObject.LocalKey localKey) {
-        for(Map.Entry<LocalObject.LocalKey, LocalObject> entry: allOutLocals.entrySet()) {
-            if (entry.getValue().matchKey(localKey)) {
-                return entry.getValue();
-            }
-        }
-        return null;
-    }
-    
+    public abstract boolean initLocal(LocalKey localInfo, boolean reuseExisting) throws ErrProcessor.JFCALCExpErrException;
+
     // this set stores all return variables used by all the call blocks.
 	// cannot simply use name because variables in different namespaces or blocks may have
 	// same name.
@@ -97,10 +78,10 @@ public abstract class CommunicationManager {
     public CallObject getCallOutObject(String protocolName, String address, String remoteAddr, int callPoint) {
         LocalObject.LocalKey localKey = new LocalKey(protocolName, address);
         
-        LocalObject localObj = findOutLocal(localKey);
+        LocalObject localObj = findLocal(localKey);
         if (localObj != null) {
-            if (localObj.allOutConnects.containsKey(remoteAddr)) {
-                CallObject callObj = localObj.allOutConnects.get(remoteAddr).allCalls.get(callPoint);
+            if (localObj.containConnectAddr(remoteAddr)) {
+                CallObject callObj = localObj.getConnect(remoteAddr).allOutCalls.get(callPoint);
                 return callObj;
             }
         }
@@ -112,25 +93,26 @@ public abstract class CommunicationManager {
     // function
     
 	// is the connect object existing?
-	public ConnectObject findConnectOutObject(DataClass datumConnect) {
+	public ConnectObject findConnectObject(DataClass datumConnect) {
 		try {
 			DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "PROTOCOL");
-			DataClass datumLocalAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS");
+            DataClass datumLocalAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS");
+            DataClass datumSrcAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "SOURCE_ADDRESS");
 			DataClass datumAddress = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "ADDRESS");
-			if (null != datumProtocol && null != datumLocalAddr && null != datumAddress) {
+			if (null != datumProtocol && null != datumLocalAddr && null != datumSrcAddr && null != datumAddress) {
 				String protocolName = DCHelper.lightCvtOrRetDCString(datumProtocol).getStringValue();
 				String localAddress = DCHelper.lightCvtOrRetDCString(datumLocalAddr).getStringValue();
 				LocalObject.LocalKey localKey = new LocalObject.LocalKey(protocolName, localAddress);
-				LocalObject localObj = findOutLocal(localKey);
+				LocalObject localObj = findLocal(localKey);
                 if (localObj == null) {
                     return null;    // no local found.
                 }
 				String addr = DCHelper.lightCvtOrRetDCString(datumAddress).getStringValue();
-				if (!localObj.allOutConnects.containsKey(addr)) {
+				if (!localObj.containConnectAddr(addr)) {
 					// no connect found
 					return null;
 				}
-				ConnectObject conn = localObj.allOutConnects.get(addr);
+				ConnectObject conn = localObj.getConnect(addr);
 				return conn;
 			}
 		} catch (ErrProcessor.JFCALCExpErrException e) {
@@ -142,9 +124,9 @@ public abstract class CommunicationManager {
     
     // this is client side call object.
     public CallObject createOutCallObject(DataClass datumConnect, Boolean isNotTransientCall) {
-        ConnectObject connObj = findConnectOutObject(datumConnect);
+        ConnectObject connObj = findConnectObject(datumConnect);
         if (connObj != null) {
-            CallObject callObj = connObj.createCallObject(isNotTransientCall);
+            CallObject callObj = connObj.createCallObject(false, isNotTransientCall);
             return callObj;
         }
 		return null;
@@ -152,28 +134,22 @@ public abstract class CommunicationManager {
     
     // this is client side call object.
     public CallObject removeOutCallObject(DataClass datumConnect, Integer callPoint) {
-        ConnectObject connObj = findConnectOutObject(datumConnect);
+        ConnectObject connObj = findConnectObject(datumConnect);
         if (connObj != null) {
-            CallObject callObj = connObj.removeCallObject(callPoint);
+            CallObject callObj = connObj.removeCallObject(false, callPoint);
             return callObj;
         }
 		return null;
     }
-	    
-    public abstract boolean initOutLocal(LocalKey localInfo, boolean reuseExisting) throws ErrProcessor.JFCALCExpErrException;
-	
+
 	public CallCommPack getReceivedCallRequestInfo(String callReqReturn) throws ClassNotFoundException, ClassCastException, IOException {
 		Object obj = deserialize(callReqReturn);
 		CallCommPack ret = (CallCommPack) obj;
 		return ret;
 	}
 
-    public LocalObject removeLocal(LocalObject.LocalKey localKey, boolean isInLocal) {
-        if (isInLocal) {
-            return allInLocals.remove(localKey);
-        } else {
-            return allOutLocals.remove(localKey);
-        }
+    public LocalObject removeLocal(LocalObject.LocalKey localKey) {
+        return allLocals.remove(localKey);
     }
     
 	public abstract String serialize(Object sobj) throws IOException;

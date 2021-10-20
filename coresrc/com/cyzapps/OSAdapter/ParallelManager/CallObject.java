@@ -1,9 +1,7 @@
 // MFP project, CallObject.java : Designed and developed by Tony Cui in 2021
 package com.cyzapps.OSAdapter.ParallelManager;
 
-import com.cyzapps.Jfcalc.DCHelper;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -26,8 +24,6 @@ import com.cyzapps.OSAdapter.LangFileManager;
 import static com.cyzapps.OSAdapter.LangFileManager.STRING_DEFAULT_SCRIPT_FOLDER;
 import com.cyzapps.OSAdapter.ParallelManager.CallAgent.CallBlockState;
 import com.cyzapps.OSAdapter.ParallelManager.CallCommPack.PathAndBytes;
-import com.cyzapps.OSAdapter.ParallelManager.CallObject.OnReceiveRequestListener;
-import com.cyzapps.OSAdapter.ParallelManager.CallObject.ReturnInfo;
 import com.cyzapps.OSAdapter.ParallelManager.LocalObject.SandBoxMessage;
 import com.cyzapps.Oomfp.CitingSpaceDefinition;
 import com.cyzapps.Oomfp.MFPClassDefinition;
@@ -38,7 +34,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -171,8 +166,8 @@ public class CallObject {
     public void clearAllSandBoxMessages() {
         // clear all sand box message sent from this call object.
         // this function can only be called locally so that localKey is null.
-        SandBoxMessage sbMsg = new SandBoxMessage(null,connectObject.getAddress(), callPoint, null);
-        // remove all messages to or from this sandbox
+        SandBoxMessage sbMsg = new SandBoxMessage(null, connectObject.getAddress(), callPoint, "", "", "", "", null);
+        // remove all messages from this connect. Note that connectCountpart doesn't involve in comparison
         while (connectObject.protocolObject.sandBoxIncomingMessageQueue.remove(sbMsg));
     }
 	
@@ -333,7 +328,7 @@ public class CallObject {
 		// this function will return the datumReturn's initial state.
 		// datumReturn set to null means there is an internal error. Note that returnInfo assignment should be
 		// in the statement before notice and return and should only occur once in the function.
-		public void onReceiveRequest(CallCommPack callCommPack) {
+		public void onReceiveRequest(CallCommPack callCommPack, String srcConnectLocalAddr, String srcConnectRemoteAddr) {
 	    	commBatchListManager.add(callCommPack);
 	
 	    	if (callCommPack.cmd.equals(CallCommPack.INITIALIZE_COMMAND)) { // this call object is server and callCommPack is from remote client
@@ -346,9 +341,7 @@ public class CallObject {
                     }
                 });
                 t.start(); 
-            } else if (callCommPack.cmd.equals(CallCommPack.MAINTAIN_COMMAND)) {    // This call Object is client and the call comm pack is from remote server.
-	    		CallObject.this.remoteCallPoint = callCommPack.callPoint;   // callCommPack is from remote so that its callPoint is this call obj's remoteCallPoint.
-	    	} else if (callCommPack.cmd.equals(CallCommPack.RETURN_COMMAND)) { // This call object is client and the call comm pack is from remote server. 
+	    	} else if (callCommPack.cmd.equals(CallCommPack.RETURN_COMMAND)) { // This call object is client and the call comm pack is from remote server.
 	    		// this is return
 		    	CallBlockState returnResult = CallBlockState.RETURN_SUCCESSFUL;
 		    	synchronized(CallObject.this) {
@@ -404,10 +397,15 @@ public class CallObject {
                     // destination is main entity
                     LocalObject localObj = CallObject.this.getConnectObject().getProtocolObject();
                     try {
-                        LocalObject.SandBoxMessage sbm = new LocalObject.SandBoxMessage(callCommPack.interfaceInfoSrc,
-                                                                                        callCommPack.connectIdSrc,
-                                                                                        callCommPack.parentCallIdSrc,
-                                                                                        callCommPack.dataValue);
+                        LocalObject.SandBoxMessage sbm = new LocalObject.SandBoxMessage(
+                                callCommPack.interfaceInfoSrc,
+                                callCommPack.connectIdSrc,
+                                callCommPack.parentCallIdSrc,
+                                srcConnectLocalAddr,
+                                srcConnectRemoteAddr,
+                                CallObject.this.getConnectObject().getSourceAddress(),
+                                CallObject.this.getConnectObject().getAddress(),   // CallObject.this is the callObj of the transmission connect, not message dest callObj
+                                callCommPack.dataValue);
                         localObj.sandBoxIncomingMessageQueue.put(sbm);
                     } catch (InterruptedException ex) {
                         // will not be here.
@@ -419,17 +417,17 @@ public class CallObject {
                     String strAddress = destInterface.getLocalAddress();
                     LocalObject.LocalKey destLocalInfo = new LocalObject.LocalKey(strProtocol, strAddress);
                     CommunicationManager commMgr = FuncEvaluator.msCommMgr;
-                    LocalObject localObj = commMgr.findInLocal(destLocalInfo);
+                    LocalObject localObj = commMgr.findLocal(destLocalInfo);
                     if (localObj == null) {
                         Logger.getLogger(OnReceiveRequestListener.class.getName())
                                 .log(Level.SEVERE, "Local object cannot be found from local key {0}.",
                                         destLocalInfo.getProtocolName() + "-" + destLocalInfo.getLocalAddress());
                     } else {
                         CallObject callObj = null;
-                        if (localObj.allInConnects.containsKey(destConnectId)) {
-                            ConnectObject connectObj = localObj.allInConnects.get(destConnectId);
-                            if (connectObj.allCalls.containsKey(destCallId)) {
-                                callObj = connectObj.allCalls.get(destCallId);
+                        if (localObj.containConnectAddr(destConnectId)) {
+                            ConnectObject connectObj = localObj.getConnect(destConnectId);
+                            if (connectObj.allInCalls.containsKey(destCallId)) {
+                                callObj = connectObj.allInCalls.get(destCallId);
                             } else {
                                 Logger.getLogger(OnReceiveRequestListener.class.getName())
                                         .log(Level.SEVERE, "Call object cannot be found from local key {0} connect id {1} call id {2}.",
@@ -448,10 +446,15 @@ public class CallObject {
                         }
                         if (callObj != null) {
                             // it is sent from remote, so use remote source info
-                            LocalObject.SandBoxMessage sbm = new LocalObject.SandBoxMessage(callCommPack.interfaceInfoSrc,
-                                                                                            callCommPack.connectIdSrc,
-                                                                                            callCommPack.parentCallIdSrc,
-                                                                                            callCommPack.dataValue);
+                            LocalObject.SandBoxMessage sbm = new LocalObject.SandBoxMessage(
+                                    callCommPack.interfaceInfoSrc,
+                                    callCommPack.connectIdSrc,
+                                    callCommPack.parentCallIdSrc,
+                                    srcConnectLocalAddr,
+                                    srcConnectRemoteAddr,
+                                    CallObject.this.getConnectObject().getSourceAddress(),
+                                    CallObject.this.getConnectObject().getAddress(),   // CallObject.this is the callObj of the transmission connect, not message dest callObj
+                                    callCommPack.dataValue);
 
                             try {
                                 callObj.sandBoxMessageQueue.put(sbm);

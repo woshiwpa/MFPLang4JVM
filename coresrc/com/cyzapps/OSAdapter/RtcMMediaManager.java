@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class RtcMMediaManager {
 
-    public abstract void initRtcMMediaMan();
+    public abstract boolean initRtcMMediaMan();
 
     public static class RtcMMediaEvent {
         public String peerId;
@@ -38,7 +38,13 @@ public abstract class RtcMMediaManager {
 
     public abstract boolean createAnswer(String peerId, String sdpType, String sdpContent, Map<String, String> mandatoryConstraints, Map<String, String> optionalConstraints);
 
+    public abstract boolean setRemoteDescription(String peerId, String sdpType, String sdpContent);
+
     public abstract boolean addIceCandidate(String peerId, String payload);
+
+    public abstract boolean addPeerStream(String peerId);
+
+    public abstract void removePeerStream(String peerId);
 
     public abstract void closePeer(String peerId);
 }

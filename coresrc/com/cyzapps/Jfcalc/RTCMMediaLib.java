@@ -41,8 +41,8 @@ public class RTCMMediaLib {
             if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
                 throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
             }
-            FuncEvaluator.msRtcMMediaManager.initRtcMMediaMan();
-            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, MFPNumeric.TRUE);
+            boolean ret = FuncEvaluator.msRtcMMediaManager.initRtcMMediaMan();
+            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, ret?MFPNumeric.TRUE:MFPNumeric.FALSE);
         }
     }
     static {
@@ -192,6 +192,33 @@ public class RTCMMediaLib {
     static {
         CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Create_rtc_media_answerFunction());}
 
+    public static class Set_rtc_media_remote_descriptionFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Set_rtc_media_remote_descriptionFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::set_rtc_media_remote_description";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 3;
+            mnMinParamNum = 3;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            String peerId = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue();
+            String sdpType = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue();
+            String sdpContent = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue();
+            boolean ret = FuncEvaluator.msRtcMMediaManager.setRemoteDescription(peerId, sdpType, sdpContent);
+            if (!ret) {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_PARAMETER);
+            }
+            return null;
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Set_rtc_media_remote_descriptionFunction());}
+
     public static class Add_rtc_media_ice_candidateFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
         private static final long serialVersionUID = 1L;
 
@@ -267,6 +294,9 @@ public class RTCMMediaLib {
                 enableSlide = DCHelper.lightCvtOrRetDCMFPBool(listParams.removeLast()).getDataValue().booleanValue();
             }
             int id = display.addRtcVideoOutput(left, top, width, height, enableSlide);
+            if (id < 0) {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_CANNOT_CREATE_RTC_VIDEO_RENDERER);
+            }
             return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(id));
         }
     }
@@ -298,6 +328,162 @@ public class RTCMMediaLib {
     }
     static {
         CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Start_local_streamFunction());}
+
+    public static class Stop_local_streamFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Stop_local_streamFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::stop_local_stream";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            Display2D display = get2DDisplay(listParams.removeLast(), false);
+            display.stopLocalStream();
+            return null;
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Stop_local_streamFunction());}
+
+    public static class Start_video_capturerFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Start_video_capturerFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::start_video_capturer";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            Display2D display = get2DDisplay(listParams.removeLast(), false);
+            boolean ret = display.startVideoCapturer();
+            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, new MFPNumeric(ret));
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Start_video_capturerFunction());}
+
+    public static class Stop_video_capturerFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Stop_video_capturerFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::stop_video_capturer";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            Display2D display = get2DDisplay(listParams.removeLast(), false);
+            display.stopVideoCapturer();
+            return null;
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Stop_video_capturerFunction());}
+
+    public static class Set_video_track_enableFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Set_video_track_enableFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::set_video_track_enable";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 2;
+            mnMinParamNum = 2;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            Display2D display = get2DDisplay(listParams.removeLast(), false);
+            boolean toEnable = DCHelper.lightCvtOrRetDCMFPBool(listParams.removeLast()).getDataValue().booleanValue();
+            boolean previousState = display.setVideoTrackEnable(0, toEnable);
+            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, new MFPNumeric(previousState));
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Set_video_track_enableFunction());}
+
+    public static class Get_video_track_enableFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Get_video_track_enableFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::get_video_track_enable";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            Display2D display = get2DDisplay(listParams.removeLast(), false);
+            boolean state = display.getVideoTrackEnable(0);
+            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, new MFPNumeric(state));
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Get_video_track_enableFunction());}
+
+    public static class Set_audio_track_enableFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Set_audio_track_enableFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::set_audio_track_enable";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 2;
+            mnMinParamNum = 2;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            Display2D display = get2DDisplay(listParams.removeLast(), false);
+            boolean toEnable = DCHelper.lightCvtOrRetDCMFPBool(listParams.removeLast()).getDataValue().booleanValue();
+            boolean previousState = display.setAudioTrackEnable(0, toEnable);
+            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, new MFPNumeric(previousState));
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Set_audio_track_enableFunction());}
+
+    public static class Get_audio_track_enableFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Get_audio_track_enableFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::get_audio_track_enable";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            Display2D display = get2DDisplay(listParams.removeLast(), false);
+            boolean state = display.getAudioTrackEnable(0);
+            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, new MFPNumeric(state));
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Get_audio_track_enableFunction());}
 
     public static class Get_rtc_video_output_leftrightFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
         private static final long serialVersionUID = 1L;
@@ -413,4 +599,48 @@ public class RTCMMediaLib {
     }
     static {
         CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Unlink_video_streamFunction());}
+
+    public static class Add_peer_streamFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Add_peer_streamFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::add_peer_stream";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            String peerId = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue();
+            boolean ret = FuncEvaluator.msRtcMMediaManager.addPeerStream(peerId);
+            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(ret));
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Add_peer_streamFunction());}
+
+    public static class Remove_peer_streamFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+        private static final long serialVersionUID = 1L;
+
+        public Remove_peer_streamFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::remove_peer_stream";
+            mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
+            mnMaxParamNum = 1;
+            mnMinParamNum = 1;
+        }
+        @Override
+        public DataClass callAction(LinkedList<DataClass> listParams, LinkedList<String> listParamRawInputs, ProgContext progContext) throws ErrProcessor.JFCALCExpErrException, InterruptedException {
+            if (listParams.size() < mnMinParamNum || listParams.size() > mnMaxParamNum)   {
+                throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INCORRECT_NUM_OF_PARAMETER);
+            }
+            String peerId = DCHelper.lightCvtOrRetDCString(listParams.removeLast()).getStringValue();
+            FuncEvaluator.msRtcMMediaManager.removePeerStream(peerId);
+            return null;
+        }
+    }
+    static {
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Remove_peer_streamFunction());}
 }

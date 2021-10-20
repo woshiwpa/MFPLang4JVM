@@ -22,10 +22,15 @@ public abstract class ConnectObject {
     public Boolean isIncomingConnect() {
         return isIncoming;
     }
-	protected String address;
+    protected String address;
+    // this is remote address.
+    // In TCPIP, if NAT exists, in the server side, getAddress()
+    // return's the client side router's external address + port
+    // It is different from client's real address
 	public String getAddress() {
 		return address;
 	}
+	public String getSourceAddress() { return protocolObject.address; }
 	protected ConnectSettings settings;
 	public ConnectSettings getSettings() {
 		return settings;
@@ -52,7 +57,8 @@ public abstract class ConnectObject {
     }
 
 	// a map of call point id and call object. This has to be public because we may dynamically add the remove call.
-	public Map<Integer, CallObject> allCalls = new ConcurrentHashMap<Integer, CallObject>();
+    public Map<Integer, CallObject> allInCalls = new ConcurrentHashMap<Integer, CallObject>();
+    public Map<Integer, CallObject> allOutCalls = new ConcurrentHashMap<Integer, CallObject>();
     // a map from source call id to destination call id. This is needed because client sends
     // package to server without destination call id (because client doesn't know what is destination
     // call id).
@@ -72,8 +78,8 @@ public abstract class ConnectObject {
             return 0;
         }
     }
-    
-	public ConnectObject(LocalObject po, Boolean isIn, String addr, ConnectSettings config, ConnectAdditionalInfo additionalInfo) {
+
+	public ConnectObject(LocalObject po, Boolean isIn, Boolean isShadedCnt, String addr, ConnectSettings config, ConnectAdditionalInfo additionalInfo) {
 		protocolObject = po;
         isIncoming = isIn;
 		address = addr;
@@ -87,22 +93,31 @@ public abstract class ConnectObject {
         isShutdown = true;
     }
     
-    public CallObject createCallObject(Boolean isNotTransient) {
+    public CallObject createCallObject(Boolean isIn, Boolean isNotTransient) {
         if (isNotTransient) {
             Integer callPoint = getNextCallPoint(isNotTransient);
             CallObject callObj = new CallObject(this, callPoint);
-            allCalls.put(callPoint, callObj);
+            if (isIn) {
+                allInCalls.put(callPoint, callObj);
+            } else {
+                allOutCalls.put(callPoint, callObj);
+            }
             return callObj;
         }
         else
         {
-            return new CallObject(this, getNextCallPoint(isNotTransient)); // this call object is for something like message 
+            // this call object is for something like message. Transient callObjs are not added into
+            // allInCalls / allOutCalls dict. In this way, transient callObj's callId could be the
+            // same as a call id in allInCalls / allOutCalls
+            return new CallObject(this, getNextCallPoint(isNotTransient));
         }
     }
     
-    public CallObject removeCallObject(Integer callPoint) {
-        if (allCalls.containsKey(callPoint)) {
-            return allCalls.remove(callPoint);
+    public CallObject removeCallObject(Boolean isIn, Integer callPoint) {
+        if (isIn && allInCalls.containsKey(callPoint)) {
+            return allInCalls.remove(callPoint);
+        } else if (!isIn && allOutCalls.containsKey(callPoint)) {
+            return allOutCalls.remove(callPoint);
         }
         return null;
     }
@@ -119,6 +134,11 @@ public abstract class ConnectObject {
 	// receive call request for connectObj.
     static public class PackedCallRequestInfo implements Serializable {
         int destCallPoint;
+        // The following 2 addresses are only useful to TCPIP + NAT
+        // because with NAT, srcLocal may not be same as destRemote
+        // and destLocal may not be the same as srcRemote.
+        String srcLocalAddr;
+        String srcRemoteAddr;
         String cmd;
         String cmdParam;
         String content;
@@ -127,7 +147,11 @@ public abstract class ConnectObject {
     // keyword because receiveCallRequest is called in loop when connection is
     // generated.
 	public abstract PackedCallRequestInfo receiveCallRequest();
-    
+
+    // WebRTCConnMan needs not to call this function because its onReceiveData event will call
+    // processReceivedCallRequest directly.
+    // However, for TCPIPConnMan, this function has to be called at both server side and client
+    // side
     public void startReceiveCallRequests() {
         // OK, we use a loop to receive request. Remember packed call request infos
         // are for different call object.
@@ -148,37 +172,43 @@ public abstract class ConnectObject {
             return;
         }
         if (callCommPack.cmd.equals(CallCommPack.INITIALIZE_COMMAND)) {
-            CallObject callObj = createCallObject(true);
+            CallObject callObj = createCallObject(true,true);
             // client's call comm doesn't know what is remote call point so that
             // its packs always set remote call point to be -1. We need to set it
             // in the callSrcDestMap so connect object can find it.
             callRemoteSrc2DestMap.put(callCommPack.callPoint, callObj.callPoint);
             if (callObj.onReceiveRequestListener != null) {
-                callObj.onReceiveRequestListener.onReceiveRequest(callCommPack);
+                callObj.onReceiveRequestListener.onReceiveRequest(callCommPack, info.srcLocalAddr, info.srcRemoteAddr);
             } else {
                 Logger.getLogger(ConnectObject.class.getName()).warning("Fail to create call object to respond to INITIALIZE_COMMAND.");
             }
         } else if (callCommPack.cmd.equals(CallCommPack.DATA_COMMAND)) {
-            CallObject callObj = createCallObject(false);
+            CallObject callObj = createCallObject(true,false);
             if (callObj != null && callObj.onReceiveRequestListener != null) {
-                callObj.onReceiveRequestListener.onReceiveRequest(callCommPack);
+                callObj.onReceiveRequestListener.onReceiveRequest(callCommPack, info.srcLocalAddr, info.srcRemoteAddr);
             } else {
                 Logger.getLogger(ConnectObject.class.getName()).warning("Fail to create call object to respond to DATA_COMMAND.");
             }
-        } else if (allCalls.containsKey(info.destCallPoint)
+        } else if (allOutCalls.containsKey(info.destCallPoint)
                 || (callRemoteSrc2DestMap.containsKey(callCommPack.callPoint)
-                    && allCalls.containsKey(callRemoteSrc2DestMap.get(callCommPack.callPoint)))) {
+                    && allInCalls.containsKey(callRemoteSrc2DestMap.get(callCommPack.callPoint)))) {
             // take action only if the call object exists
-            int destCallPnt = info.destCallPoint;
-            if (!allCalls.containsKey(info.destCallPoint)) {
-                // client side doesn't have server's call id. So when server receives
-                // client's communication pack, it needs to check callRemoteSrc2DestMap
-                // to find destination call point.
-                destCallPnt = callRemoteSrc2DestMap.get(callCommPack.callPoint);
+            CallObject callObj;
+            if (!allOutCalls.containsKey(info.destCallPoint)) {
+                // client side doesn't have server's call id. This means info.destCallPoint
+                // is an invalid value (i.e. -1 as sendCallRequest function assigned an invalid
+                // callObj.remoteCallPoint to it). So when server receives client's communication
+                // pack, it needs to check callRemoteSrc2DestMap to find destination call point.
+                int destCallPnt = callRemoteSrc2DestMap.get(callCommPack.callPoint);
+                callObj = allInCalls.get(destCallPnt);
+            } else {
+                // we are at the client side, info.destCallPoint has been assigned as server
+                // side callObj.remoteCallPoint, which is client side corresponding call id.
+                int destCallPnt = info.destCallPoint;
+                callObj = allOutCalls.get(destCallPnt);
             }
-            CallObject callObj = allCalls.get(destCallPnt);
             if (callObj != null && callObj.onReceiveRequestListener != null) {
-                callObj.onReceiveRequestListener.onReceiveRequest(callCommPack);
+                callObj.onReceiveRequestListener.onReceiveRequest(callCommPack, info.srcLocalAddr, info.srcRemoteAddr);
             } else if (callObj == null) {
                 Logger.getLogger(ConnectObject.class.getName()).warning("Call object with call point " + info.destCallPoint + " is null.");
             } else {

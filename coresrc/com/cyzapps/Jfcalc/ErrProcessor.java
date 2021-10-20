@@ -268,6 +268,8 @@ public class ErrProcessor {
         ERROR_INVALID_IMAGE,
         /* sound cannot be played */
         ERROR_SOUND_CANNOT_BE_PLAYED,
+        /* cannot create rtc video renderer */
+        ERROR_CANNOT_CREATE_RTC_VIDEO_RENDERER,
         
         /* key not exist */
         ERROR_KEY_NOT_EXIST,
@@ -651,6 +653,9 @@ public class ErrProcessor {
             case ERROR_SOUND_CANNOT_BE_PLAYED:
                 strErrorType = "SOUND_CANNOT_BE_PLAYED_EXCEPTION";
                 break;
+            case ERROR_CANNOT_CREATE_RTC_VIDEO_RENDERER:
+                strErrorType = "CANNOT_CREATE_RTC_VIDEO_RENDERER_EXCEPTION";
+                break;
             case ERROR_KEY_NOT_EXIST:
                 strErrorType = "KEY_NOT_EXIST_EXCEPTION";
                 break;
@@ -1033,6 +1038,9 @@ public class ErrProcessor {
                 break;
             case ERROR_SOUND_CANNOT_BE_PLAYED:
                 strErrorMsg = "Sound cannot be played!";
+                break;
+            case ERROR_CANNOT_CREATE_RTC_VIDEO_RENDERER:
+                strErrorMsg = "Cannot create RTC video renderer!";
                 break;
             case ERROR_KEY_NOT_EXIST:
                 strErrorMsg = "Key not exist!";

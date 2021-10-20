@@ -70,7 +70,7 @@ public class CitingSpaceDefinitionTest {
         for (CitingSpaceDefinition csd : result) {
             strResult += csd.mstrFullNameWithCS + "\n";
         }
-        assertEquals(50, result.size());
+        assertEquals(53, result.size());
     }
     
     @Test
