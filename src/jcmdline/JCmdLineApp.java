@@ -44,6 +44,7 @@ import com.cyzapps.Jsma.SMErrProcessor.JSmartMathErrException;
 import com.cyzapps.Multimedia.MultimediaManager;
 import com.cyzapps.MultimediaAdapter.ImageMgrJava;
 import com.cyzapps.MultimediaAdapter.SoundMgrJava;
+import com.cyzapps.OSAdapter.JavaRtcMMediaMan;
 import com.cyzapps.OSAdapter.LangFileManager;
 import com.cyzapps.OSAdapter.MFP4JavaFileMan;
 import com.cyzapps.OSAdapter.ParallelManager.MFP4JavaCommMan;
@@ -577,6 +578,9 @@ public class JCmdLineApp extends SingleFrameApplication {
         }
         if (FuncEvaluator.msCommMgr == null) {
             FuncEvaluator.msCommMgr = new MFP4JavaCommMan();
+        }
+        if (FuncEvaluator.msRtcMMediaManager == null) {
+            FuncEvaluator.msRtcMMediaManager = new JavaRtcMMediaMan();
         }
         if (ScriptAnalyzer.msscriptInterrupter == null) {
             ScriptAnalyzer.msscriptInterrupter = new CmdLineScriptInterrupter();
