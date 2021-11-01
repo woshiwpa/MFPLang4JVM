@@ -74,24 +74,7 @@ public abstract class CommunicationManager {
 	public Set<VariableOperator.Variable> getAllUsedCallVariables() {
         return allUsedCallVariables;
     }
-    
-    public CallObject getCallOutObject(String protocolName, String address, String remoteAddr, int callPoint) {
-        LocalObject.LocalKey localKey = new LocalKey(protocolName, address);
-        
-        LocalObject localObj = findLocal(localKey);
-        if (localObj != null) {
-            if (localObj.containConnectAddr(remoteAddr)) {
-                CallObject callObj = localObj.getConnect(remoteAddr).allOutCalls.get(callPoint);
-                return callObj;
-            }
-        }
-        return null;
-    }
-	
-    // the incoming callobject will have the same call point as outgoing callobject. In the outgoing side, all
-    // the call points are unique. But the incoming side is not necessary. Therefore, I don't provide getCallInObject
-    // function
-    
+
 	// is the connect object existing?
 	public ConnectObject findConnectObject(DataClass datumConnect) {
 		try {

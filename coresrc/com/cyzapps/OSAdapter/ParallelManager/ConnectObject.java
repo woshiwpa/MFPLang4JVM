@@ -20,7 +20,10 @@ public abstract class ConnectObject {
 	}
     protected Boolean isIncoming;
     public Boolean isIncomingConnect() {
-        return isIncoming;
+        return isIncoming == null? Boolean.TRUE:isIncoming;
+    }
+    public Boolean isLoopbackConnect() {
+        return isIncoming == null;
     }
     protected String address;
     // this is remote address.

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static com.cyzapps.OSAdapter.ParallelManager.TCPIPConnMan.REMOTE_LISTEN_PORT;
 
@@ -72,8 +73,26 @@ public class TCPIPLocalMan extends LocalObject {
         // select a reverse to reuse, it cannot identify which one is linked to
         // router and which one is linked to within NAT.
         if (reuseExisting && containConnectAddr(fullAddress)) {
+            // if reuse, we should also reuse opposite direction connection.
             ConnectObject connObj = getConnect(fullAddress);
             return new String[] {connObj.getSourceAddress(), fullAddress};
+        }
+        // for TCPIP protocol, connect object id is always unique because it includes ip address and port
+        // as such we need to remove old connections
+        if (containConnectAddr(fullAddress)) {
+            ConnectObject cntObj;
+            while ((cntObj = removeConnect(fullAddress)) !=null){
+                // remove the connect from allConnects dictionary. Note that for webRTC, one address always corresponds a single connect
+                if (!cntObj.getIsShutdown()) {
+                    cntObj.shutdown();
+                    try {
+                        // wait a while until the exist out connect is disconnected.
+                        TimeUnit.MILLISECONDS.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         final TCPIPConnMan tcpipConnMan = new TCPIPConnMan(this, false, fullAddress, new ConnectSettings(), new ConnectAdditionalInfo());
         tcpipConnMan.activate();

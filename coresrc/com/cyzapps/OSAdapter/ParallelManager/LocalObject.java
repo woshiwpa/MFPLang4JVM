@@ -148,14 +148,13 @@ public abstract class LocalObject {
 	    synchronized (allConnects) {
             ArrayList<ConnectObject> connectObjs = allConnects.get(addr);
 	        if (null == connectObjs || connectObjs.size() == 0) {
-	            allConnects.remove(addr);
-	            return null;
-            } else if (connectObjs.size() == 1) {
-	            ConnectObject connObj = connectObjs.remove(0);
                 allConnects.remove(addr);
-                return connObj;
+                return null;
             } else {
                 ConnectObject connObj = connectObjs.remove(0);
+	            if (connectObjs.size() == 0) {
+                    allConnects.remove(addr);
+                }
                 return connObj;
             }
         }

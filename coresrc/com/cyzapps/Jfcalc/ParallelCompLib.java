@@ -334,7 +334,7 @@ public class ParallelCompLib {
         public Close_connectionFunction() {
             mstrProcessedNameWithFullCS = "::mfp::paracomp::connect::close_connection";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
-            mnMaxParamNum = 2;
+            mnMaxParamNum = 1;
             mnMinParamNum = 1;
         }
         @Override
@@ -346,65 +346,18 @@ public class ParallelCompLib {
             }
             
             String strLocalProtocol = "", strLocalAddress = "", strRemoteProtocol = "", strRemoteAddress = "";
-            if (listParams.size() == 1) {
-                // if pass-in a connect object
-                DataClass datumConnect = listParams.removeLast();
-                DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "PROTOCOL");
-                DataClass datumLocalAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS");
-                DataClass datumRemoteAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "ADDRESS");
-                if (null == datumProtocol || null == datumLocalAddr || null == datumRemoteAddr) {
-                    throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
-                }
-                strLocalProtocol = strRemoteProtocol = DCHelper.lightCvtOrRetDCString(datumProtocol).getStringValue();
-                strLocalAddress = DCHelper.lightCvtOrRetDCString(datumLocalAddr).getStringValue();
-                strRemoteAddress = DCHelper.lightCvtOrRetDCString(datumRemoteAddr).getStringValue();
-            } else {
-                // if pass-in local interface and remote interface
-                DataClass datumLocalInterface = listParams.removeLast();
-                DataClass datumRemoteInterface = listParams.removeLast();
-
-                DataClass datumLocalProtocol = ArrayBasedDictionary.getArrayBasedDictValue(
-                        datumLocalInterface,
-                        "PROTOCOL"
-                        );
-                if (null == datumLocalProtocol) {
-                    throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
-                } else {
-                    strLocalProtocol = DCHelper.lightCvtOrRetDCString(datumLocalProtocol).getStringValue().trim();
-                }
-                DataClass datumLocalAddress = ArrayBasedDictionary.getArrayBasedDictValue(
-                        datumLocalInterface,
-                        "ADDRESS"
-                        );
-                if (null == datumLocalAddress) {
-                    throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
-                } else {
-                    strLocalAddress = DCHelper.lightCvtOrRetDCString(datumLocalAddress).getStringValue().trim();
-                }
-
-                DataClass datumRemoteProtocol = ArrayBasedDictionary.getArrayBasedDictValue(
-                        datumRemoteInterface,
-                        "PROTOCOL"
-                        );
-                if (null == datumRemoteProtocol) {
-                    throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
-                } else {
-                    strRemoteProtocol = DCHelper.lightCvtOrRetDCString(datumRemoteProtocol).getStringValue().trim();
-                }
-                DataClass datumRemoteAddress = ArrayBasedDictionary.getArrayBasedDictValue(
-                        datumRemoteInterface,
-                        "ADDRESS"
-                        );
-                if (null == datumRemoteAddress) {
-                    throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
-                } else {
-                    strRemoteAddress = DCHelper.lightCvtOrRetDCString(datumRemoteAddress).getStringValue().trim();
-                }
-
-                if (!strLocalProtocol.equals(strRemoteProtocol)) {
-                    throw new JFCALCExpErrException(ERRORTYPES.ERROR_PARAMETER_VALUES_CONTRADICT);
-                }
+            // if pass-in a connect object
+            DataClass datumConnect = listParams.removeLast();
+            DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "PROTOCOL");
+            DataClass datumLocalAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS");
+            DataClass datumRemoteAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "ADDRESS");
+            if (null == datumProtocol || null == datumLocalAddr || null == datumRemoteAddr) {
+                throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
             }
+            strLocalProtocol = strRemoteProtocol = DCHelper.lightCvtOrRetDCString(datumProtocol).getStringValue();
+            strLocalAddress = DCHelper.lightCvtOrRetDCString(datumLocalAddr).getStringValue();
+            strRemoteAddress = DCHelper.lightCvtOrRetDCString(datumRemoteAddr).getStringValue();
+
             LocalObject.LocalKey localInfo = new LocalObject.LocalKey(strLocalProtocol, strLocalAddress);
             CommunicationManager commMgr = FuncEvaluator.msCommMgr;
             if (commMgr == null) {
