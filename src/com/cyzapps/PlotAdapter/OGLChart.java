@@ -486,6 +486,12 @@ public class OGLChart extends MFPChart implements GLEventListener, MouseListener
 
         mdChartWindowHeight = height;
         mdChartWindowWidth = width;
+        
+        // these three lines are a bug fix for jogl 2.3.2 which cannot handle high DPI
+        // properly in windows platform. It should be removed from jogl 2.4.0
+        double dpiScalingFactor = ((Graphics2D) getGraphContainer().getGraphics()).getTransform().getScaleX();
+        width *= dpiScalingFactor;
+        height *= dpiScalingFactor;
 
         gl.glViewport(0, 0, width, height);     //Reset The Current Viewport
 

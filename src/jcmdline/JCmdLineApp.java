@@ -1811,23 +1811,12 @@ public class JCmdLineApp extends SingleFrameApplication {
      * @throws Exception
      */
     public static void addLibraryPath(String pathToAdd) throws Exception {
-        final Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
-        usrPathsField.setAccessible(true);
-
-        //get array of paths
-        final String[] paths = (String[]) usrPathsField.get(null);
-
-        //check if the path to add is already present
-        for (String path : paths) {
-            if (path.equals(pathToAdd)) {
-                return;
-            }
-        }
-
-        //add the new path to the FIRST.
-        final String[] newPaths = Arrays.copyOf(paths, paths.length + 1);
-        newPaths[0] = pathToAdd;
-        System.arraycopy(paths, 0, newPaths, 1, paths.length);
-        usrPathsField.set(null, newPaths);
+        // This function was using 
+        // ClassLoader.class.getDeclaredField("usr_paths")
+        // but this method has been discarded since java-13+
+        // So I decided to add jogl-all-native-*.jar and gluegen-rt-native-*.jar
+        // files in lib and only support 64 bits windows, Linux and MacOSX.
+        // I still keep this function as a stub. Maybe it will be used in
+        // java-17+. But if it is not used after java-17, delete it.
     }
 }
