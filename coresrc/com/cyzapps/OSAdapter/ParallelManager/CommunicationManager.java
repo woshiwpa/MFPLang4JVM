@@ -142,7 +142,9 @@ public abstract class CommunicationManager {
     // assume the email address has been lowercased.
     public static boolean isRecommendedEmailAddr(String email) {
         if (email.endsWith("@outlook.com") || email.endsWith("@hotmail.com")
-                || email.endsWith("@gmail.com") || email.endsWith("@qq.com")) {
+                || email.endsWith("@gmail.com") || email.endsWith("@qq.com")
+                || email.endsWith("@163.com") || email.endsWith("@126.com") || email.endsWith("@yeah.net")
+                || email.endsWith("@sohu.com") || email.endsWith("@yahoo.com") || email.endsWith("@mail.com")) {
             return true;
         }
         return false;
@@ -243,12 +245,24 @@ public abstract class CommunicationManager {
 
     public static String getImapServer(String emailAddr) {
         String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
-        if (emailAddrLower.endsWith("gmail.com")) {
+        if (emailAddrLower.endsWith("@gmail.com")) {
             return "imap.gmail.com";
-        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+        } else if (emailAddrLower.endsWith("@outlook.com") || emailAddrLower.endsWith("@hotmail.com") || emailAddrLower.endsWith("@msn.com")) {
             return "imap-mail.outlook.com";
-        } else if (emailAddrLower.endsWith("qq.com")) {
+        } else if (emailAddrLower.endsWith("@qq.com")) {
             return "imap.qq.com";
+        } else if (emailAddrLower.endsWith("@163.com")) {
+            return "imap.163.com";
+        } else if (emailAddrLower.endsWith("@126.com")) {
+            return "imap.126.com";
+        } else if (emailAddrLower.endsWith("@yeah.net")) {
+            return "imap.yeah.net";
+        } else if (emailAddrLower.endsWith("@sohu.com")) {
+            return "imap.sohu.com";
+        } else if (emailAddrLower.endsWith("@yahoo.com")) {
+            return "imap.mail.yahoo.com";
+        } else if (emailAddrLower.endsWith("@mail.com")) {
+            return "imap.mail.com";
         } else {
             return null;
         }
@@ -256,11 +270,19 @@ public abstract class CommunicationManager {
 
     public static int getImapPort(String emailAddr) {
         String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
-        if (emailAddrLower.endsWith("gmail.com")) {
+        if (emailAddrLower.endsWith("@gmail.com")) {
             return 993;
-        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+        } else if (emailAddrLower.endsWith("@outlook.com") || emailAddrLower.endsWith("@hotmail.com") || emailAddrLower.endsWith("@msn.com")) {
             return 993;
-        } else if (emailAddrLower.endsWith("qq.com")) {
+        } else if (emailAddrLower.endsWith("@qq.com")) {
+            return 993;
+        } else if (emailAddrLower.endsWith("@163.com") || emailAddrLower.endsWith("@126.com") || emailAddrLower.endsWith("@yeah.net")) {
+            return 993;
+        } else if (emailAddrLower.endsWith("@sohu.com")) {
+            return 993;
+        } else if (emailAddrLower.endsWith("@yahoo.com")) {
+            return 993;
+        } else if (emailAddrLower.endsWith("@mail.com")) {
             return 993;
         } else {
             return -1;
@@ -269,12 +291,24 @@ public abstract class CommunicationManager {
 
     public static String getSmtpServer(String emailAddr) {
         String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
-        if (emailAddrLower.endsWith("gmail.com")) {
+        if (emailAddrLower.endsWith("@gmail.com")) {
             return "smtp.gmail.com";
-        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+        } else if (emailAddrLower.endsWith("@outlook.com") || emailAddrLower.endsWith("@hotmail.com") || emailAddrLower.endsWith("@msn.com")) {
             return "smtp-mail.outlook.com";
-        } else if (emailAddrLower.endsWith("qq.com")) {
+        } else if (emailAddrLower.endsWith("@qq.com")) {
             return "smtp.qq.com";
+        } else if (emailAddrLower.endsWith("@163.com")) {
+            return "smtp.163.com";
+        } else if (emailAddrLower.endsWith("@126.com")) {
+            return "smtp.126.com";
+        } else if (emailAddrLower.endsWith("@yeah.net")) {
+            return "smtp.yeah.net";
+        } else if (emailAddrLower.endsWith("@sohu.com")) {
+            return "smtp.sohu.com";
+        } else if (emailAddrLower.endsWith("@yahoo.com")) {
+            return "smtp.mail.yahoo.com";
+        } else if (emailAddrLower.endsWith("@mail.com")) {
+            return "smtp.mail.com";
         } else {
             return null;
         }
@@ -282,11 +316,19 @@ public abstract class CommunicationManager {
 
     public static int getSmtpPort(String emailAddr) {
         String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
-        if (emailAddrLower.endsWith("gmail.com")) {
+        if (emailAddrLower.endsWith("@gmail.com")) {
             return 587;
-        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+        } else if (emailAddrLower.endsWith("@outlook.com") || emailAddrLower.endsWith("@hotmail.com") || emailAddrLower.endsWith("@msn.com")) {
             return 587;
-        } else if (emailAddrLower.endsWith("qq.com")) {
+        } else if (emailAddrLower.endsWith("@qq.com")) {
+            return 587;
+        } else if (emailAddrLower.endsWith("@163.com") || emailAddrLower.endsWith("@126.com") || emailAddrLower.endsWith("@yeah.net")) {
+            return 465;
+        } else if (emailAddrLower.endsWith("@sohu.com")) {
+            return 25;
+        } else if (emailAddrLower.endsWith("@yahoo.com")) {
+            return 465;
+        } else if (emailAddrLower.endsWith("@mail.com")) {
             return 587;
         } else {
             return -1;
@@ -295,11 +337,19 @@ public abstract class CommunicationManager {
 
     public static Integer getSSL(String emailAddr) {
         String emailAddrLower = emailAddr.trim().toLowerCase(Locale.US);
-        if (emailAddrLower.endsWith("gmail.com")) {
+        if (emailAddrLower.endsWith("@gmail.com")) {
             return -1;
-        } else if (emailAddrLower.endsWith("outlook.com") || emailAddrLower.endsWith("hotmail.com") || emailAddrLower.endsWith("msn.com")) {
+        } else if (emailAddrLower.endsWith("@outlook.com") || emailAddrLower.endsWith("@hotmail.com") || emailAddrLower.endsWith("@msn.com")) {
             return -1;
-        } else if (emailAddrLower.endsWith("qq.com")) {
+        } else if (emailAddrLower.endsWith("@qq.com")) {
+            return -1;
+        } else if (emailAddrLower.endsWith("@163.com") || emailAddrLower.endsWith("@126.com") || emailAddrLower.endsWith("@yeah.net")) {
+            return -1;
+        } else if (emailAddrLower.endsWith("@sohu.com")) {
+            return -1;
+        } else if (emailAddrLower.endsWith("@yahoo.com")) {
+            return 1;
+        } else if (emailAddrLower.endsWith("@mail.com")) {
             return -1;
         } else {
             return null;

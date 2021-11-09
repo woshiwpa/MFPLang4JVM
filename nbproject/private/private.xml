@@ -21,8 +21,10 @@
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/adapter/OGLExprChartOperator.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/TCPIPLocalMan.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/PlotAdapter/OGLExprChart.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/adapter/ChartOperator.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/CommunicationManager.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/PlotAdapter/OGLChart.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/LangFileManager.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/adapter/OGLChartOperator.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/OSAdapter/MFP4JavaFileMan.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/test/com/cyzapps/Jmfp/CitingSpaceDefinitionTest.java</file>
@@ -32,6 +34,7 @@
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/jcmdline/J3DExprChartAdj.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/ParallelCompLib.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/VisualMFP/Ellipse.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/src/jcmdline/ApkBuilder.java</file>
         </group>
     </open-files>
 </project-private>
