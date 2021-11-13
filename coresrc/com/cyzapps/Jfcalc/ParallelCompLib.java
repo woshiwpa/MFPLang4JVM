@@ -1281,11 +1281,11 @@ public class ParallelCompLib {
                         int callId = callObj.getCallPoint();
                         String connectId = connectObj.getAddress();
                         LocalObject localObj = callObj.getConnectObject().getProtocolObject();
+                        LocalObject.LocalKey localInterface = localObj.getLocalKey();
                         try {
-                            // interface info is null implies that it is a local message.
                             // connectLocalSeenFromRemote is "" because it is a local message
                             // because it is a local to local message, transmission connect information is always "".
-                            SandBoxMessage sbm = new SandBoxMessage(null, connectId, callId, "", "", "", "", datumMessage);
+                            SandBoxMessage sbm = new SandBoxMessage(localInterface, connectId, callId, "", "", "", "", datumMessage);
                             localObj.sandBoxIncomingMessageQueue.put(sbm);
                         } catch (InterruptedException ex) {
                             // will not be here.
@@ -1343,16 +1343,6 @@ public class ParallelCompLib {
                     }
                     // connect object is the 1st parameter
                     DataClass datumConnect = listParams.removeFirst();
-                    DataClass datumProtocol = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "PROTOCOL");
-                    DataClass datumLocalAddr = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "LOCAL_ADDRESS");
-                    DataClass datumAddress = ArrayBasedDictionary.getArrayBasedDictValue(datumConnect, "ADDRESS");
-                    if (null == datumProtocol || null == datumLocalAddr || null == datumAddress) {
-                        // invalid connect object.
-                        throw new JFCALCExpErrException(ERRORTYPES.ERROR_INVALID_PARAMETER);
-                    }
-                    String protocolName = DCHelper.lightCvtOrRetDCString(datumProtocol).getStringValue();
-                    String localAddress = DCHelper.lightCvtOrRetDCString(datumLocalAddr).getStringValue();
-                    LocalObject.LocalKey localKey = new LocalObject.LocalKey(protocolName, localAddress);
                     CallObject callObj = FuncEvaluator.msCommMgr.createOutCallObject(datumConnect, false);
                     if (callObj == null) {
                         throw new JFCALCExpErrException(ERRORTYPES.ERROR_CALL_OBJECT_UNAVAILABLE);
@@ -1366,13 +1356,15 @@ public class ParallelCompLib {
                         // this is in a sand box
                         CallObject parentCallObj = CallObject.msmapThreadId2SessionInfo.get(thisThreadId).getCallObject();
                         ConnectObject connectOfParentCallObj = parentCallObj.getConnectObject();
+                        LocalObject localObjOfParentCallObj = connectOfParentCallObj.getProtocolObject();
+                        LocalObject.LocalKey localInterfaceOfParentCallObj = localObjOfParentCallObj.getLocalKey();
                         int parentCallId = parentCallObj.getCallPoint();
                         String connectOfParentCallId = connectOfParentCallObj.getAddress();
-                        callCommPack = new CallCommPack(point, localKey, connectOfParentCallId, parentCallId,
+                        callCommPack = new CallCommPack(point, localInterfaceOfParentCallObj, connectOfParentCallId, parentCallId,
                                 destLocalInfo, destConnectId, destCallId, datumMessage);
                     } else {
                         // this is in the main entity.
-                        callCommPack = new CallCommPack(point, localKey, "", 0,
+                        callCommPack = new CallCommPack(point, null, "", 0,
                                 destLocalInfo, destConnectId, destCallId, datumMessage);
                     }
                     try {
