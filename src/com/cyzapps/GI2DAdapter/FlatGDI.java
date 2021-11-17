@@ -796,7 +796,7 @@ public class FlatGDI extends Display2D {
     }
 
     @Override
-    public int[] getRtcVideoOutputLeftRight(int id) {
+    public int[] getRtcVideoOutputLeftTop(int id) {
         return new int[0];   // RTC Video is not supported by ImageDisplay
     }
 

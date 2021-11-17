@@ -354,7 +354,7 @@ public class RTCMMediaLib {
     public static class Start_video_capturerFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
         private static final long serialVersionUID = 1L;
 
-        public Start_video_capturerFunction() {
+        public Start_video_capturerFunction() { // I decide not to expose this function at this moment
             mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::start_video_capturer";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
             mnMaxParamNum = 1;
@@ -376,7 +376,7 @@ public class RTCMMediaLib {
     public static class Stop_video_capturerFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
         private static final long serialVersionUID = 1L;
 
-        public Stop_video_capturerFunction() {
+        public Stop_video_capturerFunction() { // I decide not to expose this function at this moment
             mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::stop_video_capturer";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
             mnMaxParamNum = 1;
@@ -485,11 +485,11 @@ public class RTCMMediaLib {
     static {
         CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Get_audio_track_enableFunction());}
 
-    public static class Get_rtc_video_output_leftrightFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
+    public static class Get_rtc_video_output_lefttopFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
         private static final long serialVersionUID = 1L;
 
-        public Get_rtc_video_output_leftrightFunction() {
-            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::get_rtc_video_output_leftright";
+        public Get_rtc_video_output_lefttopFunction() {
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::get_rtc_video_output_lefttop";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
             mnMaxParamNum = 2;
             mnMinParamNum = 2;
@@ -504,22 +504,22 @@ public class RTCMMediaLib {
             if (videoOutputId < 0) {
                 throw new ErrProcessor.JFCALCExpErrException(ErrProcessor.ERRORTYPES.ERROR_INVALID_PARAMETER);
             }
-            int[] leftright = display.getRtcVideoOutputLeftRight(videoOutputId);
-            DataClass[] leftrightArray = new DataClass[2];
-            leftrightArray[0] = new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(leftright[0]));
-            leftrightArray[1] = new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(leftright[1]));
-            DataClassArray ret = new DataClassArray(leftrightArray);
+            int[] lefttop = display.getRtcVideoOutputLeftTop(videoOutputId);
+            DataClass[] lefttopArray = new DataClass[2];
+            lefttopArray[0] = new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(lefttop[0]));
+            lefttopArray[1] = new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(lefttop[1]));
+            DataClassArray ret = new DataClassArray(lefttopArray);
             return ret;
         }
     }
     static {
-        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Get_rtc_video_output_leftrightFunction());}
+        CitingSpaceDefinition.CSD_TOP_SYS.addMemberNoExcept(new Get_rtc_video_output_lefttopFunction());}
 
     public static class Get_rtc_video_output_countFunction extends BuiltInFunctionLib.BaseBuiltInFunction {
         private static final long serialVersionUID = 1L;
 
         public Get_rtc_video_output_countFunction() {
-            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::get_rtc_video_output_output";
+            mstrProcessedNameWithFullCS = "::mfp::multimedia::webrtc_lib::get_rtc_video_output_count";
             mstrarrayFullCS = mstrProcessedNameWithFullCS.split("::");
             mnMaxParamNum = 1;
             mnMinParamNum = 1;
