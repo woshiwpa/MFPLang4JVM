@@ -7,6 +7,7 @@ import com.cyzapps.Jfcalc.ErrProcessor.JFCALCExpErrException;
 import com.cyzapps.Jsma.AEConst;
 import com.cyzapps.Jsma.AEInvalid;
 import com.cyzapps.Jsma.AbstractExpr;
+import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * This class caters reference of string, and of course null.
@@ -184,7 +185,7 @@ public final class DataClassString extends DataClass {
         if (DCHelper.isDataClassType(this, DATATYPES.DATUM_NULL)) {
             strOutput = "NULL";
         } else {
-            strOutput = "\"" + getStringValue() + "\"";
+            strOutput = "\"" + StringEscapeUtils.escapeJava(getStringValue()) + "\"";
         }
         return strOutput;
     }

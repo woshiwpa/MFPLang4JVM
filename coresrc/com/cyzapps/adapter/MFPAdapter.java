@@ -58,6 +58,7 @@ import com.cyzapps.Oomfp.OoErrProcessor.JOoMFPErrException;
 import com.cyzapps.OSAdapter.LangFileManager;
 import com.cyzapps.Oomfp.CitingSpaceDefinition.CheckMFPSLibMode;
 import com.cyzapps.Oomfp.MFPClassDefinition;
+import org.apache.commons.lang.StringEscapeUtils;
 
 public class MFPAdapter {
     public static final int INT_ASSET_PATH_MAX_CHILD_LEVEL = 32;    // assume asset path cannot be as deep as 32 level.
@@ -1642,7 +1643,7 @@ public class MFPAdapter {
         }
         else if (DCHelper.isDataClassType(datumAnswer, DATATYPES.DATUM_STRING))
         {
-            strAnswerShown = strAnswerRecorded = "\"" + DCHelper.lightCvtOrRetDCString(datumAnswer).getStringValue() + "\"";
+            strAnswerShown = strAnswerRecorded = "\"" + StringEscapeUtils.escapeJava(DCHelper.lightCvtOrRetDCString(datumAnswer).getStringValue()) + "\"";
         }
         else if (DCHelper.isDataClassType(datumAnswer, DATATYPES.DATUM_REF_FUNC))
         {
