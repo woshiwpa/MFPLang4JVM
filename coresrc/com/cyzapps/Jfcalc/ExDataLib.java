@@ -78,12 +78,12 @@ public class ExDataLib {
                         return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, val0?MFPNumeric.TRUE:MFPNumeric.FALSE);
                     } catch (JSONException e0) {
                         try {
-                            BigInteger val1 = array.getBigInteger(idx);
-                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val1));
+                            BigDecimal val1 = array.getBigDecimal(idx);
+                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val1));
                         } catch (JSONException e1) {
                             try {
-                                BigDecimal val2 = array.getBigDecimal(idx);
-                                return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val2));
+                                BigInteger val2 = array.getBigInteger(idx);
+                                return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val2));
                             } catch (JSONException e2) {
                                 try {
                                     JSONArray val3 = array.getJSONArray(idx);
@@ -172,12 +172,12 @@ public class ExDataLib {
                         return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, val0?MFPNumeric.TRUE:MFPNumeric.FALSE);
                     } catch (JSONException e0) {
                         try {
-                            BigInteger val1 = obj.getBigInteger(key);
-                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val1));
+                            BigDecimal val1 = obj.getBigDecimal(key);
+                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val1));
                         } catch (JSONException e1) {
                             try {
-                                BigDecimal val2 = obj.getBigDecimal(key);
-                                return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val2));
+                                BigInteger val2 = obj.getBigInteger(key);
+                                return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val2));
                             } catch (JSONException e2) {
                                 try {
                                     JSONArray val3 = obj.getJSONArray(key);
