@@ -807,9 +807,11 @@ public class ParallelCompLib {
 	            // we assume datumSettings will never change and we use its reference instead of a copy.
 	            datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "SETTINGS", datumSettings);
             } catch (IOException connectEx) {
-            	datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "CONNECT", new DataClassNull());
-            	datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "ERROR", new DataClassString(connectEx.getMessage()));
-            	// do not remove add connect if a new connect fail to build up.
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "CONNECT", new DataClassNull());
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "ERROR", new DataClassString(connectEx.getMessage()));
+            } catch (ErrProcessor.JFCALCExpErrException timeoutEx) {
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "CONNECT", new DataClassNull());
+                datumReturn = ArrayBasedDictionary.setArrayBasedDictValue(datumReturn, "ERROR", new DataClassString(timeoutEx.getMessage()));
             }
         	return datumReturn;
         }

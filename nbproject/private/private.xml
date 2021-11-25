@@ -9,23 +9,30 @@
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/FuncEvaluator.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/jcmdline/JApkGenInput.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/PlotAdapter/OGLChartView.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/DataClassArray.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/GI2DAdapter/FlatGDI.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/RtcMMediaManager.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/TCPIPConnMan.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/CallAgent.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jmfp/ScriptAnalyzer.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/OSAdapter/JavaRtcMMediaMan.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/DataClass.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/RTCMMediaLib.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/adapter/MFPAdapter.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/PlotAdapter/MFPChart.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/LocalObject.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/jcmdline/JCmdLineAboutBox.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/adapter/OGLExprChartOperator.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/TCPIPLocalMan.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/PlotAdapter/OGLExprChart.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/CallCommPack.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/src/jcmdline/JCmdLineView.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/adapter/ChartOperator.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/CommunicationManager.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/PlotAdapter/OGLChart.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/LangFileManager.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/adapter/OGLChartOperator.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/DCHelper.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/OSAdapter/MFP4JavaFileMan.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/test/com/cyzapps/Jmfp/CitingSpaceDefinitionTest.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/com/cyzapps/MultimediaAdapter/ImageDisplay.java</file>
@@ -34,6 +41,8 @@
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/jcmdline/J3DExprChartAdj.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/ParallelCompLib.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/VisualMFP/Ellipse.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/Jfcalc/DataClassString.java</file>
+            <file>file:/D:/Development/git_repo/MFPLang4JVM/coresrc/com/cyzapps/OSAdapter/ParallelManager/CallObject.java</file>
             <file>file:/D:/Development/git_repo/MFPLang4JVM/src/jcmdline/ApkBuilder.java</file>
         </group>
     </open-files>

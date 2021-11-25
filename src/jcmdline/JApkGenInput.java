@@ -39,7 +39,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.text.DefaultStyledDocument;
 import jcmdline.MFPAppConfig.MFPAppCfgParameter;
 import org.apache.commons.compress.utils.Charsets;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  *
@@ -1326,13 +1326,13 @@ public class JApkGenInput extends javax.swing.JDialog {
 
         String strContactDetails = "";
         String strEmail = txtFieldYourEmail.getText().trim();
-        strEmail = StringEscapeUtils.escapeHtml(strEmail);
+        strEmail = StringEscapeUtils.escapeHtml4(strEmail);
         if (strEmail.length() > 0) {
             strContactDetails += "<p style=\"color:black\">" + JCmdLineApp.getStringsClass().get_email_address() + " : <a href=\"mailto:" + strEmail + "\">" + strEmail + "</a></p>\n";
         }
 
         String strWebSite = txtFieldYourWebSite.getText().trim();
-        strWebSite = StringEscapeUtils.escapeHtml(strWebSite);
+        strWebSite = StringEscapeUtils.escapeHtml4(strWebSite);
         if (strWebSite.length() > 0) {
             if (strWebSite.length() > 7
                     && (strWebSite.substring(0, 7).equalsIgnoreCase("https:/")

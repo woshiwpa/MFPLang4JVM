@@ -7,7 +7,7 @@ import com.cyzapps.Jfcalc.ErrProcessor.JFCALCExpErrException;
 import com.cyzapps.Jsma.AEConst;
 import com.cyzapps.Jsma.AEInvalid;
 import com.cyzapps.Jsma.AbstractExpr;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * This class caters reference of string, and of course null.

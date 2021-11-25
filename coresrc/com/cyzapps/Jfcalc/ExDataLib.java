@@ -41,11 +41,11 @@ public class ExDataLib {
                     Boolean val = array.getBoolean(idx);
                     return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, val?MFPNumeric.TRUE:MFPNumeric.FALSE);
                 } else if (type.equals("d")) {
-                    BigInteger val = array.getBigInteger(idx);
+                    Long val = array.getLong(idx);
                     return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val));
                 } else if (type.equals("f")) {
-                    BigDecimal val = array.getBigDecimal(idx);
-                    return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val));
+                    Double val = array.getDouble(idx);
+                    return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val, true));
                 } else if (type.equals("a")) {
                     JSONArray val = array.getJSONArray(idx);
                     DataClass[] datumArray = new DataClass[val.length()];
@@ -56,7 +56,7 @@ public class ExDataLib {
                     return new DataClassArray(datumArray);
                 } else if (type.equals("j")) {
                     JSONObject val = array.getJSONObject(idx);
-                    DataClass[] datumArray = new DataClass[val.keySet().size()];
+                    DataClass[] datumArray = new DataClass[val.length()];
                     int idx1 = 0;
                     Iterator<String> keys = val.keys();
                     while (keys.hasNext()) {
@@ -65,7 +65,7 @@ public class ExDataLib {
                         DataClass[] datumKeyValueSubArray = new DataClass[2];
                         datumKeyValueSubArray[0] = new DataClassString(keySub);
                         datumKeyValueSubArray[1] = valueSub;
-                        datumArray[val.keySet().size() - 1 - idx1] = new DataClassArray(datumKeyValueSubArray);
+                        datumArray[val.length() - 1 - idx1] = new DataClassArray(datumKeyValueSubArray);
                         idx1 ++;
                     }
                     return new DataClassArray(datumArray);
@@ -78,11 +78,11 @@ public class ExDataLib {
                         return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, val0?MFPNumeric.TRUE:MFPNumeric.FALSE);
                     } catch (JSONException e0) {
                         try {
-                            BigDecimal val1 = array.getBigDecimal(idx);
-                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val1));
+                            Double val1 = array.getDouble(idx);
+                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val1, true));
                         } catch (JSONException e1) {
                             try {
-                                BigInteger val2 = array.getBigInteger(idx);
+                                Long val2 = array.getLong(idx);
                                 return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val2));
                             } catch (JSONException e2) {
                                 try {
@@ -96,7 +96,7 @@ public class ExDataLib {
                                 } catch (JSONException e3) {
                                     try {
                                         JSONObject val4 = array.getJSONObject(idx);
-                                        DataClass[] datumArray = new DataClass[val4.keySet().size()];
+                                        DataClass[] datumArray = new DataClass[val4.length()];
                                         int idx1 = 0;
                                         Iterator<String> keys = val4.keys();
                                         while (keys.hasNext()) {
@@ -105,7 +105,7 @@ public class ExDataLib {
                                             DataClass[] datumKeyValueSubArray = new DataClass[2];
                                             datumKeyValueSubArray[0] = new DataClassString(keySub);
                                             datumKeyValueSubArray[1] = valueSub;
-                                            datumArray[val4.keySet().size() - 1 - idx1] = new DataClassArray(datumKeyValueSubArray);
+                                            datumArray[val4.length() - 1 - idx1] = new DataClassArray(datumKeyValueSubArray);
                                             idx1 ++;
                                         }
                                         return new DataClassArray(datumArray);
@@ -135,11 +135,11 @@ public class ExDataLib {
                     Boolean val = obj.getBoolean(key);
                     return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, val?MFPNumeric.TRUE:MFPNumeric.FALSE);
                 } else if (type.equals("d")) {
-                    BigInteger val = obj.getBigInteger(key);
+                    Long val = obj.getLong(key);
                     return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val));
                 } else if (type.equals("f")) {
-                    BigDecimal val = obj.getBigDecimal(key);
-                    return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val));
+                    Double val = obj.getDouble(key);
+                    return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val, true));
                 } else if (type.equals("a")) {
                     JSONArray val = obj.getJSONArray(key);
                     DataClass[] datumArray = new DataClass[val.length()];
@@ -150,7 +150,7 @@ public class ExDataLib {
                     return new DataClassArray(datumArray);
                 } else if (type.equals("j")) {
                     JSONObject val = obj.getJSONObject(key);
-                    DataClass[] datumArray = new DataClass[val.keySet().size()];
+                    DataClass[] datumArray = new DataClass[val.length()];
                     int idx = 0;
                     Iterator<String> keys = val.keys();
                     while (keys.hasNext()) {
@@ -159,7 +159,7 @@ public class ExDataLib {
                         DataClass[] datumKeyValueSubArray = new DataClass[2];
                         datumKeyValueSubArray[0] = new DataClassString(keySub);
                         datumKeyValueSubArray[1] = valueSub;
-                        datumArray[val.keySet().size() - 1 - idx] = new DataClassArray(datumKeyValueSubArray);
+                        datumArray[val.length() - 1 - idx] = new DataClassArray(datumKeyValueSubArray);
                         idx ++;
                     }
                     return new DataClassArray(datumArray);
@@ -172,11 +172,11 @@ public class ExDataLib {
                         return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPBOOL, val0?MFPNumeric.TRUE:MFPNumeric.FALSE);
                     } catch (JSONException e0) {
                         try {
-                            BigDecimal val1 = obj.getBigDecimal(key);
-                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val1));
+                            Double val1 = obj.getDouble(key);
+                            return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPDEC, new MFPNumeric(val1, true));
                         } catch (JSONException e1) {
                             try {
-                                BigInteger val2 = obj.getBigInteger(key);
+                                Long val2 = obj.getLong(key);
                                 return new DataClassSingleNum(DCHelper.DATATYPES.DATUM_MFPINT, new MFPNumeric(val2));
                             } catch (JSONException e2) {
                                 try {
@@ -190,7 +190,7 @@ public class ExDataLib {
                                 } catch (JSONException e3) {
                                     try {
                                         JSONObject val4 = obj.getJSONObject(key);
-                                        DataClass[] datumArray = new DataClass[val4.keySet().size()];
+                                        DataClass[] datumArray = new DataClass[val4.length()];
                                         int idx = 0;
                                         Iterator<String> keys = val4.keys();
                                         while (keys.hasNext()) {
@@ -199,7 +199,7 @@ public class ExDataLib {
                                             DataClass[] datumKeyValueSubArray = new DataClass[2];
                                             datumKeyValueSubArray[0] = new DataClassString(keySub);
                                             datumKeyValueSubArray[1] = valueSub;
-                                            datumArray[val4.keySet().size() - 1 - idx] = new DataClassArray(datumKeyValueSubArray);
+                                            datumArray[val4.length() - 1 - idx] = new DataClassArray(datumKeyValueSubArray);
                                             idx ++;
                                         }
                                         return new DataClassArray(datumArray);
