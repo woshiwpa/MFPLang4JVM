@@ -16,9 +16,33 @@
 </td>
 </tr>
 <tr>
+<td><center>accept</center></td>
+<td><p>::mfp::paracomp::connect::accept(1) :</p>
+<p>accept函数接收一个从远端到一个本地网络界面的连接请求然后返回接收端（也就是位于本地网络界面的）连接对象。它只有一个参数，也就是本地网络界面对象信息。网络界面对象信息通常是函数generate_interface的返回值。注意如果没有连接请求到来，该函数调用会阻塞当前线程。该函数的一个例子是accept(local_info)。</p>
+</td>
+</tr>
+<tr>
 <td><center>acos</center></td>
 <td><p>::mfp::math::trigon::acos(1) :</p>
 <p>acos(x)返回x的反余弦值，注意x可以为复数。</p>
+</td>
+</tr>
+<tr>
+<td><center>add_peer_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::add_peer_stream(1) :</p>
+<p>add_peer_stream函数将多媒体流（也就是视频和音频）链入web RTC的peer connection对象。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。它只有一个参数，就是peer connection对象的Id，也就是peer connection对象连接的远端的地址。</p>
+</td>
+</tr>
+<tr>
+<td><center>add_rtc_media_ice_candidate</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::add_rtc_media_ice_candidate(2) :</p>
+<p>add_rtc_media_ice_candidate函数将一个ICE协议候选对象加入到peer connection对象的ICE候选对象列表中。它有两个参数，第一个参数是peer connection对象的Id。第二个参数是基于字符串的ICE候选对象的内容。</p>
+</td>
+</tr>
+<tr>
+<td><center>add_rtc_video_output</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::add_rtc_video_output(5) :</p>
+<p>add_rtc_video_output将一个RTC视频子窗口加到显示窗口上。它有五个参数，第一个参数是显示窗口的句柄，该句柄是open_screen_display函数的返回值。剩下的四个参数分别是基于整数的视频子窗口的左上顶点的横坐标，纵坐标，宽度和高度。这四个参数决定了视频子窗口在显示窗口上的位置。</p>
 </td>
 </tr>
 <tr>
@@ -116,15 +140,21 @@
 </td>
 </tr>
 <tr>
-<td><center>close_local</center></td>
-<td><p>::mfp::paracomp::connect::close_local(2) :</p>
-<p>close_local(local_info, is_server)关闭一个local对象。第一个参数，local_info，包含被关闭的local对象的信息。这些信息是generate_interface函数的返回值。第二个参数，is_server，是一个可选的布尔值参数。它决定是关闭一个服务端的local对象还是客户端的local对象。它的缺省值是false。本函数的一个例子为close_local(a_generated_interface, false)。</p>
+<td><center>close_connection</center></td>
+<td><p>::mfp::paracomp::connect::close_connection(1) :</p>
+<p>close_connection关闭一个连接对象。它只有一个参数，就是connect函数，accept函数或者get_incoming_connect函数返回的连接对象。本函数的一个例子为close_connection(conn_obj)。</p>
 </td>
 </tr>
 <tr>
-<td><center>close_out_connection</center></td>
-<td><p>::mfp::paracomp::connect::close_out_connection(1...) :</p>
-<p>close_out_connection关闭一个客户端的连接对象。它有两种工作模式。第一种工作模式有两个参数。第一个参数，local_info，包含被关闭的连接对象所在客户端的local对象的信息。这些信息是generate_interface函数的返回值。第二个参数，remote_info，包含被关闭的连接对象所在服务器端的local对象的信息。这些信息同样也是generate_interface函数的返回值。第二种工作模式只有一个参数，就是客户端通过调用connect函数得到的连接对象。本函数的一个例子为close_out_connection(a_generated_client_interface, a_generated_server_interface)。</p>
+<td><center>close_local</center></td>
+<td><p>::mfp::paracomp::connect::close_local(1) :</p>
+<p>close_local关闭一个本地网络界面。它只有一个参数，就是generate_interface函数返回的连接对象。本函数的一个例子为close_local(local_info)。</p>
+</td>
+</tr>
+<tr>
+<td><center>close_rtc_media_peer</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::close_rtc_media_peer(1) :</p>
+<p>本函数关闭一个web RTC的peer connection对象。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。本函数唯一的参数是peer connection对象的Id，也就是它的远端地址。</p>
 </td>
 </tr>
 <tr>
@@ -136,7 +166,7 @@
 <tr>
 <td><center>connect</center></td>
 <td><p>::mfp::paracomp::connect::connect(3) :</p>
-<p>connect(local_info, remote_info, not_reuse_exist)初始化一个从由local_info定义的本地网络界面对象到由remote_info定义的服务端网络界面对象的连接。local_info和remote_info均由调用generate_interface函数获得。第三个参数not_reuse_exist是一个布尔值。如果是True，意味着该函数重新建立一个新的连接，而不是使用已有的连接（如果存在已有连接的话）。该参数是可选参数，缺省值为False。如果成功本函数返回基于数组的字典，字典中的"CONNECT"关键字对应的是连接对象的定义，如果失败本函数返回的字典中的"CONNECT"关键字对应的是NULL，同时还有一个"ERROR"关键字指向错误信息。</p>
+<p>connect(local_info, remote_info, not_reuse_exist)函数建立一条从local_info所定义的本地网络界面到remote_info所定义的远端网络界面的网络连接。参数local_info和remote_info均可通过调用generate_interface函数获得。第三个参数也就是not_reuse_exist是一个可以省略的布尔值，其缺省值为false。如果它是true，本函数会重用本地网络界面和远端网络界面之间已存在的网络连接（如果有的话）。注意网络连接是双向的。一个网络连接无论是从本地网络界面连接到远端网络界面还是反过来，都是可以被本函数重用的。但需要注意的是，对于TCPIP协议，在服务端重用一个连入的网络连接不是那么容易。原因有两个，第一，当客户端发起一个连接时，客户端所使用的IP端口是由操作系统而不是MFP语言决定的，然而，在服务端，如果想要找到一个连入的网络连接，客户端的地址必须完整而精确，也就是说客户端的IP端口必不可少；其次，如果客户端和服务端之间存在NAT层，服务端不可能知道位于NAT层内部客户端实际的IP地址和端口。在这种情况下，如果想要重用已有的反向网络连接，MFP语言需要分析从客户端发送到服务端的消息，读取消息的"TransConnectDestRemote"值。该值就是该网络连接的客户端的地址的精确完整信息，如果该连接基于TCPIP协议，该值就是客户端的IP地址加IP端口。注意如果NAT层存在的话，该地址是从服务端看到的客户端地址而并非NAT层内部客户端实际的地址。获取客户端详细地址后再将该地址作为一个参数传入generate_interface函数便可获取准确的远端网络界面的信息，也就是remote_info。connect函数返回一个字典对象，如果调用成功，其"CONNECT"关键字的值便是连接对象的详细信息；反之，如果调用失败，"CONNECT"的值则是NULL，而额外的"ERROR"关键字的值就是出错信息。</p>
 </td>
 </tr>
 <tr>
@@ -257,6 +287,18 @@
 <td><center>create_image</center></td>
 <td><p>::mfp::multimedia::image_lib::create_image(2) :</p>
 <p>create_image(w, h)返回一个全新的，空白的被包装过的JAVA图像对象。该图形对象的宽度为w，高度为h。</p>
+</td>
+</tr>
+<tr>
+<td><center>create_rtc_media_answer</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::create_rtc_media_answer(5) :</p>
+<p>本函数在接收到一个offer信令之后创建一个web RTC的answer信令。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。本函数有5个参数。第一个是peer connection对象的id。第二个是SDP的类型。该参数应该就是一个"offer"字符串。第三个参数是SDP的内容，也就是offer信令的内容。第四个参数是强制性的限制参数集。最后一个参数是可选的限制参数集。最后一个参数可以省略。本函数的一个例子是create_rtc_media_answer(remoteAddr, sdpType, sdpContent, [["OfferToReceiveAudio", "true"], ["OfferToReceiveVideo", supportVideoStr]], [["DtlsSrtpKeyAgreement", "true"]])。</p>
+</td>
+</tr>
+<tr>
+<td><center>create_rtc_media_offer</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::create_rtc_media_offer(3) :</p>
+<p>本函数创建一个web RTC的offer信令。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。本函数有3个参数。第一个是peer connection对象的id。第二个参数是强制性的限制参数集。最后一个参数是可选的限制参数集。最后一个参数可以省略。本函数的一个例子是create_rtc_media_offer(remoteAddr, [["OfferToReceiveAudio", "true"], ["OfferToReceiveVideo", supportVideoStr]], [["DtlsSrtpKeyAgreement", "true"]])。</p>
 </td>
 </tr>
 <tr>
@@ -457,7 +499,7 @@
 <tr>
 <td><center>get_all_connect_call_ids</center></td>
 <td><p>::mfp::paracomp::connect::get_all_connect_call_ids(1...) :</p>
-<p>get_all_connect_call_ids返回服务器端一个用于监听的地址所有的连接id或者一个连接的所有call沙盒id。它有两种模式。第一种调用模式只有一个参数，为一个代表服务端本地信息的对象。 该对象为generate_interface函数的返回值。在这种模式下，本函数的返回值为所有从客户端连入的连接的id数组。注意如果本地信息不合法，本函数将抛出异常。如果不是在服务端，将返回一个空数组。 第二种调用模式有两个参数。第一个参数为一个代表服务端本地信息的对象。 该对象为generate_interface函数的返回值。第二个参数为一个服务端连接对象的id（该id可以通过调用get_call_info函数得到）。第二种模式下的返回值是该连接的所有call沙盒id的数组。注意如果本地信息不合法，本函数将抛出异常。如果不是在服务端或者连接id不存在，将返回NULL。本函数的一个例子是get_all_connect_call_ids(server_interface, connect_id)。</p>
+<p>get_all_connect_call_ids返回一个网络界面所有的连接id或者一个连接的所有call沙盒id。它有两种模式。第一种调用模式只有一个参数，为一个代表本地网络界面信息的对象。 该对象为generate_interface函数的返回值。在这种模式下，本函数的返回值为所有从连入和连出的网络连接的id数组。注意如果本地信息不合法，本函数将抛出异常。第二种调用模式有三个参数。第一个参数为一个代表本地网络界面信息的对象。 该对象为generate_interface函数的返回值。第二个参数为一个连接对象的id（如果该连接是从本地到远端的连出网络连接，该id是远端地址，如果是连入网络连接，该id可以通过调用get_call_info函数得到）。第三个参数是一个布尔值，如果是true，这个函数返回所有通过该连接的连入的call沙盒id的数组，否则，这个函数返回所有通过该连接的连出的call沙盒id的数组。注意如果本地信息不合法，本函数将抛出异常。如果连接id不存在，将返回NULL。本函数的一个例子是get_all_connect_call_ids(server_interface, connect_id, false)。</p>
 </td>
 </tr>
 <tr>
@@ -476,6 +518,12 @@
 <td><center>get_asset_file_path</center></td>
 <td><p>::mfp::platform_hardware::platform_info::get_asset_file_path(1) :</p>
 <p>get_asset_file_path(asset_file_entry)告诉开发人员一个asset文件（文件名由字符串参数asset_file_entry给出）的路径。注意，如果正在运行的脚本不是一个MFP应用，本函数返回null。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_audio_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_audio_track_enable(1) :</p>
+<p>本函数测试音轨是否已经被激活。如果是，返回True，否则返回False。这个函数仅有一个参数，就是一个显示窗口的句柄。该句柄是open_screen_display函数的返回值。</p>
 </td>
 </tr>
 <tr>
@@ -655,6 +703,18 @@
 </td>
 </tr>
 <tr>
+<td><center>get_incoming_connect</center></td>
+<td><p>::mfp::paracomp::connect::get_incoming_connect(2) :</p>
+<p>get_incoming_connect函数返回一个从远端地址连入一个本地网络界面的网络连接对象，或者如果没有这样一个网络连接存在则返回null。这个函数接受两个参数。第一个参数为一个代表本地网络界面信息的对象。 该对象为generate_interface函数的返回值。第二个参数是远端，也就是网络连接发起端（或者说客户端）的地址。注意对于TCPIP协议，客户端的地址必须是包括IP地址和端口的完整地址。此外，如果在远端和本地之间存在NAT层，客户端地址必须是在本地看到的远端地址，也就是客户端在NAT层外侧的地址。本函数的一个例子是get_incoming_connect(local_interface, "192.168.1.100:53521")。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_json_field</center></td>
+<td><p>::mfp::exdata::json::get_json_field(3) :</p>
+<p>此函数从一个代表JSON数据的字符串中获取一个域的值。此函数有三个参数。第一个参数为一个代表JSON数据的字符串，第二个参数为JSON域的名字，第三个参数为JSON域的类型。如果第三个参数值为"s"，则意味着这个JSON域是一个字符串，如果是"b"，则意味着这个JSON域是一个布尔值，如果是"f"，则意味着这个JSON域是一个浮点数值，如果是"d"，则意味着这个JSON域是一个整数值，如果是"a"，则意味着这个JSON域是一个数组，如果是"j"，则意味着这个JSON域是一个代表JSON数据的字符串，如果是其他值或者这个参数被省略，则由MFP自己侦测这个JSON域的数据类型。注意第一个参数和第二个参数都是区分大小写的，但第三个参数不区分大小写。这个函数的返回值是这个JSON域的数据值。本函数的一个例子是get_json_field("{\"ABC\": null, \"JJJ\": {\"DEF\":[1, 8, [\"Welcome\", 9.99]],\"ZZ\":\"hello boy\"}}", "JJJ", "j")。</p>
+</td>
+</tr>
+<tr>
 <td><center>get_local_host_address</center></td>
 <td><p>::mfp::paracomp::host::get_local_host_address(1) :</p>
 <p>get_local_host_address(protocol_name)返回protocol_name协议在本机的localhost地址。本函数的一个例子是get_local_host_address("TCPIP")。</p>
@@ -688,6 +748,18 @@
 <td><center>get_porterduff_mode</center></td>
 <td><p>::mfp::graph_lib::draw::get_porterduff_mode(1) :</p>
 <p>get_porterduff_mode(painting_extra)返回一个painting extra数据结构的porterduff模式。painting extra数据结构在painting事件中被调用。Porterduff模式告诉MFP如何绘制目标区域。它是一个大写的字符串，具有以下可能值："CLEAR"，"SRC"，"DST"，"SRC_OVER"，"DST_OVER"，"SRC_IN"，"DST_IN"，"SRC_OUT"，"DST_OUT"，"SRC_ATOP"，"DST_ATOP"，"XOR"或者""，其中，空字符串""是缺省值。开发者可以参考JAVA文档以获取porterduff模式的详细信息。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_rtc_video_output_count</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_rtc_video_output_count(1) :</p>
+<p>本函数返回一个显示窗口上的RTC视频子窗口的个数。本函数仅有一个参数就是显示窗口的句柄。该句柄是open_screen_display函数的返回值。</p>
+</td>
+</tr>
+<tr>
+<td><center>get_rtc_video_output_lefttop</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_rtc_video_output_lefttop(2) :</p>
+<p>本函数返回一个包含两个元素的数组。第一个元素是一个RTC视频输出子窗口的左上角的x坐标。第二个元素是该RTC视频输出子窗口的左上角的y坐标。这个函数有两个参数。第一个参数是一个显示窗口的句柄。该句柄是open_screen_display函数的返回值。第二个参数是该RTC视频输出子窗口在显示窗口的RTC视频输出子窗口序列中的索引。第一个RTC视频输出子窗口的索引是0，第二个RTC视频输出子窗口的索引是1，以此类推。</p>
 </td>
 </tr>
 <tr>
@@ -781,6 +853,12 @@
 </td>
 </tr>
 <tr>
+<td><center>get_video_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_video_track_enable(1) :</p>
+<p>本函数测试视频功能是否已经被激活。如果是，返回True，否则返回False。这个函数仅有一个参数，就是一个显示窗口的句柄。该句柄是open_screen_display函数的返回值。</p>
+</td>
+</tr>
+<tr>
 <td><center>get_working_dir</center></td>
 <td><p>::mfp::io::file::get_working_dir(0) :</p>
 <p>get_working_dir()（别名pwd()）返回基于字符串的当前路径。</p>
@@ -845,7 +923,13 @@
 <tr>
 <td><center>initialize_local</center></td>
 <td><p>::mfp::paracomp::connect::initialize_local(2) :</p>
-<p>initialize_local(local_info, is_server)初始化一个本地interface对象。该对象由local_info定义（local_info是调用generate_interface的返回结果）。这个函数的第二个参数是一个布尔值，为true时初始化服务端interface对象，为false时初始化客户端interface对象。这个参数可以省略，其缺省值是false。本函数如果成功返回true，否则返回false。</p>
+<p>initialize_local(local_info, settings)初始化一个本地interface对象。该对象由local_info定义（local_info是调用generate_interface的返回结果）。这个函数的第二个参数是本地网络界面的设置。这个参数现在还没有被使用，所以可以省略。本函数如果成功返回true，否则返回false。</p>
+</td>
+</tr>
+<tr>
+<td><center>initialize_rtc_mmedia</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::initialize_rtc_mmedia(0) :</p>
+<p>本函数用于初始化web RTC库。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。如果初始化成功，函数返回True，否则返回False。</p>
 </td>
 </tr>
 <tr>
@@ -1018,6 +1102,12 @@
 <td><center>lim</center></td>
 <td><p>::mfp::math::calculus::lim(3) :</p>
 <p>lim(expr, var, dest_value)用于计算表达式expr在变量var趋近于dest_value时的值。expr和var必须为字符串，dest_value为表达式或者数值，可以基于字符串，也可以不基于字符串。比如，lim("1/x", "x", 0)或者lim("(x+2)/(x+3)","x","3+0")。注意这个函数还在开发中。</p>
+</td>
+</tr>
+<tr>
+<td><center>link_video_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::link_video_stream(4) :</p>
+<p>此函数将web RTC视频流链接到一个RTC视频输出窗口。它有四个参数。第一个是显示窗口句柄，该句柄可以从open_screen_display函数调用中返回。第二个是peer connection对象的Id。第三个是视频流轨的ID。最后一个是RTC视频输出子窗口在显示窗口的RTC视频输出子窗口序列中的索引。此函数不会返回任何值。如果任何参数无效，或者无法将视频流链接到视频输出窗口，本函数会抛出一个异常。</p>
 </td>
 </tr>
 <tr>
@@ -1230,9 +1320,15 @@
 </td>
 </tr>
 <tr>
+<td><center>receive_rtc_mmedia_message</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::receive_rtc_mmedia_message(1) :</p>
+<p>此函数取回一个web RTC消息。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。本函数只有一个参数，就是等待的时间。如果该参数是一个正数，则代表等待的毫秒数。如果该参数是0，函数立即返回。如果是一个负数，函数会阻塞等待直到有消息到来。如果在等待超时后仍然没有消息到来，则返回null。如果函数取回了一个合法的消息，则该函数的返回值是一个四个元素的数组。第一个元素是消息的目标peer connection对象的id。第二个元素是当前RTC会话的id。第三个元素是消息的类型。最后一个元素是消息的内容。如果消息是RTC信令，消息的类型则是"signal"，而消息的内容则是一个Json字符串。该Json字符串的"type"域值是信令的类型，也就是"offer"，"answer"或者"candidate"；如果信令的类型是"offer"或者"answer"，则该Json字符串的"sdp"域值是SDP的内容。如果消息是peer connection的事件，消息的类型则是"pc"，而消息的内容则是一个Json字符串。该Json字符串的"type"域值是事件的类型，比如"ice_connection_change"；而"content"域值则是基于字符的事件内容。</p>
+</td>
+</tr>
+<tr>
 <td><center>receive_sandbox_message</center></td>
 <td><p>::mfp::paracomp::connect::receive_sandbox_message(1...) :</p>
-<p>receive_sandbox_message函数返回沙盒或者MFP主进程发送的信息。发送者可能位于一个和本地有直接连接（这里指的是通过MFP的connect函数构成的连接）的远端MFP实例中（可能是一个call沙盒或者该MFP实例的主进程），也可能就是本地MFP实例的一个call沙盒或者该MFP实例的主进程。它有两种工作模式。第一种工作模式只有一个参数，也就是等待的时间。如果是0，则意味着没有等待，立即返回。如果队列中有消息，则返回队列中的第一个消息，否则，返回NULL。如果等待时间小于0，则意味着阻塞模式。也就是说如果队列中没有消息，函数将会阻塞。如果等待时间是正数，则代表等待的毫秒数。如果等待时间过去之后队列中仍然没有消息，则返回NULL。如果本函数是在沙盒中被调用，则必须采用第一种工作模式。第二种工作模式有两个参数。第一个参数为一个代表本地信息（也就是监听地址）的对象。它告诉本函数选择哪一个本地地址收取消息。该信息对象可由调用generate_interface函数返回得到。第二个参数则是等待时间，其具体意义参见第一种工作模式。如果本函数是在MFP主进程中被调用，则必须采用第二种工作模式。本函数如果返回一个合法的消息，该返回值则是一个基于数组的字典。其中，“InterfaceInfo”的字段是发送端的本地信息，包括协议和地址。如果发送端和接收端位于同一个MFP实例中，发送端并非通过loopback连接来发送消息给接收端，并且接收端是该MFP实例的一个call沙盒而发送端是该MFP实例的主进程，这个字段则为NULL。“ConnectId”的字段是发送端的连接ID，如果发送端是MFP实例的主进程，该字段为一个空字符串。“CallId”的字段是发送端的call沙盒ID，如果发送端是MFP实例的主进程，该字段为0。“Message”的字段是消息的内容。本函数的两个例子为receive_sandbox_message(-1)和receive_sandbox_message(local_info, -1)。</p>
+<p>receive_sandbox_message函数返回沙盒或者MFP主进程发送的信息。发送者可能位于一个和本地有直接连接（这里指的是通过MFP的connect函数构成的连接）的远端MFP实例中（可能是一个call沙盒或者该MFP实例的主进程），也可能就是本地MFP实例的一个call沙盒或者该MFP实例的主进程。它有两种工作模式。第一种工作模式只有一个参数，也就是等待的时间。如果是0，则意味着没有等待，立即返回。如果队列中有消息，则返回队列中的第一个消息，否则，返回NULL。如果等待时间小于0，则意味着阻塞模式。也就是说如果队列中没有消息，函数将会阻塞。如果等待时间是正数，则代表等待的毫秒数。如果等待时间过去之后队列中仍然没有消息，则返回NULL。如果本函数是在沙盒中被调用，则必须采用第一种工作模式。第二种工作模式有两个参数。第一个参数为一个代表本地信息（也就是监听地址）的对象。它告诉本函数选择哪一个本地地址收取消息。该信息对象可由调用generate_interface函数返回得到。第二个参数则是等待时间，其具体意义参见第一种工作模式。如果本函数是在MFP主进程中被调用，则必须采用第二种工作模式。本函数如果返回一个合法的消息，该返回值则是一个基于数组的字典。其中，“InterfaceInfo”的字段是发送端的本地信息，包括协议和地址。如果发送端和接收端位于同一个MFP实例中，并且接收端是该MFP实例的一个call沙盒而发送端是该MFP实例的主进程，这个字段则为NULL。“ConnectId”的字段是发送端的连接ID，如果发送端是MFP实例的主进程，该字段为一个空字符串。“CallId”的字段是发送端的call沙盒ID，如果发送端是MFP实例的主进程，该字段为0。“TransConnectSrcLocal”字段是传输连接发送端自己看到的本地地址。这里，传输连接未必是发送或者接收端call沙盒的发起连接。但传输连接的两端必然分别位于发送端和接收端所在的MFP实例中。发送端，无论是call沙盒还是MFP主进程，将要发送的消息交给MFP实例，然后发送端MFP实例将该消息通过传输连接发送到接收端的MFP实例，再由接收端MFP实例将消息配送到目标沙盒或者MFP主进程。注意由于传输连接是双向的，发送端不一定是传输连接的客户端，相应地，接收端也不一定是传输连接的服务端。类似地，字段“TransConnectSrcRemote”是传输连接发送端看到的接收端地址；字段“TransConnectDestLocal”是传输连接接收端自己看到的本地地址；字段“TransConnectDestRemote”是传输连接接收端看到的发送端地址。通常情况下，字段“TransConnectSrcLocal”和“TransConnectDestRemote”的值应该是一致的，字段“TransConnectSrcRemote”和“TransConnectDestLocal”的值应该是一致的。但是，如果是TCPIP协议并且发送端和接收端之间存在NAT层，这些字段的值不见得会一致。如果接收端位于传输连接的服务端，“TransConnectDestRemote”字段的值会非常有用，因为它可以告诉MFP传输连接在服务端的id，只有知道id该连接才可以被重用，并且还可以通过该连接发送回复的消息。如果发送端和接收端位于同一个MFP实例中，则不需要通过传输连接发送消息，这种情况下上述4个字段的内容都是空字符串。最后，消息的“Message”的字段是消息的内容。本函数的两个例子为receive_sandbox_message(-1)和receive_sandbox_message(local_info, -1)。</p>
 </td>
 </tr>
 <tr>
@@ -1245,6 +1341,12 @@
 <td><center>remove_elem_from_ablist</center></td>
 <td><p>::mfp::data_struct::array_based::remove_elem_from_ablist(2) :</p>
 <p>remove_elem_from_ablist(array_based_list, idx)将基于数组的序列array_based_list的idx号元素删除并返回更新后的基于数组的序列。作为参数的array_based_list和返回值共享元素。注意idx必须是一个合法的索引。</p>
+</td>
+</tr>
+<tr>
+<td><center>remove_peer_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::remove_peer_stream(1) :</p>
+<p>此函数移除peer connection对象的视频流。这个函数仅有一个参数，也就是peer connection对象的Id。这个函数不返回任何值。</p>
 </td>
 </tr>
 <tr>
@@ -1270,13 +1372,19 @@
 <tr>
 <td><center>send_sandbox_message</center></td>
 <td><p>::mfp::paracomp::connect::send_sandbox_message(1...) :</p>
-<p>send_sandbox_message函数将消息发送到沙盒或MFP主进程。它具有四种工作模式。第一种工作模式是从沙盒向其本地MFP主进程发送消息。在这种情况下，该功能只有一个参数，即消息内容。请注意，消息内容不必是字符串。例如，send_sandbox_message([1,2,3])从沙盒向本地MFP主进程发送[1,2,3]。第二种工作模式是将消息从MFP主进程或沙盒发送到本地沙盒。在这种情况下，该功能需要四个参数。第一个参数是本地信息对象。可以从generate_interface函数获得此本地信息对象。启动接收方沙盒的call请求被本地信息对象所代表的接口地址接受。第二个参数是接收方沙盒的连接ID，如果接口基于TCPIP协议，则为接收方本地接口的地址。第三个参数是接收方沙盒的call沙盒Id。最后一个参数是消息内容。此模式的一个示例是send_sandbox_message(local_info,"127.0.0.1",1,238.975+3.01i)。第三种工作模式是将消息从本地沙盒或MFP主进程发送到远端MFP主进程。请注意，本地MFP实例必须已经通过调用connect函数连接到远端MFP实例。此模式需要两个参数。第一个是从connect函数返回的连接对象（即返回值的“CONNECT”字段）。第二个参数是消息内容。一个示例是send_sandbox_message(conn1,"Hello!")。最后一种工作模式是将消息从本地沙盒或MFP主进程发送到远端沙盒。请注意，本地MFP实例必须通过调用connect函数连接到远端MFP实例。此模式需要五个参数。第一个参数是从连接函数返回的连接对象（即返回值的“CONNECT”字段）。第二个参数是从generate_interface函数获得的远程接口对象。此远程接口位于连接的另一端。远程接口接受了启动接收方沙盒的call请求。第三个参数是接收方沙盒的连接ID，如果接口基于TCPIP协议，则为远端接口的地址。第四个参数是接收方沙盒的call沙盒ID。最后一个参数是消息内容。此模式的一个示例是send_sandbox_message(conn1,remote_info,"192.168.1.139",4,[[1,2],[3,4]])。</p>
+<p>send_sandbox_message函数将消息发送到沙盒或MFP主进程。它具有四种工作模式。第一种工作模式是从沙盒向其本地MFP主进程发送消息。在这种情况下，该功能只有一个参数，即消息内容。请注意，消息内容不必是字符串。例如，send_sandbox_message([1,2,3])从沙盒向本地MFP主进程发送[1,2,3]。第二种工作模式是将消息从MFP主进程或沙盒发送到本地沙盒。在这种情况下，该功能需要四个参数。第一个参数是本地信息对象。可以从generate_interface函数获得此本地信息对象。启动接收方沙盒的call请求被本地信息对象所代表的接口地址接受。第二个参数是接收方沙盒的连接ID。注意这个连接是启动接收方沙盒call对象的连接。第三个参数是接收方沙盒的call沙盒Id。最后一个参数是消息内容。此模式的一个示例是send_sandbox_message(local_info,"127.0.0.1",1,238.975+3.01i)。第三种工作模式是将消息从本地沙盒或MFP主进程发送到远端MFP主进程。请注意，本地MFP实例必须已经通过调用connect函数连接到远端MFP实例。此模式需要两个参数。第一个是从connect函数返回的连接对象（即返回值的“CONNECT”字段）。第二个参数是消息内容。一个示例是send_sandbox_message(conn1,"Hello!")。最后一种工作模式是将消息从本地沙盒或MFP主进程发送到远端沙盒。请注意，本地MFP实例必须通过调用connect函数连接到远端MFP实例。此模式需要五个参数。第一个参数是从连接函数返回的连接对象（即返回值的“CONNECT”字段）。第二个参数是从generate_interface函数获得的远程接口对象。此远程接口位于连接的另一端。远程接口接受了启动接收方沙盒的call请求。第三个参数是接收方沙盒的连接ID。注意这个连接是启动接收方沙盒call对象的连接。第四个参数是接收方沙盒的call沙盒ID。最后一个参数是消息内容。此模式的一个示例是send_sandbox_message(conn1,remote_info,"192.168.1.139",4,[[1,2],[3,4]])。</p>
 </td>
 </tr>
 <tr>
 <td><center>set_array_elem</center></td>
 <td><p>::mfp::array::set_array_elem(3) :</p>
 <p>set_array_elem(x,y,z)将x[y]赋值为z，并且返回新的x。注意x不是必须为矩阵，y必须为正整数向量。y的值可以超出x的尺寸和维度。比如，如果x=3，y=[1,2]，z=2+3i，那么set_array_elem(x,y,z)等于[3, [0, 0, 2+3i]]。还要注意，调用了set_array_elem函数之后，x的值可能会自动变为新值，也可能不会。所以，必须将set_array_elem的返回值赋予x，以保证x的值得到更新。</p>
+</td>
+</tr>
+<tr>
+<td><center>set_audio_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::set_audio_track_enable(2) :</p>
+<p>此函数激活或者关闭音轨。这个函数有两个参数。第一个参数是一个显示窗口的句柄。该显示窗口的句柄可以从open_screen_display函数调用中返回。第二个是一个布尔值，True表示激活音轨而false则表示关闭音轨。这个函数的返回值是音轨之前的状态。True表示函数调用之前是激活状态而false则表示函数调用之前是关闭状态。</p>
 </td>
 </tr>
 <tr>
@@ -1340,9 +1448,27 @@
 </td>
 </tr>
 <tr>
+<td><center>set_json_field</center></td>
+<td><p>::mfp::exdata::json::set_json_field(3) :</p>
+<p>此函数将一个值设置到代表JSON数据的字符串中。此函数有三个参数。第一个参数为一个代表JSON数据的字符串，第二个参数为JSON域的名字，第三个参数为JSON域的值。注意这三个参数都是区分大小写的。如果这个JSON域已经存在，则将新值写入，否则，将创建一个新的JSON域。这个函数的返回值是设置后的新的JSON域的字符串，或者如果数据类型不支持或JSON域的名字错误则抛出异常。本函数的一个例子是set_json_field("{\"ABC\": null, \"JJJ\": {\"DEF\":[1, 8, [\"Welcome\", 9.99]],\"ZZ\":\"hello boy\"}}", "JJJ", "New value")。</p>
+</td>
+</tr>
+<tr>
+<td><center>set_local_host_address</center></td>
+<td><p>::mfp::paracomp::host::set_local_host_address(4) :</p>
+<p>set_local_host_address函数用于设置所选通信协议的本地地址。它有四个参数。第一个参数是通信协议的的名字。当前只支持WEBRTC协议所以它只能是字符串"WEBRTC"。第二个参数是通信接口的名称，当前支持"main"作爲参数值。第三个参数是通信地址。由于仅支持WEBRTC协议，通信地址必须是一个合法的电子邮件地址。推荐使用微软的outlook邮件或者腾讯公司的QQ邮件。第四个参数是一个字符串数组。数组中的第一个元素为"0"，代表该email地址支持smtp和imap协议。数组中的第二个元素为电子邮件的密码。注意这是smtp和imap协议收发邮件所使用的密码，该密码未见得和登录网页信箱所需要的密码一样。如果开发人员使用微软的outlook邮件或者hotmail邮箱，或者谷歌的gmail，以及腾讯的QQ邮件，以上信息就足够了。但是，如果是其他的邮件地址，开发人员则需要提供smtp服务器和imap服务器的信息。这包括smtp服务器的地址，端口，是否支持SSL协议，和imap服务器的地址，端口，以及是否支持SSL协议。其中，是否支持SSL协议也是一个字符串，"0"表示不支持，"1"表示支持，"-1"表示不清楚。这些信息将分别填入第四个参数的第三号到第八号元素中。本函数的一个例子是set_local_host_address("WEBRTC", "main", "abcxyz@yahoo.com", ["0", "xxxxyyyyzzzzwwww", "smtp.mail.yahoo.com", "465", "1", "imap.mail.yahoo.com", "993", "1"])。另外一个例子是set_local_host_address("WEBRTC", "main", "mnopqrst@outlook.com", ["0", "abcd1234"])。</p>
+</td>
+</tr>
+<tr>
 <td><center>set_porterduff_mode</center></td>
 <td><p>::mfp::graph_lib::draw::set_porterduff_mode(2) :</p>
 <p>set_porterduff_mode(painting_extra, porterduff_mode)为一个painting extra数据结构设置porterduff模式。painting extra数据结构在painting事件中被调用。Porterduff模式告诉MFP如何绘制目标区域。它是一个大写的字符串，具有以下可能值："CLEAR"，"SRC"，"DST"，"SRC_OVER"，"DST_OVER"，"SRC_IN"，"DST_IN"，"SRC_OUT"，"DST_OUT"，"SRC_ATOP"，"DST_ATOP"，"XOR"或者""，其中，空字符串""是缺省值。开发者可以参考JAVA文档以获取porterduff模式的详细信息。由于porterduff模式的使用非常复杂，在不十分清楚porterduff模式内部机制的情况下，不建议用户调用此函数。换句话说，使用porterduff模式的缺省值在一般情况下足以满足用户的需求。</p>
+</td>
+</tr>
+<tr>
+<td><center>set_rtc_media_remote_description</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::set_rtc_media_remote_description(3) :</p>
+<p>本函数在接收到一个answer信令之后设置web RTC的远程描述。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。本函数有3个参数。第一个是peer connection对象的id。第二个是SDP的类型。该参数应该就是一个"answer"字符串。第三个参数是SDP的内容，也就是answer信令的内容。本函数不返回任何值。本函数的一个例子是set_rtc_media_remote_description(remoteAddr, sdpType, sdpContent)。</p>
 </td>
 </tr>
 <tr>
@@ -1361,6 +1487,12 @@
 <td><center>set_value_in_abdict</center></td>
 <td><p>::mfp::data_struct::array_based::set_value_in_abdict(3) :</p>
 <p>set_value_in_abdict(array_based_dictionary, key, value)将基于数组的字典array_based_dictionary的key所对于的值设置为value的引用并返回修改过的字典。如果key不存在，它将会被创造出来。注意key只能是字符串但是value可以是任意数据类型。</p>
+</td>
+</tr>
+<tr>
+<td><center>set_video_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::set_video_track_enable(2) :</p>
+<p>此函数激活或者关闭视频功能。这个函数有两个参数。第一个参数是一个显示窗口的句柄。该显示窗口的句柄可以从open_screen_display函数调用中返回。第二个是一个布尔值，True表示激活视频功能而false则表示关闭视频功能。这个函数的返回值是视频功能之前的状态。True表示函数调用之前是激活状态而false则表示函数调用之前是关闭状态。</p>
 </td>
 </tr>
 <tr>
@@ -1411,6 +1543,12 @@
 </td>
 </tr>
 <tr>
+<td><center>start_local_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::start_local_stream(2) :</p>
+<p>此函数开启web RTC本地视频。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。这个函数有两个参数。第一个参数是一个显示窗口的句柄。该显示窗口的句柄可以从open_screen_display函数调用中返回。第二个是个是RTC视频输出子窗口在显示窗口的RTC视频输出子窗口序列中的索引（第一个视频输出子窗口的索引值为0，第二个子窗口索引的值是1，以此类推）。这个函数如果调用成功，其返回值是True。否则，本函数返回False。</p>
+</td>
+</tr>
+<tr>
 <td><center>start_sound</center></td>
 <td><p>::mfp::multimedia::audio_lib::start_sound(1) :</p>
 <p>start_sound(sound_handle)演奏sound_handle所指向的声音文件。如果该声音文件已经启动，这个函数什么也不做。</p>
@@ -1420,6 +1558,12 @@
 <td><center>stop_all_sounds</center></td>
 <td><p>::mfp::multimedia::audio_lib::stop_all_sounds(0) :</p>
 <p>stop_all_sounds()停止所有正在播放的声音。</p>
+</td>
+</tr>
+<tr>
+<td><center>stop_local_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::stop_local_stream(1) :</p>
+<p>此函数关闭web RTC本地视频。注意此处的web RTC是指的用于支持声音和视频通信的web RTC函数库，而不是用于支持数据通信的WEBRTC协议栈。这个函数只有一个参数。该参数是一个显示窗口的句柄。该显示窗口的句柄可以从open_screen_display函数调用中返回。本函数没有返回值。</p>
 </td>
 </tr>
 <tr>
@@ -1530,6 +1674,12 @@
 <td><center>trim_right</center></td>
 <td><p>::mfp::string::trim_right(1) :</p>
 <p>trim(string)，trim_left(string)和trim_right(string)从字符串的两边或者一边删除任何一个ASCI值小于等于空白字符（' '）的字符。具体说来，trim从左右两边删除任何一个ASCI值小于等于空白字符（' '）的字符，直到左边和右边都遇到了一个ASCI值大于空白字符（' '）的字符；trim_left从左边删除任何一个ASCI值小于等于空白字符（' '）的字符，直到遇到了一个ASCI值大于空白字符（' '）的字符；trim_right从右边删除任何一个ASCI值小于等于空白字符（' '）的字符，直到遇到了一个ASCI值大于空白字符（' '）的字符。例子包括trim(" \n hello world ") （返回"hello world"）, trim_left(" \n hello world "）, （返回"hello world "）以及trim_right(" \n hello world ") （返回" hello world")。</p>
+</td>
+</tr>
+<tr>
+<td><center>unlink_video_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::unlink_video_stream(2...) :</p>
+<p>此函数断开视频流向RTC视频输出子窗口的输出。这个函数有两种工作模式。第一种工作模式有3个参数分别为一个显示窗口的句柄（该显示窗口的句柄可以从open_screen_display函数调用中返回）；一个peer connection对象的id；以及一个视频轨的id。第二种工作模式有两个参数分别为一个显示窗口的句柄和一个RTC视频输出子窗口在显示窗口的RTC视频输出子窗口序列中的索引（第一个视频输出子窗口的索引值为0，第二个子窗口索引的值是1，以此类推）。这个函数返回断开的视频轨的数目。</p>
 </td>
 </tr>
 <tr>

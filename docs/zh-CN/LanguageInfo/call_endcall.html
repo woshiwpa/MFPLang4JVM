@@ -51,7 +51,7 @@ print_line("a = " + a + " b = " + b) <i style="font-family:verdana;color:green;"
 <pre style="font-family:verdana;color:blue;">
 variable local_interface, remote_interface, ret
 local_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "192.168.1.101")	<i style="font-family:verdana;color:green;">//客户端（本地进程）地址</i>
-ret = ::mfp::paracomp::connect::initialize_local(local_interface, false)
+ret = ::mfp::paracomp::connect::initialize_local(local_interface)
 print("initialize_local ret = " + ret + "\n")
 
 remote_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "192.168.1.107")	<i style="font-family:verdana;color:green;">//服务器端（运行call程序块的进程）地址</i>
@@ -87,8 +87,8 @@ print_line("c = " + c) <i style="font-family:verdana;color:green;">//线程阻�
 //我们可能无法观察到a和b的值发生了变化</i>
 print("a = " + a + " b = " + b)
 
-close_out_connection(local_interface, remote_interface)	<i style="font-family:verdana;color:green;">//关闭连接</i>
-close_local(local_interface, false)	<i style="font-family:verdana;color:green;">//关闭本地通信协议界面</i>
+close_connection(conn)	<i style="font-family:verdana;color:green;">//关闭连接</i>
+close_local(local_interface)	<i style="font-family:verdana;color:green;">//关闭本地通信协议界面</i>
 </pre>
 <p style="font-family:verdana;color:black;">
 以上代码是由客户端进程所执行，在服务器端，我们需要运行以下代码接收连接请求并运行call程序块：
@@ -96,7 +96,7 @@ close_local(local_interface, false)	<i style="font-family:verdana;color:green;">
 <pre style="font-family:verdana;color:blue;">
 variable local_interface, ret
 local_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "192.168.1.107")	<i style="font-family:verdana;color:green;">//服务器端（运行call程序块的进程）地址</i>
-ret = ::mfp::paracomp::connect::initialize_local(local_interface, true)
+ret = ::mfp::paracomp::connect::initialize_local(local_interface)
 print("initialize_local ret = " + ret + "\n")
 <i style="font-family:verdana;color:green;">//监听连接请求。监听线程将在后台工作。</i>
 ret = ::mfp::paracomp::connect::listen(local_interface)	

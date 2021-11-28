@@ -45,7 +45,7 @@ endf
 	local_address = my_address
 	local_interface = ::mfp::paracomp::connect::generate_interface(protocol, local_address)
 	<i style="font-family:verdana;color:pink;">... ...</i>
-		ret = ::mfp::paracomp::connect::initialize_local(local_interface, true)	<i style="font-family:verdana;color:green;">// make local_interface a server. 讓local_interface做服務器</i>
+		ret = ::mfp::paracomp::connect::initialize_local(local_interface)	<i style="font-family:verdana;color:green;">// initialize local_interface at server side. 在服务器端初始化local_interface。</i>
 		print("initialize_local server ret = " + ret + "\n")
 		ret = ::mfp::paracomp::connect::listen(local_interface)
 		print("listen ret = " + ret + "\n")
@@ -61,7 +61,7 @@ endf
 	variable my_address = input("My TCPIP address is:\n", "S")
 	local_address = my_address
 	<i style="font-family:verdana;color:pink;">... ...</i>
-		ret = ::mfp::paracomp::connect::initialize_local(local_interface, false) <i style="font-family:verdana;color:green;">// make local_interface a client. 讓local_interface做客戶端。</i>
+		ret = ::mfp::paracomp::connect::initialize_local(local_interface) <i style="font-family:verdana;color:green;">// initialize local_interface at client side. 在客户端初始化local_interface。</i>
 		</pre>
 		<p style="font-family:verdana;color:black;">
 			客户端需要和所有远端设备的服务端建立连接。建立连接是通过调用<i>connect</i>函数进行。以下代码展示了如何使用该函数。注意该函数接受网络界面（interface）而不是IP地址作为参数。这样一来，开发人员需要调用<i>generate_interface</i>函数根据远端的IP地址创建一个远端服务端的网络界面。
@@ -98,7 +98,7 @@ endf
 			variable msg_data = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "Message")
 		</pre>
 		<p style="font-family:verdana;color:black;">
-			当一条蛇撞上其他蛇或其本身时，蛇的玩家将失败并必须退出游戏。失败的玩家与其他玩家之间的连接必须断开。这是通过在客户端调用函数<i>close_out_connection</i>来实现的。请注意，这是一个两步过程，因为任何两个玩家之间总是建立有两个连接，一个是从玩家A到玩家B的正向连接，另一个是从玩家B到玩家A的反向连接。断开连接的第一步是失败的玩家关闭它与其他玩家的连接。但是在执行此操作之前，失败的玩家会向其他玩家发送<i>"hs-ilose"</i>消息，以便他们可以在第二步中关闭与失败的玩家的反向连接。该代码段如下所示。
+			当一条蛇撞上其他蛇或其本身时，蛇的玩家将失败并必须退出游戏。失败的玩家与其他玩家之间的连接必须断开。这是通过在客户端调用函数<i>close_connection</i>来实现的。但是在执行此操作之前，失败的玩家会向其他玩家发送<i>"hs-ilose"</i>消息，告知玩家失败退出的消息。该代码段如下所示。
 		</p>
 		<pre style="font-family:verdana;color:blue;">
 	for variable idx = 0 to size(other_players)[0] - 1 step 1
@@ -114,7 +114,7 @@ endf
 				// 当本地玩家收到'ilose'消息之后，它发送'ilose'消息给其他远程玩家
 				</i>
 				send_sandbox_message(conn, "hs-ilose")
-				close_out_connection(conn)
+				close_connection(conn)
 			else
 				<i style="font-family:verdana;color:pink;">... ...</i>
 			endif

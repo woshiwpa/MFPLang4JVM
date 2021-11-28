@@ -16,9 +16,33 @@
 </td>
 </tr>
 <tr>
+<td><center>accept</center></td>
+<td><p>::mfp::paracomp::connect::accept(1) :</p>
+<p>accept function accepts a connecting request from remote to a local interface and returns the receiver side connection object, i.e. the connection object in this local interface. It has only one parameter, i.e. the local interface object which was returned from generate_interface function. Note that before a new connecting request arrives, this function is blocked. An example of this function is accept(local_info).</p>
+</td>
+</tr>
+<tr>
 <td><center>acos</center></td>
 <td><p>::mfp::math::trigon::acos(1) :</p>
 <p>acos(x), where x can be a complex number, returns arccos value of x.</p>
+</td>
+</tr>
+<tr>
+<td><center>add_peer_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::add_peer_stream(1) :</p>
+<p>add_peer_stream adds multimedia (i.e. video and voice) stream to a web RTC peer connection. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. It has one parameter which is the peerId, i.e. the remote address of the peer connection.</p>
+</td>
+</tr>
+<tr>
+<td><center>add_rtc_media_ice_candidate</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::add_rtc_media_ice_candidate(2) :</p>
+<p>This function adds an ICE candidate to a web RTC peer connection. It has two parameters. First is peer connection's Id. Second is string based content of this ICE candidate.</p>
+</td>
+</tr>
+<tr>
+<td><center>add_rtc_video_output</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::add_rtc_video_output(5) :</p>
+<p>add_rtc_video_output adds a RTC video window in a display. It has five parameters. The first one is a display handle, which is the returned value of open_screen_display function. The following parameters are the integer based left, top, width and height of the video output window. These parameters determine the position of the video output window in the display.</p>
 </td>
 </tr>
 <tr>
@@ -116,15 +140,21 @@
 </td>
 </tr>
 <tr>
-<td><center>close_local</center></td>
-<td><p>::mfp::paracomp::connect::close_local(2) :</p>
-<p>close_local(local_info, is_server) closes a local object determined by local_info. The first parameter, local_info, includes information of a local object returned by generate_interface function. The second parameter, is_server, is a boolean type which tells the function the local is a server (true) or a client (false). The second parameter is an optional parameter. By default it is false. An example of this function is close_local(a_generated_interface, false).</p>
+<td><center>close_connection</center></td>
+<td><p>::mfp::paracomp::connect::close_connection(1) :</p>
+<p>close_connection closes a connection. It has one parameter which is the connection object returned from connect function, accept function or get_incoming_connect function. A example of this function is close_connection(conn_obj).</p>
 </td>
 </tr>
 <tr>
-<td><center>close_out_connection</center></td>
-<td><p>::mfp::paracomp::connect::close_out_connection(1...) :</p>
-<p>close_out_connection closes a client side connection. It has two modes. The first mode has two parameters. The first parameter is local_info which is local object information returned by generate_interface function in the client side. The second parameter is remote_info which is local object information returned by generate_interface function in the server side. The second mode has one parameter which is the client side connection object returned from connect function. A example of this function is close_out_connection(a_generated_client_interface, a_generated_server_interface).</p>
+<td><center>close_local</center></td>
+<td><p>::mfp::paracomp::connect::close_local(1) :</p>
+<p>close_local closes a local interface. It has one parameter which is the local interface object returned from generate_interface function. A example of this function is close_local(local_info).</p>
+</td>
+</tr>
+<tr>
+<td><center>close_rtc_media_peer</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::close_rtc_media_peer(1) :</p>
+<p>This function closes a web RTC peer connection. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. This function's only parameter is the web RTC peer connection Id, i.e. its remote address.</p>
 </td>
 </tr>
 <tr>
@@ -136,7 +166,7 @@
 <tr>
 <td><center>connect</center></td>
 <td><p>::mfp::paracomp::connect::connect(3) :</p>
-<p>connect(local_info, remote_info, not_reuse_exist) initializes a connection from a local interface object defined by local_info to a remote interface object defined by remote_info. Both local_info and remote_info are returned by calling generate_interface function. The third parameter, not_reuse_exist, is a boolean value. If it is true, this function always creates a new connection instead of using an existing one (if there is). This parameter is optional. Its default value is false. This function returns a dictionary with "CONNECT" key points to the definition of the connection object if successful, otherwise the "CONNECT" key corresponds to NULL and there is an "ERROR" key points to the error message.</p>
+<p>connect(local_info, remote_info, not_reuse_exist) initializes a connection from a local interface object defined by local_info to a remote interface object defined by remote_info. Both local_info and remote_info are returned by calling generate_interface function. The third parameter, not_reuse_exist, is a boolean value. This parameter is optional. Its default value is false. If it is true, this function always creates a new connection instead of using an existing one (if there is). Note that a connection is two way. A connection can be reused by this function whether it is connected from the remote interface to the local interface or the other way around. However, reusing an incoming connection at server side is not straightforward for TCPIP protocol. This is because of two reasons. First, when a new connection is initialized at client side, the client side IP port is selected by operating system and is invisible to MFP. However, to reuse the incoming connection at server side, parameter remote_info has to include full client side address including both IP address and IP port. Second, if NAT layer exists between client side and server side, server side has no idea about client's real IP address and IP port anyway. In this case, MFP needs to analyze any message sent from the client side via this connection, read the field "TransConnectDestRemote" from the message where the accurate client side IP address and port are stored. Note that this client address is client's external address, i.e. client's address seen from server side, if NAT exists. Then generate_interface function can be called using the accurate client side IP address + port as a parameter to return the correct remote_info object. This function returns a dictionary with "CONNECT" key points to the definition of the connection object if successful, otherwise the "CONNECT" key corresponds to NULL and there is an "ERROR" key points to the error message.</p>
 </td>
 </tr>
 <tr>
@@ -257,6 +287,18 @@
 <td><center>create_image</center></td>
 <td><p>::mfp::multimedia::image_lib::create_image(2) :</p>
 <p>create_image(w, h) returns a new and blank wrapped JAVA image object with width = w and height = h.</p>
+</td>
+</tr>
+<tr>
+<td><center>create_rtc_media_answer</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::create_rtc_media_answer(5) :</p>
+<p>This function creates a web RTC answer signal after an offer signal is received. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. It has five parameters. First is peer connection id. Second is SDP type. A string whose value is "offer" is expected. The third one is a string based SDP content, i.e. offer signal content. The fourth one is a map for mandatory constraint parameters. The last one is also a map for optional constraint parameters. The last parameter is optional. An example of this function is create_rtc_media_answer(remoteAddr, sdpType, sdpContent, [["OfferToReceiveAudio", "true"], ["OfferToReceiveVideo", supportVideoStr]], [["DtlsSrtpKeyAgreement", "true"]]) .</p>
+</td>
+</tr>
+<tr>
+<td><center>create_rtc_media_offer</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::create_rtc_media_offer(3) :</p>
+<p>This function creates a web RTC offer signal. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. It has three parameters. First is peer connection id. The second one is a map for mandatory constraint parameters. The last one is also a map for optional constraint parameters. The last parameter is optional. An example of this function is create_rtc_media_offer(remoteAddr, [["OfferToReceiveAudio", "true"], ["OfferToReceiveVideo", supportVideoStr]], [["DtlsSrtpKeyAgreement", "true"]]) .</p>
 </td>
 </tr>
 <tr>
@@ -459,7 +501,7 @@
 <tr>
 <td><center>get_all_connect_call_ids</center></td>
 <td><p>::mfp::paracomp::connect::get_all_connect_call_ids(1...) :</p>
-<p>get_all_connect_call_ids returns server side all connect ids of a listening address or all call ids of a connection. It has two modes. The first mode has one parameter which is an interface object returned by generate_interface function. The returned value is ids of all incoming connections of this interface. If the interface is unavailable, an exception is thrown. If not in server side, it returns an empty array. The second mode has two parameters. The first one is an infterface object returned by generate_interface function. The second one is server side connect id (which can be returned by get_call_info function). Its returned value is the call ids of this incoming connection. If the interface is unavailable, an exception is thrown. If not in the server side or the connect id does not exist, it returns null. An example of this function is get_all_connect_call_ids(server_interface, connect_id).</p>
+<p>get_all_connect_call_ids returns all connection ids of a network interface or all call ids of a connection. It has two modes. The first mode has one parameter which is an interface object returned by generate_interface function. The returned value is ids of all incoming and outgoing connections of this interface. If the interface is unavailable, an exception is thrown. The second mode has three parameters. The first one is an infterface object returned by generate_interface function. The second one is a connection id (which is remote address if the connection is outgoing or can be returned by get_call_info function if the connection is incoming). The third parameter is a boolean value. If it is true, this function's returned value is an array of all the incoming call ids of this connection. Otherwise, the returned value is all the outgoing call ids of this connection. If the interface is unavailable, an exception is thrown. If the connection id does not exist, it returns null. An example of this function is get_all_connect_call_ids(server_interface, connect_id, false).</p>
 </td>
 </tr>
 <tr>
@@ -478,6 +520,12 @@
 <td><center>get_asset_file_path</center></td>
 <td><p>::mfp::platform_hardware::platform_info::get_asset_file_path(1) :</p>
 <p>get_asset_file_path(asset_file_entry) tells developer the path of an asset file (i.e. string based parameter asset_file_entry) if the running script is actually an MFP app. If it is not an MFP app, this functions returns null.</p>
+</td>
+</tr>
+<tr>
+<td><center>get_audio_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_audio_track_enable(1) :</p>
+<p>This function tests if audio track has been enabled. True is returned if audio track is enabled. Otherwise false. It has only one parameter which is a display handle returned from open_screen_display function.</p>
 </td>
 </tr>
 <tr>
@@ -657,6 +705,18 @@
 </td>
 </tr>
 <tr>
+<td><center>get_incoming_connect</center></td>
+<td><p>::mfp::paracomp::connect::get_incoming_connect(2) :</p>
+<p>get_incoming_connect returns a connection object from a remote address to a local network interface, or null if no such a connection exists. It accepts two parameters. The first parameter is local interface info, which can be returned by calling generate_interface function. The second parameter is the remote address where the incoming connection is initialized. Note that for TCPIP protocol, this remote address, i.e. client side address, should include both IP address and IP port. Moreover, if NAT exists between client and server, the remote address should be the client's external address, i.e. client's address seen from server side. An example of this function is get_incoming_connect(local_interface, "192.168.1.100:53521").</p>
+</td>
+</tr>
+<tr>
+<td><center>get_json_field</center></td>
+<td><p>::mfp::exdata::json::get_json_field(3) :</p>
+<p>This function gets a field value from a JSON string. It has three parameters. The first parameter is the JSON string. The second parameter is the field name. The third parameter is the field type. "s" means the field is a string, "b" means it is a boolean, "f" means it is float value, "d" means it is an integer, "a" means it is an array, "j" means it is a JSON string and other values or ignored means let MFP detect the type of the field. Note that JSON string and field name are both case sensitive while field type, if it is a string, is case insensative. It returns the field value. An example of this function is get_json_field("{\"ABC\": null, \"JJJ\": {\"DEF\":[1, 8, [\"Welcome\", 9.99]],\"ZZ\":\"hello boy\"}}", "JJJ", "j").</p>
+</td>
+</tr>
+<tr>
 <td><center>get_local_host_address</center></td>
 <td><p>::mfp::paracomp::host::get_local_host_address(1) :</p>
 <p>get_local_host_address(protocol_name) returns local host address of the protocol named by protocol_name. An example of this function is get_local_host_address("TCPIP").</p>
@@ -690,6 +750,18 @@
 <td><center>get_porterduff_mode</center></td>
 <td><p>::mfp::graph_lib::draw::get_porterduff_mode(1) :</p>
 <p>get_porterduff_mode(painting_extra) returns porterduff mode of a painting extra information structure. Painting extra information structure is used in a painting event. Porterduff mode tells MFP the way to draw destination area. It is a capitalized string and supports the following modes: "CLEAR", "SRC", "DST", "SRC_OVER", "DST_OVER", "SRC_IN", "DST_IN", "SRC_OUT", "DST_OUT", "SRC_ATOP", "DST_ATOP", "XOR" or "" (empty string means default value). Developer may refer to JAVA documentation to find out detailed meaning of the above modes.</p>
+</td>
+</tr>
+<tr>
+<td><center>get_rtc_video_output_count</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_rtc_video_output_count(1) :</p>
+<p>This function returns the number of RTC video output windows in a display. It has only one parameter which is a display handle returned from open_screen_display function.</p>
+</td>
+</tr>
+<tr>
+<td><center>get_rtc_video_output_lefttop</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_rtc_video_output_lefttop(2) :</p>
+<p>This function returns a two element array whose first element is the x coordinate and second element is the y coordinate of a RTC video output window's left-top corner. It has two parameters. The first one is a display handle returned from open_screen_display function. The second one is the index of the RTC video output window in this display's RTC video output window list. The first RTC video output window's index is 0, second is 1, etc.</p>
 </td>
 </tr>
 <tr>
@@ -783,6 +855,12 @@
 </td>
 </tr>
 <tr>
+<td><center>get_video_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::get_video_track_enable(1) :</p>
+<p>This function tests if video track has been enabled. True is returned if video track is enabled. Otherwise false. It has only one parameter which is a display handle returned from open_screen_display function.</p>
+</td>
+</tr>
+<tr>
 <td><center>get_working_dir</center></td>
 <td><p>::mfp::io::file::get_working_dir(0) :</p>
 <p>get_working_dir() (with alias pwd()) return string based current directory.</p>
@@ -847,7 +925,13 @@
 <tr>
 <td><center>initialize_local</center></td>
 <td><p>::mfp::paracomp::connect::initialize_local(2) :</p>
-<p>initialize_local(local_info, is_server) initializes a local interface object defined by local_info which is a returned value of generate_interface function. The second parameter, boolean value is_server, tells the function whether the local interface object is a server (true) or a client (false). The second parameter is optional. By default it is false. This function returns true if successful, otherwise false.</p>
+<p>initialize_local(local_info, settings) initializes a local interface object defined by local_info which is a returned value of generate_interface function. The second parameter, settings, currently is not used and, as such, is optional. This function returns true if successful, otherwise false.</p>
+</td>
+</tr>
+<tr>
+<td><center>initialize_rtc_mmedia</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::initialize_rtc_mmedia(0) :</p>
+<p>This function initializes web RTC library. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. This function returns true if it succeeds. Otherwise false.</p>
 </td>
 </tr>
 <tr>
@@ -1020,6 +1104,12 @@
 <td><center>lim</center></td>
 <td><p>::mfp::math::calculus::lim(3) :</p>
 <p>lim(expr, var, dest_value) calculates the limit value of expression expr when variable var is closing to dest_value. expr and var should be string and dest_value can be expression or value, whether string based or not. For example, lim("1/x", "x", 0) or lim("(x+2)/(x+3)","x","3+0"). Note that this function is still under development.</p>
+</td>
+</tr>
+<tr>
+<td><center>link_video_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::link_video_stream(4) :</p>
+<p>This function links a web RTC video stream to a RTC video output window. It has four parameters. The first one is a display handle, which is returned from an open_screen_display call. The second one is a peer connection object's Id. The third one is video stream's track Id. The last one is video output window index. This function doesn't return anything. If any parameters are invalid, or it fails to link video stream to the video output window, an exception is thrown.</p>
 </td>
 </tr>
 <tr>
@@ -1232,9 +1322,15 @@
 </td>
 </tr>
 <tr>
+<td><center>receive_rtc_mmedia_message</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::receive_rtc_mmedia_message(1) :</p>
+<p>This function retrieves a web RTC message. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. It has only one parameter which is the expiry time. If this parameter is a positive value, this function blocks and waits for the number of milliseconds. If this parameter is 0, this function returns immediately. Otherwise, this function waits indefinitely until a message is available. If after waiting no message is available, this function returns null. Otherwise, it returns a four element array whose first element is message's destination peer connection Id, second element is RTC session Id, third element is message type and last element is message content. If this message is a RTC signal, message type should be "signal" and message content should be a Json string whose "type" field is signal type, i.e. "offer", "answer" or "candidate"; and, if signal type is "offer" or "answer", "sdp" field is sdp content. If this message is a peer connection event, message type should be "pc" and message content is a Json based string whose "type" field is peer connection event type, e.g. "ice_connection_change"; and "content" field is string based content of the event.</p>
+</td>
+</tr>
+<tr>
 <td><center>receive_sandbox_message</center></td>
 <td><p>::mfp::paracomp::connect::receive_sandbox_message(1...) :</p>
-<p>receive_sandbox_message function retrieves a message sent from a sandbox or a main entity. The sender can be either in a remote MFP instance but directly connected to receiver's MFP instance, or in local MFP instance. It has two working modes. The first mode uses only one parameter which is waiting time. 0 means no waiting time (i.e. immediately return the first message from message queue or NULL if no message available). Less than 0 means this function will be blocked if no message available. Otherwise this function will wait at most the number of ms defined in the parameter until a message comes, or returns  NULL if still no message available after expiry. This working mode is called within a sandbox. The second working mode has two parameters. The first parameter is a local info object which is returned value of generate_interface function. The second parameter is waiting time with the same meaning as in the first working mode. This working mode is called within a main entity. The first parameter tells the function which local interface (i.e. a listening address) to monitor. If a message is returned, the returned value is an array based dictionary whose "InterfaceInfo" field is sender's local interface info including protocol and sender's local address. This field is NULL if the sender and receiver are in the same MFP instance, sender doesn't send message to receiver via a loopback connection, and receiver is a sandbox and sender is receiver's main entity. "ConnectId" field is sender's connect Id or an empty string if sender is a main entity; "CallId" field is sender's call Id or 0 if sender is a main entity; and "Message" field is sender's message content. Examples of this function are receive_sandbox_message(-1) and receive_sandbox_message(local_info, -1).</p>
+<p>receive_sandbox_message function retrieves a message sent from a sandbox or main entity. Sender can be either in a remote MFP instance but directly connected to receiver's MFP instance, or in local MFP instance same as receiver. It has two working modes. The first mode uses only one parameter which is waiting time. 0 means no waiting time (i.e. immediately return the first message from message queue or NULL if no message available). Less than 0 means this function will be blocked if no message available. Otherwise this function will wait at most the number of ms defined in the parameter until a message comes, or returns NULL if still no message available after expiry. This working mode is called within a sandbox. The second working mode has two parameters. The first parameter is a local info object which is returned value of generate_interface function. The second parameter is waiting time with the same meaning as in the first working mode. This working mode is called within main entity. The first parameter tells the function which local interface (i.e. a listening address) to monitor. If a message is returned, the returned value is an array based dictionary whose "InterfaceInfo" field is sender's local interface info including protocol and sender's local address. This field is NULL if the sender and receiver are in the same MFP instance, and receiver is a sandbox and sender is receiver's main entity. "ConnectId" field is the Id of the connection which initialized sender sand box or an empty string if sender is main entity; "CallId" field is sender's call Id or 0 if sender is main entity. "TransConnectSrcLocal" is the transmission connection's sender side local address seen from sender side. A transmission connection may not be the initializing connection of the sender or receiver call sandbox. However, the two ends of a transmission connection must be located in the same MFP instance as the sender and receiver respectively. Sender call sandbox or main entity passes its message to its MFP instance, this MFP instance then gives the message to the transmission connection to transmit. After the receiver side of the transmission connection receives the message, it passes this message to its MFP instance and finally the MFP instance at the receiver side gives the message to the receiver call sandbox or main entity. Note that since a transmission is two-way, sender isn't necessarily located at the client side of the transmission connection, and receiver isn't necessarily at the server side. Similarly, "TransConnectSrcRemote" is the transmission connection's receiver side address seen from sender side; "TransConnectDestLocal" is the transmission connection's receiver side address seen from receiver side; and "TransConnectDestRemote" is the transmission connection's sender side address seen from receiver side. Note that in general, value of "TransConnectSrcRemote" should be the same as value of "TransConnectDestLocal" and "TransConnectDestRemote" should be equal to "TransConnectSrcLocal". However, this is not the case for TCPIP protocol if NAT layer exists between sender and receiver. In this case value of field "TransConnectDestRemote" is especially useful because, if the receiver is at server side of the transmission connection, it tells server side MFP the id of the transmission connection which enables reuse of this connection and sending messages back. If sender and receiver are located in the same MFP instance, values of all the four fields are empty. Finally, "Message" field gives out sender's message content. Examples of this function are receive_sandbox_message(-1) and receive_sandbox_message(local_info, -1).</p>
 </td>
 </tr>
 <tr>
@@ -1247,6 +1343,12 @@
 <td><center>remove_elem_from_ablist</center></td>
 <td><p>::mfp::data_struct::array_based::remove_elem_from_ablist(2) :</p>
 <p>remove_elem_from_ablist(array_based_list, idx) removes the idxth element from an array based list array_based_list. It returns updated array list. The parameter array_based_list shares elements with returned value. If idx is not valid, an exception will throw.</p>
+</td>
+</tr>
+<tr>
+<td><center>remove_peer_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::remove_peer_stream(1) :</p>
+<p>This function removes video stream from a peer connection object. It has only one parameter which is the peer connection. This function returns nothing.</p>
 </td>
 </tr>
 <tr>
@@ -1272,13 +1374,19 @@
 <tr>
 <td><center>send_sandbox_message</center></td>
 <td><p>::mfp::paracomp::connect::send_sandbox_message(1...) :</p>
-<p>send_sandbox_message function sends a message to a sandbox or main entity. It has four working modes. The first working mode is to send a message from a sandbox to its local main entity. In this case the function has just one parameter which is message content. Note that message content is not necessarily to be a string. For example, send_sandbox_message([1,2,3]) sends [1,2,3] from a sandbox to local main entity. The second working mode is to send a message from main entity or a sandbox to a local sandbox. In this case the function needs four parameters. The first parameter is a local interface object. This local interface object can be obtained from generate_interface function. And the call request which started the receiver sandbox was accepted by the local interface. The second parameter is the connect id of the receiver sandbox, which, if interface is based on TCPIP protocol, is the address of the local interface. The third parameter is the receiver sandbox's call id. The last parameter is message content. An example of this mode is send_sandbox_message(local_info, "127.0.0.1", 1, 238.975 + 3.01i). The third working mode is to send a message from local sandbox or main entity to a remote main entity. Note that the local MFP instance must have been connected to the remote MFP instance by calling connect function. This mode needs two parameters. The first one is a connection object which should be returned from connect function (i.e. the "CONNECT" field of the returned value). The second parameter is message content. An example is send_sandbox_message(conn1, "Hello!"). The last working mode is to send a message from local sandbox or main entity to a remote sandbox. Note that the local MFP instance must be connected to the remote MFP instance by calling connect function. This mode needs five parameters. The first parameter is a connection object which should be returned from connect function (i.e. the "CONNECT" field of the returned value). The second parameter is a remote interface object which can be obtained from generate_interface function. This remote interface is the other side of the connection. And the call request which started the receiver sandbox was accepted by the remote interface. The third parameter is the connect id of the receiver sandbox, which, if interface is based on TCPIP protocol, is the address of the remote interface. The fourth parameter is the receiver sandbox' call id. The last parameter is message content. An example for this mode is send_sandbox_message(conn1, remote_info, "192.168.1.139", 4, [[1,2],[3,4]]).</p>
+<p>send_sandbox_message function sends a message to a sandbox or main entity. It has four working modes. The first working mode is to send a message from a sandbox to its local main entity. In this case the function has just one parameter which is message content. Note that message content is not necessarily to be a string. For example, send_sandbox_message([1,2,3]) sends [1,2,3] from a sandbox to local main entity. The second working mode is to send a message from main entity or a sandbox to a local sandbox. In this case the function needs four parameters. The first parameter is a local interface object. This local interface object can be obtained from generate_interface function. And the call request which started the receiver sandbox was accepted by the local interface. The second parameter is the connection id of the receiver sandbox. Here the connection initialized the call of the receiver sandbox. The third parameter is the receiver sandbox's call id. The last parameter is message content. An example of this mode is send_sandbox_message(local_info, "127.0.0.1", 1, 238.975 + 3.01i). The third working mode is to send a message from local sandbox or main entity to a remote main entity. Note that the local MFP instance must have been connected to the remote MFP instance by calling connect function. This mode needs two parameters. The first one is a connection object which should be returned from connect function (i.e. the "CONNECT" field of the returned value). The second parameter is message content. An example is send_sandbox_message(conn1, "Hello!"). The last working mode is to send a message from local sandbox or main entity to a remote sandbox. Note that the local MFP instance must be connected to the remote MFP instance by calling connect function. This mode needs five parameters. The first parameter is a connection object which should be returned from connect function (i.e. the "CONNECT" field of the returned value). The second parameter is a remote interface object which can be obtained from generate_interface function. This remote interface is the other side of the connection. And the call request which started the receiver sandbox was accepted by the remote interface. The third parameter is the connection id of the receiver sandbox. Here the connection initialized the call of the reciever sandbox. The fourth parameter is the receiver sandbox' call id. The last parameter is message content. An example for this mode is send_sandbox_message(conn1, remote_info, "192.168.1.139", 4, [[1,2],[3,4]]).</p>
 </td>
 </tr>
 <tr>
 <td><center>set_array_elem</center></td>
 <td><p>::mfp::array::set_array_elem(3) :</p>
 <p>set_array_elem(x,y,z) sets x[y] to be z, and returns new x. Note that x can be an array or a single element, y must be a list of positive integers which are the indices. Y can be beyond the size of x. For example x = 3, y = [1, 2], z = 2 + 3i then set_array_elem(x,y,z) = [3, [0, 0, 2+3i]]. Also note that after set_array_elem is called, the original x value may or may not change. So please always assign returned value back to x to get updated x value.</p>
+</td>
+</tr>
+<tr>
+<td><center>set_audio_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::set_audio_track_enable(2) :</p>
+<p>This function enables or disables audio track. It has two parameters. The first parameter is a display handle returned from open_screen_display function. The second parameter is a boolean value. True means enabling audio track and false means disabling audio track. This function returns previous state of audio track. True means before the function call the audio track was enabled. False means before the function call the audio track was disabled.</p>
 </td>
 </tr>
 <tr>
@@ -1342,9 +1450,27 @@
 </td>
 </tr>
 <tr>
+<td><center>set_json_field</center></td>
+<td><p>::mfp::exdata::json::set_json_field(3) :</p>
+<p>This function sets a field value to a JSON string and returns the new JSON string. It has three parameters. The first parameter is the original JSON string. The second parameter is the field name. The third parameter is the field value. Note that all parameters are case-sensative. If the field name exists, this function refreshes the field's value. Otherwise, it adds a new field into the JSON string. It returns the new JSON string or throws an exception if the setting fails because of invalid field name or unsupported field value type. An example of this function is set_json_field("{\"ABC\": null, \"JJJ\": {\"DEF\":[1, 8, [\"Welcome\", 9.99]],\"ZZ\":\"hello boy\"}}", "JJJ", "New value").</p>
+</td>
+</tr>
+<tr>
+<td><center>set_local_host_address</center></td>
+<td><p>::mfp::paracomp::host::set_local_host_address(4) :</p>
+<p>set_local_host_address function sets local host address for an interface of the selected  protocol. It has four parameters. The first parameter is protocol name. Currently only WebRTC protocol is supported so that it can only be string "WEBRTC". The second is interface name, currently only "main" is the supported value. The third parameter is the address, which should be a valid email address for WEBRTC protocol. The email server should support smtp and imap protocols. Microsoft outlook email addresses are recommended. The last parameter includes additional information for this email. It is an array of strings whose first element should be "0", which means this email supports smtp and imap protocols. The second element is the password to send and receive emails using this email address. Please note that this password could be different from the password for webmail login. If the email is Microsoft hotmail or outlook mail, Google gmail or Tecent qq mail, no other information is required. Otherwises, developer needs to provide smtp server address, smtp server port, smtp support to SSL, imap server address, imap server port and imap support to SSL as the third to eighth parameters respectively. Please note that smtp support to SSL and imap support to SSL are "0" if SSL is not supported, "1" if SSL is supported, or "-1" if not sure. An example of this function is set_local_host_address("WEBRTC", "main", "abcxyz@yahoo.com", ["0", "xxxxyyyyzzzzwwww", "smtp.mail.yahoo.com", "465", "1", "imap.mail.yahoo.com", "993", "1"]). Another example is set_local_host_address("WEBRTC", "main", "mnopqrst@outlook.com", ["0", "abcd1234"]).</p>
+</td>
+</tr>
+<tr>
 <td><center>set_porterduff_mode</center></td>
 <td><p>::mfp::graph_lib::draw::set_porterduff_mode(2) :</p>
 <p>set_porterduff_mode(painting_extra, porterduff_mode) sets porterduff mode for a painting extra information structure. Painting extra information structure is used in a painting event. Porterduff mode tells MFP the way to draw destination area. It is a capitalized string and supports the following modes: "CLEAR", "SRC", "DST", "SRC_OVER", "DST_OVER", "SRC_IN", "DST_IN", "SRC_OUT", "DST_OUT", "SRC_ATOP", "DST_ATOP", "XOR" or "" (empty string means default value). Developer may refer to JAVA documentation to find out detailed meaning of the above modes. And because of the intricacy, this function is not recommended to user. Default porterduff mode should generally be enough to draw destination area properly.</p>
+</td>
+</tr>
+<tr>
+<td><center>set_rtc_media_remote_description</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::set_rtc_media_remote_description(3) :</p>
+<p>This function sets a web RTC remote description after an answer signal is received. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. It has three parameters. First is peer connection id. Second is SDP type. A string whose value is "answer" is expected. The third one is a string based SDP content, i.e. answer signal content. This function returns nothing. An example of this function is set_rtc_media_remote_description(remoteAddr, sdpType, sdpContent) .</p>
 </td>
 </tr>
 <tr>
@@ -1363,6 +1489,12 @@
 <td><center>set_value_in_abdict</center></td>
 <td><p>::mfp::data_struct::array_based::set_value_in_abdict(3) :</p>
 <p>set_value_in_abdict(array_based_dictionary, key, value) sets reference of the value to key into array_based_dictionary and returns the updated array_based_dictionary. If the key doesn't exist, it will be created. Note that key must be a string while value can be any data type.</p>
+</td>
+</tr>
+<tr>
+<td><center>set_video_track_enable</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::set_video_track_enable(2) :</p>
+<p>This function enables or disables video track. It has two parameters. The first parameter is a display handle returned from open_screen_display function. The second parameter is a boolean value. True means enabling video track and false means disabling video track. This function returns previous state of video track. True means before the function call the video track was enabled. False means before the function call the video track was disabled.</p>
 </td>
 </tr>
 <tr>
@@ -1413,6 +1545,12 @@
 </td>
 </tr>
 <tr>
+<td><center>start_local_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::start_local_stream(2) :</p>
+<p>This function starts web RTC's local video stream. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. It has two parameters. The first one is a display handle returned from open_screen_display function. The second one is the index of the RTC video output window in this display's RTC video output window list. The first RTC video output window's index is 0, second is 1, etc. This function returns true if local stream is started successfully. Otherwise it returns false.</p>
+</td>
+</tr>
+<tr>
 <td><center>start_sound</center></td>
 <td><p>::mfp::multimedia::audio_lib::start_sound(1) :</p>
 <p>start_sound(sound_handle) plays a sound referred by sound handle sound_handle. If the sound has been started, this function will do nothing.</p>
@@ -1422,6 +1560,12 @@
 <td><center>stop_all_sounds</center></td>
 <td><p>::mfp::multimedia::audio_lib::stop_all_sounds(0) :</p>
 <p>stop_all_sounds() stops all playing sounds.</p>
+</td>
+</tr>
+<tr>
+<td><center>stop_local_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::stop_local_stream(1) :</p>
+<p>This function stops web RTC's local video stream. Note that web RTC here is the web RTC library for voice and video communication, not the same thing as the WEBRTC protocol for data communication. It has only one parameter which is a display handle returned from open_screen_display function. This function returns nothing.</p>
 </td>
 </tr>
 <tr>
@@ -1532,6 +1676,12 @@
 <td><center>trim_right</center></td>
 <td><p>::mfp::string::trim_right(1) :</p>
 <p>trim(string), trim_left(string) and trim_right(string) trim the white space and the characters whose asci value is less than white space (e.g. \n, \t, \r, \0 etc.) off from the string from one or both sides. In particular, trim removes the characters from both the left and right sides until it sees a character whose asci value is greater than white space on each side; trim_left removes the characters from left side until it sees a character whose asci value is greater than white space; trim_right removes the characters from right side until it sees a character whose asci value is greater than white space. Examples are trim(" \n hello world ") (returns "hello world"), trim_left(" \n hello world ") (returns "hello world ") and trim_right(" \n hello world ") (returns " hello world").</p>
+</td>
+</tr>
+<tr>
+<td><center>unlink_video_stream</center></td>
+<td><p>::mfp::multimedia::webrtc_lib::unlink_video_stream(2...) :</p>
+<p>This function unlinks a video track to a video output window. It has two working modes. The first working mode includes three parameters which are, first, a display handle returned from open_screen_display function; second, a peer connection object id; and third a video track id. The second working mode includes only two parameters. The first one is a display handle and the second one is the index of the RTC video output window in this display's RTC video output window list. The first RTC video output window's index is 0, second is 1, etc. This function returns the number of unlinked RTC video tracks.</p>
 </td>
 </tr>
 <tr>

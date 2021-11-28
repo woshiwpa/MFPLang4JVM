@@ -75,9 +75,9 @@ public class ApkBuilder {
     public static final int MIN_PASSWORD_LENGTH = 8;
 
     // the format of the following four lines cannot be broken into several lines because they will be replaced by sed.
-    private static final int[] PKG_ID_START_BYTES = new int[] {3170};
-    private static final int VER_STR_START_BYTE = 936;
-    private static final int VER_CODE_START_BYTE = 4748;
+    private static final int[] PKG_ID_START_BYTES = new int[] {3072};
+    private static final int VER_STR_START_BYTE = 932;
+    private static final int VER_CODE_START_BYTE = 4652;
     private static final int APP_NAME_START_BYTE = 133393;
 
     public static final String STRING_SIGNATURE_FOLDER = "signkeys";

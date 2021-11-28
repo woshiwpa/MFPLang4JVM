@@ -45,7 +45,7 @@ endf
 	local_address = my_address
 	local_interface = ::mfp::paracomp::connect::generate_interface(protocol, local_address)
 	<i style="font-family:verdana;color:pink;">... ...</i>
-		ret = ::mfp::paracomp::connect::initialize_local(local_interface, true)	<i style="font-family:verdana;color:green;">// make local_interface a server. 讓local_interface做服務器</i>
+		ret = ::mfp::paracomp::connect::initialize_local(local_interface)	<i style="font-family:verdana;color:green;">// initialize local_interface at server side. 在服务器端初始化local_interface。</i>
 		print("initialize_local server ret = " + ret + "\n")
 		ret = ::mfp::paracomp::connect::listen(local_interface)
 		print("listen ret = " + ret + "\n")
@@ -61,7 +61,7 @@ endf
 	variable my_address = input("My TCPIP address is:\n", "S")
 	local_address = my_address
 	<i style="font-family:verdana;color:pink;">... ...</i>
-		ret = ::mfp::paracomp::connect::initialize_local(local_interface, false) <i style="font-family:verdana;color:green;">// make local_interface a client. 讓local_interface做客戶端。</i>
+		ret = ::mfp::paracomp::connect::initialize_local(local_interface) <i style="font-family:verdana;color:green;">// initialize local_interface at client side. 在客户端初始化local_interface。</i>
 		</pre>
 		<p style="font-family:verdana;color:black;">
 			Client needs to set up a connection to remote server. This is achieved by calling <i>connect</i> function, as shown in the code below. Note that function <i>connect</i> takes interface instead of IP address as parameter. As such developer needs to call <i>generate_interface</i> function to create remote server's interface from its IP address.
@@ -98,7 +98,7 @@ endf
 			variable msg_data = ::mfp::data_struct::array_based::get_value_from_abdict(msg, "Message")
 		</pre>
 		<p style="font-family:verdana;color:black;">
-			When a snake hits other snake or itself, its player fails and has to quit the game. The connection(s) between the failed player and other players must be broken out. This is realized by calling function <i>close_out_connection</i> in the client side. Note that this is a two step procedure as there are always two connections built between any two players, from player A to player B and from player B to player A. The first step is the failed player closes it connection to other players. But before taking this action, the failed player sends <i>"hs-ilose"</i> message to other players so that they can close their connections to the failed peer in the second step. The code snippet is shown below.
+			When a snake hits other snake or itself, its player fails and has to quit the game. The connection(s) between the failed player and other players must be broken out. This is realized by calling function <i>close_connection</i> in the client side. But before taking this action, the failed player sends <i>"hs-ilose"</i> message to other players so that they know the failed peer is gonna quit. The code snippet is shown below.
 		</p>
 		<pre style="font-family:verdana;color:blue;">
 	for variable idx = 0 to size(other_players)[0] - 1 step 1
@@ -114,7 +114,7 @@ endf
 				// 当本地玩家收到'ilose'消息之后，它发送'ilose'消息给其他远程玩家
 				</i>
 				send_sandbox_message(conn, "hs-ilose")
-				close_out_connection(conn)
+				close_connection(conn)
 			else
 				<i style="font-family:verdana;color:pink;">... ...</i>
 			endif

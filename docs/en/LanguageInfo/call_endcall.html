@@ -44,7 +44,7 @@ Another example is for inter-process call block, i.e. call block is sent to run 
 <pre style="font-family:verdana;color:blue;">
 variable local_interface, remote_interface, ret
 local_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "192.168.1.101")	<i style="font-family:verdana;color:green;">// client address</i>
-ret = ::mfp::paracomp::connect::initialize_local(local_interface, false)
+ret = ::mfp::paracomp::connect::initialize_local(local_interface)
 print("initialize_local ret = " + ret + "\n")
 
 remote_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "192.168.1.107")	<i style="font-family:verdana;color:green;">// server address</i>
@@ -83,8 +83,8 @@ print_line("c = " + c) <i style="font-family:verdana;color:green;">// the curren
 // MAY see a and b are not updated.</i>
 print("a = " + a + " b = " + b)
 
-close_out_connection(local_interface, remote_interface)	<i style="font-family:verdana;color:green;">// close connection</i>
-close_local(local_interface, false)	<i style="font-family:verdana;color:green;">// close local interface</i>
+close_connection(conn)	<i style="font-family:verdana;color:green;">// close connection</i>
+close_local(local_interface)	<i style="font-family:verdana;color:green;">// close local interface</i>
 </pre>
 <p style="font-family:verdana;color:black;">
 The above code is for the client process. In the server side, we have to run the following code to accept connection and run call block:
@@ -92,7 +92,7 @@ The above code is for the client process. In the server side, we have to run the
 <pre style="font-family:verdana;color:blue;">
 variable local_interface, ret
 local_interface = ::mfp::paracomp::connect::generate_interface("TCPIP", "192.168.1.107")	<i style="font-family:verdana;color:green;">// server address</i>
-ret = ::mfp::paracomp::connect::initialize_local(local_interface, true)
+ret = ::mfp::paracomp::connect::initialize_local(local_interface)
 print("initialize_local ret = " + ret + "\n")
 <i style="font-family:verdana;color:green;">// listen to any connection request. A listen thread will work in the background</i>
 ret = ::mfp::paracomp::connect::listen(local_interface)	
