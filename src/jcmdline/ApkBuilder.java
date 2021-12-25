@@ -349,6 +349,13 @@ public class ApkBuilder {
         ZipEntry entry = zipIn.getNextEntry();
         // iterates over entries in the zip file
         while (entry != null) {
+            File f = new File(destDirectory, entry.getName());
+            String canonicalPath = f.getCanonicalPath();
+            if (!canonicalPath.startsWith(destDirectory)) {
+                // SecurityException. The zip entry might includes ../
+                // but this will never happen.
+                throw new SecurityException("Zip Path Traversal Vulnerability");
+            }
             String filePath = destDirectory + LangFileManager.STRING_PATH_DIVISOR + entry.getName();
             if (!entry.isDirectory()) {
                 // if the entry is a file, extracts it
