@@ -1,0 +1,784 @@
+<html>
+	<head>
+		<title>MFP编程语言帮助</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP编程语言对于各种数学和科学计算的支持：</h2>
+<p style="font-family:verdana">前面已经介绍了MFP语言基本运算操作符（包括加减乘除等），以及用solve语句解方程，这一章将侧重于介绍MFP语言所提供的进行各种数学计算的函数。</p>
+<h3><a name="_Toc17864" ></a>第1节 &nbsp;内置的数学常用变量</h3>
+<p style="font-family:verdana">前面的章节已经介绍了MFP一些内置的变量包括虚数单位i，空值null以及无定义数nan和nani。为了方便进行数学计算，MFP还内置了</p>
+<p style="font-family:verdana">1.&nbsp;代表无穷大的变量inf，这个变量表示实数正无穷大。显然，-inf表示实数负无穷大。</p>
+<p style="font-family:verdana">2.&nbsp;代表虚数无穷大的变量infi，这个变量表示在虚轴正方向上的无穷大，显然，在虚轴负方向上的无穷大为-infi。</p>
+<p style="font-family:verdana">之所以定义这个变量是因为虚轴上的无穷大是无法通过inf和i相乘得到（它们的乘积等于nan+infi），所以必须用一个特别的变量来定义。</p>
+<p style="font-family:verdana">3.&nbsp;代表圆周率的变量pi，它的值等于3.1415926535897932384626433832795028841971693993751058209749445923。</p>
+<p style="font-family:verdana">4.&nbsp;代表自然对数的变量e，它的值等于2.7182818284590452353602874713526624977572470936999595749669676277。</p>
+<p style="font-family:verdana">以上的这些变量常常用于下面所介绍的函数的参数。</p>
+<h3><a name="_Toc9247" ></a>第2节 &nbsp;单位转换函数和返回物理化学常量值的函数</h3>
+<p style="font-family:verdana">MFP语言提供了单位转换函数convert_unit。convert_unit(value, from_unit, to_unit)将基于某一个单位的数值转换为基于另外一个单位的数值。第一个参数是将要转换的数值，第二个参数是将被转换的单位（单位是一个对大小写敏感的字符串），第三个参数是转换后的单位（单位是一个对大小写敏感的字符串）。比如，convert_unit(23.71,"m","km")返回0.2371。</p>
+<p style="font-family:verdana">本函数支持以下单位：</p>
+<p style="font-family:verdana">1．长度单位："um"（微米），"mm"（毫米），"cm"（厘米），"m"（米），"km"（公里），"in"（英寸），"ft"（英尺），"yd"（码），"mi"（英里），"nmi"（海浬），"AU"（天文单位），"ly"（光年），"pc"（秒差距）；</p>
+<p style="font-family:verdana">2．面积单位："mm2"（平方毫米），"cm2"（平方厘米），"m2"（平方米），"ha"（公顷），"km2"（平方公里），"sq in"（平方英寸），"sq ft"（平方英尺），"sq yd"（平方码），"ac"（英亩），"sq mi"（平方英里）；</p>
+<p style="font-family:verdana">3．体积单位："mL"（毫升），"L"（升），"m3"（立方米），"cu in"（立方英寸），"cu ft"（立方英尺），"cu yd"（立方码），"km3"（立方公里），"fl oz(Imp)"（液盎司（英制）），"pt(Imp)"（品脱（英制）），"gal(Imp)"（加仑（英制）），"fl oz(US)"（液盎司（美制）），"pt(US)"（品脱（美制）），"gal(US)"（加仑（美制））；</p>
+<p style="font-family:verdana">4．质量单位："ug"（微克），"mg"（毫克），"g"（克），"kg"（千克），"t"（吨），"oz"（盎司），"lb"（磅），"jin"（市斤），"jin(HK)"（斤（香港）），"jin(TW)"（台斤）；</p>
+<p style="font-family:verdana">5．速度单位："m/s"（米每秒），"km/h"（千米每小时），"ft/s"（英尺每秒），"mph"（英里每小时），"knot"（节）；</p>
+<p style="font-family:verdana">6．时间单位："ns"（纳秒），"us"（微秒），"ms"（毫秒），"s"（秒），"min"（分钟），"h"（小时），"d"（天），"wk"（礼拜），"yr"（年）；</p>
+<p style="font-family:verdana">7．力单位："N"（牛顿），"kgf"（千克力），"lbF"（磅力）；</p>
+<p style="font-family:verdana">8．压强单位："Pa"（帕斯卡），"hPa"（百帕），"kPa"（千帕），"MPa"（兆帕），"atm"（大气压），"psi"（每平方英寸上受到的磅力压力），"Torr"（毫米汞柱）；</p>
+<p style="font-family:verdana">9．能量单位："J"（焦耳），"kJ"（千焦），"MJ"（兆焦），"kWh"（千瓦时），"cal"（卡路里），"kcal"（千卡），"BTU"（英热单位）；</p>
+<p style="font-family:verdana">10．功率单位："W"（瓦特），"kW"（千瓦），"MW"（兆瓦），"cal/s"（卡路里每秒），"BTU/h"（英热单位每小时），"hp"（马力）；</p>
+<p style="font-family:verdana">11．温度单位："0C"（摄氏度），"0F"（华氏度），"K"（开氏温标）。</p>
+<p style="font-family:verdana">用户也能够在MFP中获取一些物理或者化学常量值。函数get_constant(const_name, n)返回一个由区分大小写的字符串const_name所对应的常数值，返回的数值将会四舍五入后保留小数点后面n位有效数值，这里n为非负整数并且可以省略。如果n被省略，返回值将不会被四舍五入处理。本函数支持以下常数：</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana">1．圆周率（const_name == "pi"）；</p>
+<p style="font-family:verdana">2．自然对数（const_name == "e"）；</p>
+<p style="font-family:verdana">3．真空中的光速[m/s]（const_name == "light_speed_in_vacuum"）；</p>
+<p style="font-family:verdana">4．万有引力常数[m**3/kg/(s**2)]（const_name == "gravitational_constant"）；</p>
+<p style="font-family:verdana">5．普朗克常数[J*s]（const_name == "planck_constant"）；</p>
+<p style="font-family:verdana">6．磁常数（真空磁导率）[N/(A**2)]（const_name == "magnetic_constant"）；</p>
+<p style="font-family:verdana">7．电常数（真空电容率）[F/m]（const_name == "electric_constant"）；</p>
+<p style="font-family:verdana">8．基本电荷[c]（const_name == "elementary_charge_constant"）；</p>
+<p style="font-family:verdana">9．阿伏伽德罗常数[1/mol]（const_name == "avogadro_constant"）；</p>
+<p style="font-family:verdana">10．法拉第常数[C/mol]（const_name == "faraday_constant"）；</p>
+<p style="font-family:verdana">11．气体常数[J/mol/K]（const_name == "molar_gas_constant"）；</p>
+<p style="font-family:verdana">12．玻尔兹曼常量[J/K]（const_name == "boltzman_constant"）；</p>
+<p style="font-family:verdana">13．标准重力[m/(s**2)]（const_name == "standard_gravity"）；</p>
+<p style="font-family:verdana">举个例子，如果用户输入get_constant("pi", 4)，结果将会是3.1416；如果用户输入get_constant("pi", 8)，结果将会是3.14159265；如果用户输入get_constant("pi", 0)，将会得到3，如果用户输入get_constant("pi")返回值将是3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 （小数点后有100位数字），这个数值就是本软件内部所使用的圆周率数值。</p>
+<p style="font-family:verdana">以下是上面这两个函数的例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test convert_unit and get_constant functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试convert_unit函数和get_constant函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function getConstCvtUnit()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nconvert_unit(23.71,\"m3\",\"fl oz(US)\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ convert_unit(23.71,"m3","fl oz(US)"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\", 4) = " + get_constant("pi", 4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\", 8) = " + get_constant("pi", 8))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\", 0) = " + get_constant("pi", 0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\") = " + get_constant("pi"))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述例子的运行结果如下：</p>
+<p style="font-family:verdana">convert_unit(23.71,"m3","fl oz(US)") = 801730.4782606974628681506740932151121554177525643799285007984748218874</p>
+<p style="font-family:verdana">get_constant("pi", 4) = 3.1416</p>
+<p style="font-family:verdana">get_constant("pi", 8) = 3.14159265</p>
+<p style="font-family:verdana">get_constant("pi", 0) = 3</p>
+<p style="font-family:verdana">get_constant("pi") = 3.1415926535897932384626433832795028841971693993751058209749445923</p>
+<h3><a name="_Toc11413" ></a>第3节 &nbsp;三角函数双曲三角函数</h3>
+<p style="font-family:verdana">MFP语言的双曲函数和双曲三角函数和数学上对这些函数的定义同名，用法也一样。唯一需要注意的是，对于三角函数（包括反三角函数），如果结尾没有字母d，则是基于弧度的计算，结尾有字母d，则是基于角度的计算，比如cos(pi/3)返回0.5，而asind(0.5)则等于30，表示30度。还要注意这些函数都支持复数计算，比如asind(8)返回90 - 158.63249757 * i。</p>
+<p style="font-family:verdana">MFP所有三角函数和反三角函数的列表如下：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">acos</p></td>
+<td>
+<p style="font-family:verdana">acos(1) :</p>
+<p style="font-family:verdana">acos(x)返回x的反余弦值，注意x可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">acosd</p></td>
+<td>
+<p style="font-family:verdana">acosd(1) :</p>
+<p style="font-family:verdana">函数acosd(x)为余弦函数的反函数,注意返回值为角度数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">asin</p></td>
+<td>
+<p style="font-family:verdana">asin(1) :</p>
+<p style="font-family:verdana">asin(x)返回x的反正弦值，注意x可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">asind</p></td>
+<td>
+<p style="font-family:verdana">asind(1) :</p>
+<p style="font-family:verdana">函数asind(x)为正弦函数的反函数,注意返回值为角度数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">atan</p></td>
+<td>
+<p style="font-family:verdana">atan(1) :</p>
+<p style="font-family:verdana">atan(x)返回x的反正切值，注意x可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">atand</p></td>
+<td>
+<p style="font-family:verdana">atand(1) :</p>
+<p style="font-family:verdana">函数atand(x)为正切函数的反函数,注意返回值为角度数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cos</p></td>
+<td>
+<p style="font-family:verdana">cos(1) :</p>
+<p style="font-family:verdana">cos(x)返回x的余弦值，注意x可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cosd</p></td>
+<td>
+<p style="font-family:verdana">cosd(1) :</p>
+<p style="font-family:verdana">函数cosd(x)返回基于角度的x的余弦值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sin</p></td>
+<td>
+<p style="font-family:verdana">sin(1) :</p>
+<p style="font-family:verdana">sin(x)返回x的正弦值，注意x可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sind</p></td>
+<td>
+<p style="font-family:verdana">sind(1) :</p>
+<p style="font-family:verdana">函数sind(x)返回基于角度x的正弦值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">tan</p></td>
+<td>
+<p style="font-family:verdana">tan(1) :</p>
+<p style="font-family:verdana">tan(x)返回x的正切值，注意x可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">tand</p></td>
+<td>
+<p style="font-family:verdana">tand(1) :</p>
+<p style="font-family:verdana">函数tand(x)返回基于角度x的正切值。</p></td></tr></table>
+<p style="font-family:verdana">MFP所有双曲三角函数的列表如下：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">acosh</p></td>
+<td>
+<p style="font-family:verdana">acosh(1) :</p>
+<p style="font-family:verdana">函数acosh(x)为双曲余弦函数的反函数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">asinh</p></td>
+<td>
+<p style="font-family:verdana">asinh(1) :</p>
+<p style="font-family:verdana">函数asinh(x)为双曲正弦函数的反函数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">atanh</p></td>
+<td>
+<p style="font-family:verdana">atanh(1) :</p>
+<p style="font-family:verdana">函数atanh(x)为双曲正切函数的反函数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cosh</p></td>
+<td>
+<p style="font-family:verdana">cosh(1) :</p>
+<p style="font-family:verdana">函数cosh(x)为双曲余弦函数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sinh</p></td>
+<td>
+<p style="font-family:verdana">sinh(1) :</p>
+<p style="font-family:verdana">函数sinh(x)返回x的双曲正弦值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">tanh</p></td>
+<td>
+<p style="font-family:verdana">tanh(1) :</p>
+<p style="font-family:verdana">函数tanh(x)用于计算x的双曲正切值。</p></td></tr></table>
+<p style="font-family:verdana">以下是上述函数的例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test trigononmetric and hyperbolic trigononmetric functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试三角函数和双曲三角函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">Endh</p>
+<p style="font-family:verdana;color:blue">function testTrigHTrig()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ncos(pi/3) = " + cos(pi/3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ntand(45) = " + tand(45))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsin(1 + 2*i) = " + sin(1 + 2*i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nasind(0.5) = " + asind(0.5))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nacos(8) = " + acos(8))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nacosh(4.71 + 6.44i) = " + acosh(4.71 + 6.44i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsinh(e) = " + sinh(e))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\natanh(e) = " + atanh(e))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">运行上述例子函数返回的结果是：</p>
+<p style="font-family:verdana">cos(pi/3) = 0.5</p>
+<p style="font-family:verdana">tand(45) = 1</p>
+<p style="font-family:verdana">sin(1 + 2*i) = 3.1657785132161682200525265356615738370974142362979081716694416027 + 1.959601041421606115476765045922954107994611047413801140191859959i</p>
+<p style="font-family:verdana">asind(0.5) = 30.000000000000003071288025528876242434085090019423660218589920376</p>
+<p style="font-family:verdana">acos(8) = -2.768659383313573751905778408399783074855804443359375i</p>
+<p style="font-family:verdana">acosh(4.71 + 6.44i) = 2.771116084398325796200879267416894435882568359375 + 0.94305685974139741301058847966487519443035125732421875i</p>
+<p style="font-family:verdana">sinh(e) = 7.544137102816974971286612117182812653481960296630859375</p>
+<p style="font-family:verdana">atanh(e) = 0.385968416452652396397837719632661901414394378662109375 + 1.5707963267948966192313216916397514420985846996875529104874722962i</p>
+<p style="font-family:verdana">。需要注意的是asind(0.5)的返回值应该是30（sin30度等于0.5），但是实际上的结果是30.000000000000003071288025528876242434085090019423660218589920376，这是由于asind是将参数先转换为复数在进行计算的，转换的过程会造成微量的计算误差。</p>
+<h3><a name="_Toc27058" ></a>第4节 &nbsp;指数，对数和次方函数</h3>
+<p style="font-family:verdana">MFP支持一系列的指数，对数和次方函数，参见下表：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">exp</p></td>
+<td>
+<p style="font-family:verdana">exp(1) :</p>
+<p style="font-family:verdana">exp(x)返回自然对数e的x次方，x可以为实数或者虚数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">lg</p></td>
+<td>
+<p style="font-family:verdana">lg(1) :</p>
+<p style="font-family:verdana">函数lg(x)返回x的自然对数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">ln</p></td>
+<td>
+<p style="font-family:verdana">ln(1) :</p>
+<p style="font-family:verdana">函数ln(x)返回x的自然对数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">log</p></td>
+<td>
+<p style="font-family:verdana">log(1) :</p>
+<p style="font-family:verdana">log(x)返回x的自然对数，注意x可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">log10</p></td>
+<td>
+<p style="font-family:verdana">log10(1) :</p>
+<p style="font-family:verdana">函数log10(x)返回x以十为底的对数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">log2</p></td>
+<td>
+<p style="font-family:verdana">log2(1) :</p>
+<p style="font-family:verdana">函数log2(x)返回x以2为底的对数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">loge</p></td>
+<td>
+<p style="font-family:verdana">loge(1) :</p>
+<p style="font-family:verdana">函数loge(x)返回x的自然对数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">pow</p></td>
+<td>
+<p style="font-family:verdana">pow(2) :</p>
+<p style="font-family:verdana">pow(x,y)返回x的y次方，注意x和y可以为实数，可以为虚数。如果结果有多个值，返回第一个值。</p>
+<p style="font-family:verdana">pow(3) :</p>
+<p style="font-family:verdana">pow(x,y,z)返回包含x的y次方的前z个值组成的一个向量，如果x的y次方只有少于z个值，返回所有值。注意y必须为实数，x可以为实数，可以为虚数，z必须为正整数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sqrt</p></td>
+<td>
+<p style="font-family:verdana">sqrt(1) :</p>
+<p style="font-family:verdana">函数sqrt(x)返回实数x的平方根值。</p></td></tr></table>
+<p style="font-family:verdana">这里需要注意几点：</p>
+<p style="font-family:verdana">第一，&nbsp;lg(x)、log(x)、ln(x)和loge(x)返回的都是x的自然对数，log2(x)返回x的以2为底的对数，log10(x)返回x以10为底的对数。这些求对数的函数的参数都可以为复数。至于以其他任何数为底的对数，可以由这些对数函数相除得到，比如求x以3为底的对数的计算公式为log(x)/log(3)。</p>
+<p style="font-family:verdana">第二，&nbsp;pow函数有两种用法，第一种是pow(x,y)，它返回x的y次方，注意x和y可以为实数，可以为虚数。如果结果有多个值，返回复平面上幅角从0度开始逆时针旋转遇到的第一个值。这种用法等价于使用次方操作符，也就是x**y。比如pow(32, 0.2)也就是32 的1/5次方得到2，但是pow(-32, 0.2)却不会返回-2（虽然-2是它的一个根），而是返回1.61803399 + 1.1755705 * i</p>
+<p style="font-family:verdana">第二种是pow(x,y,z)，它返回包含x的y次方的前z个值（在复平面上从幅角0度开始逆时针旋转遇到的前z个值）组成的一个向量，如果x的y次方只有少于z个值，返回所有值。注意y必须为实数，x可以为实数，可以为虚数，z必须为正整数。比如，如果想要返回-32 的1/5次方的所有根，可以调用pow(-32, 0.2, 5)得到一个包含5个元素的数组也就是[1.61803399 + 1.1755705 * i, -0.61803399 + 1.90211303 * i, -2, -0.61803399 - 1.90211303 * i, 1.61803399 - 1.1755705 * i]。</p>
+<p style="font-family:verdana">第三，&nbsp;sqrt(x)函数实际上和表达式x**0.5或者pow(x, 0.5)的效果完全一样，都是返回在复平面上从幅角0度开始逆时针旋转遇到的x的第一个平方根。比如sqrt(4) == 2，sqrt(-2) == 1.41421356 * i和sqrt(-2+3i) == 0.89597748 + 1.67414923 * i。</p>
+<p style="font-family:verdana">以下是上述函数例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test log, exp and pow and related functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试对数，指数和次方函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testLogExpPow()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nlg(e) == " + lg(e))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nlog(9, 3) == log(9)/log(3) == " + log(9)/log(3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nlog2(3 + 4i) == " + log2(3 + 4i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\npow(32, 0.2) == " + pow(32, 0.2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\npow(-32, 0.2) == " + pow(-32, 0.2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\npow(-32, 0.2, 5) == " + pow(-32, 0.2, 5))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsqrt(4) == " + sqrt(4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsqrt(-2) == " + sqrt(-2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsqrt(-2+3i) == " + sqrt(-2+3i))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述函数的运行结果如下：</p>
+<p style="font-family:verdana">lg(e) == 1</p>
+<p style="font-family:verdana">log(9, 3) == log(9)/log(3) == 2</p>
+<p style="font-family:verdana">log2(3 + 4i) == 2.3219280948873622916712631553180615794157506196217129274315603707 + 1.337804212450976175615004492526409565791145361743891813677556325i</p>
+<p style="font-family:verdana">pow(32, 0.2) == 2</p>
+<p style="font-family:verdana">pow(-32, 0.2) == 1.6180339887498949025257388711906969547271728515625 + 1.175570504584946274206913585658185184001922607421875i</p>
+<p style="font-family:verdana">pow(-32, 0.2, 5) == [1.6180339887498949025257388711906969547271728515625 + 1.175570504584946274206913585658185184001922607421875i, -0.6180339887498946804811339461593888700008392333984375 + 1.90211303259030728440848179161548614501953125i, -2, -0.6180339887498951245703437962220050394535064697265625 - 1.9021130325903070623638768665841780602931976318359375i, 1.6180339887498946804811339461593888700008392333984375 - 1.17557050458494671829612343572080135345458984375i]</p>
+<p style="font-family:verdana">sqrt(4) == 2</p>
+<p style="font-family:verdana">sqrt(-2) == 1.4142135623730951454746218587388284504413604736328125i</p>
+<p style="font-family:verdana">sqrt(-2+3i) == 0.8959774761298379706375607865525069497958199765590683867889064147 + 1.6741492280355400682758136732173307274213575287387175311747860088i</p>
+<h3><a name="_Toc11282" ></a>第5节 &nbsp;矩阵相关函数</h3>
+<p style="font-family:verdana">上一章中介绍了MFP对数组的相关操作函数，这里，必须指出数组的概念和数学上的矩阵的相关和不同的地方。</p>
+<p style="font-family:verdana">首先，数学上的矩阵就是MFP中的数组，所以，对数组的基本操作，包括创建，存取，修改函数，以及加减乘除转置等操作符，对数学上的矩阵都是适用的。</p>
+<p style="font-family:verdana">其次，数学上的矩阵式一种特殊的数组，它必须是二维的，并且，在大多数情况下是一个方阵。这里介绍的函数，适用于数学上的矩阵（除了一个例外，也就是dprod函数，它用于两个一维向量的点乘），对于其他的MFP的数组，并不适用。</p>
+<p style="font-family:verdana">以下是当前版本的MFP所支持的矩阵函数的列表：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">adj</p></td>
+<td>
+<p style="font-family:verdana">adj(1) :</p>
+<p style="font-family:verdana">函数cofactor(x)返回2维方阵x的伴随矩阵。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cofactor</p></td>
+<td>
+<p style="font-family:verdana">cofactor(1) :</p>
+<p style="font-family:verdana">函数cofactor(x)返回2维方阵x的余因子矩阵。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">det</p></td>
+<td>
+<p style="font-family:verdana">det(1) :</p>
+<p style="font-family:verdana">det(x)计算2维方阵x的行列式值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">deter</p></td>
+<td>
+<p style="font-family:verdana">deter(1) :</p>
+<p style="font-family:verdana">deter(x)计算2维方阵x的行列式值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">dprod</p></td>
+<td>
+<p style="font-family:verdana">dprod(2) :</p>
+<p style="font-family:verdana">函数dprod用于计算两个同等长度的一维向量&nbsp;[x1, x2, ... xn]和[y1, y2, ... yn]的点乘值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">eig</p></td>
+<td>
+<p style="font-family:verdana">eig(1) :</p>
+<p style="font-family:verdana">eig(A)计算2维方阵A的特征向量和特征值。这个函数返回一个包含两个成员的列表。第一个成员是特征向量矩阵，每一列是一个特征向量。第二个成&nbsp;员是一个对角矩阵，每一个对角线元素是一个特征值。注意运算这个函数非常耗费内存和CPU资源，如果在手机上运行，矩阵A的尺寸最好不要超过6*6，如果&nbsp;在电脑上运行，最好不要超过8*8，否则可能造成内存不足而程序崩溃或者运行很长时间而没有结果。</p>
+<p style="font-family:verdana">eig(2) :</p>
+<p style="font-family:verdana">eig(A, B)计算2维方阵A相对于同样尺寸的方阵B的特征向量和特征值，也就是Av = lambda * Bv，在这里，。lambda是一个特征值，v是一个特征向量。第二个参数，B，可以省略，其缺省值为I矩阵。这个函数返回一个包含两个成员的列表。第一&nbsp;个成员是特征向量矩阵，每一列是一个特征向量。第二个成员是一个对角矩阵，每一个对角线元素是一个特征值。注意运算这个函数非常耗费内存和CPU资源，如&nbsp;果在手机上运行，矩阵A的尺寸最好不要超过6*6，如果在电脑上运行，最好不要超过8*8，否则可能造成内存不足而程序崩溃或者运行很长时间而没有结果。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_eigen_values</p></td>
+<td>
+<p style="font-family:verdana">get_eigen_values(1) :</p>
+<p style="font-family:verdana">get_eigen_values(A)计算2维方阵A的特征值。这个函数返回所有特征值，包括重复的特征值的列表。注意运算这个函数非常耗费内存&nbsp;和CPU资源，如果在手机上运行，矩阵A的尺寸最好不要超过6*6，如果在电脑上运行，最好不要超过8*8，否则可能造成内存不足而程序崩溃或者运行很长&nbsp;时间而没有结果。</p>
+<p style="font-family:verdana">get_eigen_values(2) :</p>
+<p style="font-family:verdana">get_eigen_values(A, B)计算2维方阵A相对于同样尺寸的方阵B的特征值，也就是Av = lambda * Bv，在这里，。lambda是一个特征值，v是一个特征向量。第二个参数，B，可以省略，其缺省值为I矩阵。这个函数返回所有特征值，包括重复的特征值&nbsp;的列表。注意运算这个函数非常耗费内存和CPU资源，如果在手机上运行，矩阵A的尺寸最好不要超过6*6，如果在电脑上运行，最好不要超过8*8，否则可&nbsp;能造成内存不足而程序崩溃或者运行很长时间而没有结果。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">invert</p></td>
+<td>
+<p style="font-family:verdana">invert(1) :</p>
+<p style="font-family:verdana">invert(x)返回方块2维矩阵x的逆矩阵，注意x中的元素可以为复数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">left_recip</p></td>
+<td>
+<p style="font-family:verdana">left_recip(1) :</p>
+<p style="font-family:verdana">left_recip(x)计算x的左除倒数，注意当前仅支持数值或二维矩阵。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">rank</p></td>
+<td>
+<p style="font-family:verdana">rank(1) :</p>
+<p style="font-family:verdana">rank(matrix)返回矩阵的秩。比如，rank([[1,2],[2,4]])将返回1。注意这里的矩阵不见得非要是方阵。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">recip</p></td>
+<td>
+<p style="font-family:verdana">recip(1) :</p>
+<p style="font-family:verdana">recip(x)计算x的倒数，注意当前仅支持数值或二维矩阵。</p></td></tr></table>
+<p style="font-family:verdana">这里需要注意几点：</p>
+<p style="font-family:verdana">第一，&nbsp;对于二维方阵来讲，recip、left_recip和invert实际上是同一个函数，都是求取方阵x（也就是这些函数的参数）的倒数，相当于计算表达式1/x。</p>
+<p style="font-family:verdana">第二，&nbsp;Det和deter是同一个函数的不同名字，换句话说，它们的使用方法和计算结果完全一样。</p>
+<p style="font-family:verdana">第三，&nbsp;所有的上述函数都支持复数矩阵。</p>
+<p style="font-family:verdana">以下是上述函数的例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">test matrix functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">测试矩阵相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testMatrix()</p>
+<p style="font-family:verdana;color:blue">print("\ncofactor([[1,3,-4.81-0.66i],[-0.91i,5.774,3.81+2.03i],[0,-6,-7.66-3i]])=" _</p>
+<p style="font-family:verdana;color:blue">+ cofactor([[1,3,-4.81-0.66i],[-0.91i, 5.774, 3.81+2.03i],[0, -6, -7.66-3i]]))</p>
+<p style="font-family:verdana;color:blue">print("\nadj([[1,-7],[-4, 6]]) = " + adj([[1,-7],[-4, 6]]))</p>
+<p style="font-family:verdana;color:blue">print("\ndet([[2.7-0.4i, 5.11i],[-1.49, -3.87+4.41i]]) = " _</p>
+<p style="font-family:verdana;color:blue">+ det([[2.7-0.4i, 5.11i],[-1.49, -3.87+4.41i]]))</p>
+<p style="font-family:verdana;color:blue">print("\ndprod([1,2,3],[4,5,6]) = " + dprod([1,2,3],[4,5,6]))</p>
+<p style="font-family:verdana;color:blue">print("\neig([[1,0],[0,1]]) = " + eig([[1,0],[0,1]]) )</p>
+<p style="font-family:verdana;color:blue">print("\neig([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=" _</p>
+<p style="font-family:verdana;color:blue">+ eig([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]]))</p>
+<p style="font-family:verdana;color:blue">print("\nget_eigen_values([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=" _</p>
+<p style="font-family:verdana;color:blue">+get_eigen_values([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]]))</p>
+<p style="font-family:verdana;color:blue">print("\nrank([[1,2,3],[4,5,8]]) = " _</p>
+<p style="font-family:verdana;color:blue">+ rank([[1,2,3],[4,5,8]]))</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">程序的运行结果如下：</p>
+<p style="font-family:verdana">cofactor([[1,3,-4.81-0.66i],[-0.91i,5.774,3.81+2.03i],[0,-6,-7.66-3i]])=[[-21.3688399999999999999999999999999999999999999999999999999999999986 - 5.1419999999999999999999999999999999999999999999999999999999999994i, 2.73 - 6.9706i, 5.46i], [51.84 + 12.96i, -7.66 - 3i, 6], [39.2029399999999999999999999999999999999999999999999999999999999999 + 9.9008400000000000000000000000000000000000000000000000000000000001i, -4.4106 + 2.3471i, 5.774 + 2.73i]]</p>
+<p style="font-family:verdana">adj([[1,-7],[-4, 6]]) = [[6, 7], [4, 1]]</p>
+<p style="font-family:verdana">det([[2.7-0.4i, 5.11i],[-1.49, -3.87+4.41i]]) = -8.685 + 21.0689i</p>
+<p style="font-family:verdana">dprod([1,2,3],[4,5,6]) = 32</p>
+<p style="font-family:verdana">eig([[1,0],[0,1]]) = [[[0, 0], [0, 0]], [[1, 0], [0, 1]]]</p>
+<p style="font-family:verdana">eig([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=[[[0.5823305472444549220819340004695808799844908575313355771049880239 + 2.6809072575482156074378495725434812981406213152515868875585567468i, 0.0114135820466395502054852954488256551817471139007810529210119208 + 3.4394330048873032459793824252367034270060295989773214887206842872i, 0.1388649308606510232042228769561980233759262865380815606646575143 - 0.6869355577206501991055143100875158982393429000524385229074545558i], [0.1706650271410734493686782716838420204556348720948784459123114335 + 3.2610379517684265529500566832795301074088302158506118107692861942i, 1.0352846399044520080844175395063017457192992181908246617872107954 + 2.0718315370680215726468326567580658394348957576054643511780204727i, 1], [1, 1, -1.4604755542403403454627560718567442382313962988887573353544007743 + 0.5989937399782723545797394498168180189451427644426167079112280372i]], [[1.6771119760640303234132562527571544811705507223533275701869437736 - 1.6789870982611406187191411771858177830523877216751181685694659201i, 0, 0], [0, 0.0328711162943186887885582860890803241425541594114635568073761979 + 0.5055670540754347904151221100125363969735197371948964385418564962i, 0], [0, 0, -0.7099830923583490122018145388462348053131048817647911269943199715 - 8.3365799558142941716959809328267186139211320155197782699723905761i]]]</p>
+<p style="font-family:verdana">get_eigen_values([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=[1.6771119760640303234132562527571544811705507223533275701869437736 - 1.6789870982611406187191411771858177830523877216751181685694659201i, 0.0328711162943186887885582860890803241425541594114635568073761979 + 0.5055670540754347904151221100125363969735197371948964385418564962i, -0.7099830923583490122018145388462348053131048817647911269943199715 - 8.3365799558142941716959809328267186139211320155197782699723905761i]</p>
+<p style="font-family:verdana">rank([[1,2,3],[4,5,8]]) = 2</p>
+<h3><a name="_Ref426709872" ></a>第6节 &nbsp;<a name="_Toc16442" >表达式和微积分函数</a></h3>
+<p style="font-family:verdana">将表达式和微积分函数放在一起，是因为这些函数都是对一个基于字符串的MFP表达式进行处理，函数的列表如下：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">deri_ridders</p></td>
+<td>
+<p style="font-family:verdana">deri_ridders(4) :</p>
+<p style="font-family:verdana">deri_ridders(expr, var, val, ord)返回基于变量var的表达式expr在var等于val的时候的ord阶导数值。这个函数使用Ridders法进行计算。比如，deri_ridders("x**2+x","x",3,2)返回2。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">derivative</p></td>
+<td>
+<p style="font-family:verdana">derivative(2) :</p>
+<p style="font-family:verdana">derivative(expression, variable)返回基于变量variable的表达式expression的导数表达式。注意expression和variable均为字符串。比如，derivative("x**2+x","x")返回一个字符串表达式"2*x+1"。</p>
+<p style="font-family:verdana">derivative(4) :</p>
+<p style="font-family:verdana">derivative(expr, var, val, method)返回基于变量var的表达式expr在var等于val的时候的导数值。参数method用于选择计算方法，如果是true，意味着使用Ridders法进行计算，如果是false，则只是简单地计算导数表达式在val时候的值。比如，derivative("x**2+x","x",2,true)返回5。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">evaluate</p></td>
+<td>
+<p style="font-family:verdana">evaluate(1...) :</p>
+<p style="font-family:verdana">evaluate(expr_string,var_string1,var_value1,var_string2,var_value2, ...) 返回当基于字符串的变量var_string1等于var_value1，var_string2等于var_value2，...时，基于字符串的表达&nbsp;式expr_string的值。注意变量var_string1，var_string2，...的值可以为任意类型。变量的数目可以为0，也就是&nbsp;说，evaluate("3+2")是合法的。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">integrate</p></td>
+<td>
+<p style="font-family:verdana">integrate(2) :</p>
+<p style="font-family:verdana">integrate(x,y)返回基于变量y的表达式x的不定积分，表达式x和变量y均为字符串。注意如果表达式x不存在不定积分，或者x过于复杂无法解出其不定积分，本函数将会抛出异常。</p>
+<p style="font-family:verdana">integrate(4) :</p>
+<p style="font-family:verdana">integrate(x,y,z,w)返回表达式x在变量y从z到w的积分值。表达式x和变量y均为字符串，z和w可以为实数，复数或字符串。注意本函数采用的积分算法是自适应Gauss-Kronrod积分法。</p>
+<p style="font-family:verdana">integrate(5) :</p>
+<p style="font-family:verdana">integrate(x,y,z,w,v)返回表达式x相对于变量y从w到z的积分。计算时每一步步长为(w-z)/v。表达式x和变量y均为字符串，z 和w可以为实数，复数或字符串，v必须为正整数。注意如果v是0，则相当于执行integrate(x,y,z,w)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">product_over</p></td>
+<td>
+<p style="font-family:verdana">product_over(3) :</p>
+<p style="font-family:verdana">函数product_over(x, y, z)计算基于字符串的表达式x中的变量取值从整数y逐步变化到整数z的值的乘积。y和z必须是字符串的形式，其中，y必须写成一个赋值表达式，比&nbsp;如"a=10"，这里，a是变量名。一个函数的例子为product_over("x+1", "x=1", "10")。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sum_over</p></td>
+<td>
+<p style="font-family:verdana">sum_over(3) :</p>
+<p style="font-family:verdana">函数sum_over(x, y, z)计算基于字符串的表达式x中的变量取值从整数y逐步变化到整数z的值的总合。y和z必须是字符串的形式，其中，y必须写成一个赋值表达式，比&nbsp;如"a=10"，这里，a是变量名。一个函数的例子为sum_over("x+1", "x=1", "10")。</p></td></tr></table>
+<p style="font-family:verdana">这些函数中，deri_ridders是使用Ridders法对一个函数求某一点的一阶，二阶或者三阶导数值。在列表中的例子deri_ridders("x**2+x", "x", 3, 2)表示求表达式x**2+x在x等于3时的二阶导数值。</p>
+<p style="font-family:verdana">derivative用于求取一个函数的一阶导数的表达式或者一阶导数在某一点的值。列表中的第一个例子derivative("x**2+x","x")表示求表达式x**2+x的一阶导数表达式，列表中的第二个例子derivative("x**2+x","x",2,true)表示求表达式x**2+x在x等于2时的一阶导数的值。需要注意的是最后一个参数true表示使用Ridders法求导数值，false表示直接将x的值代入导数表达式中求值。如果不给出最后一个参数，其缺省值为true。</p>
+<p style="font-family:verdana">derivative也可以用于求取函数的高阶导数表达式。这需要对derivative函数进行连环调用，比如derivative(derivative("x**2+x","x"),"x")给出表达式x**2+x的二阶导数表达式。</p>
+<p style="font-family:verdana">sum_over相当于数学中的求和符号&#8721;，它的使用方法也和&#8721;完全一样。比如，列表中的例子sum_over("x+1", "x=1", "10")，表示对表达式x+1求和，x的变化范围是从整数1变化到整数10，相当于数学表达式&#8721;<sub>x=1</sub><sup>10</sup>(x+1)。</p>
+<p style="font-family:verdana">类似sum_over，product_over相当于数学中的求积符号&#8719;，它的使用方法也和&#8719;完全一样，比如列表中的例子product_over("x+1", "x=1", "10")，表示对表达式x+1求积，x的变化范围是从整数1变化到整数10，相当于数学表达式&#8719;<sub>x=1</sub><sup>10</sup>(x+1)。</p>
+<p style="font-family:verdana">Evaluate函数是将一个字符串视为MFP表达式，然后求取该表达式的值。注意如果该表达式中有一个或多个未知变量，evaluate函数可以增加参数给未知变量赋值，以便最后求得结果，比如evaluate("x+y+1","x",3,"y",4)用于计算x+y+1的值，并且给出了x的值为3，y的值为4，所以最后的计算结果为8。当然，如果没有未知变量，就不必增加用于赋值的参数了。</p>
+<p style="font-family:verdana">Evaluate计算的MFP表达式还可以包括函数，无论是系统自带的函数还是用户定义的函数，比如evaluate("sind(30)")得到值为0.5。</p>
+<p style="font-family:verdana">Integrate函数则用于计算定积分或者不定积分。事实上，可编程科学计算器的计算积分的组件就是调用的这个函数。如果用这个函数计算不定积分比较简单，需要两个参数，第一个是被积分表达式，第二个是被积分变量，它们都是基于字符串的，比如</p>
+<p style="font-family:verdana;color:blue">integrate("cos(x)","x")</p>
+<p style="font-family:verdana">就是对cos(x)积分，得到的不定积分结果表达式也是一个字符串，也就是"sin(x)"。</p>
+<p style="font-family:verdana">如果用于计算定积分，也有两种用法，第一种是采用高斯克朗德（Gauss-Kronrod）法，采用这种积分办法，能够处理起始和终止积分点为无穷的情况，也能够处理高频震荡函数，甚至能够处理某些奇异点的情况。代价就是计算速度比较慢。比如</p>
+<p style="font-family:verdana;color:blue">integrate("exp(x)","x",-inf,0)</p>
+<p style="font-family:verdana">返回exp(x)从负无穷到0的积分（结果为1），而</p>
+<p style="font-family:verdana;color:blue">integrate("log(x)","x",0,1)</p>
+<p style="font-family:verdana">返回log(x)从0到1的积分，注意这里0是奇异点，返回的结果为-1.00000018，注意这里有计算误差。</p>
+<p style="font-family:verdana">对于大部分函数，如果没有奇异点，也不是高频震荡，积分范围也不包括无穷大，则可以使用普通的梯形求和积分法。这时，用户需要指定积分步数，如果积分步数为0，或者积分范围包括无穷大，integrate又自动回到了采用高斯克朗德法进行积分。一个普通的梯形求和积分法的例子为：</p>
+<p style="font-family:verdana;color:blue">integrate("x**2+1","x", -3+4i, 7-9i, 100)</p>
+<p style="font-family:verdana">，这个例子中，积分的起止点位于复数域（integrate支持复数域上积分），积分步数为100步，最后的结果为-481.7345 - 225.69505 * i，理论的结果为-481.66666667 - 225.66666667 * i。可见，对于诸如x**2+1之类的线性或者接近线形的函数，只要步数足够大，误差会很小。</p>
+<p style="font-family:verdana">通过嵌套integrate函数还可以实现高次积分，比如计算x*y的积分，x从1到6，y从-4到3，计算表达式为：</p>
+<p style="font-family:verdana;color:blue">integrate("integrate(\"x*y\",\"x\",1,6,100)","y",-4,3,100)</p>
+<p style="font-family:verdana">，结果为-61.25。需要注意，由于高斯克朗德法速度比较慢，高次积分强烈不建议采用该积分法，这也是为什么在上述表达式中指定积分步骤的原因。</p>
+<p style="font-family:verdana">当然，也有可能，integrate函数无法得到积分结果（比如，有些不定积分过于复杂或者不可积，或者有些定积分无法收敛），这时，integrate函数会抛出异常，比如在命令提示符中运行下述语句块（直接将下述语句块拷贝粘贴到基于JAVA的可编程科学计算器的命令提示符中，按回车键即可运行）：</p>
+<p style="font-family:verdana;color:blue">try</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("integrate(\"e**(x**2)\",\"x\")", integrate("e**(x**2)","x"))</p>
+<p style="font-family:verdana;color:blue">catch</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("e**(x**2) cannot be integrated")</p>
+<p style="font-family:verdana;color:blue">endtry</p>
+<p style="font-family:verdana">用户可以看到integrate函数抛出异常，最后的结果为打印提示</p>
+<p style="font-family:verdana">e**(x**2) cannot be integrated</p>
+<p style="font-family:verdana">也就是e的x平方次方不可积。</p>
+<p style="font-family:verdana">最后要注意，以上介绍的所有表达式和积分函数，都能够读取已定义的变量的值，比如，在某个程序中已经声明了一个变量b，它的值为3，那么用户调用evaluate("x+b","x",9)，就会返回12。由于这个原因，用户在使用上述函数的时候，最好能够保证函数内部定义的变量和程序中的变量的名字不同，免得发生冲突。这个在进行高次积分的时候特别要注意。</p>
+<p style="font-family:verdana">以下是上述函数的例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test expression and calculus functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试表达式和微积分相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function exprcalculus()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(\"1/x**2*log(x) + 9\", \"x\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative("1/x**2*log(x) + 9", "x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(\"tanh(x)**-1\", \"x\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative("tanh(x)**-1", "x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test high order derivative</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 测试高次导数</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(derivative(\"x*sin(x)\", \"x\"), \"x\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative(derivative("x*sin(x)", "x"), "x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test derivative value</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 测试求取导数值 &nbsp;</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderi_ridders(\"x**0.5+x+9\", \"x\", 0.3, 1) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ deri_ridders("x**0.5+x+9", "x", 0.3, 1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(\"x**0.5+x+9\", \"x\", 0.3) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative("x**0.5+x+9", "x", 0.3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderi_ridders(\"x**0.5+sqrt(sin(x**2))\", \"x\", 0.3, 3) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ deri_ridders("x**0.5+sqrt(sin(x**2))", "x", 0.3, 3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsum_over(\"1/(x-10)\",\"x=1\",\"9\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ sum_over("1/(x - 10)", "x = 1", "9"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nproduct_over(\"1/(x-10)\",\"x=9\",\"1\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ product_over("1/(x-10)", "x = 9", "1"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nevaluate(\"x+y+1\",\"x\",5,\"y\",7) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ evaluate("x+y+1","x",5,"y",7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nevaluate(\"sind(30)\") = " + evaluate("sind(30)"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"tanh(x)**-1\",\"x\") = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("tanh(x)**-1","x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"sinh(x)*cosh(x)**-1\",\"x\") = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("sinh(x)*cosh(x)**-1","x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"1/x**2\",\"x\",2,inf) = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("1/x**2","x",2,inf))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"1/x**2\",\"x\",2,50,100) = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("1/x**2","x",2,50,100))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test unintegratable.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 测试不可积分</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;try</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("integrate(\"e**(x**2)\",\"x\")", integrate("e**(x**2)","x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;catch</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("e**(x**2) cannot be integrated")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endtry</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test high order integration</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 测试高次积分</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"integrate(\\\"x*y\\\",\\\"x\\\",1,6,100)\",\"y\",-4,3,100) = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("integrate(\"x*y\",\"x\",1,6,100)","y",-4,3,100))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述例子的运行结果如下：</p>
+<p style="font-family:verdana">derivative("1/x**2*log(x) + 9", "x") = (-2)*log(x)*x**(-3)+x**(-3)</p>
+<p style="font-family:verdana">derivative("tanh(x)**-1", "x") = -(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**x*(sinh(x)/cosh(x))**(-2)*sinh(x)*cosh(x)**(-2)+(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**(-x)*(sinh(x)/cosh(x))**(-2)*sinh(x)*cosh(x)**(-2)+(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**x*(sinh(x)/cosh(x))**(-2)/cosh(x)+(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**(-x)*(sinh(x)/cosh(x))**(-2)/cosh(x)</p>
+<p style="font-family:verdana">derivative(derivative("x*sin(x)", "x"), "x") = (-1)*x*sin(x)+2*cos(x)</p>
+<p style="font-family:verdana">deri_ridders("x**0.5+x+9", "x", 0.3, 1) = 1.9128709291772078606011099231055019184972226816921057762830380748</p>
+<p style="font-family:verdana">derivative("x**0.5+x+9", "x", 0.3) = 1.91287092917527690172363463716465048491954803466796875</p>
+<p style="font-family:verdana">deri_ridders("x**0.5+sqrt(sin(x**2))", "x", 0.3, 3) = 7.1575232288636571107632429280365926329437264758531027037489228909</p>
+<p style="font-family:verdana">sum_over("1/(x-10)","x=1","9") = -2.828968253968253968253968253968253968253968253968253968253968254</p>
+<p style="font-family:verdana">product_over("1/(x-10)","x=9","1") = -0.0000027557319223985890652557319223985890652557319223985890652557</p>
+<p style="font-family:verdana">evaluate("x+y+1","x",5,"y",7) = 13</p>
+<p style="font-family:verdana">evaluate("sind(30)") = 0.5</p>
+<p style="font-family:verdana">integrate("tanh(x)**-1","x") = log(sinh(x))</p>
+<p style="font-family:verdana">integrate("sinh(x)*cosh(x)**-1","x") = log(cosh(x))</p>
+<p style="font-family:verdana">integrate("1/x**2","x",2,inf) = 0.4999999999999999800759152415811779636542182411236778807349767932</p>
+<p style="font-family:verdana">integrate("1/x**2","x",2,50,100) = 0.4847465087006575124658317917505673256758819785394978030710821748e**(x**2) cannot be integrated</p>
+<p style="font-family:verdana">integrate("integrate(\"x*y\",\"x\",1,6,100)","y",-4,3,100) = -61.25</p>
+<p style="font-family:verdana">注意，从1.7版的可编程科学计算器开始，引用空间的概念被加入，所以，在算微分和积分表达式时，给出的答案包括每个函数完整的引用路径。例如在旧版本中的log(x)在1.7版中为::mfp::math::log_exp::log(x)。这让答案显得有些冗长并且难于阅读。1.7.1版改进了这个问题，在算微分和积分表达式时，给出的答案仅仅包括函数的最短引用路径。如果该函数在缺省引用空间内并且没有同名函数，则仅仅给出不包括引用路径的函数名。</p>
+<h3><a name="_Toc22676" ></a>第7节 &nbsp;统计、随机和排序函数</h3>
+<p style="font-family:verdana">可编程科学计算器提供了用统计和随机过程以及排序的函数。这些函数和数学上的表示方法基本相同，用户可以很方便地使用：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">avg</p></td>
+<td>
+<p style="font-family:verdana">avg(0...) :</p>
+<p style="font-family:verdana">函数avg(…)返回任意个数参数的平均值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">beta</p></td>
+<td>
+<p style="font-family:verdana">beta(2) :</p>
+<p style="font-family:verdana">函数beta(z1, z2)返回复数z1和z2的beta函数值。注意z1和z2的实部必须是正数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">gamma</p></td>
+<td>
+<p style="font-family:verdana">gamma(1) :</p>
+<p style="font-family:verdana">函数gamma(z)返回复数z的gamma函数值。注意z的实部必须是正数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">gavg</p></td>
+<td>
+<p style="font-family:verdana">gavg(0...) :</p>
+<p style="font-family:verdana">函数gavg(…)返回任意个数参数的几何平均数值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">havg</p></td>
+<td>
+<p style="font-family:verdana">havg(0...) :</p>
+<p style="font-family:verdana">函数havg(…)返回任意个数参数的调和平均数值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">max</p></td>
+<td>
+<p style="font-family:verdana">max(0...) :</p>
+<p style="font-family:verdana">函数max(...)返回任意数目参数中的最大值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">med</p></td>
+<td>
+<p style="font-family:verdana">med(0...) :</p>
+<p style="font-family:verdana">函数med(…)返回任意数目参数的中位数。如果参数的个数为偶数个，返回中间两个参数的平均值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">min</p></td>
+<td>
+<p style="font-family:verdana">min(0...) :</p>
+<p style="font-family:verdana">函数min(...)返回任意数目参数中的最小值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">quick_sort</p></td>
+<td>
+<p style="font-family:verdana">quick_sort(2) :</p>
+<p style="font-family:verdana">函数quick_sort(desc, original_list)将拥有至少一个元素的向量original_list用快速排序法进行排序并返回排序后的向量。如果desc是true或者1，按照从大到小&nbsp;排序，否则（false或者0）按照从小到大排序。比如，输入quick_sort(1, [5,6,7,9,4])得到[9,7,6,5,4]而输入quick_sort(0, [5,6,7,9,4])的结果是[4,5,6,7,9]。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">ncr</p></td>
+<td>
+<p style="font-family:verdana">ncr(2) :</p>
+<p style="font-family:verdana">函数nCr(x, y)计算有x个元素的集合S的k个元素组合的个数。注意x，y都是非负整数，x &gt;= y。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">npr</p></td>
+<td>
+<p style="font-family:verdana">npr(2) :</p>
+<p style="font-family:verdana">函数nPr(x, y)计算有x个元素的集合S的k个元素排列的个数。注意x，y都是非负整数，x &gt;= y。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">rand</p></td>
+<td>
+<p style="font-family:verdana">rand(0) :</p>
+<p style="font-family:verdana">rand()函数返回一个大于等于0小于1的随机浮点数。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">stdev</p></td>
+<td>
+<p style="font-family:verdana">stdev(0...) :</p>
+<p style="font-family:verdana">函数stdev(…)返回任意个数参数的标准差，注意这些参数是一个大的集合中的采样。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">stdevp</p></td>
+<td>
+<p style="font-family:verdana">stdevp(0...) :</p>
+<p style="font-family:verdana">函数stdevp(…)返回任意个数参数的标准差。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sum</p></td>
+<td>
+<p style="font-family:verdana">sum(0...) :</p>
+<p style="font-family:verdana">函数sum(…)返回任意个数参数的总合。</p></td></tr></table>
+<p style="font-family:verdana">这里需要注意stdev函数和stdevp函数的区别。假设这两个函数的参数都是同样的实数序列x<sub>1</sub>，x<sub>2</sub>，x<sub>3</sub>，…，x<sub>N</sub>，那么stdev返回的是</p>
+<p style="font-family:verdana"><img width="347"  height="47"  src="math_functions_old.files/math_functions_old23851.png" ></p>
+<p style="font-family:verdana">而stdevp返回的是</p>
+<p style="font-family:verdana"><img width="327"  height="47"  src="math_functions_old.files/math_functions_old23886.png" ></p>
+<p style="font-family:verdana">这里，u是x<sub>1</sub>，x<sub>2</sub>，x<sub>3</sub>，…，x<sub>N</sub>的平均值。</p>
+<p style="font-family:verdana">以下是上述函数的例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test statistics&nbsp;and sorting&nbsp;functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试统计、随机和排序相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testStatSort()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\navg(1,5,9,-6,3,-18,7) = " + avg(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nbeta(3.71, 23.55) = " + beta(3.71, 23.55))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ngamma(5.44 - 10.31i) = " + gamma(5.44 - 10.31i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ngavg(1,5,9,-6,3,-18,7) = " + gavg(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nhavg(1,5,9,-6,3,-18,7) = " + havg(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nmax(1,5,9,-6,3,-18,7) = " + max(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nmed(1,5,9,-6,3,-18,7) = " + med(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nmin(1,5,9,-6,3,-18,7) = " + min(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nquick_sort(1,[1,5,9,-6,3,-18,7]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ quick_sort(1,[1,5,9,-6,3,-18,7]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nquick_sort(0,[1,5,9,-6,3,-18,7]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ quick_sort(0,[1,5,9,-6,3,-18,7]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstdev(1,5,9,-6,3,-18,7) = " + stdev(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstdevp(1,5,9,-6,3,-18,7) = " + stdevp(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsum(1,5,9,-6,3,-18,7) = " + sum(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nncr(8,3) = " + ncr(8,3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nnpr(8,3) = " + npr(8,3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nrand() = " + rand())</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述例子程序运行结果如下：</p>
+<p style="font-family:verdana">avg(1,5,9,-6,3,-18,7) = 0.1428571428571428571428571428571428571428571428571428571428571429</p>
+<p style="font-family:verdana">beta(3.71, 23.55) = 0.0000279537392314725872716390423881975646941670888511331711318296</p>
+<p style="font-family:verdana">gamma(5.44 - 10.31i) = 0.0015360621732035695620552936894943183717820318136617456390043119 - 0.0279816213196075726360710743099268272949427989554500480691282345i</p>
+<p style="font-family:verdana">gavg(1,5,9,-6,3,-18,7) = 5.194584255413065676521000568754971027374267578125</p>
+<p style="font-family:verdana">havg(1,5,9,-6,3,-18,7) = 4.472616632860040567951318458417849898580121703853955375253549696</p>
+<p style="font-family:verdana">max(1,5,9,-6,3,-18,7) = 9</p>
+<p style="font-family:verdana">med(1,5,9,-6,3,-18,7) = 3</p>
+<p style="font-family:verdana">min(1,5,9,-6,3,-18,7) = -18</p>
+<p style="font-family:verdana">quick_sort(1,[1,5,9,-6,3,-18,7]) = [9, 7, 5, 3, 1, -6, -18]</p>
+<p style="font-family:verdana">quick_sort(0,[1,5,9,-6,3,-18,7]) = [-18, -6, 1, 3, 5, 7, 9]</p>
+<p style="font-family:verdana">stdev(1,5,9,-6,3,-18,7) = 9.3528707077661721314143505878746509552001953125</p>
+<p style="font-family:verdana">stdevp(1,5,9,-6,3,-18,7) = 8.65907569182385117301237187348306179046630859375</p>
+<p style="font-family:verdana">sum(1,5,9,-6,3,-18,7) = 1</p>
+<p style="font-family:verdana">ncr(8,3) = 56</p>
+<p style="font-family:verdana">npr(8,3) = 336</p>
+<p style="font-family:verdana">rand() = 0.67638281271680666950629756684065796434879302978515625</p>
+<h3><a name="_Toc7425" ></a>第8节 &nbsp;信号处理函数</h3>
+<p style="font-family:verdana">为了方便电子电气工程师，MFP提供了三个信号处理函数：conv（卷积），FFT（快速傅立叶变换）和iFFT（快速傅立叶变换的逆变换），用法和示例如下：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">conv</p></td>
+<td>
+<p style="font-family:verdana">conv(2) :</p>
+<p style="font-family:verdana">conv(input_a, inputb)返回input_a和input_b的卷积。Input_a和input_b要么都是一维向量，要么都是二维矩阵。当前本函数仅仅支持一维和二维卷积，比如：</p>
+<p style="font-family:verdana">conv([4,8,2,9],[5,3,8,9,6,7,8]) = [20, 52, 66, 151, 139, 166, 181, 132, 79, 72]</p>
+<p style="font-family:verdana">conv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]) = [[-20, -40 + 4 * i, 18 + 8 * i, 11 + 2 * i, 14 + 9 * i, 63], [-37.6, 6.8 + 8 * i, 102.2 + 6 * i, 50.4 + 7 * i, 129 + 9 * i, 99], [-5.2, 57.6 + 2 * i, 58.2 + 2 * i, 119.4 + 8 * i, 156 - 4 * i, 8], [1.2, 17.2, 28.8, 69.6, 0, -16]]</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">FFT</p></td>
+<td>
+<p style="font-family:verdana">FFT(1...) :</p>
+<p style="font-family:verdana">FFT(a, ...)返回对一个数值向量作快速傅立叶变换后的值。注意数值向量中数值的个数必须是2的整数次方。如果参数a是一个数值序列，则本函数只可能拥有一个参&nbsp;数，返回值为对序列a[0], a[1], ..., a[N-1]作快速傅立叶变换的返回值。如果参数a仅仅是一个实数或者虚数，则本函数最少包含2个参数，而返回序列a，&nbsp;optional_params[0]，&nbsp;...，&nbsp;optional_params[number_of_optional_params - 2]，&nbsp;optional_params[number_of_optional_params - 1]快速傅立叶变换后的值。注意返回值总是一个数组。</p>
+<p style="font-family:verdana">函数例子：</p>
+<p style="font-family:verdana">FFT(1, 2, 3, 4)返回[10, -2+2i, -2, -2 - 2i]；</p>
+<p style="font-family:verdana">FFT([1, 2, 3, 4])同样也是返回[10, -2+2i, -2, -2 - 2i]；</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">IFFT</p></td>
+<td>
+<p style="font-family:verdana">IFFT(1...) :</p>
+<p style="font-family:verdana">IFFT(a, ...)返回对一个数值向量作快速傅立叶变换的逆变换后的值。注意数值向量中数值的个数必须是2的整数次方。如果参数a是一个数值序列，则本函数只可能拥&nbsp;有一个参数，返回值为对序列a[0], a[1], ..., a[N-1]作快速傅立叶变换德逆变换的返回值。如果参数a仅仅是一个实数或者虚数，则本函数最少包含2个参数，而返回序列a，&nbsp;optional_params[0]，&nbsp;...，&nbsp;optional_params[number_of_optional_params - 2]，&nbsp;optional_params[number_of_optional_params - 1]快速傅立叶变换的逆变换后的值。注意返回值总是一个数组。</p>
+<p style="font-family:verdana">函数例子：</p>
+<p style="font-family:verdana">IFFT(10, -2 + 2i, -2, -2 - 2i)返回[1, 2, 3, 4]；</p>
+<p style="font-family:verdana">IFFT([10, -2 + 2i, -2, -2 - 2i])同样也是返回[1, 2, 3, 4]；</p></td></tr></table>
+<p style="font-family:verdana">以下是上述函数的例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test sign processing functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试信号处理相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testSignalProc()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nconv([4,8,2,9],[5,3,8,9,6,7,8]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv([4,8,2,9],[5,3,8,9,6,7,8]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nconv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nFFT(1, 2, 3, 4) = " + FFT(1, 2, 3, 4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nFFT([1,2,3,4]) = " + FFT([1,2,3,4]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\niFFT(10, -2 + 2i, -2, -2 - 2i) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ IFFT(10, -2 + 2i, -2, -2 - 2i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\niFFT([10, -2 + 2i, -2, -2 - 2i]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ IFFT([10, -2 + 2i, -2, -2 - 2i]))</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">上述例子的运行结果如下：</p>
+<p style="font-family:verdana">conv([4,8,2,9],[5,3,8,9,6,7,8]) = [20, 52, 66, 151, 139, 166, 181, 132, 79, 72]</p>
+<p style="font-family:verdana">conv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]) = [[-20, -40 + 4i, 18 + 8i, 11 + 2i, 14 + 9i, 63], [-37.6, 6.8 + 8i, 102.2 + 6i, 50.4 + 7i, 129 + 9i, 99], [-5.2, 57.6 + 2i, 58.2 + 2i, 119.4 + 8i, 156 - 4i, 8], [1.2, 17.2, 28.8, 69.6, 0, -16]]</p>
+<p style="font-family:verdana">FFT(1, 2, 3, 4) = [10, -2 + 2i, -2, -2 - 2i]</p>
+<p style="font-family:verdana">FFT([1,2,3,4]) = [10, -2 + 2i, -2, -2 - 2i]</p>
+<p style="font-family:verdana">iFFT(10, -2 + 2i, -2, -2 - 2i) = [1, 2, 3, 4]</p>
+<p style="font-family:verdana">iFFT([10, -2 + 2i, -2, -2 - 2i]) = [1, 2, 3, 4]</p>
+<h3><a name="_Toc17279" ></a>第9节 &nbsp;阶乘求值函数、判断质数函数和多项式求根函数</h3>
+<p style="font-family:verdana">MFP中求取一个非负整数的阶乘的函数为factor，比如factor(3)得到6。注意这个函数只有一个参数，如果该参数不是整数，将会被先截断转换为整数在进行计算，如果参数的值小于0或者不能被转换为整数，将会出错。</p>
+<p style="font-family:verdana">MFP判断一个数是否为质数的函数式为is_prime，比如is_prime(3.3)得到false而is_prime(97)得到true。注意这个函数只有一个参数，并且该参数必须为实数，如果参数不是实数，将会报错。</p>
+<p style="font-family:verdana">MFP一元多项式求根的函数为roots。roots(a, ...)返回一个多项式的根数列。如果a是一个包含N个元素的实数或虚数数列，则返回多项式</p>
+<p style="font-family:verdana">a[0] * x**(N-1) + a[1] * x**(N-2) + ... + a[N-2] * x + a[N-1] ==&nbsp;0</p>
+<p style="font-family:verdana">的根数列。如果a是一个单一的实数，此函数则必须拥有至少两个参数，返回多项式</p>
+<p style="font-family:verdana">a * x**(除a之外其它参数的个数) + 除a之外的第一个参数 * x**(除a之外其它参数的个数 - 1) + … +除a之外的倒数第二个参数 * x +除a之外的最后一个参数 == 0</p>
+<p style="font-family:verdana">的根数列。</p>
+<p style="font-family:verdana">需要注意的是，如果该多项式次数大于等于4，根的计算是通过牛顿拉夫逊法给出的近似值。由于牛顿拉夫逊法需要迭代计算，运算时间会比较长（取决于设备的性能）。</p>
+<p style="font-family:verdana">例如，如果要计算多项式3 * x**2 - 4 * x + 1 == 0的根，在命令提示符中输入命令：roots([3, -4, 1])获得的结果是[1, 0.33333333]；</p>
+<p style="font-family:verdana">如果要计算多项式(1+2i) * x**3 + (7-6i) * x**2 + 0.54 * x - 4.31 - 9i == 0的根，输入命令：roots(1+2i, 7-6i, 0.54, -4.31-9i)获得的结果是[0.79288607 + 3.9247084 * i, -0.56361748 - 0.78399569 * i, 0.7707314 + 0.85928729 * i]。</p>
+<p style="font-family:verdana">roots函数和用solve程序块求解一元多项式得出的结果是一样的，但是由于roots语句不必对程序块的语法结构进行分析，它比用solve程序块的效率要高。</p>
+<p style="font-family:verdana">以下是上述函数的例子程序。本例子可以在本手册自带的示例代码所在目录中的math libs子目录中的examples.mfps文件中找到）：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test prime, factor and roots functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试质数、阶乘和一元多项式求根的相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function PrimeFactRoots()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(3.3) = " + is_prime(3.3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(97) = " + is_prime(97))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(-97) = " + is_prime(-97))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(1) = " + is_prime(1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(2) = " + is_prime(2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(0) = " + is_prime(0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(8633) = " + is_prime(8633))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nfact(3) = " + fact(3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nfact(63) = " + fact(63))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nfact(0) = " + fact(0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nroots([3, -4, 1]) = " + roots([3, -4, 1]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nroots(1+2i, 7-6i, 0.54, -4.31-9i) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ roots(1+2i, 7-6i, 0.54, -4.31-9i))</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">上述例子的运行结果如下：</p>
+<p style="font-family:verdana">is_prime(3.3) = FALSE</p>
+<p style="font-family:verdana">is_prime(97) = TRUE</p>
+<p style="font-family:verdana">is_prime(-97) = FALSE</p>
+<p style="font-family:verdana">is_prime(1) = FALSE</p>
+<p style="font-family:verdana">is_prime(2) = TRUE</p>
+<p style="font-family:verdana">is_prime(0) = FALSE</p>
+<p style="font-family:verdana">is_prime(8633) = FALSE</p>
+<p style="font-family:verdana">fact(3) = 6</p>
+<p style="font-family:verdana">fact(63) = 1982608315404440064116146708361898137544773690227268628106279599612729753600000000000000</p>
+<p style="font-family:verdana">fact(0) = 1</p>
+<p style="font-family:verdana">roots([3, -4, 1]) = [1, 0.3333333333333333333333333333333333333333333333333333333333333333]</p>
+<p style="font-family:verdana">roots(1+2i, 7-6i, 0.54, -4.31-9i) = [0.7928860730571022099839052581254713102006395451929364570881977409 + 3.9247083954445877597678511535081536006180195929229657166716945562i, -0.5636174763329694374664831861988500484145796260620965968434731734 - 0.7839956883798520996055087388165005568364007706209239481847346781i, 0.7707314032758672274825779280733787382139400808691601397552754324 + 0.8592872929352643398376575853083469562183811776979582315130401219i]</p>
+<h3>小结</h3>
+<p style="font-family:verdana">MFP编程语言提供了完整的数学和科学的函数。这些函数符合它们在相关领域的使用方法，简单易学。</p>
+<p style="font-family:verdana">MFP编程语言还提供了用于表达式和微积分的函数，这些函数的共同特点是使用基于字符串的数学公式表达式作为参数。和后面将会提到的绘图函数不同的是，这些函数可以接受参数数学公式字符串中含有已经声明的变量。对于这种情况，这些函数将自动把已经声明的变量的数值代入表达式进行计算。</p>
+</body></html>

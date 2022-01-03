@@ -1,0 +1,433 @@
+<html>
+	<head>
+		<title>MFP language Help</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP language Help: Numbers, Strings and Arrays</h2>
+<p style="font-family:verdana">MFP provides language level supports to different types of numbers, strings, and arrays. Also, a number of built-in functions have been included to handle these data types.</p>
+<h3>Section 1 &nbsp;Functions to Operate Numbers</h3>
+<h3>1.&nbsp;Integer Functions</h3>
+<p style="font-family:verdana">MFP programming language provides functions to round a fractional value and calculate modulus of integers.</p>
+<p style="font-family:verdana">Three functions, round, ceil and floor, are able to round a fractional value. Function round half-adjusts a value. For example, round(1.6) returns 2, round(-1.6) returns -2, round(1.4) returns 1, round(-1.4) returns -1.Function ceil returns the minimum integer which is no less than its parameter. For example, ceil(1.6) returns 2, ceil(-1.6) returns -1, ceil(-5.0) returns -5. Function floor returns the maximum integer which is no greater than its parameter. For example, floor(1.6) returns 1, floor(-1.4) returns -2 and floor(-5.0) returns -5.</p>
+<p style="font-family:verdana">Round, ceil and floor also support rounding a value to selected decimal places. In this case, all the three functions need two parameters. The first parameter is the value to round. The second parameter is how many decimal places to round to. For example, round(-1.82347, 4) half-adjusts -1.82347 to 4 decimal places so that it returns -1.8235; ceil(-1.82347, 4) returns the minimum value which is no less than -1.82347 and includes 4 decimal places, so the value is -1.8234; floor(-1.82347, 1) returns the maximum value which is no larger than -1.82347 and includes 1 decimal place, so that value is -1.9.</p>
+<p style="font-family:verdana">The function to calculate modulus of integers in MFP is mod. Mod(x,y) returns modulus of its two parameters. If x or y is not an integer, it will be converted to integer first. The converting approach is, if the value is positive, then it is converted to the maximum integer which is no larger than it; if the value is negative, then it is converted to minimum integer which is no smaller than it. For example, mod(-17.8214, 4.665) equals mod(-17, 4) and its result is 3, while mod(17.8214, 4.665) equals mod(17, 4) and its result is 1.</p>
+<p style="font-family:verdana">The following example is for the above four functions. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test round, ceil, floor and mod functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试round，ceil，floor和mod等几个函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testRoundsMod()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n round(1.6) == " + round(1.6))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n round(1.4) == " + round(1.4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n round(-1.6) == " + round(-1.6))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n round(-1.4) == " + round(-1.4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n ceil(1.6) == " + ceil(1.6))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n ceil(-1.6) == " + ceil(-1.6))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n ceil(-5.0) == " + ceil(-5.0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n floor(1.6) == " + floor(1.6))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n floor(-1.4) == " + floor(-1.4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n floor(-5.0) == " + floor(-5.0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n round(-1.82347, 4) == " + round(-1.82347, 4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n ceil(-1.82347, 4) == " + ceil(-1.82347, 4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n floor(-1.82347, 1) == " + floor(-1.82347, 1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n mod(-17.8214, 4.665) == " + Mod(-17.8214, 4.665))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n mod(17.8214, 4.665) == " + Mod(17.8214, 4.665))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The output of the above example should be as follows:</p>
+<p style="font-family:verdana">round(1.6) == 2</p>
+<p style="font-family:verdana">&nbsp;round(1.4) == 1</p>
+<p style="font-family:verdana">&nbsp;round(-1.6) == -2</p>
+<p style="font-family:verdana">&nbsp;round(-1.4) == -1</p>
+<p style="font-family:verdana">&nbsp;ceil(1.6) == 2</p>
+<p style="font-family:verdana">&nbsp;ceil(-1.6) == -1</p>
+<p style="font-family:verdana">&nbsp;ceil(-5.0) == -5</p>
+<p style="font-family:verdana">&nbsp;floor(1.6) == 1</p>
+<p style="font-family:verdana">&nbsp;floor(-1.4) == -2</p>
+<p style="font-family:verdana">&nbsp;floor(-5.0) == -5</p>
+<p style="font-family:verdana">&nbsp;round(-1.82347, 4) == -1.8235</p>
+<p style="font-family:verdana">&nbsp;ceil(-1.82347, 4) == -1.8234</p>
+<p style="font-family:verdana">&nbsp;floor(-1.82347, 1) == -1.9</p>
+<p style="font-family:verdana">&nbsp;mod(-17.8214, 4.665) == 3</p>
+<p style="font-family:verdana">&nbsp;mod(17.8214, 4.665) == 1</p>
+<h3>2.&nbsp;MFP Base Number Converters</h3>
+<p style="font-family:verdana">MFP programming language supports binary, octal, decimal and hexadecimal numbers, either integer or floating. A binary number starts with 0b, e.g. 0b0011100; an octal number starts with 0, e.g. 0371.242 or 00.362; a hexadecimal number starts with 0x, e.g. 0xAF46BC.0DD3E. Though MFP is able to recognize these numbers, they will be converted to decimal numbers before calculation. For example, the following code snippet:</p>
+<p style="font-family:verdana;color:blue">Variable a = 0b1101 <i style="font-family:verdana;color:green;">//equal to Variable a = 13</i></p>
+<p style="font-family:verdana;color:blue">Print("a+1 = " + (a+1))</p>
+<p style="font-family:verdana">will give out</p>
+<p style="font-family:verdana">a+1 = 14</p>
+<p style="font-family:verdana">. The result is decimal although a’s initial value in the source code is a binary number.</p>
+<p style="font-family:verdana">The following functions are able to convert parameter from one base number system to another base number system. However, user may keep in mind that, if the destination base number system is not decimal, the returned result is a string. Otherwise, the returned result is a decimal value:</p>
+<p style="font-family:verdana">Conv_bin_to_dec(x) converts a non-negative binary value or a string representing a non-negative binary value to a decimal number.</p>
+<p style="font-family:verdana">Conv_bin_to_hex(x) converts a non-negative binary value or a string representing a non-negative binary value to a string representing a hexadecimal value.</p>
+<p style="font-family:verdana">Conv_bin_to_oct(x) converts a non-negative binary value or a string representing a non-negative binary value to a string representing an octal value.</p>
+<p style="font-family:verdana">Conv_dec_to_bin(x) converts a non-negative decimal value or a string representing a non-negative decimal value to a string representing a binary value.</p>
+<p style="font-family:verdana">Conv_dec_to_hex(x) converts a non-negative decimal value or a string representing a non-negative decimal value to a string representing a hexadecimal value.</p>
+<p style="font-family:verdana">Conv_dec_to_oct(x) converts a non-negative decimal value or a string representing a non-negative decimal value to a string representing an octal value.</p>
+<p style="font-family:verdana">Conv_oct_to_bin(x) converts a non-negative octal value or a string representing a non-negative octal value to a string representing a binary value.</p>
+<p style="font-family:verdana">Conv_oct_to_dec(x) converts a non-negative octal value or a string representing a non-negative octal value to a decimal number.</p>
+<p style="font-family:verdana">Conv_oct_to_hex(x) converts a non-negative octal value or a string representing a non-negative octal value to a string representing a hexadecimal value.</p>
+<p style="font-family:verdana">Conv_hex_to_bin(x) converts a non-negative hexadecimal value or a string representing a non-negative hexadecimal value to a string representing a binary value.</p>
+<p style="font-family:verdana">Conv_hex_to_dec(x) converts a non-negative hexadecimal value or a string representing a non-negative hexadecimal value to a decimal number.</p>
+<p style="font-family:verdana">Conv_hex_to_oct(x) converts a non-negative hexadecimal value or a string representing a non-negative hexadecimal value to a string representing an octal value.</p>
+<p style="font-family:verdana">Also note that, when using the above functions, a string representing a binary or octal or hexadecimal value should not include the prefix of base number system. For example, the string for binary number 0b1101 is not "0b1101 " but "1101 ".</p>
+<p style="font-family:verdana">The following example is for the above base number converters. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test conversion functions between bin, oct, dec and hex</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试进制转换函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testBinOctDecHex()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_bin_to_dec(\"00111001.000110\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_bin_to_dec("00111001.000110"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_bin_to_hex(\".1000110001\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_bin_to_hex(".1000110001"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_bin_to_oct(\"1000110001\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_bin_to_oct("1000110001"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_bin(\".487960\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_bin(".487960"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_bin(.487960) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_bin(.487960))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_bin(0.48700) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_bin(0.48700))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_hex(\"153439.000\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_hex("153439.000"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_hex(153439.000) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_hex(153439.000))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_hex(153) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_hex(153))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_oct(\"1356.2341\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_oct("1356.2341"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_oct(1356.2341) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_oct(1356.2341))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_dec_to_oct(1356) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_dec_to_oct(1356))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_hex_to_bin(\"0AB0039BA.FFE01BBC64\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_hex_to_bin("0AB0039BA.FFE01BBC64"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_hex_to_dec(\"0AB0039BA.FFE01BBC64\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_hex_to_dec("0AB0039BA.FFE01BBC64"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_hex_to_oct(\"0AB0039BA\") = " + conv_hex_to_oct("0AB0039BA"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_oct_to_bin(\"027400330.017764\") = " + conv_oct_to_bin("027400330.017764"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_oct_to_dec(\"027400330.017764\") = " + conv_oct_to_dec("027400330.017764"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nconv_oct_to_hex(\"027400330\") = " + conv_oct_to_hex("027400330"))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Running the example, the output is:</p>
+<p style="font-family:verdana">conv_bin_to_dec("00111001.000110") = 57.09375</p>
+<p style="font-family:verdana">conv_bin_to_hex(".1000110001") = 0.8c4</p>
+<p style="font-family:verdana">conv_bin_to_oct("1000110001") = 1061</p>
+<p style="font-family:verdana">conv_dec_to_bin(".487960") = 0.011111001110101011110010010100011100000110010011101100111010011010001011000110011010010000010101111101000101111000001011010011100001000111011011110010101001</p>
+<p style="font-family:verdana">conv_dec_to_bin(.487960) = 0.011111001110101011110010010100011100000110010011101100111010011010001011000110011010010000010101111101000101111000001011010011100001000111011011110010101001</p>
+<p style="font-family:verdana">conv_dec_to_bin(0.48700) = 0.0111110010101100000010000011000100100110111010010111100011010100111111011111001110110110010001011010000111001010110000001000001100010010011011101001011110001</p>
+<p style="font-family:verdana">conv_dec_to_hex("153439.000") = 2575f</p>
+<p style="font-family:verdana">conv_dec_to_hex(153439.000) = 2575f</p>
+<p style="font-family:verdana">conv_dec_to_hex(153) = 99</p>
+<p style="font-family:verdana">conv_dec_to_oct("1356.2341") = 2514.1676677220777134443505161674646552054171173545773053</p>
+<p style="font-family:verdana">conv_dec_to_oct(1356.2341) = 2514.1676677220777134443505161674646552054171173545773053</p>
+<p style="font-family:verdana">conv_dec_to_oct(1356) = 2514</p>
+<p style="font-family:verdana">conv_hex_to_bin("0AB0039BA.FFE01BBC64") = 10101011000000000011100110111010.11111111111000000001101110111100011001</p>
+<p style="font-family:verdana">conv_hex_to_dec("0AB0039BA.FFE01BBC64") = 2868918714.99951337193851941265165805816650390625</p>
+<p style="font-family:verdana">conv_hex_to_oct("0AB0039BA") = 25300034672</p>
+<p style="font-family:verdana">conv_oct_to_bin("027400330.017764") = 10111100000000011011000.0000011111111101</p>
+<p style="font-family:verdana">conv_oct_to_dec("027400330.017764") = 6160600.0312042236328125</p>
+<p style="font-family:verdana">conv_oct_to_hex("027400330") = 5e00d8</p>
+<h3>3.&nbsp;Logic Functions in MFP</h3>
+<p style="font-family:verdana">Logic functions accept Boolean parameters and return a Boolean value. They are usually used in if or elseif statement, or conditional function iff.</p>
+<p style="font-family:verdana">MFP provides three logic functions, i.e. and, or and xor.</p>
+<p style="font-family:verdana">And function accepts at least one parameter and returns logic and of the parameter(s). If any parameter is not an Boolean, it will be converted to Boolean first. If conversion is unsuccessful, an exception will be thrown.</p>
+<p style="font-family:verdana">For example, and(True, 3&gt;2, 1-1) returns false because in the three parameters, Boolean values of True and 3&gt;2 are both true, while 1-1 is 0 which means false in Boolean. Because one parameter is false, function and returns false. However, if the third parameter is changed to 1-2, which is -1 and Boolean value is true, function and will return true.</p>
+<p style="font-family:verdana">Function or accepts at least one parameter and returns logic or value of the parameter(s). If any parameter is not Boolean, it will be converted to Boolean. If conversion is unsuccessful, an exception will be thrown.</p>
+<p style="font-family:verdana">For example, or(True, 3&gt;2, 1-1) returns true because Boolean values of True, 3&gt;2 and 1-1 include true. However, if the first parameter is False, and the second parameter is 3&lt;2, their Boolean values are changed to false so that function or is going to return false.</p>
+<p style="font-family:verdana">Function xor calculates logic xor of its two parameters, i.e. if the two parameters are equal, it returns true, otherwise, returns false.</p>
+<p style="font-family:verdana">The logic functions listed above are different from bitwise operators including bitwise and &, bitwise or | and bitwise xor ^. First of all, operands of bitwise operators must be positive integer or can be converted to positive integer. Comparatively, logic functions, except xor, only accept Boolean parameters or at least the parameter can be converted to Boolean.</p>
+<p style="font-family:verdana">Second, bitwise operator only has two operands, while logic functions and and or can accept an arbitrary number (&gt;0) of parameters.</p>
+<p style="font-family:verdana">Last, bitwise operators perform calculation on each bit of parameters. For example, to calculate 7&8, MFP needs to figure out that 7’s binary value is 111 and 8’s binary value is 1000. As such 7&8 gets 0000 which is 0. Comparatively, logic function and converts 7 and 8 to Boolean and then calculate. Therefore it returns true.</p>
+<p style="font-family:verdana">Function iff is also related to logic calculation. Function iff is the function version of if statement. It needs at least three parameters. Its usage is:</p>
+<p style="font-family:verdana">iff(condition1, result_if_condition1_holds, condition2, result_if_condition2_holds, condition3, result_if_condition3_holds, ……, result_if_no_condition_is_true)</p>
+<p style="font-family:verdana">. For example, iff(true, 3, 2) returns 3, iff(3 &lt; 2, 3, 2) returns 2 because 3 &lt; 2 is false, iff(3&lt;2, 3, 5&gt;4, 5, 6==9, 6, 9) returns 5, and iff(3&lt;2, 3, 5&lt;4, 5, 6==9, 6, 9) returns 9.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test logic operation functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试逻辑函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">Endh</p>
+<p style="font-family:verdana;color:blue">function testLogic()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n and(True, 3&gt;2, 1-1) = " + and(True, 3&gt;2, 1-1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n and(True, 3&gt;2, 1-2) = " + and(True, 3&gt;2, 1-2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n or(True, 3&gt;2, 1-1) = " + or(True, 3&gt;2, 1-1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n or(False, 3&lt;2, 1-1) = " + or(False, 3&lt;2, 1-1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n 7&8 = " + (7&8)) <i style="font-family:verdana;color:green;">// result is 0 （结果为0）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n and(7, 8) = " + and(7, 8)) <i style="font-family:verdana;color:green;">// result is true （结果为true）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n iff(true, 3, 2) = " + iff(true, 3, 2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n iff(3 &lt; 2, 3, 2) = " + iff(3 &lt; 2, 3, 2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n iff(3 &lt; 2, 3, 5 &gt; 4, 5, 6 == 9, 6, 9) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ iff(3 &lt; 2, 3, 5 &gt; 4, 5, 6 == 9, 6, 9))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n iff(3 &lt; 2, 3, 5 &lt; 4, 5, 6 == 9, 6, 9) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ iff(3 &lt; 2, 3, 5 &lt; 4, 5, 6 == 9, 6, 9))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Output of the above example is:</p>
+<p style="font-family:verdana">and(True, 3&gt;2, 1-1) = FALSE</p>
+<p style="font-family:verdana">and(True, 3&gt;2, 1-2) = TRUE</p>
+<p style="font-family:verdana">or(True, 3&gt;2, 1-1) = TRUE</p>
+<p style="font-family:verdana">or(False, 3&lt;2, 1-1) = FALSE</p>
+<p style="font-family:verdana">7&8 = 0</p>
+<p style="font-family:verdana">and(7, 8) = TRUE</p>
+<p style="font-family:verdana">iff(true, 3, 2) = 3</p>
+<p style="font-family:verdana">iff(3 &lt; 2, 3, 2) = 2</p>
+<p style="font-family:verdana">iff(3 &lt; 2, 3, 5 &gt; 4, 5, 6 == 9, 6, 9) = 5</p>
+<p style="font-family:verdana">iff(3 &lt; 2, 3, 5 &lt; 4, 5, 6 == 9, 6, 9) = 9</p>
+<h3>4.&nbsp;Functions for Complex Numbers in MFP</h3>
+<p style="font-family:verdana">A complex number includes real part and image part, and can be also represented as a radius with an angle. Correspondingly MFP provides 4 functions: real, image, abs and angle to return a complex number’s real part, image part, absolute value (i.e. radius) and angle. Note that function abs can also return a real number’s absolute value.</p>
+<p style="font-family:verdana">For example, real(-3+2i) returns -3, image(-3+2*i) returns 2, and image(-3+2*i, true) returns 2*i. Note that function image has an optional second parameter. If this parameter is true, it returns image part’s image value, otherwise, it returns image part’s real value. By default, it is false. Abs(-3+2*i) returns 3.60555128, angle(-3+2*i) returns 2.55359006 which is based on arc. </p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test complex functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试复数操作函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">Endh</p>
+<p style="font-family:verdana;color:blue">function testComplexFuncs()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nreal(-3+2*i) = " + real(-3+2i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nimage(-3+2*i) = " + image(-3+2*i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nabs(-3+2*i) = " + abs(-3+2 * i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nangle(-3+2*i) = " + angle(-3+2i))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The result output would be:</p>
+<p style="font-family:verdana">real(-3+2*i) = -3</p>
+<p style="font-family:verdana">image(-3+2*i) = 2</p>
+<p style="font-family:verdana">abs(-3+2*i) = 3.6055512754639893469033040673821233212947845458984375</p>
+<p style="font-family:verdana">angle(-3+2*i) = 2.5535900500422257345460612287910790449857054711524495709749445923</p>
+<h3>Section 2 &nbsp;String Functions in MFP</h3>
+<p style="font-family:verdana">MFP is able to determine size of a string, append a string, separate a string, etc.</p>
+<p style="font-family:verdana">If user wants to know how many characters are in a string, strlen function should be called. For instance, strlen("abcdefg!") returns 8, which means 8 characters are in the parameter string, i.e. "abcdefg!".</p>
+<p style="font-family:verdana">Then user may want to know the third and fourth characters in the parameter string. Function strsub is able to undertake this task. Strsub(str, start, end) returns parameter str (which is a string)’s sub-string. The sub-string starts from character start (the first character is character 0) and end at character end-1. For example, strsub("abcdefg!", 2, 4) returns a new string "cd", where character “c” is the third character (index is 2) and character “d” is the fourth character (index is 4-1 = 3).</p>
+<p style="font-family:verdana">Different from other programming languages like C++, MFP does not have char (character) data type. Even with only one character, it is still a string. For example strsub("abcdefg!", 2, 3) returns a single char string "c".</p>
+<p style="font-family:verdana">The third parameter of function strsub is optional. If it does not exist, the returned sub-string ends at the end of parameter string. For example, strsub("abcdefg!", 2) returns "cdefg!".</p>
+<p style="font-family:verdana">If the second or the third parameter falls outside the string’s character indexing range, an exception will be thrown. For example, if user runs strsub("abcdefg!", 2, 10), an error message “Invalid parameter range!” will be printed.</p>
+<p style="font-family:verdana">If user wants to link several strings end to end and construct a new big string, function strcat can be used. &nbsp;For example, strcat("abc","hello", " 1,3,4") returns "abchello 1,3,4". Alternatively, user may use operator + to connect strings. For example, "abc"+"hello"+ " 1,3,4" also gives "abchello 1,3,4".</p>
+<p style="font-family:verdana">If user wants to cut a string into several parts, function split should be selected. Split(string_input, string_regex) cuts parameter string_input into several sub-strings following the rule defined by regular expression string_regex, and it returns an array whose elements are the sub-strings. Regular expression can be very complicated. User may read JAVA documentation about Pattern class and String.split function for more details. In this section, examples are provided to show user how to split a string by blank, by colon, by an English letter or by comma.</p>
+<p style="font-family:verdana">For example, split(" ab &nbsp;kkk\t6\nd", "\\s+") returns ["", "ab", "kkk", "6", "d"] because "\\s+" means any kind of blank characters in regular expression. This includes space, \t (tab character) and \n (change line character). Moreover, in this example, more than one blank character locates between “ab” and “kkk”. But because the “+” in the regular expression parameter, i.e. "\\s+", adjacent blank characters are recognized as a single separating sign.</p>
+<p style="font-family:verdana">For other examples, split("boo:and:foo", ":") returns ["boo", "and", "foo"] and split("boo:and:foo", "o") returns ["b", "", ":and:f"]. Here the regular expression parameter does not include a “+” so that adjacent “o”s are treated as independent cutting signs. As such "boo: …" are splitted into "b", "" and ":…".</p>
+<p style="font-family:verdana">Split((",Hello,world,", ",") uses “,” as splitting sign and returns ["","Hello", "world"]. Since nothing is before the first “,”, the first sub-string is empty. Comparatively, nothing is after the last “,” but no sub-string is returned after the last “,”. This is a common feature of split function, no matter what the regular expression is.</p>
+<p style="font-family:verdana">Besides the above functions, trim_left, trim_right and trim remove all the blank characters (including space, “\t” and “\n”) from left side, right side and both left and right sides of parameter string respectively and returns the new string after processing. For example, Trim("\t \tabc &nbsp;&nbsp;def &nbsp;\n &nbsp;") returns "abc &nbsp;&nbsp;def".</p>
+<p style="font-family:verdana">Function to_lowercase_string converts all the capitalized letters in the parameter string to corresponding lower case letters. Function to_uppercase_string converts all the lower case letters in the parameter string to corresponding upper case letters. Function to_string returns string value of its parameter which can be any data type. For example, to_lowercase_string("abEfg") returns "abefg" and to_string(123) returns "123".</p>
+<p style="font-family:verdana">MFP is also able to compare strings. Function strcmp compares any parts of two strings. Its usage is strcmp(src, dest, src_start, src_end, dest_start, dest_end), which means comparing part of src string (from src_start to src_end) with part of dest string (from dest_start to dest_end). If src is larger than dest, returns a positive value, if src is smaller than dest, returns a negative value, otherwise, returns zero. Note that src_start, src_end, dest_start and dest_end are all character indices starting from 0, and src_end and dest_end should be the index of last selected character plus one. Also note that the last four parameters are optional with default value for src_start and dest_start is 0 and default value for src_end and dest_end is corresponding string length.</p>
+<p style="font-family:verdana">Function stricmp is similar to strcmp. Its usage is also stricmp(src, dest, src_start, src_end, dest_start, dest_end). However, stricmp is case insensitive. In other words, stricmp converts every big letter in the comparing parts of the two strings to corresponding lower case letter before comparison.</p>
+<p style="font-family:verdana">Here two examples are presented to demonstrate how to use strcmp and stricmp.</p>
+<p style="font-family:verdana">Stricmp("abc","ABc") returns 0 because “abc” equals “ABc” if ignore case.</p>
+<p style="font-family:verdana">Strcmp("abcdefgk", "defik", 5, 8, 2, 5) compares the 6<sup>th</sup>, 7<sup>th</sup>&nbsp;and 8<sup>th</sup>&nbsp;characters of string "abcdefgk" with the 3<sup>rd</sup>, 4<sup>th</sup>&nbsp;and 5<sup>th</sup>&nbsp;characters of string "defik", i.e. compares "fgk" with "fik". It returns -2 which means "fgk" is less than "fik".</p>
+<p style="font-family:verdana">MFP provides two functions to transform between a string and an integer array. Function conv_ints_to_str converts an integer array to a Unicode string. Each integer is converted to a character in the string. This function also accepts a single integer as parameter which will be converted to a single character string. Function conv_str_to_ints converts a Unicode string to an integer array. In general, a Unicode character should be mapped to an integer (Very rarely a Unicode character is mapped to two integers if it is out of the scope of UTF-16 character set). Because many characters, e.g. &#165;&#8721;&#9320; and Chinese characters, are Unicode, these two functions may help user input and output some special characters. For example: </p>
+<p style="font-family:verdana;color:blue">conv_str_to_ints("中文汉字&#165;&#8721;&#9320;")</p>
+<p style="font-family:verdana">returns [20013, 25991, 27721, 23383, 165, 8721, 9320]. Then user may use the return of conv_str_to_ints as the parameter of conv_ints_to_str to get the special characters, i.e.</p>
+<p style="font-family:verdana;color:blue">conv_ints_to_str([20013, 25991, 27721, 23383, 165, 8721, 9320])</p>
+<p style="font-family:verdana">returns "中文汉字&#165;&#8721;&#9320;".</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test string functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试字符串操作函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">Endh</p>
+<p style="font-family:verdana;color:blue">function testString()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstrlen(\"abcdefg!\") = " + strlen("abcdefg!"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstrsub(\"abcdefg!\", 2, 4) = " + strsub("abcdefg!", 2, 4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstrsub(\"abcdefg!\", 2, 3) = " + strsub("abcdefg!", 2, 3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstrsub(\"abcdefg!\", 2) = " + strsub("abcdefg!", 2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstrcat(\"abc\",\"hello\", \" 1,3,4\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ strcat("abc","hello", " 1,3,4"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsplit(\" ab &nbsp;kkk\\t6\\nd\", \"\\\\s+\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ split(" ab &nbsp;kkk\t6\nd", "\\s+"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsplit(\"boo:and:foo\", \":\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ split("boo:and:foo", ":"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsplit(\"boo:and:foo\", \"o\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ split("boo:and:foo", "o"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsplit(\",Hello,world,\", \",\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ split(",Hello,world,", ","))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nTrim(\"\\t \\tabc &nbsp;&nbsp;def &nbsp;\\n &nbsp;\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ Trim("\t \tabc &nbsp;&nbsp;def &nbsp;\n &nbsp;"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nto_lowercase_string(\"abEfg\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ to_lowercase_string("abEfg"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nto_string(123) = " + to_string(123))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstricmp(\"abc\",\"ABc\") = " + stricmp("abc","ABc"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstrcmp(\"abcdefgk\", \"defik\", 5, 8, 2, 5) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ strcmp("abcdefgk", "defik", 5, 8, 2, 5))</p>
+<p style="font-family:verdana">&nbsp;&nbsp;print("\nconv_str_to_ints(\"中文汉字&#165;&#8721;&#9320;\") = " _</p>
+<p style="font-family:verdana">&nbsp;&nbsp;&nbsp;&nbsp;+ conv_str_to_ints("中文汉字&#165;&#8721;&#9320;"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nconv_ints_to_str([20013, 25991, 27721, 23383, 165, 8721, 9320]) = " _</p>
+<p style="font-family:verdana;color:blue">+ conv_ints_to_str([20013, 25991, 27721, 23383, 165, 8721, 9320]))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The output of the above example is:</p>
+<p style="font-family:verdana">strlen("abcdefg!") = 8</p>
+<p style="font-family:verdana">strsub("abcdefg!", 2, 4) = cd</p>
+<p style="font-family:verdana">strsub("abcdefg!", 2, 3) = c</p>
+<p style="font-family:verdana">strsub("abcdefg!", 2) = cdefg!</p>
+<p style="font-family:verdana">strcat("abc","hello", " 1,3,4") = abchello 1,3,4</p>
+<p style="font-family:verdana">split(" ab &nbsp;kkk\t6\nd", "\\s+") = ["", "ab", "kkk", "6", "d"]</p>
+<p style="font-family:verdana">split("boo:and:foo", ":") = ["boo", "and", "foo"]</p>
+<p style="font-family:verdana">split("boo:and:foo", "o") = ["b", "", ":and:f"]</p>
+<p style="font-family:verdana">split(",Hello,world,", ",") = ["", "Hello", "world"]</p>
+<p style="font-family:verdana">Trim("\t \tabc &nbsp;&nbsp;def &nbsp;\n &nbsp;") = abc &nbsp;&nbsp;def</p>
+<p style="font-family:verdana">to_lowercase_string("abEfg") = abefg</p>
+<p style="font-family:verdana">to_string(123) = 123</p>
+<p style="font-family:verdana">stricmp("abc","ABc") = 0</p>
+<p style="font-family:verdana">strcmp("abcdefgk", "defik", 5, 8, 2, 5) = -2</p>
+<p style="font-family:verdana">conv_str_to_ints("中文汉字&#165;&#8721;&#9320;") = [20013, 25991, 27721, 23383, 165, 8721, 9320]</p>
+<p style="font-family:verdana">conv_ints_to_str([20013, 25991, 27721, 23383, 165, 8721, 9320]) = 中文汉字&#165;&#8721;&#9320;</p>
+<h3>Section 3 &nbsp;Functions to Operate Arrays (Matrices)</h3>
+<p style="font-family:verdana">Array, or its mathematical name matrix, is one of the data types supported by MFP programming language. Array includes several elements. Each element can be a number, a string or an array. Besides the arithmetic operators like +, -, * and /, MFP also provides functions to process arrays.</p>
+<h3>1.&nbsp;Functions to Create Array</h3>
+<p style="font-family:verdana">MFP provides several functions to create array. The first one is alloc_array function. This function accepts one or several parameters. If parameter number is more than 1, each of them must be a positive integer, which means the size of the array at each dimension. If only one parameter is used, the parameter must be an array, and each element of the array must be a positive integer which stores the size of one dimension of the array. The elements in the created array are all initialized as zero. For example, alloc_array(3) returns [0, 0, 0], while alloc_array(2,3,4) and &nbsp;alloc_array([2,3,4]) both return [[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]].</p>
+<p style="font-family:verdana">If, however, user wants alloc_array to create an array whose elements are not initialized as zero, but some other values, an additional parameter is required. The usage of alloc_array in this case is alloc_array(x,y), where x is an array whose elements are positive integer which means size of each dimension of created array, y is the initial value of each element of created array. For example, alloc_array([2,1],"hello") returns [["hello"], ["hello"]].</p>
+<p style="font-family:verdana">Besides alloc_array, functions eye, ones and zeros also create and return a new array. Eye(x) has one parameter, i.e. x, which must be a positive integer, and returns a x times x square matrix I. Note that eye(0) returns 1 as a special case.</p>
+<p style="font-family:verdana">Function ones returns a matrix whose elements are all 1. Similar to alloc_array, ones’s parameter(s), either a single positive integer array parameter or several positive integer parameters, determine size of the returned matrix.</p>
+<p style="font-family:verdana">Function zeros returns a matrix whose elements are all 0. Similar to alloc_array, zeros’s parameter(s), either a single positive integer array parameter or several positive integer parameters, determine size of the returned matrix.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test array construction functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试创建数组的函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">Endh</p>
+<p style="font-family:verdana;color:blue">function createArray()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nalloc_array(3) = " + alloc_array(3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nalloc_array(2,3,4) = " + alloc_array(2,3,4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nalloc_array([2,3,4]) = " + alloc_array([2,3,4]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nalloc_array([2,1],\"hello\") = " + alloc_array([2,1],"hello"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\neye(3) = " + eye(3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nones(2,3) = " + ones(2,3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nzeros([2,3]) = " + zeros([2,3]))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The output of the above example is:</p>
+<p style="font-family:verdana">alloc_array(3) = [0, 0, 0]</p>
+<p style="font-family:verdana">alloc_array(2,3,4) = [[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]]</p>
+<p style="font-family:verdana">alloc_array([2,3,4]) = [[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]]</p>
+<p style="font-family:verdana">alloc_array([2,1],"hello") = [["hello"], ["hello"]]</p>
+<p style="font-family:verdana">eye(3) = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]</p>
+<p style="font-family:verdana">ones(2,3) = [[1, 1, 1], [1, 1, 1]]</p>
+<p style="font-family:verdana">zeros([2,3]) = [[0, 0, 0], [0, 0, 0]]</p>
+<h3>2.&nbsp;Size and Other Properties of Array</h3>
+<p style="font-family:verdana">In order to acquire size of an array, user needs to call size function. Size function can accept one parameter, i.e. size(x) where x is an array and returns x’s size vector for all the dimensions. If x is not an array, size(x) returns []. Note that elements in size vector should be the maximum size in each dimension. For example, array [1, 2+3i, [5, "hello", [9, 10], 6], 11, 12] includes 5 elements which are 1, 2+3i, [5, "hello", [9, 10], 6], 11 and 12. As such, the size of the first dimension is 5. For the second dimension, size of 1, 2+3i, 11 and 12 is always [] (here a complex number is treated as a non-matrix single value). However, element [5, "hello", [9, 10], 6] is an array with 4 elements so that the second dimension’s size is 4. For the third dimension, 5, "hello" and 6 are all simple values (string is also non-matrix simple value) so that their size is []. But element [9, 10] has two elements so that the third dimension’s size is 2. As a final result, we get size([1, 2+3i, [5, "hello", [9, 10], 6], 11, 12])==[5, 4, 2].</p>
+<p style="font-family:verdana">The other usage of function size is taking two parameters, i.e. size(x, y) and returns matrix’s first y dimensions’ sizes. Here x should be an array and y is a positive integer. If x is not an array, size function returns []. For example,</p>
+<p style="font-family:verdana;color:blue">size([1, 2+3i, [5, "hello", [9, 10], 6], 11, 12], 2)</p>
+<p style="font-family:verdana">returns the first two dimension sizes of parameter [1, 2+3i, [5, "hello", [9, 10], 6], 11, 12] which is [5,4].</p>
+<p style="font-family:verdana">User may use the following functions to check property of a matrix.</p>
+<p style="font-family:verdana">Function is_eye(x) identifies if x is an I matrix;</p>
+<p style="font-family:verdana">Function is_zeros(x) identifies if x is an all-zero matrix;</p>
+<p style="font-family:verdana">Functions includes_inf(x), includes_nan(x), includes_null(x), includes_nan_or_inf(x) and includes_nan_or_inf_or_null(x) are able to identify parameter x is a matrix including at least an element whose value is inf or –inf, nan, null, either nan or inf or –inf, or either nan or inf or –inf or null.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;acquire array's properties functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;获取数组特性的函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">Endh</p>
+<p style="font-family:verdana;color:blue">function getArrayProperty()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsize([1, 2+3i, [5, \"hello\", [9, 10], 6], 11, 12]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ size([1, 2+3i, [5, "hello", [9, 10], 6], 11, 12]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsize([1, 2+3i, [5, \"hello\", [9, 10], 6], 11, 12], 2) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ size([1, 2+3i, [5, "hello", [9, 10], 6], 11, 12], 2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_eye([[1,1],[0,1]]) = " + is_eye([[1,1],[0,1]]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_zeros([[0,0],0]) = " + is_zeros([[0,0],0]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nincludes_nan_or_inf([5, [3, -inf], \"hello\"]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ includes_nan_or_inf([5, [3, -inf], "hello"]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nincludes_null([5, [3, -inf], \"hello\"]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ includes_null([5, [3, -inf], "hello"]))</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">The output of the example is:</p>
+<p style="font-family:verdana">size([1, 2+3i, [5, "hello", [9, 10], 6], 11, 12]) = [5, 4, 2]</p>
+<p style="font-family:verdana">size([1, 2+3i, [5, "hello", [9, 10], 6], 11, 12], 2) = [5, 4]</p>
+<p style="font-family:verdana">is_eye([[1,1],[0,1]]) = FALSE</p>
+<p style="font-family:verdana">is_zeros([[0,0],0]) = TRUE</p>
+<p style="font-family:verdana">includes_nan_or_inf([5, [3, -inf], "hello"]) = TRUE</p>
+<p style="font-family:verdana">includes_null([5, [3, -inf], "hello"]) = FALSE</p>
+<h3>3.&nbsp;Assign Value to Array</h3>
+<p style="font-family:verdana">Clearly, the traditional assigning value statement still works for array, e.g.</p>
+<p style="font-family:verdana;color:blue">Variable a = [1,2,3]</p>
+<p style="font-family:verdana;color:blue">a[1] = [7,9]</p>
+<p style="font-family:verdana">. However, array differs from other data type in the indexing range. If the index is not in the valid range, i.e. from zero to array length – 1, traditional assigning statement will lead to a run-time error. In the above example, a does not have the fourth or fifth element. If user wants to assign 3+6i to the fifth element of a, i.e. a[4], statement a[4] = 3+6i cannot be used.</p>
+<p style="font-family:verdana">Function set_array_elem is the right approach to assign value to any element, whether exists or not, in an array. Set_array_elem(x, y, z) assigns z to x[y] and returns new x. Please keep in mind that x is not necessarily to be an array, while y must be a positive integer vector, e.g. [1,2,3]. Y, however, can be beyond array x’s valid indexing range. For example, if x is 3, y is [1,2] and z is 2+3i, set_array_elem(x,y,z) returns [3, [0, 0, 2+3i]]. Also note that, inside set_array_elem function, x may or may not be changed to a new value. In order to ensure x is updated, the right way to call set_array_elem is:</p>
+<p style="font-family:verdana;color:blue">x = set_array_elem(x, y, z)</p>
+<p style="font-family:verdana">. So to assign 3+6i to a[4], the right way is:</p>
+<p style="font-family:verdana;color:blue">a = set_array_elem(a, 4, 3+6i)</p>
+<p style="font-family:verdana">. After the above statement runs, a’s value becomes [1, [7, 9], 3, 0, 3 + 6 * i]. a[3] did not exist before the statement, but because a[4] is created, a[3] has to be created as well. a[3]’s value is set to be default which is 0.</p>
+<p style="font-family:verdana">User may need to use array as parameter when creating new functions. Inside the function, user assigns new value using the traditional assigning statement to some elements of the array. Please note that, if elements of array change value in a sub-function, main function can also see the change. For example, user may define a sub-function like:</p>
+<p style="font-family:verdana;color:blue">function subfunc1(array_value)</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana;color:blue">Variable my_array = Array_value</p>
+<p style="font-family:verdana;color:blue">my_array[2] = 7</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">In the main function user calls ::mfpexample::subfunc1 in the following way:</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana;color:blue">variable array_val = [1,2,3]</p>
+<p style="font-family:verdana;color:blue">::mfpexample::subfunc1(array_val)</p>
+<p style="font-family:verdana;color:blue">print(array_val)</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana">, after running print(array_val), user will see array_val turns into [1, 2, 7].</p>
+<p style="font-family:verdana">The reason is, when MFP transfers an array parameter to a sub-function, the parameter is not copied into sub-function’s stack in whole. Only the array’s reference is sent to the sub-function. Therefore, both sub-function and main function see the same array. &nbsp;In the above code, sub-function assigns a value to an element in the parameter array without changing array’s reference so that main function can see the value change.</p>
+<p style="font-family:verdana">If user wants to change array value in a sub-function, but hopes main function still see the value before change, function clone can be used. This function only has one parameter which can be any data type. The value of the parameter will be copied and returned. The returned value is saved in a different place in memory from the parameter so that any change on it will not affect original value. For the above example, if we change sub-function to:</p>
+<p style="font-family:verdana;color:blue">function subfunc2(array_value)</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana;color:blue">Variable my_array = clone(Array_value)</p>
+<p style="font-family:verdana;color:blue">my_array[2] = 7</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">, and call ::mfpexample::subfunc2 in main function:</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana;color:blue">variable array_val = [1,2,3]</p>
+<p style="font-family:verdana;color:blue">::mfpexample::subfunc1(array_val)</p>
+<p style="font-family:verdana;color:blue">print(array_val)</p>
+<p style="font-family:verdana;color:blue">…</p>
+<p style="font-family:verdana">, after running print(array_val) we will see array_val is still [1, 2, 3].</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in numbers, strings and arrays sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:blue">function subfunc1(array_value)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable my_array = Array_value</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;my_array[2] = 7</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">function subfunc2(array_value)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable my_array = clone(Array_value)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;my_array[2] = 7</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">function assignValue2Array()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable array_val = [1,2,3]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\narray_val's initial value is " + array_val)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;::mfpexample::subfunc2(array_val)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// clone function called in ::mfpexample::subfunc2, any change inside</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// will not affect main function.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nWith clone, after calling sub function array_val is " + _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;array_val)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;::mfpexample::subfunc1(array_val)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// clone function not called in ::mfpexample::subfunc2, value changes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// of array_val inside will affect main function.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nWithout clone, after calling sub function array_val is " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ array_val)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;array_val = set_array_elem(array_val, [4], -5.44-6.78i)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// array_val now has 5 elements after calling set_array_elem</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nAfter set_array_elem array_val is " + array_val) &nbsp;</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">. User runs ::mfpexample::assignValue2Array() and sees the following output:</p>
+<p style="font-family:verdana">array_val's initial value is [1, 2, 3]</p>
+<p style="font-family:verdana">With clone, after calling sub function array_val is [1, 2, 3]</p>
+<p style="font-family:verdana">Without clone, after calling sub function array_val is [1, 2, 7]</p>
+<p style="font-family:verdana">After set_array_elem array_val is [1, 2, 7, 0, -5.44 - 6.78i]</p><h3>Summary</h3>
+<p style="font-family:verdana">MFP programming language has built-in support to real numbers, complex numbers, arrays and strings. Moreover, MFP also provides a complete set of functions to handle these data types, including rounding functions, base number converters, logic calculation functions, complex value readers/writers, string functions (including acquiring size, getting sub-string and comparing strings etc.) and array functions (including creation and acquiring properties)</p>
+<p style="font-family:verdana">User may keep in mind that matrix and array in MFP programming language are two related but not the same terms. Matrix in MFP normally means 2D square matrix, while an array can possess arbitrary number of dimensions, and the sizes of the dimensions may not necessarily be the same. Matrix is a special kind of array. This manual will introduce many matrix calculation functions later on.</p>
+</body></html>

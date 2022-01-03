@@ -1,0 +1,180 @@
+<html>
+	<head>
+		<title>MFP language Help</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP language Help: How to Use Time, Date and System Functions</h2>
+<p style="font-family:verdana">Reading and setting time and date is an important capability in any serious programming language including MFP. Furthermore, MFP provides some APIs to access some operation system functions and commands.</p>
+<h3>Section 1 &nbsp;Time and Date Functions</h3>
+<p style="font-family:verdana">Time and date functions provided by MFP programming language are listed as below:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function Name</p></td>
+<td>
+<p style="font-family:verdana">Function Info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_day_of_month</p></td>
+<td>
+<p style="font-family:verdana">get_day_of_month(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_day_of_week</p></td>
+<td>
+<p style="font-family:verdana">get_day_of_week(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_day_of_year</p></td>
+<td>
+<p style="font-family:verdana">get_day_of_year(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_hour</p></td>
+<td>
+<p style="font-family:verdana">get_hour(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_millisecond</p></td>
+<td>
+<p style="font-family:verdana">get_millisecond(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_minute</p></td>
+<td>
+<p style="font-family:verdana">get_minute(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_month</p></td>
+<td>
+<p style="font-family:verdana">get_month(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_second</p></td>
+<td>
+<p style="font-family:verdana">get_second(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_time_stamp</p></td>
+<td>
+<p style="font-family:verdana">get_time_stamp(1...) :</p>
+<p style="font-family:verdana">get_time_stamp(string_or_year, ...) returns the timestamp determined by the parameters. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. This function supports two modes. First mode is get_time_stamp(string_time_stamp) where there is only one string based parameter which must be formatted as yyyy-mm-dd hh:mm:ss[.f...]. The fractional second may be omitted. The second mode is get_time_stamp(year, month, day, hour, minute, second, millisecond). All the parameters except year are optional. If omitted, the default value for the parameters hour, minute, second and millisecond is 0, and the default value for the parameters month and day is 1. For example, get_time_stamp("1981-05-30 17:05:06") returns a timestamp at 17:05:06.000 on May 30, 1981. And it works exactly in the same way as get_time_stamp(1981, 5, 30, 17, 5, 6, 0).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_year</p></td>
+<td>
+<p style="font-family:verdana">get_year(1) :</p>
+<p style="font-family:verdana">get_year(timestamp), get_month(timestamp), get_day_of_year(timestamp), get_day_of_month(timestamp), get_day_of_week(timestamp), get_hour(timestamp), get_minute(timestamp), get_second(timestamp) and get_millisecond(timestamp) return the year, month, day of year, day of month, day of week, hour, minute, second and millisecond of the timestamp parameter respectively. Timestamp is the difference, measured in milliseconds, between the time it represents and midnight, January 1, 1970 UTC. And day of week is an integer corresponding to Sunday if 0, Monday if 1, ... Saturday if 6. For example, get_day_of_week(get_time_stamp(2014, 12, 21)) returns 0 (Sunday).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">now</p></td>
+<td>
+<p style="font-family:verdana">now(0) :</p>
+<p style="font-family:verdana">now() returns the difference, measured in milliseconds, between the current time and midnight, January 1, 1970 UTC.</p></td></tr></table>
+<p style="font-family:verdana">As shown above, get_day_of_month, get_day_of_week, get_day_of_year, get_hour, get_millisecond, get_minute, get_month, get_second and get_year convert a timestamp, which is the number of elapsed milliseconds from 12:00 AM on January 1<sup>st</sup>, 1970 (UTC), to an integer which represents the day of month, day of week (Sunday is 0, Monday is 1, Tuesday is 2, etc), day of year, hour (0 to 23), millisecond, minute, month, second and year respectively. On the other hand, get_time_stamp converts a string based time which can be read by human being to a timestamp. And function now returns the current timestamp.</p>
+<p style="font-family:verdana">The following code is an example for the above functions. It can be found in the examples.mfps file in time date and sys libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test time and date functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试日期和时间相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testTimeDate()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable var1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_time_stamp(\"1970-01-01 00:00:00.0\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_time_stamp("1970-01-01 00:00:00.0"))</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test to convert an invalid time string to a time stamp.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Result depends on OS</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;try</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\n\nget_time_stamp(\"1980-12-71 00:00:00.0\") = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print(get_time_stamp("1980-12-71 00:00:00.0"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;catch &nbsp;(var1 = info) == info</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("throws an exception")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endtry</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test now function</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n\nnow year = %d, month = %d, day of year = %d, " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ "day of month = %d, day of week = %d, hour = %d, " _</p>
+<p style="font-family:verdana;color:blue">&#9;+ "minute = %d, second = %d, ms = %d", _</p>
+<p style="font-family:verdana;color:blue">&#9;get_year(now()), get_month(now()), get_day_of_year(now()), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;get_day_of_month(now()), get_day_of_week(now()), _</p>
+<p style="font-family:verdana;color:blue">&#9;get_hour(now()), get_minute(now()), get_second(now()), _</p>
+<p style="font-family:verdana;color:blue">&#9;get_millisecond(now()))</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test time stamp conversions</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_millisecond(get_time_stamp(2015, 3, 8, 21, 22, 9, 7)) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_millisecond(get_time_stamp(2015, 3, 8, 21, 22, 9, 7)))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_second(get_time_stamp(2015, 3, 8, 21, 22, 19, 700)) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_second(get_time_stamp(2015, 3, 8, 21, 22, 19, 700)))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_month(get_time_stamp(2000, 2,29, 16, 58, 9, 700)) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_month(get_time_stamp(2000, 2,29, 16, 58, 9, 700)))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_year(get_time_stamp(2014, 12,15, 16, 58, 9, 700)) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_year(get_time_stamp(2014, 12,15, 16, 58, 9, 700)))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_day_of_week(get_time_stamp(2014, 12,15, 16, 58, 9, 700)) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_day_of_week(get_time_stamp(2014, 12,15, 16, 58, 9, 700)))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_day_of_month(get_time_stamp(2001, 2,29, 16, 58, 9, 700)) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_day_of_month(get_time_stamp(2001, 2,29, 16, 58, 9, 700)))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\nget_day_of_year(get_time_stamp(2014, 12,15, 16, 58, 9, 700)) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ get_day_of_year(get_time_stamp(2014, 12,15, 16, 58, 9, 700)))</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test conversion of an invalid time. Result depends on OS</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;try</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\n\nget_hour(get_time_stamp(2014, 12,15, 116, 58, 9, 700)) = " _</p>
+<p style="font-family:verdana;color:blue">&#9;&nbsp;&nbsp;+ get_hour(get_time_stamp(2014, 12,15, 116, 58, 9, 700)))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;catch &nbsp;(var1 = info) == info</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\n\nget_hour(get_time_stamp(2014, 12,15, 116, 58, 9, 700)) " _</p>
+<p style="font-family:verdana;color:blue">&#9;&nbsp;&nbsp;+ "throws an exception")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endtry</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The result of the above example is:</p>
+<p style="font-family:verdana">get_time_stamp("1970-01-01 00:00:00.0") = -36000000</p>
+<p style="font-family:verdana">get_time_stamp("1980-12-71 00:00:00.0") = throws an exception</p>
+<p style="font-family:verdana">now year = 2015, month = 8, day of year = 228, day of month = 16, day of week = 0, hour = 22, minute = 13, second = 9, ms = 363</p>
+<p style="font-family:verdana">get_millisecond(get_time_stamp(2015, 3, 8, 21, 22, 9, 7)) = 7</p>
+<p style="font-family:verdana">get_second(get_time_stamp(2015, 3, 8, 21, 22, 19, 700)) = 19</p>
+<p style="font-family:verdana">get_month(get_time_stamp(2000, 2,29, 16, 58, 9, 700)) = 2</p>
+<p style="font-family:verdana">get_year(get_time_stamp(2014, 12,15, 16, 58, 9, 700)) = 2014</p>
+<p style="font-family:verdana">get_day_of_week(get_time_stamp(2014, 12,15, 16, 58, 9, 700)) = 1</p>
+<p style="font-family:verdana">get_day_of_month(get_time_stamp(2001, 2,29, 16, 58, 9, 700)) = 1</p>
+<p style="font-family:verdana">get_day_of_year(get_time_stamp(2014, 12,15, 16, 58, 9, 700)) = 349</p>
+<p style="font-family:verdana">get_hour(get_time_stamp(2014, 12,15, 116, 58, 9, 700)) = 20</p>
+<p style="font-family:verdana">Note that if the parameter of get_time_samp is not a valid string based time expression, e.g. "1980-12-71 00:00:00.0" (invalid date), the behavior of get_time_stamp is undefined. In some OSes an error is reported, while in others a timestamp is returned. Therefore it is user’s responsibility to keep the parameter right.</p>
+<h3>Section 2 &nbsp;System Related Functions</h3>
+<p style="font-family:verdana">MFP provides two system related functions which are sleep and system.</p>
+<p style="font-family:verdana">Sleep suspends a running task for a while and then resumes it. The right way to call sleep is sleep(x) where x is a positive value which means the number of milliseconds to sleep. This function returns nothing.</p>
+<p style="font-family:verdana">System runs an OS command and returns OS command’s returned value. It can be used in two ways. First is simply using the command as its single parameter, which is the only way for Scientific Calculator Plus version 1.6.6 or earlier. Restriction is that the command must be an executable file with its parameters. This means, if using Scientific Calculator Plus for JAVA in windows, calling system("dir") will fail because dir is not an executable file but an internal function of the executable file named cmd.exe. As such, user has to call system("cmd /c dir") instead of system("dir"). Similarly, if running in Linux (not Android), user has to call system("sh -c ls") instead of system("ls").</p>
+<p style="font-family:verdana">Though the above way to call system function works on any JAVA platform, it fails in Android. Therefore, from revision 1.6.7, a new way to call system function is introduced. System function still accepts one parameter. However, this parameter must be a string array and each element in the array is a part of the OS command. For example, in order to run "sh -c ls", user may call system(["sh", "-c", "ls"]) in Android. However, to change file1’s name to file2, user has to call system(["sh", "-c", "mv file1 file2"]) because "mv file1 file2" is an internal command of sh and it cannot be further separated.</p>
+<p style="font-family:verdana">User has to keep in mind that, at this stage, system function cannot accept user’s input from command line. Only output can be printed. Also, if the command does not exist, system function throws an exception.</p>
+<p style="font-family:verdana">System function works pretty well in Scientific Calculator Plus for JAVA. However, in Android many restrictions and limitations exist because Android does not provide a complete set of sh (shell) functions. Some function calls, e.g. system(["sh", "-c", "echo hello"]), may work well in some mobiles but report error in others. For this reason, if user wants to operate files (e.g. copy, move and delete file or folder) in a mobile, file operating functions listed in Section 5 of Chapter 6 is strongly recommended against calling system(["sh", "-c", "cp file1 file2"]).</p>
+<p style="font-family:verdana">Although use of system function is limited in Android, it is still the best approach to start an Android app using MFP programmatically. However, user needs to know the package id of the Android app and its main activity (starting activity)’s name. The usage is:</p>
+<p style="font-family:verdana">system("am start –n package_id/main_activity_name")</p>
+<p style="font-family:verdana">For example, if user has Smart Photographic Calculator (another app from the same developer of Scientific Calculator Plus) installed, the command to start it is:</p>
+<p style="font-family:verdana">system("am start –n com.cyzapps.SmartMath/com.cyzapps.SmartMath.ActivitySmartCalc")</p>
+<p style="font-family:verdana">, where com.cyzapps.SmartMath is the package id of Smart Photographic Calculator and its main activity name is com.cyzapps.SmartMath.ActivitySmartCalc.</p>
+<p style="font-family:verdana">Scientific Calculator Plus is able to build APKs. The package id of a generated APK is set by user. However, the main activity name is always com.cyzapps.AnMFPApp.ActivityAnMFPMain (this name may change in a future release of Scientific Calculator Plus). Since package id and main activity name are both known, user is allowed to launch apps created by him or herself.</p>
+<p style="font-family:verdana">User is not allowed to terminate a running app by calling system function because this is unsafe.</p>
+<p style="font-family:verdana">The following code is an example for the above functions. It can be found in the examples.mfps file in time date and sys libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test sleep and system functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试sleep和system函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testSleepSys()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Now sleep 3 seconds\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;sleep(3000)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Now wake up!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If you have installed Smart Photographic Calculator, this will work</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;pause("Now try to start Smart Photographic Calculator. Press Enter to continue")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;system("am start –n com.cyzapps.SmartMath/com.cyzapps.SmartMath.ActivitySmartCalc")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Running the above code, user will see an output message printed which is</p>
+<p style="font-family:verdana">Now sleep 3 seconds</p>
+<p style="font-family:verdana">, and then the program suspends for 3 seconds, then prints another message which is</p>
+<p style="font-family:verdana">Now wake up!</p>
+<p style="font-family:verdana">. After that, the program tries to start Smart Photographic Calculator. If not successful, an error message is reported.</p><h3>Summary</h3>
+<p style="font-family:verdana">Time and date functions are an important component for any programming languages. In OS time is stored as timestamp which is represented as the number of milliseconds elapsed since the mid-night of January 1<sup>st</sup>, 1970 (UTC). MFP provides a list of API functions to convert between a timestamp and a string based time descriptor readable to human being so that programmers can access and operate time easily.</p>
+<p style="font-family:verdana">MFP also includes some system related functions. Function sleep suspends the current running program and function system calls an OS command. Note that in Android directly calling a shell command is not recommended as support to shell may not be completely implemented in some devices. The main use of system function in Android is to start another app if user knows its package id and main activity name.</p>
+<p style="font-family:verdana">&nbsp;</p>
+</body></html>

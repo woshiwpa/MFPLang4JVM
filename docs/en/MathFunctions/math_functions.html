@@ -1,0 +1,784 @@
+<html>
+	<head>
+		<title>MFP language Help</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP language Help: Mathematic Analysis and Calculation Functions</h2>
+<p style="font-family:verdana">A big advantage of MFP programming language is its capability of performing mathematical analysis and scientific calculation. This chapter will introduce the related variables and functions.</p>
+<h3>Section 1 &nbsp;Built-in Constant Variables</h3>
+<p style="font-family:verdana">In the previous sections user has been demonstrated how to use some of MFP built-in constant variables like i (unit of image value), null, nan and nani. To fully support scientific calculation, MFP also includes the following constant values:</p>
+<p style="font-family:verdana">1.&nbsp;Inf, which means real positive infinite. Clearly, -inf means real negative infinite.</p>
+<p style="font-family:verdana">2.&nbsp;Infi, which means positive infinite image value. Clearly, -infi means negative infinite image value.</p>
+<p style="font-family:verdana">MFP provides this constant variable because infi cannot be obtained from multiplication of inf and i (inf * i == nan + infi), so that a specific variable is required.</p>
+<p style="font-family:verdana">3.&nbsp;pi，whose value in MFP &nbsp;is 3.1415926535897932384626433832795028841971693993751058209749445923.</p>
+<p style="font-family:verdana">4.&nbsp;e，whose value in MFP is 2.7182818284590452353602874713526624977572470936999595749669676277.</p>
+<h3>Section 2 &nbsp;Unit Conversion Functions and Constant Value Functions</h3>
+<p style="font-family:verdana">MFP programming language provides a unit conversion function, i.e. convert_unit. Convert_unit(value, from_unit, to_unit) converts a value based on from_unit to a new value based on to_unit. Note that both from_unit and to_unit are case sensitive. For example, convert_unit(23.71,"m","km") returns 0.2371.</p>
+<p style="font-family:verdana">Convert_unit supports the following units:</p>
+<p style="font-family:verdana">1.&nbsp;Length units: "um" (micrometers), "mm" (millimeters), "cm" (centimeters), "m" (meters), "km" (kilometers), "in" (inches), "ft" (feet), "yd" (yards), "mi" (miles), "nmi" (nautical miles), "AU" (astronomical units), "ly" (light years), "pc" (parsec);</p>
+<p style="font-family:verdana">2.&nbsp;Area units: "mm2" (square millimeters), "cm2" (square centimeters), "m2" (square meters), "ha" (hectares), "km2" (square kilometers), "sq in" (square inches), "sq ft" (square feet), "sq yd" (square yards), "ac" (acres), "sq mi" (square miles);</p>
+<p style="font-family:verdana">3.&nbsp;Volume units: "mL" (milliliters (cc)), "L" (litres), "m3" (cubic meters), "cu in" (cubic inches), "cu ft" (cubic feet), "cu yd" (cubic yards), "km3" (cubic kilometers), "fl oz(Imp)" (fluid ounces (Imp)), "pt(Imp)" (pints (Imp)), "gal(Imp)" (gallons (Imp)), "fl oz(US)" (fluid ounces (US)), "pt(US)" (pints (US)), "gal(US)" (gallon s(US));</p>
+<p style="font-family:verdana">4.&nbsp;Mass units: "ug" (micrograms), "mg" (milligrams), "g" (grams), "kg" (kilograms), "t" (tonnes), "oz" (ounces), "lb" (pounds), "jin" (market catties), "jin(HK)" (catties (HK)), "jin(TW)" (catties (TW));</p>
+<p style="font-family:verdana">5.&nbsp;Speed units: "m/s" (meters per second), "km/h" (kilometers per hour), "ft/s" (feet per second), "mph" (miles per hour), "knot" (knots);</p>
+<p style="font-family:verdana">6.&nbsp;Time units: "ns" (nanoseconds), "us" (microseconds), "ms" (milliseconds), "s" (seconds), "min" (minutes), "h" (hours), "d" (days), "wk" (weeks), "yr" (years);</p>
+<p style="font-family:verdana">7.&nbsp;Force units: "N" (newtons), "kgf" (kilogram-forces), "lbF" (pound-forces);</p>
+<p style="font-family:verdana">8.&nbsp;Pressure units: "Pa" (pascals), "hPa" (hectopascals), "kPa" (kilopascals), "MPa" (megapascals), "atm" (atomspheres), "psi" (pounds per square inch), "Torr" (torrs (millimeters of mercury);</p>
+<p style="font-family:verdana">9.&nbsp;Energy units: "J" (joules), "kJ" (kilojoules), "MJ" (megajoules), "kWh" (kilowatt-hours), "cal" (calories), "kcal" (kilocalories), "BTU" (British Thermal Units);</p>
+<p style="font-family:verdana">10.&nbsp;Power units: "W" (Watts), "kW" (kilowatts), "MW" (megawatts), "cal/s" (calories per second), "BTU/h" (BTUs per hour), "hp" (horse powers);</p>
+<p style="font-family:verdana">11.&nbsp;Temperature units: "0C" (celsius), "0F" (fahrenheit), "K" (Kelvin);</p>
+<p style="font-family:verdana">MFP is also capable of returning some constant values in science. Function get_constant(const_name, n) returns the constant value corresponding to the case-sensitive string const_name. The returned value will be rounded to n significant digits after decimal point. Here n must be non-negative and is optional. If n is neglected, the returned value will not be rounded. This function supports the following constants:</p>
+<p style="font-family:verdana">1.&nbsp;Ratio of circumference of a circle to its diameter (const_name == "pi");</p>
+<p style="font-family:verdana">2.&nbsp;Natural logarithm (const_name == "e");</p>
+<p style="font-family:verdana">3.&nbsp;Light speed in vacuum [m/s] (const_name == "light_speed_in_vacuum");</p>
+<p style="font-family:verdana">4.&nbsp;Gravitational constant [m**3/kg/(s**2)] (const_name == "gravitational_constant");</p>
+<p style="font-family:verdana">5.&nbsp;Planck constant [J*s] (const_name == "planck_constant");</p>
+<p style="font-family:verdana">6.&nbsp;Magnetic constant [N/(A**2)] (const_name == "magnetic_constant");</p>
+<p style="font-family:verdana">7.&nbsp;Electric constant [F/m] (const_name == "electric_constant");</p>
+<p style="font-family:verdana">8.&nbsp;Elementary charge [c] (const_name == "elementary_charge_constant");</p>
+<p style="font-family:verdana">9.&nbsp;Avogadro constant [1/mol] (const_name == "avogadro_constant");</p>
+<p style="font-family:verdana">10.&nbsp;Faraday constant [C/mol] (const_name == "faraday_constant");</p>
+<p style="font-family:verdana">11.&nbsp;Molar gas constant [J/mol/K] (const_name == "molar_gas_constant");</p>
+<p style="font-family:verdana">12.&nbsp;Boltzman constant [J/K] (const_name == "boltzman_constant");</p>
+<p style="font-family:verdana">13.&nbsp;Standard gravity [m/(s**2)] (const_name == "standard_gravity");</p>
+<p style="font-family:verdana">For example, if user inputs get_constant("pi", 4), the result will be 3.1416; if user inputs get_constant("pi", 8), the result will be 3.14159265; if user inputs get_constant("pi", 0), s\he will get 3; if user inputs get_constant("pi"), the result will be 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 (with 100 digits after decimal point), which is the pi value internally used by the software.</p>
+<p style="font-family:verdana">The following example is for the above two functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test convert_unit and get_constant functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试convert_unit函数和get_constant函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function getConstCvtUnit()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nconvert_unit(23.71,\"m3\",\"fl oz(US)\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ convert_unit(23.71,"m3","fl oz(US)"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\", 4) = " + get_constant("pi", 4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\", 8) = " + get_constant("pi", 8))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\", 0) = " + get_constant("pi", 0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nget_constant(\"pi\") = " + get_constant("pi"))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The result of the above example is:</p>
+<p style="font-family:verdana">convert_unit(23.71,"m3","fl oz(US)") = 801730.4782606974628681506740932151121554177525643799285007984748218874</p>
+<p style="font-family:verdana">get_constant("pi", 4) = 3.1416</p>
+<p style="font-family:verdana">get_constant("pi", 8) = 3.14159265</p>
+<p style="font-family:verdana">get_constant("pi", 0) = 3</p>
+<p style="font-family:verdana">get_constant("pi") = 3.1415926535897932384626433832795028841971693993751058209749445923</p>
+<h3>Section 3 &nbsp;Trigonometrical Functions and Hyperbolic Functions</h3>
+<p style="font-family:verdana">Trigonometrical and hyperbolic functions in MFP programming language have the same name and usage as in math. The only thing to keep in mind is, if no d in the end of the function name, calculation result is based on arc, otherwise, it is based on degree. For example, cos(pi/3) returns 0.5, while asind(0.5) is 30, which means 30 degrees. Also note that all these functions support complex calculation, e.g. asind(8) returns 90 – 158.63249757 * i.</p>
+<p style="font-family:verdana">All the trigonometrical functions and inverse trigonometrical functions are listed below:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function name</p></td>
+<td>
+<p style="font-family:verdana">Function info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">acos</p></td>
+<td>
+<p style="font-family:verdana">acos(1) :</p>
+<p style="font-family:verdana">acos(x), where x can be a complex number, returns arccos value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">acosd</p></td>
+<td>
+<p style="font-family:verdana">acosd(1) :</p>
+<p style="font-family:verdana">Function acosd(x) calculates degree based arccos value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">asin</p></td>
+<td>
+<p style="font-family:verdana">asin(1) :</p>
+<p style="font-family:verdana">asin(x), where x can be a complex number, returns arcsin value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">asind</p></td>
+<td>
+<p style="font-family:verdana">asind(1) :</p>
+<p style="font-family:verdana">Function asind(x) calculates degree based arcsin value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">atan</p></td>
+<td>
+<p style="font-family:verdana">atan(1) :</p>
+<p style="font-family:verdana">atan(x) returns arctan value of x, where x can be a complex number.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">atand</p></td>
+<td>
+<p style="font-family:verdana">atand(1) :</p>
+<p style="font-family:verdana">Function atand(x) calculates degree based arctan value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cos</p></td>
+<td>
+<p style="font-family:verdana">cos(1) :</p>
+<p style="font-family:verdana">cos(x) returns cos value of x, where x can be a complex number.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cosd</p></td>
+<td>
+<p style="font-family:verdana">cosd(1) :</p>
+<p style="font-family:verdana">Function cosd(x) calculates cos x where x is a degree.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sin</p></td>
+<td>
+<p style="font-family:verdana">sin(1) :</p>
+<p style="font-family:verdana">sin(x) returns sin value of x, where x can be a complex number.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sind</p></td>
+<td>
+<p style="font-family:verdana">sind(1) :</p>
+<p style="font-family:verdana">Function sind(x) calculates sin x where x is a degree.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">tan</p></td>
+<td>
+<p style="font-family:verdana">tan(1) :</p>
+<p style="font-family:verdana">tan(x) returns tan value of x, where x can be a complex number.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">tand</p></td>
+<td>
+<p style="font-family:verdana">tand(1) :</p>
+<p style="font-family:verdana">Function tand(x) calculates tan x where x is a degree.</p></td></tr></table>
+<p style="font-family:verdana">All the hyperbolic functions are listed below:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function name</p></td>
+<td>
+<p style="font-family:verdana">Function info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">acosh</p></td>
+<td>
+<p style="font-family:verdana">acosh(1) :</p>
+<p style="font-family:verdana">Function acosh(x) calculates inverse hyperbolic cos of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">asinh</p></td>
+<td>
+<p style="font-family:verdana">asinh(1) :</p>
+<p style="font-family:verdana">Function asinh(x) calculates inverse hyperbolic sin of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">atanh</p></td>
+<td>
+<p style="font-family:verdana">atanh(1) :</p>
+<p style="font-family:verdana">Function atanh(x) calculates inverse hyperbolic tan of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cosh</p></td>
+<td>
+<p style="font-family:verdana">cosh(1) :</p>
+<p style="font-family:verdana">Function cosh(x) calculates hyperbolic cos of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sinh</p></td>
+<td>
+<p style="font-family:verdana">sinh(1) :</p>
+<p style="font-family:verdana">Function sinh(x) calculates hyperbolic sin of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">tanh</p></td>
+<td>
+<p style="font-family:verdana">tanh(1) :</p>
+<p style="font-family:verdana">Function tanh(x) calculates hyperbolic tan of x.</p></td></tr></table>
+<p style="font-family:verdana">The following example is for the above two functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test trigonometric and hyperbolic trigonometric functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试三角函数和双曲三角函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">Endh</p>
+<p style="font-family:verdana;color:blue">function testTrigHTrig()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ncos(pi/3) = " + cos(pi/3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ntand(45) = " + tand(45))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsin(1 + 2*i) = " + sin(1 + 2*i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nasind(0.5) = " + asind(0.5))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nacos(8) = " + acos(8))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nacosh(4.71 + 6.44i) = " + acosh(4.71 + 6.44i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsinh(e) = " + sinh(e))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\natanh(e) = " + atanh(e))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Running the above example user will see:</p>
+<p style="font-family:verdana">cos(pi/3) = 0.5</p>
+<p style="font-family:verdana">tand(45) = 1</p>
+<p style="font-family:verdana">sin(1 + 2*i) = 3.1657785132161682200525265356615738370974142362979081716694416027 + 1.959601041421606115476765045922954107994611047413801140191859959i</p>
+<p style="font-family:verdana">asind(0.5) = 30.000000000000003071288025528876242434085090019423660218589920376</p>
+<p style="font-family:verdana">acos(8) = -2.768659383313573751905778408399783074855804443359375i</p>
+<p style="font-family:verdana">acosh(4.71 + 6.44i) = 2.771116084398325796200879267416894435882568359375 + 0.94305685974139741301058847966487519443035125732421875i</p>
+<p style="font-family:verdana">sinh(e) = 7.544137102816974971286612117182812653481960296630859375</p>
+<p style="font-family:verdana">atanh(e) = 0.385968416452652396397837719632661901414394378662109375 + 1.5707963267948966192313216916397514420985846996875529104874722962i</p>
+<p style="font-family:verdana">. User may notice that, the return value of asind(0.5) is 30.000000000000003071288025528876242434085090019423660218589920376 instead of 30 (degrees). This is because asind first converts the parameter, i.e. 0.5 to a complex value and then does the calculation and calculating asind of a complex value leads to a tiny error.</p>
+<h3>Section 4 &nbsp;Exponential, Logarithmic and Power Functions</h3>
+<p style="font-family:verdana">MFP supports a number of exponential, logarithmic and power functions as below:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function name</p></td>
+<td>
+<p style="font-family:verdana">Function info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">exp</p></td>
+<td>
+<p style="font-family:verdana">exp(1) :</p>
+<p style="font-family:verdana">exp(x), where x is a real or complex number, returns x powers of e. </p></td></tr><tr>
+<td>
+<p style="font-family:verdana">lg</p></td>
+<td>
+<p style="font-family:verdana">lg(1) :</p>
+<p style="font-family:verdana">Function lg(x) returns e based log value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">ln</p></td>
+<td>
+<p style="font-family:verdana">ln(1) :</p>
+<p style="font-family:verdana">Function ln(x) returns e based log value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">log</p></td>
+<td>
+<p style="font-family:verdana">log(1) :</p>
+<p style="font-family:verdana">log(x), where x can be a complex number, returns e based logarithm value of x. </p></td></tr><tr>
+<td>
+<p style="font-family:verdana">log10</p></td>
+<td>
+<p style="font-family:verdana">log10(1) :</p>
+<p style="font-family:verdana">Function log10(x) returns 10 based log value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">log2</p></td>
+<td>
+<p style="font-family:verdana">log2(1) :</p>
+<p style="font-family:verdana">Function log2(x) returns 2 based log value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">loge</p></td>
+<td>
+<p style="font-family:verdana">loge(1) :</p>
+<p style="font-family:verdana">Function loge(x) returns e based log value of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">pow</p></td>
+<td>
+<p style="font-family:verdana">pow(2) :</p>
+<p style="font-family:verdana">pow(x,y) returns y powers of x. Note that both x and y can be either a real or a complex number. If there are more than one results of pow(x,y), return the first result.</p>
+<p style="font-family:verdana">pow(3) :</p>
+<p style="font-family:verdana">pow(x,y,z) returns a list including first z values of y powers of x. If y powers of x has less than z values, returns all the values. Note that y must be a real number while x can be either a real or a complex number. Z must be a positive integer.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sqrt</p></td>
+<td>
+<p style="font-family:verdana">sqrt(1) :</p>
+<p style="font-family:verdana">Function sqrt(x) returns square root of real number x.</p></td></tr></table>
+<p style="font-family:verdana">Please note that:</p>
+<p style="font-family:verdana">1．&nbsp;Lg(x), log(x), ln(x) and loge(x) all returns natural logarithm of x. Log2(x) returns 2 based logarithm of x. Log10(x) is 10 based. All these functions accept complex value as parameter. Any other base can be obtained from division of these functions. For example, user simply uses log(x)/log(3) to get 3 based logarithm of x.</p>
+<p style="font-family:verdana">2．&nbsp;There are two ways to call pow function. First is pow(x, y), which returns x<sup>y</sup>. Note that both x and y can be either real or complex value. If the result have many values, this function returns the first value it sees when anti-clockwisely rotating from 0 degree in the complex domain. This usage equals using x**y. For example, pow(32, 0.2) returns 2. However, pow(-32, 0.2) will not returns -2 although -2 is one of its roots. Instead, it returns 1.61803399 + 1.1755705 * i.</p>
+<p style="font-family:verdana">The second way to call pow function is pow(x, y, z), which returns the first z results of x<sup>y</sup>. Here y must be a real value while x can be either real or complex. Z should be a positive integer. The returned values are stored in a vector. If the number of results is less than z, all the results are returned. Otherwise, it returns the first z results it sees when anti-clockwisely rotating from 0 degree in the complex domain. For example, if user wants to see all the results of -32<sup>0.2</sup>, pow(-32, 0.2, 5) can be called and a 5-element vector, i.e. [1.61803399 + 1.1755705 * i, -0.61803399 + 1.90211303 * i, -2, -0.61803399 - 1.90211303 * i, 1.61803399 - 1.1755705 * i], is returned.</p>
+<p style="font-family:verdana">3．&nbsp;Sqrt(x) is equal to x**0.5 or pow(x, 0.5). It returns the first square root seen when rotating anti-clockwisely from 0 degree in the complex domain. For example, sqrt(4) == 2, sqrt(-2) == 1.41421356 * i and sqrt(-2+3i) == 0.89597748 + 1.67414923 * i.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test log, exp and pow and related functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试对数，指数和次方函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testLogExpPow()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nlg(e) == " + lg(e))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nlog(9, 3) == log(9)/log(3) == " + log(9)/log(3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nlog2(3 + 4i) == " + log2(3 + 4i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\npow(32, 0.2) == " + pow(32, 0.2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\npow(-32, 0.2) == " + pow(-32, 0.2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\npow(-32, 0.2, 5) == " + pow(-32, 0.2, 5))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsqrt(4) == " + sqrt(4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsqrt(-2) == " + sqrt(-2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsqrt(-2+3i) == " + sqrt(-2+3i))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The result of the above example is shown below:</p>
+<p style="font-family:verdana">lg(e) == 1</p>
+<p style="font-family:verdana">log(9, 3) == log(9)/log(3) == 2</p>
+<p style="font-family:verdana">log2(3 + 4i) == 2.3219280948873622916712631553180615794157506196217129274315603707 + 1.337804212450976175615004492526409565791145361743891813677556325i</p>
+<p style="font-family:verdana">pow(32, 0.2) == 2</p>
+<p style="font-family:verdana">pow(-32, 0.2) == 1.6180339887498949025257388711906969547271728515625 + 1.175570504584946274206913585658185184001922607421875i</p>
+<p style="font-family:verdana">pow(-32, 0.2, 5) == [1.6180339887498949025257388711906969547271728515625 + 1.175570504584946274206913585658185184001922607421875i, -0.6180339887498946804811339461593888700008392333984375 + 1.90211303259030728440848179161548614501953125i, -2, -0.6180339887498951245703437962220050394535064697265625 - 1.9021130325903070623638768665841780602931976318359375i, 1.6180339887498946804811339461593888700008392333984375 - 1.17557050458494671829612343572080135345458984375i]</p>
+<p style="font-family:verdana">sqrt(4) == 2</p>
+<p style="font-family:verdana">sqrt(-2) == 1.4142135623730951454746218587388284504413604736328125i</p>
+<p style="font-family:verdana">sqrt(-2+3i) == 0.8959774761298379706375607865525069497958199765590683867889064147 + 1.6741492280355400682758136732173307274213575287387175311747860088i</p>
+<h3>Section 5 &nbsp;Matrix Related Functions</h3>
+<p style="font-family:verdana">Chapter 4 demonstrates user how to use functions to operate MFP arrays. In this section, more functions for matrix calculation are introduced.</p>
+<p style="font-family:verdana">In MFP, array is different from matrix. MFP matrix is a mathematical concept. It must be an array. It also supports many mathematical calculations, e.g. +, -, *, /, etc. Moreover, it has to be two dimensional, and in many cases it is a square matrix. The functions for matrix calculation generally cannot be used for common MFP arrays.</p>
+<p style="font-family:verdana">MFP matrix calculation functions are listed below:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function name</p></td>
+<td>
+<p style="font-family:verdana">Function info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">adj</p></td>
+<td>
+<p style="font-family:verdana">adj(1) :</p>
+<p style="font-family:verdana">adj(x), where x is 2D square matrix, returns the adjugate matrix of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cofactor</p></td>
+<td>
+<p style="font-family:verdana">cofactor(1) :</p>
+<p style="font-family:verdana">cofactor(x), where x is 2D square matrix, returns the cofactor matrix of x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">det</p></td>
+<td>
+<p style="font-family:verdana">det(1) :</p>
+<p style="font-family:verdana">Function det(x) calculates determinant of square matrix x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">deter</p></td>
+<td>
+<p style="font-family:verdana">deter(1) :</p>
+<p style="font-family:verdana">Function deter(x) calculates determinant of square matrix x.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">dprod</p></td>
+<td>
+<p style="font-family:verdana">dprod(2) :</p>
+<p style="font-family:verdana">Function dprod calculates dot product of two vectors [x1, x2, ... xn] and [y1, y2, ... yn].</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">eig</p></td>
+<td>
+<p style="font-family:verdana">eig(1) :</p>
+<p style="font-family:verdana">eig(A) calculates 2D square matrix A's eigen vectors and eigen values. This function returns a two element list. First element is the eigen vector matrix, each column is an eigen vector. Second element is a diagonal matrix. Each diagonal element is an eigen value. Note that this function needs big memory to run and consumes significant CPU time. If it runs in mobile device, size of A and B should be no greater than 6*6. If it runs in PC, A and B should be no greater than 8*8. Otherwise, it may fail because lack of memory or run for very long time.</p>
+<p style="font-family:verdana">eig(2) :</p>
+<p style="font-family:verdana">eig(A, B) calculates 2D square matrix A's eigen vectors and eigen values against same size matrix B, i.e. Av = lambda * Bv, where lambda is an eigen value and v is an eigen vector. The second parameter, B, is optional. By default, B is an I matrix. This function returns a two element list. First element is the eigen vector matrix, each column is an eigen vector. Second element is a diagonal matrix. Each diagonal element is an eigen value. Note that this function needs big memory to run and consumes significant CPU time. If it runs in mobile device, size of A and B should be no greater than 6*6. If it runs in PC, A and B should be no greater than 8*8. Otherwise, it may fail because lack of memory or run for very long time.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_eigen_values</p></td>
+<td>
+<p style="font-family:verdana">get_eigen_values(1) :</p>
+<p style="font-family:verdana">get_eigen_values(A) calculates 2D square matrix A's eigen values. This function returns an eigen value list which includes all the eigen values including duplicated ones. Note that this function needs big memory to run and consumes significant CPU time. If it runs in mobile device, size of A and B should be no greater than 6*6. If it runs in PC, A and B should be no greater than 8*8. Otherwise, it may fail because lack of memory or run for very long time.</p>
+<p style="font-family:verdana">get_eigen_values(2) :</p>
+<p style="font-family:verdana">get_eigen_values(A, B) calculates 2D square matrix A's eigen values against same size matrix B, i.e. Av = lambda * Bv, where lambda is an eigen value and v is an eigen vector. The second parameter, B, is optional. By default, B is an I matrix. This function returns an eigen value list which includes all the eigen values including duplicated ones. Note that this function needs big memory to run and consumes significant CPU time. If it runs in mobile device, size of A and B should be no greater than 6*6. If it runs in PC, A and B should be no greater than 8*8. Otherwise, it may fail because lack of memory or run for very long time.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">invert</p></td>
+<td>
+<p style="font-family:verdana">invert(1) :</p>
+<p style="font-family:verdana">invert(x) inverts 2D matrix x. Note that the elements of x can be complex numbers but x must be a square matrix (i.e. number of rows equals number of columns).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">left_recip</p></td>
+<td>
+<p style="font-family:verdana">left_recip(1) :</p>
+<p style="font-family:verdana">left_recip(x) calculates left-division reciprocal of x. Note that so far x can only be a number or a 2D matrix.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">rank</p></td>
+<td>
+<p style="font-family:verdana">rank(1) :</p>
+<p style="font-family:verdana">rank(matrix) returns the rank of a matrix. For example rank([[1,2],[2,4]]) returns 1.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">recip</p></td>
+<td>
+<p style="font-family:verdana">recip(1) :</p>
+<p style="font-family:verdana">recip(x) calculates reciprocal of x. Note that so far x can only be a number or a 2D matrix.</p></td></tr></table>
+<p style="font-family:verdana">User may note that:</p>
+<p style="font-family:verdana">1.&nbsp;Functions recip, left_recip and invert are actually the same thing for a 2-D square matrix x, which are equal to calculating 1/x.</p>
+<p style="font-family:verdana">2.&nbsp;Det and deter are two names for the same function. Their usage and calculation are exactly the same.</p>
+<p style="font-family:verdana">3.&nbsp;All the above functions support complex matrix.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">test matrix functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">测试矩阵相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testMatrix()</p>
+<p style="font-family:verdana;color:blue">print("\ncofactor([[1,3,-4.81-0.66i],[-0.91i,5.774,3.81+2.03i],[0,-6,-7.66-3i]])=" _</p>
+<p style="font-family:verdana;color:blue">+ cofactor([[1,3,-4.81-0.66i],[-0.91i, 5.774, 3.81+2.03i],[0, -6, -7.66-3i]]))</p>
+<p style="font-family:verdana;color:blue">print("\nadj([[1,-7],[-4, 6]]) = " + adj([[1,-7],[-4, 6]]))</p>
+<p style="font-family:verdana;color:blue">print("\ndet([[2.7-0.4i, 5.11i],[-1.49, -3.87+4.41i]]) = " _</p>
+<p style="font-family:verdana;color:blue">+ det([[2.7-0.4i, 5.11i],[-1.49, -3.87+4.41i]]))</p>
+<p style="font-family:verdana;color:blue">print("\ndprod([1,2,3],[4,5,6]) = " + dprod([1,2,3],[4,5,6]))</p>
+<p style="font-family:verdana;color:blue">print("\neig([[1,0],[0,1]]) = " + eig([[1,0],[0,1]]) )</p>
+<p style="font-family:verdana;color:blue">print("\neig([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=" _</p>
+<p style="font-family:verdana;color:blue">+ eig([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]]))</p>
+<p style="font-family:verdana;color:blue">print("\nget_eigen_values([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=" _</p>
+<p style="font-family:verdana;color:blue">+get_eigen_values([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]]))</p>
+<p style="font-family:verdana;color:blue">print("\nrank([[1,2,3],[4,5,8]]) = " _</p>
+<p style="font-family:verdana;color:blue">+ rank([[1,2,3],[4,5,8]]))</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">The result of the above example is:</p>
+<p style="font-family:verdana">cofactor([[1,3,-4.81-0.66i],[-0.91i,5.774,3.81+2.03i],[0,-6,-7.66-3i]])=[[-21.3688399999999999999999999999999999999999999999999999999999999986 - 5.1419999999999999999999999999999999999999999999999999999999999994i, 2.73 - 6.9706i, 5.46i], [51.84 + 12.96i, -7.66 - 3i, 6], [39.2029399999999999999999999999999999999999999999999999999999999999 + 9.9008400000000000000000000000000000000000000000000000000000000001i, -4.4106 + 2.3471i, 5.774 + 2.73i]]</p>
+<p style="font-family:verdana">adj([[1,-7],[-4, 6]]) = [[6, 7], [4, 1]]</p>
+<p style="font-family:verdana">det([[2.7-0.4i, 5.11i],[-1.49, -3.87+4.41i]]) = -8.685 + 21.0689i</p>
+<p style="font-family:verdana">dprod([1,2,3],[4,5,6]) = 32</p>
+<p style="font-family:verdana">eig([[1,0],[0,1]]) = [[[0, 0], [0, 0]], [[1, 0], [0, 1]]]</p>
+<p style="font-family:verdana">eig([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=[[[0.5823305472444549220819340004695808799844908575313355771049880239 + 2.6809072575482156074378495725434812981406213152515868875585567468i, 0.0114135820466395502054852954488256551817471139007810529210119208 + 3.4394330048873032459793824252367034270060295989773214887206842872i, 0.1388649308606510232042228769561980233759262865380815606646575143 - 0.6869355577206501991055143100875158982393429000524385229074545558i], [0.1706650271410734493686782716838420204556348720948784459123114335 + 3.2610379517684265529500566832795301074088302158506118107692861942i, 1.0352846399044520080844175395063017457192992181908246617872107954 + 2.0718315370680215726468326567580658394348957576054643511780204727i, 1], [1, 1, -1.4604755542403403454627560718567442382313962988887573353544007743 + 0.5989937399782723545797394498168180189451427644426167079112280372i]], [[1.6771119760640303234132562527571544811705507223533275701869437736 - 1.6789870982611406187191411771858177830523877216751181685694659201i, 0, 0], [0, 0.0328711162943186887885582860890803241425541594114635568073761979 + 0.5055670540754347904151221100125363969735197371948964385418564962i, 0], [0, 0, -0.7099830923583490122018145388462348053131048817647911269943199715 - 8.3365799558142941716959809328267186139211320155197782699723905761i]]]</p>
+<p style="font-family:verdana">get_eigen_values([[1+3.7i,-0.41-2.93i,5.33+0.52i],[0.33+2.71i,-3.81i,0.41+3.37i],[2.88,0,-9.4i]])=[1.6771119760640303234132562527571544811705507223533275701869437736 - 1.6789870982611406187191411771858177830523877216751181685694659201i, 0.0328711162943186887885582860890803241425541594114635568073761979 + 0.5055670540754347904151221100125363969735197371948964385418564962i, -0.7099830923583490122018145388462348053131048817647911269943199715 - 8.3365799558142941716959809328267186139211320155197782699723905761i]</p>
+<p style="font-family:verdana">rank([[1,2,3],[4,5,8]]) = 2</p>
+<h3>Section 6 &nbsp;Functions for Expression Calculation and Calculus</h3>
+<p style="font-family:verdana">Functions for expression calculation and calculus accept string based MFP expression(s) and carry out corresponding calculations. They are:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function name</p></td>
+<td>
+<p style="font-family:verdana">Function info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">deri_ridders</p></td>
+<td>
+<p style="font-family:verdana">deri_ridders(4) :</p>
+<p style="font-family:verdana">deri_ridders(expr, var, val, ord) calculates ord-order derivative value of expression expr which is based on variable var when the variable's value is equal to val. This function always uses Ridders method. For example, deri_ridders("x**2+x","x",3,2) returns 2.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">derivative</p></td>
+<td>
+<p style="font-family:verdana">derivative(2) :</p>
+<p style="font-family:verdana">derivative(expression, variable) calculates derivative of expression which is based on variable. Note that both expression and variable must be strings. For example, derivative("x**2+x","x") returns a string based expression which is "2*x+1".</p>
+<p style="font-family:verdana">derivative(4) :</p>
+<p style="font-family:verdana">derivative(expr, var, val, method) calculates derivative value of expression expr which is based on variable var when the variable's value is equal to val. The parameter method selects the method to use. True means using Ridders method while false means simply calculating derivative expression value at val. For example, derivative("x**2+x","x",2,true) returns 5.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">evaluate</p></td>
+<td>
+<p style="font-family:verdana">evaluate(1...) :</p>
+<p style="font-family:verdana">evaluate(expr_string,var_string1,var_value1,var_string2,var_value2, ...) returns the value of string based expression expr_string when the string based variable var_string1 equals var_value1, variable var_string2 equals var_value2, ... respectively. Note that var_value1, var_value2, ... can be any type and the number of variables can be zero, i.e. evaluate("3+2") is valid.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">integrate</p></td>
+<td>
+<p style="font-family:verdana">integrate(2) :</p>
+<p style="font-family:verdana">integrate(x,y) returns the indefinite integrated expression of expression x with respect to variable y where x and y are both strings. Note that if x cannot be indefinitely integrated or x is too complicated to solve, this function throws an exception.</p>
+<p style="font-family:verdana">integrate(4) :</p>
+<p style="font-family:verdana">integrate(x,y,z,w) returns the integrated value of expression x with respect to variable y changing from z to w. Note that x and y are string typed and z and w can be real numbers, complex numbers or strings. The integrating algorithm selected is adaptive Gauss-Kronrod method.</p>
+<p style="font-family:verdana">integrate(5) :</p>
+<p style="font-family:verdana">integrate(x,y,z,w,v) returns integrated value given a string expression x of a variable y (also a string) and an interval [z, w]. In calculation, one step length is (w - z)/v, note that v must be a positive integer while w and z can be real numbers, complex values or strings. If v is zero, this function is the same as integrate(x,y,z,w).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">lim</p></td>
+<td>
+<p style="font-family:verdana">lim(3) :</p>
+<p style="font-family:verdana">lim(expr, var, dest_value) calculates the limit value of expression expr when variable var is closing to dest_value. expr and var should be strings and dest_value can be expression or value, whether string based or not. For example, lim("1/x", "x", 0) or lim("(x+2)/(x+3)","x","3+0"). Note that this function is still under development.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">product_over</p></td>
+<td>
+<p style="font-family:verdana">product_over(3) :</p>
+<p style="font-family:verdana">product_over(x, y, z) calculates the product of string based expression x over integer value y to z. Note that y and z are also string based values, y should be written like "a=10" (where a is the variable) and z should be like "20". For example, product_over("x+1", "x=1", "10").</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sum_over</p></td>
+<td>
+<p style="font-family:verdana">sum_over(3) :</p>
+<p style="font-family:verdana">sum_over(x, y, z) calculates the sum of string based expression x over integer value y to z. Note that y and z are also string based values, y should be written like "a=10" (where a is the variable) and z should be like "20". For example, sum_over("x+1", "x=1", "10").</p></td></tr></table>
+<p style="font-family:verdana">Function deri_ridders calculates first, second or third derivative value of a given expression at a given point using Ridders method. The example, deri_ridders("x**2+x", "x", 3, 2), means calculating second derivative value of x**2+x when x equals 3.</p>
+<p style="font-family:verdana">Derivative calculates first derivative value of a given expression at a given point, or first derivative expression of a given expression. The first example, derivative("x**2+x","x"), means calculating first derivative expression of x**2+x. The second example, derivative("x**2+x","x", 2, true), means calculating first derivative value of x**2+x when x is 2. Note that the last parameter tells the function whether to use Ridders method or not. If it is true, Ridders method is used. If false, this function first calculates derivative expression, and then gives out the derivative value from the derivative expression. The last parameter is optional. By default, it is true.</p>
+<p style="font-family:verdana">Derivative function can also calculate higher order derivative expression. This needs nested calls. For example, derivative(derivative("x**2+x","x"),"x") gives out second derivative expression of x**2+x.</p>
+<p style="font-family:verdana">Function sum_over is the sum operator &#8721; in math, and its usage is the same as &#8721;. For example, sum_over("x+1", "x=1", "10") means calculating sum of x + 1s where x is an integer varying from 1 to 10. Using a mathematical expression it is &#8721;x=110(x+1).</p>
+<p style="font-family:verdana">Similar to sum_over, product_over means &#8719; in math, and its usage is the same as &#8719;. For example, product_over("x+1", "x=1", "10") means calculating product of all x + 1s where x is an integer varying from 1 to 10. Using a mathematical expression it is &#8719;x=110(x+1).</p>
+<p style="font-family:verdana">Function evaluate evaluates a string based MFP expression. If this expression has one or more variables, evaluate function takes additional parameters to assign values to the variables so that it is able to give out the calculated result. For example, evaluate("x+y+1","x",3,"y",4) calculates the value of x + y + 1 where x is 3 and y is 4. Clearly, the final result is 8. Of course, if no variable is used in the expression, no additional parameters are required.</p>
+<p style="font-family:verdana">Function evaluate can also evaluate functions, whether the to-be-evaluated function is user-defined or system provided. For example, evaluate("sind(30)") returns 0.5.</p>
+<p style="font-family:verdana">Function integrate calculates definite or indefinite integrals. In fact, the integration tool in Scientific Calculator Plus is based on this function. It is quite simple to calculate indefinite integrals. Only two parameters are needed. The first one is the expression to be integrated. The second one is variable name. Both of them are based on string. For example,</p>
+<p style="font-family:verdana;color:blue">integrate("cos(x)","x")</p>
+<p style="font-family:verdana">calculates integration of cos(x), and the returned result is also a string which is "sin(x)".</p>
+<p style="font-family:verdana">There are two numerical methods to calculate definite integrals. First is using Gauss-Kronrod method. This method is able to handle the case where from and/or to value(s) are infinite. It is also able to process high-frequently oscillating functions. It is even capable of integrating functions with singular points. For example,</p>
+<p style="font-family:verdana;color:blue">integrate("exp(x)","x",-inf,0)</p>
+<p style="font-family:verdana">returns the integrated value of exp(x) where x is from negative infinite to 0, and the result is 1. For another example,</p>
+<p style="font-family:verdana;color:blue">integrate("log(x)","x",0,1)</p>
+<p style="font-family:verdana">calculates the integrated value of log(x) where x is from 0 to 1. The returned result is 1.00000018 (which includes a small error). Note that here 0 is a singular point.</p>
+<p style="font-family:verdana">Although Gauss-Kronrod method is powerful, it is very slow. Most of the functions, however, can adopt the traditional Riemann Sum integration algorithm which is much faster with reasonable accuracy. User, as such, needs to indicate the number of steps. Nevertheless, if the number of steps is zero, or from and/or to value(s) are infinite, integrate function still uses Gauss-Kronrod method. An example using Riemann Sum integration algorithm is:</p>
+<p style="font-family:verdana;color:blue">integrate("x**2+1","x", -3+4i, 7-9i, 100)</p>
+<p style="font-family:verdana">. This example integrates x**2 + 1 in the complex domain. The number of steps is 100. The final result is -481.7345 - 225.69505 * i. Theoretical result is -481.66666667 - 225.66666667 * i which means the error will be very small if the number of steps is big enough.</p>
+<p style="font-family:verdana">User can also calculate higher-order integrals using nested integrate functions. For example,</p>
+<p style="font-family:verdana;color:blue">integrate("integrate(\"x*y\",\"x\",1,6,100)","y",-4,3,100)</p>
+<p style="font-family:verdana">integrates x*y where x is from 1 to 6 and y is from -4 to 3. The result is -61.25.</p>
+<p style="font-family:verdana">Because in general higher-order integrals need much more calculation steps than first-order integral, Riemann Sum method is strongly recommended as it is fast. This is why the number of steps is not optional in higher-order integration.</p>
+<p style="font-family:verdana">Nevertheless, some integrals cannot be calculated by integrate function, e.g. very complicated integrals or integrals which cannot converge. In this case, an exception will be thrown. For example, running the following statements (by copying them and pasting them into GUI based Scientific Calculator Plus for JAVA, and then pressing ENTER key):</p>
+<p style="font-family:verdana;color:blue">try</p>
+<p style="font-family:verdana;color:blue">print("integrate(\"e**(x**2)\",\"x\")", integrate("e**(x**2)","x"))</p>
+<p style="font-family:verdana;color:blue">catch</p>
+<p style="font-family:verdana;color:blue">print("e**(x**2) cannot be integrated")</p>
+<p style="font-family:verdana;color:blue">endtry</p>
+<p style="font-family:verdana">, user will see an exception printed:</p>
+<p style="font-family:verdana">e**(x**2) cannot be integrated</p>
+<p style="font-family:verdana">, which means &nbsp;is not capable of being integrated.</p>
+<p style="font-family:verdana">Also note that the functions introduced in this section are able to read values of declared variables. For instance, assume that in a program a variable b has been declared and its value is 3. If user calls evaluate("x+b","x",9), 12 will be returned. Because of this feature, it is recommended to use different variable name(s) in the maths expression parameter(s) to avoid potential conflict(s). This requirement is particularly important when calculating higher-order integrals.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test expression and calculus functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试表达式和微积分相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function exprcalculus()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(\"1/x**2*log(x) + 9\", \"x\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative("1/x**2*log(x) + 9", "x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(\"tanh(x)**-1\", \"x\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative("tanh(x)**-1", "x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test high order derivative</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(derivative(\"x*sin(x)\", \"x\"), \"x\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative(derivative("x*sin(x)", "x"), "x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test derivative value</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderi_ridders(\"x**0.5+x+9\", \"x\", 0.3, 1) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ deri_ridders("x**0.5+x+9", "x", 0.3, 1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderivative(\"x**0.5+x+9\", \"x\", 0.3) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ derivative("x**0.5+x+9", "x", 0.3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nderi_ridders(\"x**0.5+sqrt(sin(x**2))\", \"x\", 0.3, 3) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ deri_ridders("x**0.5+sqrt(sin(x**2))", "x", 0.3, 3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsum_over(\"1/(x-10)\",\"x=1\",\"9\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ sum_over("1/(x - 10)", "x = 1", "9"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nproduct_over(\"1/(x-10)\",\"x=9\",\"1\") = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ product_over("1/(x-10)", "x = 9", "1"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nevaluate(\"x+y+1\",\"x\",5,\"y\",7) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ evaluate("x+y+1","x",5,"y",7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nevaluate(\"sind(30)\") = " + evaluate("sind(30)"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"tanh(x)**-1\",\"x\") = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("tanh(x)**-1","x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"sinh(x)*cosh(x)**-1\",\"x\") = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("sinh(x)*cosh(x)**-1","x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"1/x**2\",\"x\",2,inf) = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("1/x**2","x",2,inf))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"1/x**2\",\"x\",2,50,100) = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("1/x**2","x",2,50,100))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test unintegratable.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;try</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("integrate(\"e**(x**2)\",\"x\")", integrate("e**(x**2)","x"))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;catch</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("e**(x**2) cannot be integrated")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endtry</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// test high order integration</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nintegrate(\"integrate(\\\"x*y\\\",\\\"x\\\",1,6,100)\",\"y\",-4,3,100) = ")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print(integrate("integrate(\"x*y\",\"x\",1,6,100)","y",-4,3,100))</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Output of the above example is:</p>
+<p style="font-family:verdana">derivative("1/x**2*log(x) + 9", "x") = (-2)*log(x)*x**(-3)+x**(-3)</p>
+<p style="font-family:verdana">derivative("tanh(x)**-1", "x") = -(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**x*(sinh(x)/cosh(x))**(-2)*sinh(x)*cosh(x)**(-2)+(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**(-x)*(sinh(x)/cosh(x))**(-2)*sinh(x)*cosh(x)**(-2)+(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**x*(sinh(x)/cosh(x))**(-2)/cosh(x)+(-0.5)*2.7182818284590452353602874713526624977572470936999595749669676277**(-x)*(sinh(x)/cosh(x))**(-2)/cosh(x)</p>
+<p style="font-family:verdana">derivative(derivative("x*sin(x)", "x"), "x") = (-1)*x*sin(x)+2*cos(x)</p>
+<p style="font-family:verdana">deri_ridders("x**0.5+x+9", "x", 0.3, 1) = 1.9128709291772078606011099231055019184972226816921057762830380748</p>
+<p style="font-family:verdana">derivative("x**0.5+x+9", "x", 0.3) = 1.91287092917527690172363463716465048491954803466796875</p>
+<p style="font-family:verdana">deri_ridders("x**0.5+sqrt(sin(x**2))", "x", 0.3, 3) = 7.1575232288636571107632429280365926329437264758531027037489228909</p>
+<p style="font-family:verdana">sum_over("1/(x-10)","x=1","9") = -2.828968253968253968253968253968253968253968253968253968253968254</p>
+<p style="font-family:verdana">product_over("1/(x-10)","x=9","1") = -0.0000027557319223985890652557319223985890652557319223985890652557</p>
+<p style="font-family:verdana">evaluate("x+y+1","x",5,"y",7) = 13</p>
+<p style="font-family:verdana">evaluate("sind(30)") = 0.5</p>
+<p style="font-family:verdana">integrate("tanh(x)**-1","x") = log(sinh(x))</p>
+<p style="font-family:verdana">integrate("sinh(x)*cosh(x)**-1","x") = log(cosh(x))</p>
+<p style="font-family:verdana">integrate("1/x**2","x",2,inf) = 0.4999999999999999800759152415811779636542182411236778807349767932</p>
+<p style="font-family:verdana">integrate("1/x**2","x",2,50,100) = 0.4847465087006575124658317917505673256758819785394978030710821748e**(x**2) cannot be integrated</p>
+<p style="font-family:verdana">integrate("integrate(\"x*y\",\"x\",1,6,100)","y",-4,3,100) = -61.25</p>
+<p style="font-family:verdana">. Note that in version 1.7, citingspace was&nbsp;introduced into MFP programming language. As such, when calculating indefinite integrals or derivative expressions&nbsp;in this version, each function the answer includes complete citingspace path. For example, log(x) in older versions turns to ::mfp::math::log_exp::log(x) in version&nbsp;1.7. This change makes the answer longer and hard to read. So from version 1.7.1 it is improved to only show the minimum citingspace path in the result. In other words, ::mfp::math::log_exp::log(x)&nbsp;is returned back to log(x) gain.</p>
+<h3>Section 7 &nbsp;Statistic, Stochastic and Sorting Functions</h3>
+<p style="font-family:verdana">Scientific Calculator Plus provides a number of statistic, stochastic and sorting functions as below:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function name</p></td>
+<td>
+<p style="font-family:verdana">Function info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">avg</p></td>
+<td>
+<p style="font-family:verdana">avg(1...) :</p>
+<p style="font-family:verdana">Function avg(...) returns average value of an arbitrary number of parameters.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">beta</p></td>
+<td>
+<p style="font-family:verdana">beta(2) :</p>
+<p style="font-family:verdana">Function beta(z1, z2) returns beta function value of complexes z1 and z2, note that real part of z1 and z2 must be positive.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">gamma</p></td>
+<td>
+<p style="font-family:verdana">gamma(1) :</p>
+<p style="font-family:verdana">Function gamma(z) returns gamma function value of complex z, note that real part of z must be positive.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">gavg</p></td>
+<td>
+<p style="font-family:verdana">gavg(1...) :</p>
+<p style="font-family:verdana">Function gavg(...) returns geometric mean value of an arbitrary number of parameters.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">havg</p></td>
+<td>
+<p style="font-family:verdana">havg(1...) :</p>
+<p style="font-family:verdana">Function havg(...) returns harmonic mean value of an arbitrary number of parameters.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">max</p></td>
+<td>
+<p style="font-family:verdana">max(1...) :</p>
+<p style="font-family:verdana">Function max(...) returns maximum value of an arbitrary number of parameters.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">med</p></td>
+<td>
+<p style="font-family:verdana">med(1...) :</p>
+<p style="font-family:verdana">Function med(...) returns medium value of an arbitrary number of parameters. If the number of parameters is even, returns average of the middle two parameters.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">min</p></td>
+<td>
+<p style="font-family:verdana">min(1...) :</p>
+<p style="font-family:verdana">Function min(...) returns minimum value of an arbitrary number of parameters.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">quick_sort</p></td>
+<td>
+<p style="font-family:verdana">quick_sort(2) :</p>
+<p style="font-family:verdana">Function quick_sort(desc, original_list) returns a sorted list of an arbitrary number of parameters. If desc is true (or 1), list elements are from largest to smallest, otherwise (desc is false or 0), from smallest to largest. For example, quick_sort(1, [5,6,7,9,4])'s result is [9,7,6,5,4] while quick_sort(0, [5,6,7,9,4]) is [4,5,6,7,9].</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">ncr</p></td>
+<td>
+<p style="font-family:verdana">ncr(2) :</p>
+<p style="font-family:verdana">Function nCr(x, y) calculates the number of y-combination of a set S which has x elements. Note that x, y are non-negative integers, x &gt;= y.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">npr</p></td>
+<td>
+<p style="font-family:verdana">npr(2) :</p>
+<p style="font-family:verdana">Function nPr(x, y) calculates the number of y-permutation of a set S which has x elements. Note that x, y are non-negative integers, x &gt;= y.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">rand</p></td>
+<td>
+<p style="font-family:verdana">rand(0) :</p>
+<p style="font-family:verdana">rand() function returns a random float number between 0 (inclusive) and 1 (exclusive).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">stdev</p></td>
+<td>
+<p style="font-family:verdana">stdev(1...) :</p>
+<p style="font-family:verdana">Function stdev(...) returns standard deviation of an arbitrary number of parameters.</p>
+<p style="font-family:verdana">Note that the parameters are a sample of a larger set.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">stdevp</p></td>
+<td>
+<p style="font-family:verdana">stdevp(1...) :</p>
+<p style="font-family:verdana">Function stdevp(...) returns standard deviation of an arbitrary number of parameters.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">sum</p></td>
+<td>
+<p style="font-family:verdana">sum(1...) :</p>
+<p style="font-family:verdana">Function sum(...) returns sum value of an arbitrary number of parameters.</p></td></tr></table>
+<p style="font-family:verdana">Note that functions stdev and stdevp are different. If the two functions have same parameters which are x<sub>1</sub>，x<sub>2</sub>，x<sub>3</sub>，…，x<sub>N </sub>, stdev returns</p>
+<p style="font-family:verdana"><img width="352"  height="47"  src="math_functions_old.files/math_functions_old38539.png" >&nbsp;</p>
+<p style="font-family:verdana">, while stdevp returns</p>
+<p style="font-family:verdana"><img width="342"  height="50"  src="math_functions_old.files/math_functions_old38564.png" >&nbsp;</p>
+<p style="font-family:verdana">. u here is the average value of x<sub>1</sub>，x<sub>2</sub>，x<sub>3</sub>，…，x<sub>N </sub>.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test statistics and sorting functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试统计、随机和排序相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testStatSort()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\navg(1,5,9,-6,3,-18,7) = " + avg(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nbeta(3.71, 23.55) = " + beta(3.71, 23.55))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ngamma(5.44 - 10.31i) = " + gamma(5.44 - 10.31i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\ngavg(1,5,9,-6,3,-18,7) = " + gavg(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nhavg(1,5,9,-6,3,-18,7) = " + havg(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nmax(1,5,9,-6,3,-18,7) = " + max(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nmed(1,5,9,-6,3,-18,7) = " + med(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nmin(1,5,9,-6,3,-18,7) = " + min(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nquick_sort(1,[1,5,9,-6,3,-18,7]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ quick_sort(1,[1,5,9,-6,3,-18,7]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nquick_sort(0,[1,5,9,-6,3,-18,7]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ quick_sort(0,[1,5,9,-6,3,-18,7]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstdev(1,5,9,-6,3,-18,7) = " + stdev(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nstdevp(1,5,9,-6,3,-18,7) = " + stdevp(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nsum(1,5,9,-6,3,-18,7) = " + sum(1,5,9,-6,3,-18,7))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nncr(8,3) = " + ncr(8,3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nnpr(8,3) = " + npr(8,3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nrand() = " + rand())</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The above example outputs the follows:</p>
+<p style="font-family:verdana">avg(1,5,9,-6,3,-18,7) = 0.1428571428571428571428571428571428571428571428571428571428571429</p>
+<p style="font-family:verdana">beta(3.71, 23.55) = 0.0000279537392314725872716390423881975646941670888511331711318296</p>
+<p style="font-family:verdana">gamma(5.44 - 10.31i) = 0.0015360621732035695620552936894943183717820318136617456390043119 - 0.0279816213196075726360710743099268272949427989554500480691282345i</p>
+<p style="font-family:verdana">gavg(1,5,9,-6,3,-18,7) = 5.194584255413065676521000568754971027374267578125</p>
+<p style="font-family:verdana">havg(1,5,9,-6,3,-18,7) = 4.472616632860040567951318458417849898580121703853955375253549696</p>
+<p style="font-family:verdana">max(1,5,9,-6,3,-18,7) = 9</p>
+<p style="font-family:verdana">med(1,5,9,-6,3,-18,7) = 3</p>
+<p style="font-family:verdana">min(1,5,9,-6,3,-18,7) = -18</p>
+<p style="font-family:verdana">quick_sort(1,[1,5,9,-6,3,-18,7]) = [9, 7, 5, 3, 1, -6, -18]</p>
+<p style="font-family:verdana">quick_sort(0,[1,5,9,-6,3,-18,7]) = [-18, -6, 1, 3, 5, 7, 9]</p>
+<p style="font-family:verdana">stdev(1,5,9,-6,3,-18,7) = 9.3528707077661721314143505878746509552001953125</p>
+<p style="font-family:verdana">stdevp(1,5,9,-6,3,-18,7) = 8.65907569182385117301237187348306179046630859375</p>
+<p style="font-family:verdana">sum(1,5,9,-6,3,-18,7) = 1</p>
+<p style="font-family:verdana">ncr(8,3) = 56</p>
+<p style="font-family:verdana">npr(8,3) = 336</p>
+<p style="font-family:verdana">rand() = 0.67638281271680666950629756684065796434879302978515625</p>
+<h3>Section 8 &nbsp;Signal Processing Functions</h3>
+<p style="font-family:verdana">Signal processing functions are included in Scientific Calculator Plus for electrical engineers. There are three functions, conv (convolution), FFT (Fast Fourier Transform), iFF (Inverse Fast Fourier Transform):</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function name</p></td>
+<td>
+<p style="font-family:verdana">Function info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">conv</p></td>
+<td>
+<p style="font-family:verdana">conv(2) :</p>
+<p style="font-family:verdana">conv(input_a, inputb) returns convolution of input_a and input_b. input_a and input_b can either be two 1-D lists or two 2-D arrays. So far conv function only support 1-D and 2-D convolution. For example,</p>
+<p style="font-family:verdana">conv([4,8,2,9],[5,3,8,9,6,7,8]) = [20, 52, 66, 151, 139, 166, 181, 132, 79, 72]</p>
+<p style="font-family:verdana">conv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]) = [[-20, -40 + 4 * i, 18 + 8 * i, 11 + 2 * i, 14 + 9 * i, 63], [-37.6, 6.8 + 8 * i, 102.2 + 6 * i, 50.4 + 7 * i, 129 + 9 * i, 99], [-5.2, 57.6 + 2 * i, 58.2 + 2 * i, 119.4 + 8 * i, 156 - 4 * i, 8], [1.2, 17.2, 28.8, 69.6, 0, -16]]</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">FFT</p></td>
+<td>
+<p style="font-family:verdana">FFT(1...) :</p>
+<p style="font-family:verdana">Function FFT(a, ...) returns Fast Fourier Transform of a series of values, note that the number of values in the series should always be 2 to a positive integer. If a is a list of real or complex numbers, this function should only have one parameter and return Fast Fourier Transform of a[0], a[1], ... a[N-1] where N is the number of elements in a. If a is a single value (real or complex), this function should have at least two parameters and return Fast Fourier Transform of a, optional_params[0], optional_params[1], ..., optional_params[number_of_optional_params - 1]. The returned value is always an array.</p>
+<p style="font-family:verdana">Examples of this function:</p>
+<p style="font-family:verdana">FFT(1, 2, 3, 4) returns [10, -2 + 2i, -2, -2 - 2i];</p>
+<p style="font-family:verdana">FFT([1, 2, 3, 4]) also returns [10, -2 + 2i, -2, -2 - 2i].</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">IFFT</p></td>
+<td>
+<p style="font-family:verdana">IFFT(1...) :</p>
+<p style="font-family:verdana">Function IFFT(a, ...) returns Inverse Fast Fourier Transform of a series of values, note that the number of values in the series should always be 2 to a positive integer. If a is a list of real or complex numbers, this function should only have one parameter and return Inverse Fast Fourier Transform of a[0], a[1], ... a[N-1] where N is the number of elements in a. If a is a single value (real or complex), this function should have at least two parameters and return Inverse Fast Fourier Transform of a, optional_params[0], optional_params[1], ..., optional_params[number_of_optional_params - 1]. The returned value is always an array.</p>
+<p style="font-family:verdana">Examples of this function:</p>
+<p style="font-family:verdana">IFFT(10, -2 + 2i, -2, -2 - 2i) returns [1, 2, 3, 4];</p>
+<p style="font-family:verdana">IFFT([10, -2 + 2i, -2, -2 - 2i]) returns [1, 2, 3, 4];</p></td></tr></table>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test sign processing functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试信号处理相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function testSignalProc()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nconv([4,8,2,9],[5,3,8,9,6,7,8]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv([4,8,2,9],[5,3,8,9,6,7,8]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nconv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ conv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nFFT(1, 2, 3, 4) = " + FFT(1, 2, 3, 4))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nFFT([1,2,3,4]) = " + FFT([1,2,3,4]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\niFFT(10, -2 + 2i, -2, -2 - 2i) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ IFFT(10, -2 + 2i, -2, -2 - 2i))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\niFFT([10, -2 + 2i, -2, -2 - 2i]) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ IFFT([10, -2 + 2i, -2, -2 - 2i]))</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">The above example gives the following results:</p>
+<p style="font-family:verdana">conv([4,8,2,9],[5,3,8,9,6,7,8]) = [20, 52, 66, 151, 139, 166, 181, 132, 79, 72]</p>
+<p style="font-family:verdana">conv([[4,8,2,9],[8,6,7,9],[2,2,8,-4]],[[-5,i,7],[0.6,8,4]]) = [[-20, -40 + 4i, 18 + 8i, 11 + 2i, 14 + 9i, 63], [-37.6, 6.8 + 8i, 102.2 + 6i, 50.4 + 7i, 129 + 9i, 99], [-5.2, 57.6 + 2i, 58.2 + 2i, 119.4 + 8i, 156 - 4i, 8], [1.2, 17.2, 28.8, 69.6, 0, -16]]</p>
+<p style="font-family:verdana">FFT(1, 2, 3, 4) = [10, -2 + 2i, -2, -2 - 2i]</p>
+<p style="font-family:verdana">FFT([1,2,3,4]) = [10, -2 + 2i, -2, -2 - 2i]</p>
+<p style="font-family:verdana">iFFT(10, -2 + 2i, -2, -2 - 2i) = [1, 2, 3, 4]</p>
+<p style="font-family:verdana">iFFT([10, -2 + 2i, -2, -2 - 2i]) = [1, 2, 3, 4]</p>
+<h3>Section 9 &nbsp;Factor, Is_prime and Roots &nbsp;Functions</h3>
+<p style="font-family:verdana">Factor function calculates factorial of a non-negative integer. For example, factor(3) returns 6.</p>
+<p style="font-family:verdana">Factor function has only one parameter. If the parameter is not an integer, it will be truncated to an integer first. If the parameter is negative or cannot be converted to an integer, an error will be reported.</p>
+<p style="font-family:verdana">Is_prime function determines whether a real value is a prime or not. For example, is_prime(3.3) returns false while is_prime(97) returns true. Note that this function has only one parameter which must be a real value. If it is not a real value, an error will be reported.</p>
+<p style="font-family:verdana">Function roots returns all the roots of a polynomial. Its usage is roots(a, ...). If a is a vector includes N elements (whether real or complex), it returns all the roots (saved in an array) of equation</p>
+<p style="font-family:verdana">a[0] * x**(N-1) + a[1] * x**(N-2) + ... + a[N-2] * x + a[N-1] == 0</p>
+<p style="font-family:verdana">. If a is single value, then this function needs at least two parameters and returns all the roots (saved in an array) of equation</p>
+<p style="font-family:verdana">a * x**(number of parameters - 1) + (first parameter after a) * x**( number of parameters - 2) + … + (second last parameter) * x + (last parameter) == 0</p>
+<p style="font-family:verdana">. Note that if the degree of the polynomial is no smaller than 4, Newton Raphson method is used in this function to give out approximation of polynomial roots. This generally takes long time depending on the performance of hardware.</p>
+<p style="font-family:verdana">For example, to calculate roots of 3 * x**2 - 4 * x + 1 == 0, user inputs roots([3, -4, 1]) in Command Line and the result is [1, 0.33333333].</p>
+<p style="font-family:verdana">To calculate roots of (1+2i) * x**3 + (7-6i) * x**2 + 0.54 * x - 4.31 - 9i == 0, user inputs roots(1+2i, 7-6i, 0.54, -4.31-9i) and gets [0.79288607 + 3.9247084 * i, -0.56361748 - 0.78399569 * i, 0.7707314 + 0.85928729 * i].</p>
+<p style="font-family:verdana">Function roots gives the same result as a solve block. However, it doesn’t analyze syntax of statement block so that much faster.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in math libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test prime, factor and roots functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试质数、阶乘和一元多项式求根的相关函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function PrimeFactRoots()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(3.3) = " + is_prime(3.3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(97) = " + is_prime(97))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(-97) = " + is_prime(-97))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(1) = " + is_prime(1))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(2) = " + is_prime(2))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(0) = " + is_prime(0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nis_prime(8633) = " + is_prime(8633))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nfact(3) = " + fact(3))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nfact(63) = " + fact(63))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nfact(0) = " + fact(0))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nroots([3, -4, 1]) = " + roots([3, -4, 1]))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\nroots(1+2i, 7-6i, 0.54, -4.31-9i) = " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ roots(1+2i, 7-6i, 0.54, -4.31-9i))</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana">Output of the above example is:</p>
+<p style="font-family:verdana">is_prime(3.3) = FALSE</p>
+<p style="font-family:verdana">is_prime(97) = TRUE</p>
+<p style="font-family:verdana">is_prime(-97) = FALSE</p>
+<p style="font-family:verdana">is_prime(1) = FALSE</p>
+<p style="font-family:verdana">is_prime(2) = TRUE</p>
+<p style="font-family:verdana">is_prime(0) = FALSE</p>
+<p style="font-family:verdana">is_prime(8633) = FALSE</p>
+<p style="font-family:verdana">fact(3) = 6</p>
+<p style="font-family:verdana">fact(63) = 1982608315404440064116146708361898137544773690227268628106279599612729753600000000000000</p>
+<p style="font-family:verdana">fact(0) = 1</p>
+<p style="font-family:verdana">roots([3, -4, 1]) = [1, 0.3333333333333333333333333333333333333333333333333333333333333333]</p>
+<p style="font-family:verdana">roots(1+2i, 7-6i, 0.54, -4.31-9i) = [0.7928860730571022099839052581254713102006395451929364570881977409 + 3.9247083954445877597678511535081536006180195929229657166716945562i, -0.5636174763329694374664831861988500484145796260620965968434731734 - 0.7839956883798520996055087388165005568364007706209239481847346781i, 0.7707314032758672274825779280733787382139400808691601397552754324 + 0.8592872929352643398376575853083469562183811776979582315130401219i]</p><h3>Summary</h3>
+<p style="font-family:verdana">MFP programming language provides a complete list of functions for mathematical analysis and scientific calculation. These functions are handy and easy to use.</p>
+<p style="font-family:verdana">Among them, functions for expression calculation and calculus accept string based MFP expressions as parameters. Different from graphing functions to be introduced later, these functions are able to recognize predefined variables in an MFP expression. In this case, a predefined variable will be replaced by its value before any calculation.</p>
+<p style="font-family:verdana">&nbsp;</p>
+</body></html>

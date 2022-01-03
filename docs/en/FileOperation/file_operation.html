@@ -1,0 +1,1174 @@
+<html>
+	<head>
+		<title>MFP language Help</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP language Help: Input/Output and File Operations</h2>
+<p style="font-family:verdana">Input/Output is the communication between user and MFP program. MFP programming language provides user a set of C-like input/output functions. Using these functions, user can easily read information from/write information to console (i.e. Command Line or Scientific Calculator Plus for JAVA), string and file. However, please note that Smart Calculator does not support reading / writing console functions.</p>
+<p style="font-family:verdana">To create, copy, move and delete files, MFP also provides a group of Dos (Unix) command-like functions. With authorization, user is able to create, read, modify, copy, move or delete any file or folder, just like working in a Dos or Unix command line window.</p>
+<h3>Section 1 &nbsp;Input and Output in Command Line</h3>
+<p style="font-family:verdana">MFP provides the following functions to input/output in Command Line or Scientific Calculator Plus for JAVA:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function Name</p></td>
+<td>
+<p style="font-family:verdana">Function Info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">input</p></td>
+<td>
+<p style="font-family:verdana">input(2) :</p>
+<p style="font-family:verdana">input(prompt,input_type) prints string prompt in the console and waiting for user to input. The second parameter, input_type, is optional. At this stage only if the second parameter exists and it is string "s" or "S", user's input is looked on as a string and this function returns the string. Otherwise, input is treated as an expression and this function returns the value of the expression. If input is not a valid expression, this function will reprint the prompt and wait for user to input again. An input is finished by pressing ENTER key. If multiple lines are input, only the first line is read. For example, user runs input("$", "S"), then types 4 + 3 after prompt, presses ENTER, this function returns a string "4 + 3". If user runs input("%"), then types 4 + 3 after prompt, presses ENTER, this function returns 7.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">pause</p></td>
+<td>
+<p style="font-family:verdana">pause(1) :</p>
+<p style="font-family:verdana">pause(message) suspends current running program waiting for an ENTER input by user. Message, which is a string and is optional, will be printed on screen as a prompt if provided.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">print</p></td>
+<td>
+<p style="font-family:verdana">print(1) :</p>
+<p style="font-family:verdana">print(x) prints the value of x to output, x can be any value type.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">printf</p></td>
+<td>
+<p style="font-family:verdana">printf(1...) :</p>
+<p style="font-family:verdana">printf(format_string, ...), sprintf(format_string, ...) and fprintf(fd, format_string, ...) work like corresponding C/C++ functions. Function printf prints formatted string constructed from format_string and other parameter values to output console, sprintf constructs a new string from format_string and other parameters, and returns the new string, fprintf prints the formated string from format_string and other parameter values to the text file whose id is fd. The format_string parameter supports integer (%d, %i, %x, etc), float (%e, %f, etc), character (%c), string (%s) etc. User can find detailed information for construction of a format string by reading C language manual for these functions. For example, printf("Hello world!%f", 3.14) will output "Hello world!3.140000" on the screen, sprintf("%c%d", "A", 9) returns "A9" (MFP does not support single character type, so single character is stored as a one-char string).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">scanf</p></td>
+<td>
+<p style="font-family:verdana">scanf(1) :</p>
+<p style="font-family:verdana">scanf(format_string), sscanf(input_from, format_string) and fscanf(fd, format_string) work like corresponding C/C++ functions. Function scanf reads one line input from user, sscanf reads string based parameter input_from, and fscanf reads content from a file whose id is fd. The format_string parameter supports integer (%d, %i, %x, etc), float (%e, %f, etc), character (%c), string (%s) etc. User can find detailed information for construction of a format string by reading C language manual for these functions. Different from C language, these functions do not accept additional parameters to store read values. These functions simply return all the read values in an array. For example, sscanf("3Hello world!", "%d%c%c%s") returns [3, "H", "e", "llo"] (MFP does not support single character type, so single character is stored as a one-char string).</p></td></tr></table>
+<p style="font-family:verdana">As shown in the above table, functions input, pause and print are easy to use. The only thing to note is function print only accepts a string based parameter. Since a string plus any value is a string, user may use an empty string plus a data value as the parameter to print. For example, to print value of array [1,2,3+4i], user may call print(""+[1,2,3+4i]) so that [1,2,3+4i] is converted to string [1, 2, 3 + 4i] and then is printed on the screen. Also note that, some special characters, e.g. double-quote " and backward slash \, need to escape (i.e. add a \ before the character) in string. For example,</p>
+<p style="font-family:verdana">print("\"\\")</p>
+<p style="font-family:verdana">will print "\ on the screen. This escaping requirement is applied to all the functions using string based parameters, including functions print, input, pause and printf and scanf which will be introduced later.</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test input, pause and print functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试input，pause和print函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function io2console1()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable a = input("Please input a number") <i style="font-family:verdana;color:green;">//input a number</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable b = input("Please input a string:", "S") <i style="font-family:verdana;color:green;">//input a string</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;pause("Press ENTER to continue!") <i style="font-family:verdana;color:green;">//press ENTER to continue</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//print what has been input</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("You have input " + a + b)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//print special character.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\"\\")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">When running the above example, user inputs sind(30)*2+3i after the first prompt, and inputs a string “Is a complex value”, then press ENTER and sees the output is:</p>
+<p style="font-family:verdana">You have input 1 + 3iIs a complex value</p>
+<p style="font-family:verdana">"\</p>
+<p style="font-family:verdana">Functions printf and scanf are used in formatted input/output. Their usage is similar to the corresponding C language functions. The way to call printf() function is:</p>
+<p style="font-family:verdana">Printf("&lt;format string&gt;", &lt;argument list&gt;)</p>
+<p style="font-family:verdana">. The format string includes two parts. The first part includes normal characters. These characters will be output as they are shown in the format string. The second part includes special characters. They immediately follow a “%”. Character(s) following a “%”generally determine output format of a value. The only exception is character “%” which needs another “%” before it to escape. And instead of controlling the output format of a value, it simply means printing a “%” on the screen.</p>
+<p style="font-family:verdana">Argument list is a list of to-be-output values. The number and order of values must match the definition of format string. Otherwise error will be reported.</p>
+<p style="font-family:verdana">Below is a list of supported output formats of printf:</p>
+<p style="font-family:verdana">%d: means a value is output as a decimal integer;</p>
+<p style="font-family:verdana">%f: means a value is output as a floating value;</p>
+<p style="font-family:verdana">%s: means a value is output as a string;</p>
+<p style="font-family:verdana">%e: means a value is output using scientific notation;</p>
+<p style="font-family:verdana">%x and %X: means a value is output as a hexadecimal integer. Note that there is no 0x initial in the output. For example, in MFP, hexadecimal integer FF (i.e. 255) should be written as 0xFF. However, if user calls printf to output decimal integer 255 using %x or %X format, FF instead of 0xFF will be printed;</p>
+<p style="font-family:verdana">%o: means a value is output as an octal integer. Note that there is no 0 initial in the output. For example, in MFP octal integer 77 (i.e. 63) should be written as 077. However, if user calls printf to output decimal integer 63 using %o format, 77 instead of 077 will be printed;</p>
+<p style="font-family:verdana">%g: select a suitable format for a real value. Note that string is not supported. </p>
+<p style="font-family:verdana">For example, if user wants to output 8.776 followed by a comma and then followed by a string "Hello", and then followed by a blank character, and then output 1234 using hexadecimal format, then output three letters which are abc, then output 255 as a normal decimal integer, finally output a string "finish", function printf can be called as below:</p>
+<p style="font-family:verdana">printf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
+<p style="font-family:verdana">The output of the above statement is:</p>
+<p style="font-family:verdana">8.776000,Hello 4D2abc255finish</p>
+<p style="font-family:verdana">Note that in the output result, hexadecimal integer does not start with 0x (i.e. 1234 is output as 4D2 not 0x4D2).</p>
+<p style="font-family:verdana">Basically, values in the argument list will be formatted and then output by the format string. If a value cannot be directly output using the desired format, printf will try to convert the value to another data type and try again. If any value cannot be formatted even after data type conversion, an error will be triggered. For example,</p>
+<p style="font-family:verdana">printf("%d", 123)</p>
+<p style="font-family:verdana">and</p>
+<p style="font-family:verdana">printf("%f", 123.1)</p>
+<p style="font-family:verdana">are both right because 123 is an integer and %d is the format indicator. And 123.1 is a floating value and %f is exactly the format indicator to output floating value.</p>
+<p style="font-family:verdana">For another example,</p>
+<p style="font-family:verdana">printf("%f", 123)</p>
+<p style="font-family:verdana">and</p>
+<p style="font-family:verdana">printf("%d", 123.1)</p>
+<p style="font-family:verdana">are also both right because 123 can be automatically converted to a floating value, and 123.1 can be rounded to an integer. However, </p>
+<p style="font-family:verdana">printf("%d", 123 + 123i)</p>
+<p style="font-family:verdana">and</p>
+<p style="font-family:verdana">printf("%f", [1.2,2.3])</p>
+<p style="font-family:verdana">are wrong because 123 + 123i is a complex value which cannot be converted to integer . [1.2, 2.3] is an array which cannot be converted to a single value. So if user wants to output complex or array, real and image parts or each element in the array must be output separately, like follows:</p>
+<p style="font-family:verdana">printf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//output 123 + 123i</i></p>
+<p style="font-family:verdana">printf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//output [1.200000, 2.300000]</i></p>
+<p style="font-family:verdana">. Alternatively, a trick to output them as string (i.e. using %s) can be played:</p>
+<p style="font-family:verdana">printf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//output 123 + 123i</i></p>
+<p style="font-family:verdana">printf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//output [1.2, 2.3]</i></p>
+<p style="font-family:verdana">. Since any value in MFP can be converted to a string, this trick always works.</p>
+<p style="font-family:verdana">In order to accurately control the output format, user may insert some characters between "%" and following format definition character(s). For example, user may insert a positive integer value between "%" and following format definition character to tell printf function what’s the maximum output length. For example:</p>
+<p style="font-family:verdana">%3d means outputting 3 or more digit integer, and the output is right-aligned if the integer includes less than 3 digits;</p>
+<p style="font-family:verdana">%9.2f means outputting 9 or more digit floating value, 2 digits after decimal point and 6 digits before. Decimal point takes one digit. The output is right-aligned if the floating value has less than 9 characters;</p>
+<p style="font-family:verdana">%8s means outputting an 8 or more character string. Blank characters are padded in front of the string if it includes less than 8 characters.</p>
+<p style="font-family:verdana">In the above examples, if the length of an integer or a string is longer than the specified output length, the full integer or string will be printed regardless of the output length setting; if the length of the integer part of a floating value is longer than the specified integer part of output length, the full integer part will be printed regardless of the setting; if the length of the fractional part of a floating value is longer than the specified fractional part of output length, the fractional part will be rounded.</p>
+<p style="font-family:verdana">If user wants to pad 0 before the output, s\he can add a zero before the output length setting. For example, %04d means 0s are padded in front of an integer’s output to make the total output length is 4 if the integer’s length is less than 4.</p>
+<p style="font-family:verdana">If output length setting for string is a floating value, the integer part of the floating value means the minimum output length, and the fractional part means the maximum output length. If the string’s length is larger than the maximum output length, the output will be truncated. For example, %6.9s means outputting a string whose length is no less than 6 and no greater than 9. If a string includes less than 6 characters, blank will be padded in front of it; if a string includes more than 9 characters, the characters after character no. 9 will be discarded.</p>
+<p style="font-family:verdana">Function printf supports some special characters including \n (new line), \r (return) and \t (tabulator). These characters can be used in the format string parameter. For example:</p>
+<p style="font-family:verdana">printf("abc\ndef")</p>
+<p style="font-family:verdana">outputs two lines which are abc and def because \n means changing to a new line.</p>
+<p style="font-family:verdana">Opposite to printf, function scanf reads a line of user’s input from console. Reading terminates at the place where an ENTER key is pressed, i.e. the end of the line, and returns an array whose elements are the values user input. Scanf only has one parameter which is the input format string. This parameter tells scanf what type of data the input should be recognized. Basically function scanf supports the following input formats:</p>
+<p style="font-family:verdana">%d: input a decimal integer;</p>
+<p style="font-family:verdana">%f and %e: input a floating value;</p>
+<p style="font-family:verdana">%s: input a string;</p>
+<p style="font-family:verdana">%x: input a hexadecimal integer. Note that there should be no 0x initial, e.g. 0x10AB should be input as 10AB. Otherwise, scanf cannot recognize it. This is different from the format of hexadecimal values in MFP, but matches the requirement of printf function. Also note that x in %x must be a small letter and %X is not supported.</p>
+<p style="font-family:verdana">%o: input an octal integer. Note that there should be no 0 initial, e.g. 017 should be input as 17. Otherwise, scanf may not recognize it. This is different from the format of octal values in MFP, but matches the requirement of printf function.</p>
+<p style="font-family:verdana">%g: input a decimal value.</p>
+<p style="font-family:verdana">Scanf’s format string may include some characters between the format indicators, i.e. %d, %f, etc. When scanf reads the input line, it ignores these characters and read input after them. The delimiters can include both special characters like space, \t, \n, and \r and normal characters like a, b, c, etc. Note that same as printf, some characters need escaping, i.e. % must be written as %% in the format string, \ must be written as \\ and " must be written as \". A blank char (i.e. space, \t, \n and \r) delimiter results in ignoring one or several consecutive blank characters. Otherwise, scanf just ignores the same character(s) as in the delimiter. If no delimiter between two format indicators, scanf will skip 0, 1 or several adjacent blank characters in the format string after reading the first input value and before reading the second input value. </p>
+<p style="font-family:verdana">The strategy of scanf is reading until cannot read. For example, if the format string is "%d%s" and user’s input is 123abd, scanf first reads the digits, i.e. 123, because the first format indicator is %d. Then scanf sees character a but clearly a cannot be a part of decimal integer. Therefore, scanf tries to use %s, which is immediately after %d, to match it. %s means a string. As such scanf will read all the characters from a to the end of the line or until a blank character is found. Thus abd is formatted as a string input.</p>
+<p style="font-family:verdana">If during reading, scanf finds nothing that can be input for a format indicator, it will return an array including all the read data values. For example, the format string of scanf is "%f %d%s" and user’s input is 1.23 &nbsp;xabd. The first format indicator is %f which corresponds to 1.23. Then there are blanks which will be looked on as a delimiter. Then scanf tries to read a decimal integer corresponding to %d. However, no decimal integer can be read after the blanks in the input (i.e. 1.23 &nbsp;xabd) so that scanf returns an array which is [1.23].</p>
+<p style="font-family:verdana">The following example shows how scanf works. The statement is</p>
+<p style="font-family:verdana">Scanf("%f\n%x%dABC%s%d%s %e")</p>
+<p style="font-family:verdana">. Assume user inputs</p>
+<p style="font-family:verdana">8.67 &nbsp;&nbsp;6E8d 232ABC hello 12</p>
+<p style="font-family:verdana">. The returned value of scanf is [8.67, 28301, 232, "hello", 12, ""]. Note that in the format string after ABC scanf expects a string. However, in the input after ABC is blank which can only be looked on as a (part of) delimiter. Thus scanf skips the blank so that string "hello" not " hello" is input. In the end of the format string there is a format indicator which is %e. However, no corresponding input can be found so that scanf returns.</p>
+<p style="font-family:verdana">Format indicator can also tell scanf at most how many characters should be read. In the following example</p>
+<p style="font-family:verdana">scanf("%3f %2s")</p>
+<p style="font-family:verdana">, %3f means at most 3 characters should be read to input a floating value. Similarly, %2s means at most 2 characters should be read for the string. If user inputs</p>
+<p style="font-family:verdana">1235.324 aerf</p>
+<p style="font-family:verdana">, the output would be [123, "5."] because %3f only reads 3 characters from user’s input so that 123 is read. Then scanf finds a blank in the format string. As explained above, a blank character delimiter may mean 0 or 1 or several consecutive blank character(s) in the input. Since no blank character after 3, this delimiter means zero blank character so that scanf tries to read two characters to match %2s then. The string input therefore is "5." and it is returned by function scanf with 123. </p>
+<p style="font-family:verdana">Also note that, different from printf, scanf does not automatically convert data types. Only if user’s input exactly matches the format indicator scanf can read. Otherwise it stops reading input for this format indicator. For example,</p>
+<p style="font-family:verdana">Scanf("%d,%f")</p>
+<p style="font-family:verdana">tries to read an integer and a floating value from input. If user’s input is</p>
+<p style="font-family:verdana">12.34,5</p>
+<p style="font-family:verdana">, scanf can only return [12] because 12.34 is a floating value which cannot be automatically rounded to an integer. Thus when scanf reads an integer for %d, it stops at decimal point, i.e. “.”. However, scanf finds that after %d a “,” exists in the format string as a delimiter. However, decimal point is not a comma so that reading fails. So the final return is only [12].</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test printf and scanf functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试printf和scanf函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function printfscanf()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test printf function\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%d", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%f", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%f", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%d", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//print 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//print [1.200000, 2.300000]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//print 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//print [1.2, 2.3]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%3s", "abcdefg")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%019.6f", 12.2342154577) <i style="font-family:verdana;color:green;">// print 000000000012.234215</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("abc\ndef")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test scanf function\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable result_of_scanf</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input:\n123abd\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember, to simply print % using printf, we need to use %%</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("scanf(\"%%d%%s\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input:\n1.23 &nbsp;xabd\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%f %d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%f %d%s\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input:\n8.67 &nbsp;&nbsp;6E8d 232ABC hello 12\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%f\n%x%dABC%s%d%s %e")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%f\n%x%dABC%s%d%s %e\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input:\n1235.324 aerf\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%3f %2s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%3f %2s\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input:\n12.34,5\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%d,%f")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%d,%f\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Running function printfscanf() in Command Line and the result is shown below. Note that the result includes both user’s input and scanf’s output.</p>
+<p style="font-family:verdana">Now test printf function</p>
+<p style="font-family:verdana">8.776000,Hello 4D2abc255finish</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123.100000</p>
+<p style="font-family:verdana">123.000000</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.200000, 2.300000]</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.2, 2.3]</p>
+<p style="font-family:verdana">abcdefg</p>
+<p style="font-family:verdana">000000000012.234215</p>
+<p style="font-family:verdana">abc</p>
+<p style="font-family:verdana">def</p>
+<p style="font-family:verdana">Now test scanf function</p>
+<p style="font-family:verdana">Please input:</p>
+<p style="font-family:verdana">123abd</p>
+<p style="font-family:verdana">123abd</p>
+<p style="font-family:verdana">scanf("%d%s") returns [123, "abd"]</p>
+<p style="font-family:verdana">Please input:</p>
+<p style="font-family:verdana">1.23 &nbsp;xabd</p>
+<p style="font-family:verdana">1.23 &nbsp;xabd</p>
+<p style="font-family:verdana">scanf("%f %d%s") returns [1.23]</p>
+<p style="font-family:verdana">Please input:</p>
+<p style="font-family:verdana">8.67 &nbsp;&nbsp;6E8d 232ABC hello 12</p>
+<p style="font-family:verdana">8.67 &nbsp;&nbsp;6E8d 232ABC hello 12</p>
+<p style="font-family:verdana">scanf("%f</p>
+<p style="font-family:verdana">%x%dABC%s%d%s %e") returns [8.67, 28301, 232, "hello", 12, ""]</p>
+<p style="font-family:verdana">Please input:</p>
+<p style="font-family:verdana">1235.324 aerf</p>
+<p style="font-family:verdana">1235.324 aerf</p>
+<p style="font-family:verdana">scanf("%3f %2s") returns [123, "5."]</p>
+<p style="font-family:verdana">Please input:</p>
+<p style="font-family:verdana">12.34,5</p>
+<p style="font-family:verdana">12.34,5</p>
+<p style="font-family:verdana">scanf("%d,%f") returns [12]</p>
+<h3>Section 2 &nbsp;Input from and Output to String</h3>
+<p style="font-family:verdana">Similar to printf and scanf, MFP programming language provides sprintf and sscanf to output to and input from string. Sprintf has very similar usage to printf except that printf does not have any returned value because all the output is printed on the screen while sprint returns the output string.</p>
+<p style="font-family:verdana">Sscanf is also similar to scanf. Their difference is, first, sscanf needs two parameters, first is input string and second is the format string; and second, input string of sscanf may have multiple lines while scanf can only read one line from console. &nbsp;</p>
+<p style="font-family:verdana">The following example is for the above functions. It can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test sprintf and sscanf functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试sprintf和sscanf函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function sprintfsscanf()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable result_str</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test sprintf function\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%d", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%f", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%f", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%d", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//return 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//return [1.200000, 2.300000]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//return 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//return [1.2, 2.3]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%3s", "abcdefg")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%019.6f", 12.2342154577) <i style="font-family:verdana;color:green;">// return 000000000012.234215</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("abc\ndef")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test sscanf function\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable result_of_sscanf</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("123abd","%d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember, to simply print % using printf, we need to use %%</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("scanf(\"123abd\",\"%%d%%s\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("1.23 &nbsp;xabd","%f %d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"1.23 &nbsp;xabd\",\"%f %d%s\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read string including multiple lines</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("8.67 &nbsp;&nbsp;6E8d 232ABC\nhello 12", _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;"%f\n%x%dABC%s%d%s %e")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"8.67 &nbsp;&nbsp;6E8d 232ABC\\nhello 12\",\"%f\n%x%dABC%s%d%s %e\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("1235.324 aerf","%3f %2s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"1235.324 aerf\",\"%3f %2s\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("12.34,5","%d,%f")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"12.34,5\",\"%d,%f\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Run function sprintfsscanf() in Command Line and the output is shown below. Note that different from the example for scanf, no user input is required here.</p>
+<p style="font-family:verdana">Now test sprintf function</p>
+<p style="font-family:verdana">8.776000,Hello 4D2abc255finish</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123.100000</p>
+<p style="font-family:verdana">123.000000</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.200000, 2.300000]</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.2, 2.3]</p>
+<p style="font-family:verdana">abcdefg</p>
+<p style="font-family:verdana">000000000012.234215</p>
+<p style="font-family:verdana">abc</p>
+<p style="font-family:verdana">def</p>
+<p style="font-family:verdana">Now test sscanf function</p>
+<p style="font-family:verdana">scanf("123abd","%d%s") returns [123, "abd"]</p>
+<p style="font-family:verdana">scanf("1.23 &nbsp;xabd","%f %d%s") returns [1.23]</p>
+<p style="font-family:verdana">scanf("8.67 &nbsp;&nbsp;6E8d 232ABC\nhello 12","%f</p>
+<p style="font-family:verdana">%x%dABC%s%d%s %e") returns [8.67, 28301, 232, "hello", 12, ""]</p>
+<p style="font-family:verdana">scanf("1235.324 aerf","%3f %2s") returns [123, "5."]</p>
+<p style="font-family:verdana">scanf("12.34,5","%d,%f") returns [12]</p>
+<h3>Section 3 &nbsp;Functions to Read and Write File</h3>
+<p style="font-family:verdana">MFP programming language provides user a set of C-like file reading and writing functions. They include text file reading/writing functions, i.e. fprintf and fscanf (similar usage to printf and scanf), line by line text file reader freadline, binary file reading/writing functions, i.e. fread and fwrite, and fopen and fclose to open and close file respectively. The functions are listed in the following table:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function Name</p></td>
+<td>
+<p style="font-family:verdana">Function Info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fclose</p></td>
+<td>
+<p style="font-family:verdana">fclose(1) :</p>
+<p style="font-family:verdana">fclose(fd) closes the file whose id is fd. If fd is invalid, returns -1. Otherwise, returns 0.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">feof</p></td>
+<td>
+<p style="font-family:verdana">feof(1) :</p>
+<p style="font-family:verdana">feof(fd) identifies if it has been the end of a read mode file whose id is fd. If so, returns true. Otherwise, returns false. If fd is invalid, throws an exception.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fopen</p></td>
+<td>
+<p style="font-family:verdana">fopen(2) :</p>
+<p style="font-family:verdana">fopen(path, mode) opens file at path to read or write and returns the file’s id number. It is similar to C and Matlab's same name function. However, only "r", "a", "w", "rb", "ab" and "wb" modes are supported. Examples are fopen("C:\\Temp\\Hello.dat", "ab") (Windows) and fopen("./hello.txt", "r") (Android).</p>
+<p style="font-family:verdana">fopen(3) :</p>
+<p style="font-family:verdana">fopen(path, mode, encoding) opens a text file at path using character set encoding to read or write and returns the file id number. Because only text file supports encoding, parameter mode can only be "r", "a" and "w". Examples are fopen("C:\\Temp\\Hello.txt", "a", "LATIN-1") (Windows) and fopen("./hello.txt", "r", "UTF-8") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fprintf</p></td>
+<td>
+<p style="font-family:verdana">fprintf(2...) :</p>
+<p style="font-family:verdana">printf(format_string, ...), sprintf(format_string, ...) and fprintf(fd, format_string, ...) work like corresponding C/C++ functions. Function printf prints formatted string constructed from format_string and other parameter values to output console, sprintf constructs a new string from format_string and other parameters, and returns the new string, fprintf prints the formatted string from format_string and other parameter values to the text file whose id is fd. The format_string parameter supports integer (%d, %i, %x, etc), float (%e, %f, etc), character (%c), string (%s) etc. User can find detailed information for construction of a format string by reading C language manual for these functions. For example, printf("Hello world!%f", 3.14) will output "Hello world!3.140000" on the screen, sprintf("%c%d", "A", 9) returns "A9" (MFP does not support single character type, so single character is stored as a one-char string).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fread</p></td>
+<td>
+<p style="font-family:verdana">fread(4) :</p>
+<p style="font-family:verdana">fread(fd, buffer, from, length) reads length number of bytes from file whose id is fd and stores the bytes in buffer starting from parameter from. Note that from and length must be non-negative and from + length should be no greater than buffer size. From and length are optional. If they do not exist, fread reads buffer size of bytes and fills the buffer. Buffer is also optional. If Buffer does not exist, fread returns a single byte. If fread finds that it is at the end of the file before reading, it returns -1. Otherwise, if using buffer, it returns the number of bytes that are read (if buffer is provided). If file does not exist, or is invalid or inaccessible, exception will be thrown. Examples are fread(1), fread(2, byte_buffer) and fread(2, byte_buffer, 3, 7).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">freadline</p></td>
+<td>
+<p style="font-family:verdana">freadline(1) :</p>
+<p style="font-family:verdana">freadline(fd) reads one line from text file whose id is fd. If before reading, freadline finds it is at the end of the file, it returns NULL. Otherwise, it returns the string based line excluding the change-line character(s) at the end.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fscanf</p></td>
+<td>
+<p style="font-family:verdana">fscanf(2) :</p>
+<p style="font-family:verdana">scanf(format_string), sscanf(input_from, format_string) and fscanf(fd, format_string) work like corresponding C/C++ functions. Function scanf reads one line input from user, sscanf reads string based parameter input_from, and fscanf reads content from a file whose id is fd. The format_string parameter supports integer (%d, %i, %x, etc), float (%e, %f, etc), character (%c), string (%s) etc. User can find detailed information for construction of a format string by reading C language manual for these functions. Different from C language, these functions do not accept additional parameters to store read values. These functions simply return all the read values in an array. For example, sscanf("3Hello world!", "%d%c%c%s") returns [3, "H", "e", "llo"] (MFP does not support single character type, so single character is stored as a one-char string).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fwrite</p></td>
+<td>
+<p style="font-family:verdana">fwrite(4) :</p>
+<p style="font-family:verdana">fwrite(fd, buffer, from, length) writes length number of bytes to file whose id is fd. The data to write store in parameter buffer starting from parameter from. Note that from and length must be non-negative and from + length should be no greater than buffer size. From and length are optional. If they do not exist, fwrite writes whole buffer to file. Buffer can also be a single byte which means fwrite writes only 1 byte to file. If file does not exist, or is invalid or inaccessible, exception will be thrown. Examples are fwrite(1, 108), fwrite(2, byte_buffer) and fwrite(2, byte_buffer, 3, 7).</p></td></tr></table>
+<h3>1.&nbsp;Open and Close File</h3>
+<p style="font-family:verdana">Similar to C language, the first step in MFP’s file operating routine is to open file. The function to open a file is fopen. This function has three parameters. The first one is string based file name (path). Here path can be either an absolute path (e.g. "/mnt/sdcard/a.txt" or "C:\\temp\\b.exe") or a relative path (e.g. "a.txt" or "temp\\b.exe"). Note that relative path is relative to the current working folder. In Android, the working folder when Scientific Calculator Plus starts is the AnMath folder in SD card. In PC, the working folder when Scientific Calculator Plus starts is where the JCmdLine.jar file is located. After Scientific Calculator Plus starts, user is able to change working folder using cd function.</p>
+<p style="font-family:verdana">The second parameter of fopen function is the mode to open the file. This parameter is also a string and has six choices which are:</p>
+<p style="font-family:verdana">"r": open a text file to read. Generally a text file’s extension is .txt, but can also be .c, .cpp, .mfps, .xml etc. These files can be opened and edited by notepad;</p>
+<p style="font-family:verdana">"w": open a text file to write. The original content will be wiped off;</p>
+<p style="font-family:verdana">"a": open a text file to append. The input will be appended to the tail of the text file;</p>
+<p style="font-family:verdana">"rb": open a binary file to read. Generally binary files cannot be opened and edited by notepad;</p>
+<p style="font-family:verdana">"wb": open a binary file to write. The original content will be wiped off;</p>
+<p style="font-family:verdana">"ab": open a binary file to append. The input will be appended to the tail of the binary file;</p>
+<p style="font-family:verdana">Note that functions for text files are different from functions for binary files. Reading/writing text files should call function fprintf, fscanf and freadline, while reading/writing binary files should call fread and fwrite. If user uses text file function to read/write a binary file or vice versa, an error will be reported.</p>
+<p style="font-family:verdana">Besides the above two parameters, fopen has another optional parameter which is the encoding mode of the file. This parameter is only useful to text files. It is quite important to open a text file using correct encoding mode. Otherwise, user may see it just includes bad codes.</p>
+<p style="font-family:verdana">The default encoding mode of fopen function is OS’s encoding mode. For example, if user is using simplified Chinese Windows, encoding is GB2312. This encoding mode fully supports simplified Chinese characters so that if user calls fopen to open a text file to write some Chinese words into it without an encoding mode parameter, and then opens it again in Nodepad, the Chinese words are still there. However, English Windows’s character set is IBM437 which does not support Chinese characters. If user calls fopen to write some Chinese words in an English Windows system, and then reopens it again in Nodepad, nothing but bad codes or question marks are found.</p>
+<p style="font-family:verdana">This problem is not that severe in Android because Android’s system adopts UTF-8 as encoding mode. UTF-8 supports Chinese as well as many other character sets. As such text files created by fopen in an Android device generally have no problem to open by a text editor on Windows.</p>
+<p style="font-family:verdana">So if user of MFP programming language wants to develop a script to create or modify some text files and share the script with other people using different languages, encoding mode parameter of fopen function cannot be neglected and encoding mode "UTF-8" is strongly recommended.</p>
+<p style="font-family:verdana">If fopen opens a file successfully, it returns a non-negative integer which is the file id. Every time fopen is called, whether operating the same file or not, a different file id is returned. The returned file id will be a parameter for the following file reading/writing/closing functions. Without this parameter, file reading/writing/closing functions are not able to know which file to operate.</p>
+<p style="font-family:verdana">After file is opened and read or written, user needs to close it to release the resource. The function to close an open file is fclose(fd) where fd is the returned file id from fopen.</p>
+<p style="font-family:verdana">Fclose function is not negligible. If a file is opened but not closed, first memory is leaked; second future writing operations on this file may fail.</p>
+<p style="font-family:verdana">Here examples are provided for fopen/fclose functions:</p>
+<p style="font-family:verdana">variable fd1 = fopen("test.exe","wb") <i style="font-family:verdana;color:green;">// open binary file test.exe to write.</i></p>
+<p style="font-family:verdana">fclose(fd1)</p>
+<p style="font-family:verdana">variable fd2 = fopen("/mnt/sdcard/AnMath/test.txt","r","UTF-8") <i style="font-family:verdana;color:green;">// open text file test.txt using UTF-8 encoding mode to read.</i></p>
+<p style="font-family:verdana">fclose(fd2)</p>
+<h3>2.&nbsp;Read and Write Text File</h3>
+<p style="font-family:verdana">So far, MFP only provides sequentially reading / writing functions for text files. This means after a text file is opened, user can only read or write the file towards the end of the file. User cannot jump to an arbitrary point and start reading or writing. When reading arrives at the end of the file, it stops. MFP provides feof function to identify if it is at the end of the file. Feof has one parameter which is file id. It returns true if it is at the end of the file, or false otherwise.</p>
+<p style="font-family:verdana">Text file reading functions provided by MFP are fscanf and freadline. The usage of fscanf is similar to functions scanf and sscanf which have been introduced before. Fscanf needs two parameters, the first one is file id, i.e. fopen’s return value; the second one is format string. Fscanf returns an array whose elements are input values from the file. Note that the file may include multiple lines and the changing line characters are treated as a type of blanks.</p>
+<p style="font-family:verdana">Function freadline reads a text file line by line. Its usage is much simpler than fscanf. It only needs one parameter which is file id. Every time it is called, it returns a line of the file and sets file reading pointer to the beginning of the next line. If it arrives at the end of the file, next time it is called it returns an empty string.</p>
+<p style="font-family:verdana">The following example demonstrates user how to read text file using the above two functions. It can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana">Before running this example, user needs to create a text file named test_read.txt in the io and file libs folder (i.e. the same folder of the source file). The content of the file is:</p>
+<p style="font-family:verdana">123 456</p>
+<p style="font-family:verdana">Good,2*9=18</p>
+<p style="font-family:verdana">Hello!</p>
+<p style="font-family:verdana">abc</p>
+<p style="font-family:verdana">. The MFP code to read the file is shown below:</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test reading text file</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试读取文本文件</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function readTextFile()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// here assume current directory is AnMath and test_read.txt</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is saved in scripts/manual/io and file libs/ folder.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Content of the file :</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//123 456</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//Good,2*9=18</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//Hello!</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//abc</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen("scripts/manual/io and file libs/test_read.txt", "r")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read two integers</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable int_array = fscanf(fd, "%d%d")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print what has been read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("read " + int_array + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable read_str = ""</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// if we are not at the end of the file and we haven't read string Hello!</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;while and(feof(fd) == false, read_str != "Hello!")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;read_str = freadline(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print what has been read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;printf("read " + read_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;loop</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable str_array = fscanf(fd, "%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print what has been read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("read " + str_array + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if (feof(fd))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// it is right if we are at the end of the file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("End of the file found!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;else</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// it is wrong if we are still not at the end of file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Something wrong!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd) <i style="font-family:verdana;color:green;">//don’t forget to close the file</i></p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The output of the above example is:</p>
+<p style="font-family:verdana">read [123, 456]</p>
+<p style="font-family:verdana">read </p>
+<p style="font-family:verdana">read Good,2*9=18</p>
+<p style="font-family:verdana">read Hello!</p>
+<p style="font-family:verdana">read ["abc"]</p>
+<p style="font-family:verdana">End of the file found!</p>
+<p style="font-family:verdana">In the above code, after reading 123 and 456, freadline is called in the while loop to read the file line by line. However, the first line freadline returns is not Good,2*9=18, but an empty string. The reason is, before freadline is called, fscanf only moves reading pointer to the end of 456 and returns. This means the changing line character hasn’t been read. As such freadline starts reading the character after 6 until it sees a changing line character. However, no character is between 6 and changing line so that it returns an empty string.</p>
+<p style="font-family:verdana">The text file writing function that MFP provides is fprintf. This function is very similar to printf and sprintf. The only difference is, fprintf has an extra parameter, i.e. its first parameter, which is the file id returned from fopen. The second parameter is format string and the following parameters (if there are) are the values which will be written into the file.</p>
+<p style="font-family:verdana">The following example demonstrates user how to write text file. It can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test writing text file</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试写入文本文件</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function writeTextFile()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// first test write to replace mode. If file does not exist, it will be</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// created. If file does exist, its content will be wiped off.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen("scripts/manual/io and file libs/test_write.txt", _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;"w", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// first inputs some numbers and string with prompt information</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fprintf(fd, "The first line includes %d, %f, %s\n", 123.71, 56.48, "hi")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// then input 4 Chinese characters with prompt information</i></p>
+<p style="font-family:verdana">&nbsp;&nbsp;fprintf(fd, "Now input some Chinese characters： " + "汉字中文\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd) <i style="font-family:verdana;color:green;">// close the file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Then test append mode. If file does not exist, it will be</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// created. If file does exist, fprintf will append some text to its</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// current content.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fd = fopen("scripts/manual/io and file libs/test_write.txt", _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;"a", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// inputs some numbers and string with prompt information</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fprintf(fd, "Now add a new line %d, %f, %s\n", -999, -48.73, "why?")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd) <i style="font-family:verdana;color:green;">// close the file </i></p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">After running the above code, user will find a test_write.txt file is generated in the io and file libs folder. The content of the file is below:</p>
+<p style="font-family:verdana">The first line includes 123, 56.480000, hi</p>
+<p style="font-family:verdana">Now input some Chinese characters： 汉字中文</p>
+<p style="font-family:verdana">Now add a new line -999, -48.730000, why?</p>
+<p style="font-family:verdana">Because the code uses UTF-8 encoding mode to open the text file, these Chinese characters can be properly shown in any text editor, e.g. notepad++.</p>
+<p style="font-family:verdana">MFP doesn’t support global variables. However, user is able to write and read the same text file in different functions. The text file works as if a global variable. The content of the file is the value of the global variable.</p>
+<h3>3.&nbsp;Read and Write Binary File</h3>
+<p style="font-family:verdana">In MFP, the function to read binary file is fread. Fread has four parameters. The first one is file id (fd) which is the returned value from fopen. The second one is the buffer where the read bytes are stored. This parameter must be an array. The third one is the starting place in the buffer from where the read bytes are stored. The last parameter is the number of bytes to read. Note that the starting point in the buffer plus the number of bytes to read should not be larger than the buffer length.</p>
+<p style="font-family:verdana">The third and fourth parameters are optional. If they don’t exist, the default starting point is 0 and number of bytes to read is the length of buffer. The second parameter is also optional. If it doesn’t exist, fread simply reads one byte and returns the read byte. If it exists, fread stores all the read bytes in the buffer and returns the number of bytes it has read. If before reading fread finds it has arrived at the end of the file, fread returns -1. To avoid unnecessary reading when arriving at the end of the file, user can use feof function before calling fread. If the file to read does not exist, an exception is thrown.</p>
+<p style="font-family:verdana">MFP’s binary file writing function is fwrite. Fwrite(fd, buffer, from, length) writes length bytes to the file whose id is fd. These bytes are stored in string buffer from index from. Note that from and length must be non-negative and from + length shouldn’t be larger than buffer’s capacity. Parameters from and length can be neglected together. If they don’t exist, fwrite writes the whole buffer into the file. Buffer can also be a single byte instead of an array. In this case, fwrite simply writes the byte into the file. If the file doesn’t exist or cannot be accessed, an exception will be thrown.</p>
+<p style="font-family:verdana">The following code is an example for the above functions. It can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test reading & writing binary file</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试读写二进制文件</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function readWriteBinaryFile()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember write binary file should use "wb" not "w"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen("scripts/manual/io and file libs/test_rw.bin", "wb")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fwrite(fd, 108) <i style="font-family:verdana;color:green;">// write one byte whose value is 108</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// note that buffer should be an array of bytes (i.e. integer whose</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// value is no less than -127 and no greater than 128). Here 1000</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is larger than 128 so that it will be casted to a byte whose</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// value is -24 when write to a binary file. Its upper bits will lose</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable buffer = [-18,79,126,-55,48,-23,-75,7,98,6,0,-34,1000]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fwrite(fd,buffer) <i style="font-family:verdana;color:green;">//write everything in the buffer into the file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember append binary file should use "ab" not "a"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fd = fopen("scripts/manual/io and file libs/test_rw.bin", "ab")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// write 7 bytes from index 3 of buffer</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fwrite(fd,buffer, 3, 7)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//print original buffer content</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Originally buffer includes " + buffer + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember read binary file should use "rb" not "r"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fd = fopen("scripts/manual/io and file libs/test_rw.bin", "rb")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read 5 bytes from file, and store the read bytes in buffer from</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// index 2</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fread(fd, buffer, 2, 5)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Now buffer is " + buffer + "\n") <i style="font-family:verdana;color:green;">//print the buffer’s content</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable byte_value = fread(fd) <i style="font-family:verdana;color:green;">// read 1 byte </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Read one byte which is " + byte_value + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable read_byte_cnt = fread(fd, buffer) <i style="font-family:verdana;color:green;">// try to read buffer length</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Read " + read_byte_cnt + " bytes" + "\n") <i style="font-family:verdana;color:green;">// print how many</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Now buffer is " + buffer + "\n") <i style="font-family:verdana;color:green;">//print the buffer’s content</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;read_byte_cnt = fread(fd, buffer) <i style="font-family:verdana;color:green;">// try to read buffer length bytes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// again</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Read " + read_byte_cnt + " bytes" + "\n") <i style="font-family:verdana;color:green;">// print how many</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// check if we have arrived at the end of file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if (feof(fd))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// check how many bytes we can read if we have arrived at the</i></p>
+<p style="font-family:verdana;color:blue">&#9;<i style="font-family:verdana;color:green;">// end of file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("We have arrived at the end of file.\n")</p>
+<p style="font-family:verdana;color:blue">&#9;print("Now check how many bytes can be read.\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;read_byte_cnt = fread(fd, buffer) <i style="font-family:verdana;color:green;">// try to read buffer length</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes again</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Read " + read_byte_cnt + " bytes" + "\n") <i style="font-family:verdana;color:green;">// print how </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// many bytes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The output of the example is:</p>
+<p style="font-family:verdana">Originally buffer includes [-18, 79, 126, -55, 48, -23, -75, 7, 98, 6, 0, -34, 1000]</p>
+<p style="font-family:verdana">Now buffer is [-18, 79, 108, -18, 79, 126, -55, 7, 98, 6, 0, -34, 1000]</p>
+<p style="font-family:verdana">Read one byte which is 48</p>
+<p style="font-family:verdana">Read 13 bytes</p>
+<p style="font-family:verdana">Now buffer is [-23, -75, 7, 98, 6, 0, -34, -24, -55, 48, -23, -75, 7]</p>
+<p style="font-family:verdana">Read 2 bytes</p>
+<p style="font-family:verdana">We have arrived at the end of file.</p>
+<p style="font-family:verdana">Now check how many bytes can be read.</p>
+<p style="font-family:verdana">Read -1 bytes</p>
+<h3>Section 4 &nbsp;Functions to Read and Modify File Properties</h3>
+<p style="font-family:verdana">MFP programming language provides functions to help user read or even modify file properties including file name, path, type, size and last-modified time. The details of these functions are listed in the table below:</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function Name</p></td>
+<td>
+<p style="font-family:verdana">Function Info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_absolute_path</p></td>
+<td>
+<p style="font-family:verdana">get_absolute_path(1) :</p>
+<p style="font-family:verdana">get_absolute_path(fd_or_path) returns a string value which is the absolute path of the file either whose id number is fd_or_path (here fd_or_path is an integer) or whose relative path is fd_or_path (here fd_or_path is a string).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_canonical_path</p></td>
+<td>
+<p style="font-family:verdana">get_canonical_path(1) :</p>
+<p style="font-family:verdana">get_canonical_path(fd_or_path) returns a string value which is the canonical path (path which is absolute and does not rely on symbol link) of file either whose id number is fd_or_path (here fd_or_path is an integer) or whose relative path is fd_or_path (here fd_or_path is a string).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_last_modified_time</p></td>
+<td>
+<p style="font-family:verdana">get_file_last_modified_time(1) :</p>
+<p style="font-family:verdana">get_file_last_modified_time(path) returns the last-modified time of the file or folder corresponding to a string based path. The time is measured by the number of milliseconds since midnight on January 1st, 1970. If path does not exist or the file is not accessible, returns -1.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_path</p></td>
+<td>
+<p style="font-family:verdana">get_file_path(1) :</p>
+<p style="font-family:verdana">get_file_path(fd) returns a string value which is the path of file whose id number is fd.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_separator</p></td>
+<td>
+<p style="font-family:verdana">get_file_separator(0) :</p>
+<p style="font-family:verdana">get_file_separator() returns the separator used in path. In Windows it returns string "\\". In Linux or Android it returns string "/".</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_size</p></td>
+<td>
+<p style="font-family:verdana">get_file_size(1) :</p>
+<p style="font-family:verdana">get_file_size(path) returns the size of the file corresponding to a string based path. If path does not correspond to a file, or the file does not exist or the file is not accessible, it returns -1.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_directory</p></td>
+<td>
+<p style="font-family:verdana">is_directory(1) :</p>
+<p style="font-family:verdana">is_directory(path) identifies if the file (or folder) at string based parameter path is a directory or not. If it exists and is a directory the function returns true, otherwise false. Examples are is_directory("E:\\") (Windows) and is_directory("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_executable</p></td>
+<td>
+<p style="font-family:verdana">is_file_executable(1) :</p>
+<p style="font-family:verdana">is_file_executable(path) identifies if the file (or folder) at string based parameter path is executable or not. If it exists and is executable the function returns true, otherwise false. Examples are is_file_executable("E:\\") (Windows) and is_file_executable("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_existing</p></td>
+<td>
+<p style="font-family:verdana">is_file_existing(1) :</p>
+<p style="font-family:verdana">is_file_existing(path) identifies if the file (or folder) at string based parameter path exists or not. If exists it returns true, otherwise false. Examples are is_file_existing("E:\\") (Windows) and is_file_existing("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_hidden</p></td>
+<td>
+<p style="font-family:verdana">is_file_hidden(1) :</p>
+<p style="font-family:verdana">is_file_hidden(path) identifies if the file (or folder) at string based parameter path is hidden or not. If it exists and is hidden the function returns true, otherwise false. Examples are is_file_hidden("E:\\") (Windows) and is_file_hidden("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_normal</p></td>
+<td>
+<p style="font-family:verdana">is_file_normal(1) :</p>
+<p style="font-family:verdana">is_file_normal(path) identifies if the file (or folder) at string based parameter path is a normal file (not a folder) or not. If it exists and is a normal file the function returns true, otherwise false. Examples are is_file_normal("E:\\") (Windows) and is_file_normal("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_readable</p></td>
+<td>
+<p style="font-family:verdana">is_file_readable(1) :</p>
+<p style="font-family:verdana">is_file_readable(path) identifies if the file (or folder) at string based parameter path is readable or not. If it exists and is readable the function returns true, otherwise false. Examples are is_file_readable("E:\\") (Windows) and is_file_readable("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_writable</p></td>
+<td>
+<p style="font-family:verdana">is_file_writable(1) :</p>
+<p style="font-family:verdana">is_file_writable(path) identifies if the file (or folder) at string based parameter path is writable or not. If it exists and is writable the function returns true, otherwise false. Examples are is_file_writable("E:\\") (Windows) and is_file_writable("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_path_absolute</p></td>
+<td>
+<p style="font-family:verdana">is_path_absolute(1) :</p>
+<p style="font-family:verdana">is_path_absolute(path) identifies if the string based path is an absolute path (i.e. not relative to current folder). If it is an absolute path the function returns true, otherwise false. Examples are is_path_absolute("E:\\temp") (Windows) and is_path_absolute("Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_path_parent</p></td>
+<td>
+<p style="font-family:verdana">is_path_parent(2) :</p>
+<p style="font-family:verdana">is_path_parent(path1, path2) identifies if the string based path1 is the parent of string based path2. If it is returns true, otherwise false. Examples are is_path_parent("E:\\temp", "E:\\temp\\..\\temp\\test") (Windows) and is_path_parent(".", "Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_path_same</p></td>
+<td>
+<p style="font-family:verdana">is_path_same(2) :</p>
+<p style="font-family:verdana">is_path_same(path1, path2) identifies if the string based path1 is actually the same as string based path2. If it is returns true, otherwise false. Examples are is_path_same("E:\\temp", "E:\\temp\\..\\temp\\") (Windows) and is_path_parent("/home/tony/Documents", "Documents/") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_symbol_link</p></td>
+<td>
+<p style="font-family:verdana">is_symbol_link(1) :</p>
+<p style="font-family:verdana">is_symbol_link(path) identifies if the file (or folder) at string based parameter path is a symbol link or not. If it exists and is a symbol link the function returns true, otherwise false. Examples are is_symbol_link("E:\\") (Windows) and is_symbol_link("/home/tony/Documents/cv.pdf") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">set_file_last_modified_time</p></td>
+<td>
+<p style="font-family:verdana">set_file_last_modified_time(2) :</p>
+<p style="font-family:verdana">set_file_last_modified_time(path, time) sets the last-modified time of the file or folder corresponding to a string based path to be time. Here time is measured by the number of milliseconds since midnight on January 1st, 1970. If path does not exist or the file is not accessible, it returns false. Otherwise, it returns true. Examples are set_file_last_modified_time("C:\\Temp\\Hello\\", 99999999) (Windows) and set_file_last_modified_time("./hello.txt", 1111111111) (Android).</p></td></tr></table>
+<p style="font-family:verdana">The usage of the above functions is very simple. The functions starting with get_ only need one parameter. The parameter is either file id returned by fopen function, or string based file path. The return value of the functions is either a string based file path, or an integer which is last-modified time or file size.</p>
+<p style="font-family:verdana">The functions starting with is_ confirm a property of a file. They only have one parameter which is either file id or string based file path. The return value is either True or False.</p>
+<p style="font-family:verdana">The function starting with set_ is set_file_last_modified_time. This is the only function that can modify file’s property. This function sets a file’s last-modified time. It needs two parameters. The first one is file path, and the second one is the new modification time.</p>
+<p style="font-family:verdana">The following code is the example of the above functions. This example can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test file properties operators</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试读写文件属性的函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function fileProperties()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Assume current working directory is AnMath in Android</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// or the folder where JCmdline.jar is located (for </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Scientific Calculator for JAVA)</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current working directory is "+get_working_dir()+"\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable retval</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// open current function's source code file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable strPath = "scripts/manual/io and file libs/examples.mfps"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen(strPath, "r")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's absolute path</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_absolute_path(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's absolute path is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's canonical path</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_canonical_path(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's canonical path is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's last-modified time</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_file_last_modified_time(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's last modify time is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// set source code file's last-modified time to be 1970/01/01</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;set_file_last_modified_time(strPath, 0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_file_last_modified_time(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After set last modify time to be 0, " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ "current source file's last modify time is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's size</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_file_size(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's size is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file a directory?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_directory(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file a directory: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file executable?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_executable(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file executable: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file existing?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_existing(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file existing: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file hidden?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_hidden(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file hidden: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file normal?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_normal(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file normal: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file readable?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_readable(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file readable: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file writable?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_writable(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file writable: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file path absolute?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_path_absolute(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file path absolute: " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file path a symbol link?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_symbol_link(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file path symbol link: " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is path1 the parent of source code file path?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strPath1 = "scripts/manual/io and file libs"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_path_parent(strPath1, strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is " + strPath1 + " parent of " + strPath + " : " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is path2 the same as source code file path?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strPath2 = "scripts/./../scripts/manual/../manual/io and file libs/examples.mfps"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_path_same(strPath2, strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is " + strPath2 + " same as " + strPath + " : " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Output of the above example is shown below. Please note that if the working directory is not AnMath (on Android) or the folder where JCmdLine.jar is located (in PC), running the above example user may see a very different result, or even some errors.</p>
+<p style="font-family:verdana">Current working directory is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime</p>
+<p style="font-family:verdana">Current source file's absolute path is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\manual\io and file libs\examples.mfps</p>
+<p style="font-family:verdana">Current source file's canonical path is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\manual\io and file libs\examples.mfps</p>
+<p style="font-family:verdana">Current source file's last modify time is 1439531707807</p>
+<p style="font-family:verdana">After set last modify time to be 0, current source file's last modify time is 0</p>
+<p style="font-family:verdana">Current source file's size is 16761</p>
+<p style="font-family:verdana">Is current source file a directory: FALSE</p>
+<p style="font-family:verdana">Is current source file executable: TRUE</p>
+<p style="font-family:verdana">Is current source file existing: TRUE</p>
+<p style="font-family:verdana">Is current source file hidden: FALSE</p>
+<p style="font-family:verdana">Is current source file normal: TRUE</p>
+<p style="font-family:verdana">Is current source file readable: TRUE</p>
+<p style="font-family:verdana">Is current source file writable: TRUE</p>
+<p style="font-family:verdana">Is current source file path absolute: FALSE</p>
+<p style="font-family:verdana">Is current source file path symbol link: FALSE</p>
+<p style="font-family:verdana">Is scripts/manual/io and file libs parent of scripts/manual/io and file libs/examples.mfps : TRUE</p>
+<p style="font-family:verdana">Is scripts/./../scripts/manual/../manual/io and file libs/examples.mfps same as scripts/manual/io and file libs/examples.mfps : TRUE</p>
+<h3>Section 5 &nbsp;Functions Similar to Dos and Unix Commands</h3>
+<p style="font-family:verdana">The above functions only operate on a single file and none of them can delete a file. If user wants to read the file name list in a folder, or wants to move a folder, the above functions cannot be used.</p>
+<p style="font-family:verdana">User can use Dos or Unix command to do this work. For example, pwd returns current folder, cd changes current working folder, xcopy or cp copies file, etc. MFP also provides below functions to mimic the OS commands so that user can work in the Command Line as if in a Unix terminal.</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">Function Name</p></td>
+<td>
+<p style="font-family:verdana">Function Info</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cd</p></td>
+<td>
+<p style="font-family:verdana">cd(1) :</p>
+<p style="font-family:verdana">change_dir(path) (with alias cd(path)) changes current directory to string based value path. If successful, it returns true. Otherwise, it returns falses. Examples are change_dir("D:\\Windows") (Windows) and cd("/") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">change_dir</p></td>
+<td>
+<p style="font-family:verdana">change_dir(1) :</p>
+<p style="font-family:verdana">change_dir(path) (with alias cd(path)) changes current directory to string based value path. If successful, it returns true. Otherwise, it returns falses. Examples are change_dir("D:\\Windows") (Windows) and cd("/") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">copy_file</p></td>
+<td>
+<p style="font-family:verdana">copy_file(3) :</p>
+<p style="font-family:verdana">copy_file(source, destination, replace_exist) copies file or folder whose path is string source to file or folder whose path is string destination. If the 3rd parameter, replace_exist, is true, then source file (or any file in source folder) will replace destination file (or corresponding file in destination folder) if destination exists. Note that the 3rd parameter is optional. By default it is false. Examples are copy_file("c:\\temp\\try1", "D:\\", true) (Windows) and copy_file("/mnt/sdcard/testfile.txt", "./testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">create_file</p></td>
+<td>
+<p style="font-family:verdana">create_file(2) :</p>
+<p style="font-family:verdana">create_file(path, is_folder) creates a file (if is_folder is false or does not exist) or folder (if is_folder is true). If the parent of string based parameter path does not exist, the parent will be created. If the file can be created, this function returns true, otherwise, returns false. Examples are create_file("c:\\temp\\try1", true) (Windows) and create_file("testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">delete_file</p></td>
+<td>
+<p style="font-family:verdana">delete_file(2) :</p>
+<p style="font-family:verdana">delete_file(path, delete_children_in_folder) deletes a file or folder at string based parameter path. If it is a folder and the second parameter is true, all the files in the folder will be recursively deleted. The second parameter is optional. By default, it is false. If the file or folder can be deleted, this function returns true, otherwise, it returns false. Examples are delete_file("c:\\temp\\try1", true) (Windows) and delete_file("testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">dir</p></td>
+<td>
+<p style="font-family:verdana">dir(1) :</p>
+<p style="font-family:verdana">print_file_list(path) (alias ls(path) or dir(path)) works like ls command in Linux or dir command in Windows. It prints the information for the file or all the files in folder at string based path. It returns the number of entries printed. If the path does not correspond to an existing file or folder, it returns -1. Note that path is optional. By default it is current folder ("."). Examples are dir() (Windows) and ls("../testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_working_dir</p></td>
+<td>
+<p style="font-family:verdana">get_working_dir(0) :</p>
+<p style="font-family:verdana">get_working_dir() (with alias pwd()) returns string based current directory.</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">list_files</p></td>
+<td>
+<p style="font-family:verdana">list_files(1) :</p>
+<p style="font-family:verdana">list_files(path) returns all the file names in the folder whose path is the string based parameter path, or it returns the file at path if path corresponds to a file. If the path does not correspond to a file or folder, it returns NULL. Note that parameter path is optional. By default it is current folder ("."). Examples are list_files("c:\\temp\\try1") (Windows) and list_files("../testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">ls</p></td>
+<td>
+<p style="font-family:verdana">ls(1) :</p>
+<p style="font-family:verdana">print_file_list(path) (alias ls(path) or dir(path)) works like ls command in Linux or dir command in Windows. It prints the information for the file or all the files in folder at string based path. It returns the number of entries printed. If the path does not correspond to an existing file or folder, it returns -1. Note that path is optional. By default it is current folder ("."). Examples are dir() (Windows) and ls("../testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">move_file</p></td>
+<td>
+<p style="font-family:verdana">move_file(3) :</p>
+<p style="font-family:verdana">move_file(source, destination, replace_exist) moves file or folder whose path is string source to file or INTO (not to) folder whose path is string destination. If the 3rd parameter, replace_exist, is true, then source file (or any file in source folder) will replace destination file (or corresponding file in destination folder) if corresponding file exists. Note that the 3rd parameter is optional. By default it is false. Examples are move_file("c:\\temp\\try1", "D:\\", true) (Windows) and move_file("/mnt/sdcard/testfile.txt", "./testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">print_file_list</p></td>
+<td>
+<p style="font-family:verdana">print_file_list(1) :</p>
+<p style="font-family:verdana">print_file_list(path) (alias ls(path) or dir(path)) works like ls command in Linux or dir command in Windows. It prints the information for the file or all the files in folder at string based path. It returns the number of entries that printed. If the path does not correspond to an existing file or folder, it returns -1. Note that path is optional. By default it is current folder ("."). Examples are dir() (Windows) and ls("../testfile_copy.txt") (Android).</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">pwd</p></td>
+<td>
+<p style="font-family:verdana">pwd(0) :</p>
+<p style="font-family:verdana">get_working_dir() (with alias pwd()) returns string based current directory.</p></td></tr></table>
+<p style="font-family:verdana">In the function list, functions cd and change_dir, functions pwd and get_working_dir, and functions ls, dir and print_file_list are three groups of functions. In each group, the functions are exactly the same except the different names. Moreover, the above functions correspond to Dos and Unix commands, as shown below: </p>
+<p style="font-family:verdana">1.&nbsp;cd and change_dir: correspond to the cd command in Dos and Unix;</p>
+<p style="font-family:verdana">2.&nbsp;pwd and get_working_dir: correspond to the pwd command in Dos and Unix;</p>
+<p style="font-family:verdana">3.&nbsp;ls, dir and print_file_list: correspond to the dir command in Dos and the ls command in Unix;</p>
+<p style="font-family:verdana">4.&nbsp;copy_file: corresponds to the xcopy command in Dos and cp command in Unix;</p>
+<p style="font-family:verdana">5.&nbsp;move_file: corresponds to the move command in Dos and the mv command in Unix;</p>
+<p style="font-family:verdana">6.&nbsp;delete_file: corresponds to the del command in Dos and the rm command in Unix;</p>
+<p style="font-family:verdana">And there is a list_files function. This function returns all the file names in a folder. Its difference from function dir (or ls or print_file_list) is that list_files returns an array and each element in the array is a string based file name, while dir prints all the files’ names, modified time and other properties on the screen. Function dir is very useful when user works in Command Line while list_files should be chosen when programming. </p>
+<p style="font-family:verdana">The following example is for the above functions. This example can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test file operation commands</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试文件整体操作函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function fileOpr()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Assume current working directory is AnMath in Android</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// or the folder where JCmdline.jar is located (for </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Scientific Calculator for JAVA)</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strOriginalPWD = pwd()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Current directory is " + strOriginalPWD + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// now move to scripts/manual/io and file libs/</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;cd("scripts/manual/io and file libs/")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("After cd, current directory is " + pwd() + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// now print content in the folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// now create a file in a sub-folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;create_file("test_folder/test_file.txt")</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print content in the folder after create_file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After create test_folder/test_file.txt, run dir:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After create test_folder/test_file.txt, run dir for test_folder:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir("test_folder")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;move_file("test_folder","test_folder1")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print content in the folder after move_file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After move folder test_folder to test_folder1, run dir:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if delete_file("test_folder1") == false</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Cannot delete a folder with file inside " _</p>
+<p style="font-family:verdana;color:blue">&#9;&nbsp;&nbsp;+ "if delete_children_in_folder flag is not set\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;if delete_file("test_folder1", true)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Can delete a folder with file inside " _</p>
+<p style="font-family:verdana;color:blue">&#9;&nbsp;&nbsp;&nbsp;&nbsp;+ "if delete_children_in_folder flag is set to true\n")</p>
+<p style="font-family:verdana;color:blue">&#9;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print content in the folder after delete_file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After delete folder test_folder1, run dir:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// return to the original working directory</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;cd(strOriginalPWD)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">Output of the above example is shown below. Please note that if the working directory is not AnMath (on Android) or the folder where JCmdLine.jar is located (in PC), running the above example user may see a very different result, or even some errors.</p>
+<p style="font-family:verdana">Current directory is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime</p>
+<p style="font-family:verdana">After cd, current directory is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\manual\io and file libs</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<p style="font-family:verdana">After create file test_folder/test_file.txt, run dir:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">drwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_folder\ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:42</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<p style="font-family:verdana">After create file test_folder/test_file.txt, run dir for test_folder:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:42</p>
+<p style="font-family:verdana">After move folder test_folder to test_folder1, run dir:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">drwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_folder1\ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:42</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<p style="font-family:verdana">Cannot delete a folder with file inside if delete_children_in_folder flag is not set</p>
+<p style="font-family:verdana">Can delete a folder with file inside if delete_children_in_folder flag is set to true</p>
+<p style="font-family:verdana">After delete folder test_folder1, run dir:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<h3>Section 6 &nbsp;An Example of Comprehensive File Operations</h3>
+<p style="font-family:verdana">This chapter has introduced all of the file operation functions provided by MFP. With them, user is able to do anything on any file if s\he has the authorization. In this section, a comprehensive file operation example is provided to demonstrate the power of MFP.</p>
+<p style="font-family:verdana">In Scientific Calculator Plus, function set_array_elem (refer to part 3 in Section 3 of Chapter 3 for details) may assign value to an element in an array and returns the new array. The original array, which is the parameter, may or may not be changed. Even if it is changed, changed value may not be the same as the returned value. In other words, user has to use the returned value as the updated array. This means the right way to call set_array_elem is:</p>
+<p style="font-family:verdana;color:blue">array_to_change = set_array_elem(array_to_change, index, value)</p>
+<p style="font-family:verdana">. However, in revision 1.6.6 or earlier, set_array_elem will change the parameter to the new value. In other words, user needs not to retrieve the return value of set_array_elem. Thus many user calls this function in the following way:</p>
+<p style="font-family:verdana;color:blue">set_array_elem(array_to_change, index, value)</p>
+<p style="font-family:verdana">, and simply continue to use array_to_change after the function call. However, this will not guarantee correctness after revision 1.7. It is strongly recommended to change code now.</p>
+<p style="font-family:verdana">The code change can be performed manually. In this way user has to search all the set_array_elem calls and modify it line by line. This is time-expensive and mistake-prone.</p>
+<p style="font-family:verdana">Alternatively user can develop an MFP script to search and change set_array_elem calls. This is much faster and unlikely it will make mistakes.</p>
+<p style="font-family:verdana">A question is, will change of source code affect running functions? Fortunately the answer is no because Scientific Calculator Plus automatically loads in all the codes at start. The code will not be reloaded until user restarts Scientific Calculator Plus, or in PC the GUI based Scientific Calculator Plus for JAVA gets the focus back. However, please note that this does not mean Scientific Calculator Plus will never dynamically load code in the future. Thus user still has to be cautious to run script to change code.</p>
+<p style="font-family:verdana">To change source code, a script needs to:</p>
+<p style="font-family:verdana">1.&nbsp;find all the .mfps files in the scripts folder;</p>
+<p style="font-family:verdana">2.&nbsp;search every line of each file and locate the old-style set_array_elem calls;</p>
+<p style="font-family:verdana">3.&nbsp;modify some lines in each file and save.</p>
+<p style="font-family:verdana">In order to find all the .mfps files in a folder and its sub-folders, functions list_files, is_directory and is_file_normal must be used. List_files lists all the sub-folders and files in the scripts folder, and then script goes through these sub-folders and files. Is_directory is able to tell sub-folders from files. If a file is found, script needs to verify that it is a .mfps file. Then is_file_normal is called to identify if it is a normal file. If a sub-folder is found, script calls list_files again and repeats the above steps.</p>
+<p style="font-family:verdana">To achieve the above routine, one solution is to use iteration function, i.e. each time a new sub-folder is found, the iteration function is called. The other way is to use an array to store all the folder and sub-folders. Every time a new sub-folder is found, it is appended to the array until the size of the array no longer increases and all the folders in the array have been searched. The following code chooses the second approach:</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfps_files is a 1D array.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Each element is the path of a source file.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_mfps_files = []</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_folders is a 1D array.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//Each element is a folder or sub-folder.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_folders = [strScriptsPath]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable folder_idx = 0</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// go through all_folders. Note that during the procedure</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_folders is still increasing its size.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;While(folder_idx &nbsp;&lt; size(all_folders)[0])</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// list all the files in a folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable these_files = list_files(all_folders[folder_idx])</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// go through all the files. Note that these_files is a</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// 1D array so that size(these_files)[0] must be the size</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// of the array. Also note that the array’s index starts</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// from 0 to array size – 1.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For variable idx = 0 to size(these_files)[0] - 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable this_file_name = these_files[idx]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name = all_folders[folder_idx] _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ get_file_separator() _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ this_file_name</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If(is_directory(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//If this_file_name is a folder, add it to all_folders.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All_folders = set_array_elem(all_folders, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_folders), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elseif and(stricmp(strsub(this_file_name, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strlen(this_file_name)-5), ".mfps")==0, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_file_normal(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// if this_file_name is a .mfps source file, add it to</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfp_files.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all_mfps_files = set_array_elem(all_mfps_files, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_mfps_files), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;folder_idx = folder_idx + 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Loop</p>
+<p style="font-family:verdana">After every mfps source file is found, the script starts to read each line of the source file to see if it is an old-style set_array_elem call. Note that old-style set_array_elem call means that, after trimming the blanks from the head and tail, set_array_elem is the beginning of the line, and then round bracket (note that blanks may exist between set_array_elem and bracket), then comma (note that blanks may exist between comma and to-be-changed array name). Because of a clear pattern exists, split function can be used to separate code line into pieces and then identify if the first piece is set_array_elem. The code is shown below:</p>
+<p style="font-family:verdana"><i style="font-family:verdana;color:green;">//&nbsp;Assume file has been opened, now read:</i></p>
+<p style="font-family:verdana;color:blue">Variable strLine = freadline(fd)</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// Note that the regex string for "(" is not "(" but "\\(" because</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// split function uses "(" as a regex control character so that</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// to escape.</i></p>
+<p style="font-family:verdana;color:blue">Variable strarray1 = split(strline, "\\(")</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// If at least 2 sub-strings after stpliting and the first one is</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// set_array_elem after trimming the white spaces.</i></p>
+<p style="font-family:verdana;color:blue">If and(size(strarray1)[0] &gt;= 2, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stricmp(trim(strarray1[0]), "set_array_elem") == 0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// No need to escape comma which is not a regex</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// control character.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strarray2 = split(strarray1[1], ",")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;If size(strarray2)[0] &gt;= 2</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// Should have at least two sub-strings, otherwise may mean</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// no comma.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Now we can confirm that this line needs change.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;……</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">EndIf</p>
+<p style="font-family:verdana">Change the old-style set_array_elem call to the new-style is fairly simple. Adding the array name and assignment is enough. The code to do this work is shown below:</p>
+<p style="font-family:verdana">StrLine = strarray2[0] + " = " + trim(strLine)</p>
+<p style="font-family:verdana">, where strarray2[0] is the to-be-changed array name (see the above code snip for details).</p>
+<p style="font-family:verdana">Then write the line into a new file:</p>
+<p style="font-family:verdana">Fprintf(fd1, "%s\n", strLine)</p>
+<p style="font-family:verdana">. After the new file is created, call function move_file to replace old MFP code by the new one. The whole example is shown below. This example can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;a complicated file operation example</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;一个复杂的文件操作的例子</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function fileOpr2()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strConfirm</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// first get current working directory, should be AnMath</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// in Android or the folder where JCmdline.jar is located</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// (for Scientific Calculator for JAVA)</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strOriginalPWD = pwd()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Current directory is " + strOriginalPWD + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// confirm it is the right working folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Is this AnMath folder in Android " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ "or if you are working on Scientific Calculator for JAVA, " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ "is the folder where JCmdline.jar is located?\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;strConfirm = input("Y for yes and other for no:", "S")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if and(stricmp(strConfirm, "Y") != 0, stricmp(strConfirm, "Yes") !=0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//exit if not in the right working directory</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("You are not in the right working directory, exit!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;return</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// the scripts folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strScriptsPath = strOriginalPWD + get_file_separator() _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "scripts"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Please back up your source code first</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Print("Please back up your source codes before run the program!!!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// have you backed up your source codes, if no I cannot continue.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Print("Have you backed up your source codes?\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;strConfirm = input("Y for yes and other for no:", "S")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if and(stricmp(strConfirm, "Y") != 0, stricmp(strConfirm, "Yes") !=0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If you haven't backed up your codes, I will do it for you.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("If haven't been backed up, I will do it for you!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;pause("Press ENTER to start back up.")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;copy_file(strScriptsPath, strScriptsPath + ".bakup", true)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ok, now it is the right working directory and source code has been</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// backed up. Preparation work has finished, press enter to continue.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;pause("Now preparation work has finished, press Enter to continue")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfps_files is a 1D array with each element path of a .mfps src</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_mfps_files = []</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_folders is also a 1D array, each element is path of a folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// including source codes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_folders = [strScriptsPath]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable folder_idx = 0</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Go through all_folders, note that in the procedure all_folders is</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// increasing</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;While(folder_idx &nbsp;&lt; size(all_folders)[0])</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// list all the files in a folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable these_files = list_files(all_folders[folder_idx])</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Go through the files. Note that these_files is a 1D array so</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// size(these_files)[0] must be equal to the length of the array</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Also note that index is from 0 to array length - 1.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For variable idx = 0 to size(these_files)[0] - 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable this_file_name = these_files[idx]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name = all_folders[folder_idx] + get_file_separator() _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ this_file_name</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If(is_directory(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If this file is actually a folder, append it to all_folders</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All_folders = set_array_elem(all_folders, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_folders), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elseif and(stricmp(strsub(this_file_name, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strlen(this_file_name)-5), ".mfps") == 0, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_file_normal(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If this file is a .mfps source file, append it to</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfps_files</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all_mfps_files = set_array_elem(all_mfps_files, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_mfps_files), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;folder_idx = folder_idx + 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Loop</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Now all_mfps_files includes all the .mfps files</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;For variable idx = 0 to size(all_mfps_files)[0] - 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// create a temporary source file to write the modified code in</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// set encode UTF-8 to ensure that unicode (e.g. Chinese and</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Japanese characters) is supported</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable fd1 = fopen("temporary_src_file","w", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Now analyse " + all_mfps_files[idx] + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable fd = fopen(all_mfps_files[idx], "r", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable idxLine = 0</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;while (!feof(fd))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idxLine = idxLine + 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable strLine = freadline(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Note that the regex string for "(" is "\\(" not "(" because</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// split function uses "(" as a regex control character so that</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// have to escape.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable strarray1 = split(strline, "\\(")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If at least 2 sub strings after splitting and the first one</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is set_array_elem after trimming the white spaces</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If and(size(strarray1)[0] &gt;= 2, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stricmp(trim(strarray1[0]), "set_array_elem") == 0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// need not to escape "," for regex, different from "("</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable strarray2 = split(strarray1[1], ",")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If size(strarray2)[0] &gt;= 2</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Should have at least two sub strings, otherwise may mean</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// no comma.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Now we can confirm that this line needs change.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("\tset_elem_array calling statement to change at" _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ " Line " + idxLine + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("\tBefore change is : " + strLine + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StrLine = strarray2[0] + " = " + trim(strLine)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("\tAfter change is : " + strLine + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// write strLine into temporary source file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fprintf(fd1, "%s\n", strLine)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Loop</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;fclose(fd1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//move temporary file to replace all_mfps_files[idx]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;move_file("temporary_src_file", all_mfps_files[idx], true)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//Done!</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Done!\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">The procedure of the above code is:</p>
+<p style="font-family:verdana">1.&nbsp;identify if current working folder is AnMath in Android or the folder where JCmdLine.jar is placed (in PC). If the working folder is wrong, no source code file can be found;</p>
+<p style="font-family:verdana">2.&nbsp;remind user to back up. If user hasn’t done it, the script will do this for user by copying scripts folder to scripts.bakup;</p>
+<p style="font-family:verdana">3.&nbsp;find all the .mfps source files;</p>
+<p style="font-family:verdana">4.&nbsp;find all old-style set_array_elem calls;</p>
+<p style="font-family:verdana">5.&nbsp;modify and source code files and save the modified files to a new place;</p>
+<p style="font-family:verdana">6.&nbsp;copy the modified files to replace the old ones.</p>
+<p style="font-family:verdana">The outcome of the program is below. Note that the output varies with user source libs, i.e. different user sees different output. But after the program finishes, user should see all the set_array_elem functions are called in the new way.</p>
+<p style="font-family:verdana">Current directory is C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime</p>
+<p style="font-family:verdana">Is this AnMath folder in Android or if you are working on Scientific Calculator for JAVA, is the folder where JCmdline.jar is located?</p>
+<p style="font-family:verdana">Y for yes and other for no:Y</p>
+<p style="font-family:verdana">Please back up your source codes before run the program!!!</p>
+<p style="font-family:verdana">Have you backed up your source codes?</p>
+<p style="font-family:verdana">Y for yes and other for no:n</p>
+<p style="font-family:verdana">If haven't been backed up, I will do it for you!</p>
+<p style="font-family:verdana">Press ENTER to start back up.</p>
+<p style="font-family:verdana">Now preparation work has finished, press Enter to continue</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\examples\math.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\examples\misc.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\506.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\biao.mfps</p>
+<p style="font-family:verdana">……</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\cha_ru.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\cv100plus测试.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\捻系数.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\支偏计算.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\断强计算.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\落棉率.mfps</p>
+<p style="font-family:verdana">&#9;set_elem_array calling statement to change at Line 35</p>
+<p style="font-family:verdana">&#9;Before change is : set_array_elem(luo_mian_lv_s,idx2,luo_mian_lv)</p>
+<p style="font-family:verdana">&#9;After change is : luo_mian_lv_s = set_array_elem(luo_mian_lv_s,idx2,luo_mian_lv)</p>
+<p style="font-family:verdana">……</p><h3>Summary</h3>
+<p style="font-family:verdana">Input / output and file operation is an important part of MFP advanced programming. MFP programming language provides a set of C-like I/O functions to read/write console, string and file. Furthermore, MFP programming language includes functions to change directory, list files in a folder and copy, move and delete files. With these functions, as long as user has authorization, any file in OS can be operated.</p>
+<p style="font-family:verdana">Please note that file operation in Android sometimes is dangerous. Because files are hidden from users, after program finishes user is not able to easily confirm right files are changed or check result. In this way, it is strongly recommended to create a working folder in AnMath directory and confine all the file operations inside it.</p>
+<p style="font-family:verdana">&nbsp;</p>
+</body></html>

@@ -1,0 +1,1269 @@
+<html>
+	<head>
+		<title>MFP编程语言帮助</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP编程语言输入和输出文件操作：</h2>
+<p style="font-family:verdana">MFP应用程序的输入输出是和用户交互的重要手段。MFP编程语言实现了一组类似C语言的简单快捷的输入输出方式，用户可以方便地从命令提示符终端，字符串或者文件中读取信息，或者向命令提示符终端，字符串或者文件输出信息，但要注意输入输出的功能只在命令提示符和基于JAVA的可编程科学计算器中实现，在智慧计算器中不支持。</p>
+<p style="font-family:verdana">为了方便创建，复制，移动和删除文件，MFP编程语言提供了一组类似于Dos（或者Unix）命令的文件操作函数，使用这些函数，用户可以轻松地查阅任何一个文件夹中的内容，并对任何一个文件和文件夹进行进行复制移动或者删除操作，就如同在Dos窗口或者Linux终端中一样。MFP对文件操作的完整支持使得MFP编程语言从理论上成为一种无所不能的语言，用户可以通过MFP程序访问操作系统的任何一个角落。</p>
+<h3><a name="_Toc28586" ></a>第1节 &nbsp;在命令提示符中输入输出</h3>
+<p style="font-family:verdana">在命令提示符中（或者运行在JAVA上的可编程科学计算器中）输入输出是用户和程序交互的一种重要方式。MFP编程语言提供了以下支持函数：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">input</p></td>
+<td>
+<p style="font-family:verdana">input(2) :</p>
+<p style="font-family:verdana">input(prompt,input_type)函数打印出提示符prompt并等待用户输入。第二个参数input_type可以省略。如果第&nbsp;二个参数不省略并且其为字符串"s"或"S"，用户的输入将会被看成一个字符串，并且这个函数返回输入的字符串。否则，输入被当作一个表达式来处理，而这&nbsp;个函数返回表达式的值。如果输入的不是一个合法的表达式，本函数将再次打印出提示符，等待用户重新输入。用户如果要结束一次输入需要按回车键。如果一次输&nbsp;入多行，只有第一行会被处理。本函数的一个例子为，用户运行input("$", "S")，然后在提示符（也就是$字符）后输入4 + 3，按回车键，本函数将会返回字符串"4 + 3"。而如果用户运行input("%")，然后在提示符（也就是%字符）后输入4 + 3，按回车键，本函数将会返回7。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">pause</p></td>
+<td>
+<p style="font-family:verdana">pause(1) :</p>
+<p style="font-family:verdana">pause(message)将暂停当前运行的程序，等待用户输入一个回车，然后继续。字符串参数message可以省略。如果不省略，message将作为提示被打印在屏幕上。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">print</p></td>
+<td>
+<p style="font-family:verdana">print(1) :</p>
+<p style="font-family:verdana">print(x)向输出端打印任意数据类型x的值。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">printf</p></td>
+<td>
+<p style="font-family:verdana">printf(1...) :</p>
+<p style="font-family:verdana">printf(format_string, ...)，sprintf(format_string, ...)和fprintf(fd, format_string, ...)和C/C++中的对应函数工作方式相似。这些函数通过format_string和其后的数值参数构造出一个新的字符串，printf函数将字符&nbsp;串打印到标准输出，sprintf函数将字符串作为返回值返回，fprintf函数则将字符串输出到文件号为fd的文本文件。字符串&nbsp;format_string支持输入整数（%d、%i、%x等），浮点数（%e、%f等），字符和字符串（%c和%s）等等。用户可以在C语言的帮助文档&nbsp;中找到format_string的构造方法。例如，printf("Hello world!%f", 3.14)将会打印输出"Hello world!3.140000"，而sprintf("%c%d", "A", 9)则返回"A9"（注意MFP不支持单一字符数据类型，所以单一的字符将会存储为一个只包括一个字符的字符串）。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">scanf</p></td>
+<td>
+<p style="font-family:verdana">scanf(1) :</p>
+<p style="font-family:verdana">scanf(format_string)，sscanf(input_from, format_string)和fscanf(fd, format_string)和C/C++中的对应函数工作方式相似。scanf读取用户的一行输入，sscanf读取字符串&nbsp;input_from，fscanf从文件（文件号fd）中读取文件内容。字符串format_string支持输入整数（%d、%i、%x等），浮点数&nbsp;（%e、%f等），字符和字符串（%c和%s）等等。用户可以在C语言的帮助文档中找到format_string的构造方法。但是，和C语言有所不&nbsp;同，MFP中的这些函数不需要输入用于存储读取数值的参数。所有的读取的数值将会保存在一个数组中作为返回值返回。比如，sscanf("3Hello world!", "%d%c%c%s")将会返回[3, "H", "e", "llo"]（注意MFP不支持单一字符数据类型，所以单一的字符将会存储为一个只包括一个字符的字符串）。</p></td></tr></table>
+<p style="font-family:verdana">其中，input，pause和print函数的用法都很简单，上述表格中的说明已经很详细，就是要注意print函数的参数是一个字符串，而字符串可以由一个字符串（哪怕是空字符串）和其他任何数据相加而得。比如要打印数组[1,2,3+4i]，可以调用print(""+[1,2,3+4i])，这样[1,2,3+4i]就自动变成了字符串[1, 2, 3 + 4i]然后被打印输出到屏幕上。需要注意的是，如果要调用print打印一些用于界定字符串或者表示特殊字符规避符，比如双引号，或者\，需要在前面加上\。比如，</p>
+<p style="font-family:verdana;color:blue">print("\"\\")</p>
+<p style="font-family:verdana">会在屏幕上打印出"\。这个需要加双引号的特性不但适用于print函数，也适用于所有对字符串操作的函数包括input，pause和后面要提到的printf，scanf等等。</p>
+<p style="font-family:verdana">下面给出了上述三个函数的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test input, pause and print functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试input，pause和print函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function io2console1()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable a = input("Please input a number") <i style="font-family:verdana;color:green;">//输入一个数字</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable b = input("Please iinput a string:", "S") <i style="font-family:verdana;color:green;">//请输入一个字符串</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;pause("Press ENTER to continue!") <i style="font-family:verdana;color:green;">//按回车键继续</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//print what has been input</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//打印出输入的数字和字符串</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("You have input " + a + b)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//打印特殊字符</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("\n\"\\")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">用户在第一个提示符后输入sind(30)*2+3i，在第二个提示符后输入“是一个复数”5个汉字（注意在安卓系统的命令提示符中输入汉字，需要点击菜单按钮，选择“弹出系统软件盘”，在基于JAVA的可编程科学计算器中无法输入汉字，不过可以拷贝粘贴汉字到输入提示符上），然后按ENTER键，可以看到打印输出为：</p>
+<p style="font-family:verdana">You have input 1 + 3i是一个复数</p>
+<p style="font-family:verdana">"\</p>
+<p style="font-family:verdana">Printf和scanf函数用于格式化输入输出，用法类似于C语言中的同名函数（当然没有C语言中的对应函数的用法那么全）。</p>
+<p style="font-family:verdana">printf()函数的基本调用格式为：</p>
+<p style="font-family:verdana">printf("&lt;格式化字符串&gt;", &lt;参量表&gt;)</p>
+<p style="font-family:verdana">其中格式化字符串包括两部分内容：部分是正常字符，这些字符将按原样输出；另一部分是格式化规定字符，以“%”开始（如果仅仅是想用printf打印一个“%”字符，需要在前面加上规避符“%”，也就是“%%”），后跟一个或几个规定字符，用来确定输出内容格式。</p>
+<p style="font-family:verdana">参量表是需要输出的一系列参数，其个数必须与格式化字符串所说明的输出参数个数一样多，各参数之间用","分开，且顺序一一对应，否则将会出现意想不到的错误。 </p>
+<p style="font-family:verdana">以下是printf函数所支持的格式化方式：</p>
+<p style="font-family:verdana">%d：代表十进制整数；</p>
+<p style="font-family:verdana">%f：代表浮点数；</p>
+<p style="font-family:verdana">%s：代表字符串；</p>
+<p style="font-family:verdana">%e：代表指数形式的浮点数；</p>
+<p style="font-family:verdana">%x和%X：以十六进制表示的整数，注意输出以16进制表示的整数时，没有0x打头，比如输出十进制整数255，16进制数值为FF，在MFP中表示16进制整数应该由0x打头，也就是写成0xFF的形式，但是printf输出时，就是输出FF，没有0x打头；</p>
+<p style="font-family:verdana">%o：以八进制表示的整数，注意同16进制一样，输出时没有0打头。比如以8进制输出10进制整数63，MFP中的表示表示方法应该是077，而printf输出时，就是输出77，没有0打头；</p>
+<p style="font-family:verdana">%g：为实数自动选择合适的表示法，但无法处理字符串。</p>
+<p style="font-family:verdana">比如，如果用户想要输出一个浮点数8.776，后面跟随一个逗号，然后是一个字符串"Hello"，后面跟随一个空格用十六进制输出一个整数1234，后面跟随3个字母abc，然后用普通十进制输出另外一个整数255，后面跟随一个英文单词finish，则可以调用printf语句如下：</p>
+<p style="font-family:verdana">printf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
+<p style="font-family:verdana">上述语句输出的结果为：</p>
+<p style="font-family:verdana">8.776000,Hello 4D2abc255finish</p>
+<p style="font-family:verdana">注意输出的结果中，16进制的整数没有0x打头（也就是1234被直接输出为4D2而不是0x4D2）。</p>
+<p style="font-family:verdana">用户 还需要注意的是，需要输出的参数必须是能够使用printf所指定的格式化方式输出的数据类型，或者通过数据类型自动转换，转换为能够使用printf所指定的格式化方式输出的数据类型，否则会出错，比如</p>
+<p style="font-family:verdana;color:blue">printf("%d", 123)</p>
+<p style="font-family:verdana;color:blue">printf("%f", 123.1)</p>
+<p style="font-family:verdana">均为printf的正确调用方式，因为123是整数，而%d正好是用于格式化输出整数；123.1是浮点数，%f正好用于格式化输出浮点数。</p>
+<p style="font-family:verdana;color:blue">printf("%f", 123)</p>
+<p style="font-family:verdana;color:blue">printf("%d", 123.1)</p>
+<p style="font-family:verdana">也都是对的，因为123可以被自动转换为浮点数，而123.1可以通过截断取整自动转换为整数。但是，</p>
+<p style="font-family:verdana;color:blue">printf("%d", 123 + 123i)</p>
+<p style="font-family:verdana;color:blue">printf("%f", [1.2,2.3])</p>
+<p style="font-family:verdana">则会报错，因为123+123i是复数，复数无法自动转换为整数，而[1.2,2.3]是数组，数组无法自动转换为数（包括浮点数）。</p>
+<p style="font-family:verdana">如果想正确地输出复数或者数组，可以用如下方式调用printf函数</p>
+<p style="font-family:verdana;color:blue">printf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//输出123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">printf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//输出[1.200000, 2.300000]</i></p>
+<p style="font-family:verdana">或者更简单的办法，使用字符串格式化输出方式，也就是%s：</p>
+<p style="font-family:verdana;color:blue">printf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//输出123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">printf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//输出[1.2, 2.3]</i></p>
+<p style="font-family:verdana">。由于MFP中的任何数据类型都可以被转换为字符串，所以字符串格式化输出方式，也就是%s，可以说是万能的。</p>
+<p style="font-family:verdana">格式化输出方式的"%"字符和代表输出方式的字母之间还可以插入一些字符进行更精细的控制，比如，可以在"%"和字母之间插进数字表示最大宽度。例如：</p>
+<p style="font-family:verdana">%3d 表示输出3位整型数，不够3位右对齐；</p>
+<p style="font-family:verdana">%9.2f 表示输出场宽为9的浮点数，其中小数位为2，整数位为6，小数点占一位，不够9位右对齐；</p>
+<p style="font-family:verdana">%8s 表示输出8个字符的字符串，不够8个字符右对齐。</p>
+<p style="font-family:verdana">以上例子中，如果字符串的长度，或整型数位数超过说明的场宽，将按其实际长度输出。但对浮点数，若整数部分位数超过了说明的整数位宽度，将按实际整数位输出；若小数部分位数超过了说明的小数位宽度，则按说明的宽度以四舍五入输出。</p>
+<p style="font-family:verdana">另外，若想在输出值前加一些0，就应在场宽项前加个0。例如: %04d 表示在输出一个小于4位的数值时，将在前面补0使其总宽度为4位。 </p>
+<p style="font-family:verdana">如果用浮点数表示字符或整型量的输出格式，小数点后的数字代表最大宽度，小数点前的数字代表最小宽度。例如：%6.9s 表示显示一个长度不小于6且不大于9的字符串。若长度大于9，则第9个字符以后的内容将被删除。 </p>
+<p style="font-family:verdana">另外，printf还支持换行符\n，回车符\r和缩进符\t，这些字符串可以用到printf的格式化字符串参数中，比如：</p>
+<p style="font-family:verdana;color:blue">printf("abc\ndef")</p>
+<p style="font-family:verdana">的输出结果为两行，内容分别是abc和def。其原因是因为\n符号意味着换行。</p>
+<p style="font-family:verdana">Scanf则和printf的功能正好相反。Scanf从命令提示符终端上读取用户的一行输入（注意只能是一行，用户按ENTER键换行则输入终止）并返回一个数组，数组中的每一个元素是用户的输入的每一个数值。Scanf仅有一个参数，是输入格式化字符串，表示用户输入的每一个元素将会被scanf当作怎样的数据类型来处理。Scanf支持以下格式化方式：</p>
+<p style="font-family:verdana">%d：代表输入十进制整数；</p>
+<p style="font-family:verdana">%f和%e：代表输入浮点数；</p>
+<p style="font-family:verdana">%s：代表输入字符串；</p>
+<p style="font-family:verdana">%x：代表输入以十六进制表示的整数（注意没有0x打头，比如0x10AB就应该写成10AB，这和MFP中表示16进制的整数必须用0x打头不同，但是和printf的处理方式一致。还要注意，这里的x必须小写，%X不被支持）；</p>
+<p style="font-family:verdana">%o：代表输入以八进制表示的整数（注意没有0打头，比如017就应该写成17，这和MFP中表示8进制的整数必须用0x打头不同，但是和printf的处理方式一致）；</p>
+<p style="font-family:verdana">%g：代表输入一个十进制的实数。</p>
+<p style="font-family:verdana">在scanf的参数，也就是格式化字符串里，格式化方式表示符（也就是%d，%f这些）之间，用户可以输入一些其他的字符用于分隔键盘输入。Scanf在读取输入时，会跳过这些所指定的字符，然后读取下一个输入数。Scanf所支持的分割字符可以包括空白字符（也就是空格，缩进符\t，换行符\n和回车符\r）和非空白字符（对于一些特殊的非空白字符，比如%或者\，在格式化字符串中需要用特殊的方式来表示：%必须被写为%%，\必须被写作\\，"必须被写作\"，这和printf是类似的）。空白字符会使scanf()函数在读操作中略去输入中的一个或多个空白字符。而一个非空白字符会使scanf()函数在读入时剔除掉与这个非空白字符相同的字符。而如果在格式化方式表示符之间没有任何字符，scanf函数自动将零个（注意是0个）、一个或多个相连的空格字符视作用户输入的数据之间的分隔符。</p>
+<p style="font-family:verdana">Scanf的读取输入的策略是读到不能读为止，比如scanf的格式化字符串是"%d%s"，用户的输入是123abd，那么scanf先输入一个十进制整数，123被读入，但是当scanf遇到a时，a显然不是十进制整数的一部分，所以，scanf这时候就开始尝试用格式化字符串%d之后的部分开始匹配，也就是%s，%s是输入字符串，所以会读入a和a之后所有的字符，也就是abd。</p>
+<p style="font-family:verdana">如果scanf在读取过程中，发现某个格式化表示符所对应的数据无法被读出，则scanf会终止并返回一个数组包括所有已经读入的数据，比如，scanf的格式化字符串为"%f %d%s"，用户输入1.23 &nbsp;xabd，第一个格式化表示符%f对应的输入为1.23，scanf能够读出，然后是空格，然后scanf在读取%d所对应的整数时，找不到任何10进制数字，所以scanf终止返回数组[1.23]。</p>
+<p style="font-family:verdana">以下是使用scanf读取用户输入的一个例子，scanf的调用语句如下</p>
+<p style="font-family:verdana;color:blue">Scanf("%f\n%x%dABC%s%d%s %e")</p>
+<p style="font-family:verdana">用户输入</p>
+<p style="font-family:verdana">8.67 &nbsp;&nbsp;6E8d 232ABC hello&nbsp;12</p>
+<p style="font-family:verdana">最后的输出结果为[8.67, 28301, 232, "hello", 12, ""]。注意这里，ABC之后需要输入一个字符串，但是ABC之后是空格，空格将会被自动当作格式化表示符之间的间隔而被scanf跳过，所以最后输入的字符串时"hello"而不是"&nbsp;hello"，而格式化字符串最后的格式化表示符%e没有对应的输入，所以scanf终止返回。</p>
+<p style="font-family:verdana">Scanf的格式化表示符还具有设置最多输入字符数目的功能，比如%2s表示输入字符串时，最多输入两个字符，而诸如%3f，则表示输入浮点数时，最多输入三个字符，比如如下例子：</p>
+<p style="font-family:verdana;color:blue">scanf("%3f %2s")</p>
+<p style="font-family:verdana">，用户输入为</p>
+<p style="font-family:verdana">1235.324 aerf</p>
+<p style="font-family:verdana">最后的输出结果为[123, "5."]。原因是，%3f仅仅从用户输入中读取3个字符作为浮点数输入，所以输入了123，然后scanf继续读取格式化字符串，发现是空格，而如上所述，格式化字符串中的空格对应于用户输入的0个，1个或者多个连续的空格符，由于用户输入3之后没有输入空格，所以格式化字符串中的这个空格对应0个用户输入的空格，然后scanf继续读取格式化字符串发现是%2s，所以接着从用户输入中读取2个字符组成字符串"5."并返回。</p>
+<p style="font-family:verdana">最后还要注意，和printf函数不同，scanf不能自动进行数据类型转换，当且仅当用户输入的数据符合格式化表示符的时候，输入才能成功，否则scanf将会终止。比如语句</p>
+<p style="font-family:verdana">Scanf("%d,%f")</p>
+<p style="font-family:verdana">尝试从用户输入中读取一个整数，一个浮点数，如果用户输入为</p>
+<p style="font-family:verdana">12.34,5</p>
+<p style="font-family:verdana">，scanf只能返回[12]，原因在于12.34是一个浮点数，浮点数不能被自动截断取整为整数，所以scanf为%d读取整数输入时，仅仅读到小数点“.”之前就停止了，但是scanf发现%d之后必须要有逗号“，”作为数据间的分隔字符，但小数点并非逗号，所以读取失败，最后返回[12]。</p>
+<p style="font-family:verdana">下面给出了上述printf和scanf函数的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test printf and scanf functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试printf和scanf函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function printfscanf()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test printf function (现在测试printf）\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%d", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%f", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%f", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%d", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//print 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//print [1.200000, 2.300000]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//print 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//print [1.2, 2.3]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%3s", "abcdefg")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("%019.6f", 12.2342154577) <i style="font-family:verdana;color:green;">// print 000000000012.234215</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("abc\ndef")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test scanf function (现在测试scanf）\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable result_of_scanf</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input （请用户输入）:\n123abd\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember, to simply print % using printf, we need to use %%</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 记住，如果想用printf输出一个%符号，需要使用%%</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("scanf(\"%%d%%s\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input （请用户输入）:\n1.23 &nbsp;xabd\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%f %d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%f %d%s\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input （请用户输入）:\n8.67 &nbsp;&nbsp;6E8d 232ABC hello 12\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%f\n%x%dABC%s%d%s %e")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%f\n%x%dABC%s%d%s %e\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input （请用户输入）:\n1235.324 aerf\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%3f %2s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%3f %2s\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Please input （请用户输入）:\n12.34,5\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_scanf = scanf("%d,%f")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"%d,%f\") returns " + result_of_scanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">在命令提示符中运行上述::mfpexample::printfscanf()函数，得到的结果如下，注意这里的结果也包括用户的输入：</p>
+<p style="font-family:verdana">Now test printf function (现在测试printf）</p>
+<p style="font-family:verdana">8.776000,Hello 4D2abc255finish</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123.100000</p>
+<p style="font-family:verdana">123.000000</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.200000, 2.300000]</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.2, 2.3]</p>
+<p style="font-family:verdana">abcdefg</p>
+<p style="font-family:verdana">000000000012.234215</p>
+<p style="font-family:verdana">abc</p>
+<p style="font-family:verdana">def</p>
+<p style="font-family:verdana">Now test scanf function (现在测试scanf）</p>
+<p style="font-family:verdana">Please input （请用户输入）:</p>
+<p style="font-family:verdana">123abd</p>
+<p style="font-family:verdana">123abd</p>
+<p style="font-family:verdana">scanf("%d%s") returns [123, "abd"]</p>
+<p style="font-family:verdana">Please input （请用户输入）:</p>
+<p style="font-family:verdana">1.23 &nbsp;xabd</p>
+<p style="font-family:verdana">1.23 &nbsp;xabd</p>
+<p style="font-family:verdana">scanf("%f %d%s") returns [1.23]</p>
+<p style="font-family:verdana">Please input （请用户输入）:</p>
+<p style="font-family:verdana">8.67 &nbsp;&nbsp;6E8d 232ABC hello 12</p>
+<p style="font-family:verdana">8.67 &nbsp;&nbsp;6E8d 232ABC hello 12</p>
+<p style="font-family:verdana">scanf("%f</p>
+<p style="font-family:verdana">%x%dABC%s%d%s %e") returns [8.67, 28301, 232, "hello", 12, ""]</p>
+<p style="font-family:verdana">Please input （请用户输入）:</p>
+<p style="font-family:verdana">1235.324 aerf</p>
+<p style="font-family:verdana">1235.324 aerf</p>
+<p style="font-family:verdana">scanf("%3f %2s") returns [123, "5."]</p>
+<p style="font-family:verdana">Please input （请用户输入）:</p>
+<p style="font-family:verdana">12.34,5</p>
+<p style="font-family:verdana">12.34,5</p>
+<p style="font-family:verdana">scanf("%d,%f") returns [12]</p>
+<h3><a name="_Toc30837" ></a>第2节 &nbsp;对字符串输入输出</h3>
+<p style="font-family:verdana">和printf与scanf相似，MFP编程语言也提供了sprintf和sscanf用于对字符串输入输出。sprintf的用法和上一节中介绍的printf基本一样，唯一的区别在于，printf没有返回值，而是将格式化后的数据打印输出到命令提示符的屏幕上，sprintf不是将格式化后的数据打印输出到命令提示符的屏幕上，而是作为一个字符串返回。</p>
+<p style="font-family:verdana">sscanf的用法和上一节中介绍的scanf也是基本一样，但需要注意两点不同。第一，sscanf需要两个参数，第一个参数是待读入的字符串，这就相当于scanf中读取用户输入的来源——命令提示符，第二个参数才是格式化字符串；第二，sscanf读取的字符串可能包括多行，每一个换行符都被当作一种空白字符处理，而scanf一次只能从命令提示符终端中读取一行。除去这两点，sscanf的格式化字符串参数的定义和格式，以及返回数组的方式，都和scanf一模一样。</p>
+<p style="font-family:verdana">下面给出了使用sprintf和sscanf函数的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test sprintf and sscanf functions</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试sprintf和sscanf函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function sprintfsscanf()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable result_str</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test sprintf function (现在测试sprintf）\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%d", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%f", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%f", 123)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%d", 123.1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//return 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//return [1.200000, 2.300000]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//return 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//return [1.2, 2.3]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%3s", "abcdefg")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("%019.6f", 12.2342154577) <i style="font-family:verdana;color:green;">// return 000000000012.234215</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_str = sprintf("abc\ndef")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf(result_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Now test sscanf function (现在测试sscanf）\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable result_of_sscanf</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("123abd","%d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember, to simply print % using printf, we need to use %%</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 记住，如果想用printf输出一个%符号，需要使用%%</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("scanf(\"123abd\",\"%%d%%s\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("1.23 &nbsp;xabd","%f %d%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"1.23 &nbsp;xabd\",\"%f %d%s\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read string including multiple lines</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 读取包括多行的字符串</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("8.67 &nbsp;&nbsp;6E8d 232ABC\nhello 12",&nbsp;_</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;"%f\n%x%dABC%s%d%s %e")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"8.67 &nbsp;&nbsp;6E8d 232ABC\\nhello 12\",\"%f\n%x%dABC%s%d%s %e\") returns "&nbsp;+ result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("1235.324 aerf","%3f %2s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"1235.324 aerf\",\"%3f %2s\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;result_of_sscanf = sscanf("12.34,5","%d,%f")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("scanf(\"12.34,5\",\"%d,%f\") returns " + result_of_sscanf)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">在命令提示符中运行上述::mfpexample::sprintfsscanf()函数，得到的结果如下，注意运行上述函数无需用户的输入：</p>
+<p style="font-family:verdana">Now test sprintf function (现在测试sprintf）</p>
+<p style="font-family:verdana">8.776000,Hello 4D2abc255finish</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123.100000</p>
+<p style="font-family:verdana">123.000000</p>
+<p style="font-family:verdana">123</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.200000, 2.300000]</p>
+<p style="font-family:verdana">123 + 123i</p>
+<p style="font-family:verdana">[1.2, 2.3]</p>
+<p style="font-family:verdana">abcdefg</p>
+<p style="font-family:verdana">000000000012.234215</p>
+<p style="font-family:verdana">abc</p>
+<p style="font-family:verdana">def</p>
+<p style="font-family:verdana">Now test sscanf function (现在测试sscanf）</p>
+<p style="font-family:verdana">scanf("123abd","%d%s") returns [123, "abd"]</p>
+<p style="font-family:verdana">scanf("1.23 &nbsp;xabd","%f %d%s") returns [1.23]</p>
+<p style="font-family:verdana">scanf("8.67 &nbsp;&nbsp;6E8d 232ABC\nhello 12","%f</p>
+<p style="font-family:verdana">%x%dABC%s%d%s %e") returns [8.67, 28301, 232, "hello", 12, ""]</p>
+<p style="font-family:verdana">scanf("1235.324 aerf","%3f %2s") returns [123, "5."]</p>
+<p style="font-family:verdana">scanf("12.34,5","%d,%f") returns [12]</p>
+<h3><a name="_Toc21385" ></a>第3节 &nbsp;文件内容读写及其相关函数</h3>
+<p style="font-family:verdana">MFP编程语言提供了完整的一套类似C语言的文件内容读写函数，其中不但包含类似于printf和scanf，用于读写文本文件的fprintf和fscanf，还包括用于读取文本文件行的freadline，用于读写二进制文件的fread和fwrite，以及文件的打开关闭函数fopen和fclose。具体地，这些文件说明如下表所示：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fclose</p></td>
+<td>
+<p style="font-family:verdana">fclose(1) :</p>
+<p style="font-family:verdana">fclose(fd)关闭文件号fd所对应的文件。如果文件号不存在，返回-1，否则返回0。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">feof</p></td>
+<td>
+<p style="font-family:verdana">feof(1) :</p>
+<p style="font-family:verdana">feof(fd)用于确定是否已经到达文件号为fd的读模式文件的末尾。如果是，返回true，否则返回false。如果文件号不合法，抛出异常。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fopen</p></td>
+<td>
+<p style="font-family:verdana">fopen(2) :</p>
+<p style="font-family:verdana">fopen(path, mode)打开位于path路径的文件并返回文件号以进行后续读写操作。它和C以及Matlab中的同名函数用法相似。但它仅支&nbsp;持"r"、"a"、"w"、"rb"、"ab"和"wb"六种读写模式。例子包括fopen("C:\\Temp\\Hello.dat", "ab") (Windows)和fopen("./hello.txt", "r") (Android)。</p>
+<p style="font-family:verdana">fopen(3) :</p>
+<p style="font-family:verdana">fopen(path, mode, encoding)用字符编码encoding打开位于path路径的文件并返回文件号以进行后续读写操作。由于只有文本文件支持字符编码，参数mode 只能为"r"、"a"和"w"3种读写模式。例子包括fopen("C:\\Temp\\Hello.txt", "a", "LATIN-1") (Windows)和fopen("./hello.txt", "r", "UTF-8") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fprintf</p></td>
+<td>
+<p style="font-family:verdana">fprintf(2...) :</p>
+<p style="font-family:verdana">printf(format_string, ...)，sprintf(format_string, ...)和fprintf(fd, format_string, ...)和C/C++中的对应函数工作方式相似。这些函数通过format_string和其后的数值参数构造出一个新的字符串，printf函数将字符&nbsp;串打印到标准输出，sprintf函数将字符串作为返回值返回，fprintf函数则将字符串输出到文件号为fd的文本文件。字符串&nbsp;format_string支持输入整数（%d、%i、%x等），浮点数（%e、%f等），字符和字符串（%c和%s）等等。用户可以在C语言的帮助文档&nbsp;中找到format_string的构造方法。例如，printf("Hello world!%f", 3.14)将会打印输出"Hello world!3.140000"，而sprintf("%c%d", "A", 9)则返回"A9"（注意MFP不支持单一字符数据类型，所以单一的字符将会存储为一个只包括一个字符的字符串）。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fread</p></td>
+<td>
+<p style="font-family:verdana">fread(4) :</p>
+<p style="font-family:verdana">fread(fd, buffer, from, length)从文件（文件号fd）中读取length个字节数据，并把读出的数据保存在数组buffer中（从buffer的索引from开始保存）。&nbsp;注意from和length必须非负，并且from+length必须不比buffer的容量大。参数from和length可以同时省略。如果它们被省&nbsp;略，意味着fread读取整个buffer容量的字节数据并保存在整个buffer中。Buffer也可以省略，如果buffer省略，fread读取一&nbsp;个字节并返回。如果fread在读取之前发现已经到达文件末尾，则返回-1，否则返回读取字节的个数（如果buffer不省略）。如果文件不存在或非法或&nbsp;不可以访问，将会抛出异常。例子包括fread(1)、fread(2, byte_buffer)以及fread(2, byte_buffer, 3, 7)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">freadline</p></td>
+<td>
+<p style="font-family:verdana">freadline(1) :</p>
+<p style="font-family:verdana">freadline(fd)读取文本文件（文件号是fd）的一行。如果freadline在读取之前发现已经到达文件末尾，它返回NULL。否则，它返回基于字符串的这一行的内容，但不包括结尾的换行符。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fscanf</p></td>
+<td>
+<p style="font-family:verdana">fscanf(2) :</p>
+<p style="font-family:verdana">scanf(format_string)，sscanf(input_from, format_string)和fscanf(fd, format_string)和C/C++中的对应函数工作方式相似。scanf读取用户的一行输入，sscanf读取字符串&nbsp;input_from，fscanf从文件（文件号fd）中读取文件内容。字符串format_string支持输入整数（%d、%i、%x等），浮点数&nbsp;（%e、%f等），字符和字符串（%c和%s）等等。用户可以在C语言的帮助文档中找到format_string的构造方法。但是，和C语言有所不&nbsp;同，MFP中的这些函数不需要输入用于存储读取数值的参数。所有的读取的数值将会保存在一个数组中作为返回值返回。比如，sscanf("3Hello world!", "%d%c%c%s")将会返回[3, "H", "e", "llo"]（注意MFP不支持单一字符数据类型，所以单一的字符将会存储为一个只包括一个字符的字符串）。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">fwrite</p></td>
+<td>
+<p style="font-family:verdana">fwrite(4) :</p>
+<p style="font-family:verdana">fwrite(fd, buffer, from, length)向文件（文件号fd）中写入length个字节数据。这些字节数据保存在数组buffer中（从buffer的索引from开始）。注意&nbsp;from和length必须非负，并且from+length必须不比buffer的容量大。参数from和length可以同时省略。如果它们被省略，&nbsp;意味着fwrite写入整个buffer的字节数据。Buffer也可以是一个单独的字节，在这种情况下fwrite仅写入一个字节的数据。如果文件不存&nbsp;在或非法或不可以访问，将会抛出异常。例子包括fwrite(1, 108)、fwrite(2, byte_buffer)以及fwrite(2, byte_buffer, 3, 7)。</p></td></tr></table>
+<h3><a name="_Toc31520" ></a>1.&nbsp;打开和关闭文件</h3>
+<p style="font-family:verdana">和C语言类似，MFP对文件内容进行读写操作有一个基本的流程，首先，第一步要打开文件。打开文件的函数是fopen，该函数有两个或3个参数，第一个参数为一个基于字符串的文件名，该文件名包括路径，这里的路径可以是绝对路径（比如"/mnt/sdcard/a.txt"或者"C:\\temp\\b.exe"），也可以是相对路径(比如"a.txt"或者"temp\\b.exe"）。注意这里的相对路径是相对当前目录的路径，在启动安卓上的可编程科学计算器的时候，初始的当前目录是位于SD卡上的AnMath目录，在启动基于JAVA的可编程科学计算器时，初始的当前目录是启动JCmdLine.jar文件的所在目录。在可编程科学计算器启动之后，用户可以通过cd函数改变当前目录。</p>
+<p style="font-family:verdana">Fopen函数的第二个参数是打开文件的方式（也是一个字符串），fopen函数支持6种打开文件的方式，它们是</p>
+<p style="font-family:verdana">"r"：表示用读模式打开一个文本文件（通常文件扩展名为.txt，也有可能是.xml或者.c、.cpp、.mfps等代码文件，这些文件都可以用记事本软件打开）；</p>
+<p style="font-family:verdana">"w"：表示用写模式打开一个文本文件，文件的原有内容将会被取代；</p>
+<p style="font-family:verdana">"a"：表示用添加模式打开一个文本文件，新输入的内容将会被添加到文件的原有内容之后；</p>
+<p style="font-family:verdana">"rb"：表示用读模式打开一个二进制文件（这种文件通常无法用记事本打开）；</p>
+<p style="font-family:verdana">"wb"：表示用写模式打开一个二进制文件，文件的原有内容将会被取代；</p>
+<p style="font-family:verdana">"ab"：表示用添加模式打开一个二进制文件，新输入的内容将会被添加到文件的原有内容之后；</p>
+<p style="font-family:verdana">注意这里文本文件和二进制文件读写方式是不一样的，后面将会介绍，文本文件的读写函数是fprintf，fscanf和freadline，而二进制文件的读写函数是fread和fwrite。如果用读写二进制文件的函数去读写文本文件，或者用读写文本文件的函数去读写二进制文件，会出错。</p>
+<p style="font-family:verdana">Fopen函数除了上述两个参数之外，还有一个可选参数，也就是被操作文件的编码模式（也是一个字符串）。该参数仅对文本文件有效。用正确的编码模式打开一个文本文件对于确保正确读取或者写入文件内容非常重要，否则，有可能会造成文件里面是汉字文章，用MFP读出来的结果却是乱码。</p>
+<p style="font-family:verdana">Fopen函数的编码模式参数的缺省值是操作系统的编码模式，对于中文Windows，编码模式是GB2312，这种编码模式是支持中文的，所以，如果在中文Windows平台上用fopen函数在不指定编码模式的条件下打开一个文本文件并写入一些中文，再用一些常用的文本编辑软件比如NotePad++打开，看到的不会是问号或者乱码。但是，对于英文的Windows，编码模式通常是IBM437，这种编码模式不支持中文，所以，在英文Windows平台上用fopen函数在不指定编码模式的条件下打开一个文本文件并写入一些中文，再用NotePad++打开，看到的都是乱码或者问号。</p>
+<p style="font-family:verdana">在安卓上，文本文件的编码问题则简单得多。安卓系统的编码模式都是UTF-8，不论是什么语言。UTF-8支持中文，所以，在安卓系统上创建的中文文本文件，都可以在常用的文本编辑器上正确打开。</p>
+<p style="font-family:verdana">由于阅读本手册的读者一般都是使用中文的Windows和安卓系统，所以，大部分用户不用管fopen的这个可选参数，而只用第一个和第二个参数即可。但如果是在英文Windows平台上读写含有汉字的文件，建议fopen最后增加指定编码模式的参数并设置该参数值为"UTF-8"。</p>
+<p style="font-family:verdana">Fopen函数的返回值是打开的文件号，这是一个非负整数，每一次调用fopen函数，不论是不是操作同一个文件，fopen返回的文件号都不一样。Fopen返回的文件号将作为后面文件读写函数和关闭文件函数的参数，告诉这些函数哪个文件需要被读写，那个文件需要被关闭。</p>
+<p style="font-family:verdana">在打开文件并对其进行了读写操作之后，文件不在被使用，这时，就需要将文件关闭。MFP中，关闭文件的函数名称为fclose(fd)，这里fd为前面调用fopen函数所返回的文件号。</p>
+<p style="font-family:verdana">关闭已经打开但是不再被使用的文件时非常重要不可忽略的步骤。如果不关闭文件，首先会造成内存的泄漏，其次，如果以后需要再次打开没有关闭的文件进行写操作，有可能会失败。</p>
+<p style="font-family:verdana">以下给出了使用fopen和fclose的例子：</p>
+<p style="font-family:verdana;color:blue">variable fd1&nbsp;= fopen("test.exe","wb")&nbsp;<i style="font-family:verdana;color:green;">// 打开二进制文件test.exe写</i></p>
+<p style="font-family:verdana;color:blue">fclose(fd1)</p>
+<p style="font-family:verdana;color:blue">variable fd2&nbsp;= fopen("/mnt/sdcard/AnMath/test.txt","r","UTF-8")&nbsp;<i style="font-family:verdana;color:green;">// 用UTF-8编码模式打开文本文件test.txt读</i></p>
+<p style="font-family:verdana;color:blue">fclose(fd2)</p>
+<h3><a name="_Toc20053" ></a>2.&nbsp;文本文件的读写</h3>
+<p style="font-family:verdana">在打开文件后，就需要对文件内容进行读写。MFP仅提供了了顺序读取（或者写入）的功能。也就是，文件打开后，MFP只能向文件尾的方向读取（或写入），而不能跳转到文件的中间。这样，当MFP编程语言读取文件时，如果到达了文件的尾部，读取必须停止。MFP提供了函数feof用于判断是否到达文件的尾部。feof仅需要一个参数，就是fopen函数返回的文件号。如果到达文件尾部，feof返回true，否则返回false。</p>
+<p style="font-family:verdana">MFP提供的文本文件读取函数包括fscanf和freadline。其中，fscanf和前面介绍的scanf函数以及sscanf函数的使用方法基本一样。fscanf需要两个参数，第一个参数是fopen函数返回的文件号，第二个参数是格式化字符串，返回值是一个数组，里面的每一个元素是一个从文件中读入的数据。注意，和sscanf函数一样，这个被读取的文件可以包括很多行，文件中的换行符被当作一种空格符处理。</p>
+<p style="font-family:verdana">freadline函数则用来一行一行地读取文件。freadline使用方法更简单，它只需要一个参数，就是文件号。每调用一次，返回文件中的一行，然后将文件的读取指针指向该行后面的字符。如果到达文件尾，则返回空字符串。</p>
+<p style="font-family:verdana">以下给出了读取文本文件的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到。</p>
+<p style="font-family:verdana">为了运行这个例子，首先需要在放置代码的io and file libs子目录中创建设文本文件test_read.txt，其内容如下：</p>
+<p style="font-family:verdana">123 456</p>
+<p style="font-family:verdana">Good,2*9=18</p>
+<p style="font-family:verdana">Hello!</p>
+<p style="font-family:verdana">abc</p>
+<p style="font-family:verdana">读取该文本文件的代码如下：</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test reading text file</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试读取文本文件</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function readTextFile()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// here assume current directory is AnMath and test_read.txt</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is saved in scripts/manual/io and file libs/ folder.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 这里假设当前目录是AnMath目录，test_read.txt文件保存在</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// scripts/manual/io and file libs/ folder文件夹中。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Content of the file （文件内容如下：）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//123 456</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//Good,2*9=18</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//Hello!</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//abc</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen("scripts/manual/io and file libs/test_read.txt", "r")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read two integers</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 读取两个整数</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable int_array = fscanf(fd, "%d%d")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print what has been read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 打印出读取的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("read " + int_array + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable read_str = ""</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// if we are not at the end of the file and we haven't read string Hello!</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 如果还没有到达文件尾部，并且还没有读到字符串Hello!</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;while and(feof(fd) == false, read_str != "Hello!")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;read_str = freadline(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print what has been read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 打印出读取的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;printf("read " + read_str + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;loop</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable str_array = fscanf(fd, "%s")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print what has been read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 打印出读取的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("read " + str_array + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if (feof(fd))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// it is right if we are at the end of the file</i></p>
+<p style="font-family:verdana;color:blue">&#9;<i style="font-family:verdana;color:green;">// 到达文件尾部意味着程序工作正常</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("End of the file found!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;else</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// it is wrong if we are still not at the end of file</i></p>
+<p style="font-family:verdana;color:blue">&#9;<i style="font-family:verdana;color:green;">// 如果还没有到达文件尾部，意味着出错</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Something wrong!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd) <i style="font-family:verdana;color:green;">//close the file （别忘记关闭文件）</i></p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述程序的运行结果如下：</p>
+<p style="font-family:verdana">read [123, 456]</p>
+<p style="font-family:verdana">read </p>
+<p style="font-family:verdana">read Good,2*9=18</p>
+<p style="font-family:verdana">read Hello!</p>
+<p style="font-family:verdana">read ["abc"]</p>
+<p style="font-family:verdana">End of the file found!</p>
+<p style="font-family:verdana">需要注意一点的是，在读出整数123和456之后，上述代码调用freadline函数在while循环中一行一行地读取文件内容。但是，freadline读出的第一行并非是Good,2*9=18，而是一个空字符串，其原因是，在freadline函数被调用之间，fscanf函数仅仅读到456就返回了而没有继续读下去，这就意味着456之后文件中的换行符还没有被读入，所以，freadline开始读的时候，是从6之后开始读读到换行符为止，但是6和换行符之间没有字符，所以freadline返回一个空字符串。</p>
+<p style="font-family:verdana">MFP提供的文本文件写入函数为fprintf。fprintf函数的用法和printf函数以及sprintf函数基本类似，唯一的区别在于，fprintf多一个参数，也就是，fprintf的第一个参数是fopen返回的文件号，通过这个文件号，fprintf对相应的文件进行写入操作。fprintf的第二个参数才是格式化字符串，从第三个参数起（如果有的话），是需要写入的数据。</p>
+<p style="font-family:verdana">以下给出了读取文本文件的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到。</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test writing text file</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试写入文本文件</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function writeTextFile()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// first test write to replace mode. If file does not exist, it will be</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// created. If file does exist, its content will be wiped off.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 首先测试写模式。如果要打开的文件不存在，那么它将会被创建。如果文件已经</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 存在，它的原有的内容将会被新写入的内容所覆盖。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen("scripts/manual/io and file libs/test_write.txt", _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;"w", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// first inputs some numbers and string with prompt information</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 首先输入一些数字和字符（包括一些提示信息）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fprintf(fd, "The first line includes %d, %f, %s\n", 123.71, 56.48, "hi")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// then input 4 Chinese characters with prompt information</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 然后输入四个汉字（包括一些提示信息）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fprintf(fd, "Now input some Chinese characters： " + "汉字中文\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd) <i style="font-family:verdana;color:green;">// close the file（关闭文件）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Then test append mode. If file does not exist, it will be</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// created. If file does exist, fprintf will append some text to its</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// current content.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 然后测试添加模式。如果要打开的文件不存在，那么它将会被创建。如果文件</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 已经存在，将在它的原有的内容后添加新的内容。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fd = fopen("scripts/manual/io and file libs/test_write.txt", _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;"a", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// inputs some numbers and string with prompt information</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 输入一些数字和字符（包括一些提示信息）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fprintf(fd, "Now add a new line %d, %f, %s\n", -999, -48.73, "why?")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd) <i style="font-family:verdana;color:green;">// close the file（关闭文件） </i></p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述代码运行完成之后，用户会在本手册自带的示例代码所在目录中的io and file libs子目录中的找到一个test_write.txt文件，该文件的内容如下：</p>
+<p style="font-family:verdana">The first line includes 123, 56.480000, hi</p>
+<p style="font-family:verdana">Now input some Chinese characters： 汉字中文</p>
+<p style="font-family:verdana">Now add a new line -999, -48.730000, why?</p>
+<p style="font-family:verdana">注意由于用户使用的是UTF-8编码模式来写入文件，所以，上述汉字可以在一些常用的文本编辑器，比如notepad++中打开。</p>
+<p style="font-family:verdana">通过文本文件的读写，用户还可以实现MFP语言上并不支持的全局变量的功能。用户可以将全局变量的值写入一个文本文件中，并在其他的函数中读取该文本文件获得变量值，或者写入该文本文件更改变量值，这样，该文本文件就相当于一个全局变量，文件的内容就相当于变量的值。</p>
+<h3><a name="_Toc22906" ></a>3.&nbsp;二进制文件的读写</h3>
+<p style="font-family:verdana">MFP编程语言读取二进制的函数名字叫fread。Fread函数使用四个参数，第一个参数是文件号（fd），这个参数是前面调用fopen函数打开一个文件的返回值；第二个参数是读取的内容的保存位子（buffer），这个参数必须是一个数组；第三个参数是读出的数据在buffer中的起始存放的位子；第四个参数是读取的字节数。</p>
+<p style="font-family:verdana">需要注意的是，读出的数据在buffer中的起始存放的位子加上读取的字节数必须不大于读取的内容的保存数组的长度。第三个和第四个参数可以省略，如果省略，缺省的读出的数据在buffer中的起始存放的位子为0，读取的字节数为buffer数组的长度。第二个参数也可以省略，如果省略，fread函数读取一个字节并返回读出的数值，，如果不省略，fread把读取的数据保存在buffer中并返回读出的字节的个数。如果fread在读取数据之前发现已经到达文件的尾部，则返回-1。为了避免fread函数在到达文件尾部后还继续尝试读取文件，和读取文本文件一样，也可以使用feof函数判断是否到达文件的尾部。如果文件不存在或者无法访问，则抛出异常。</p>
+<p style="font-family:verdana">MFP编程语言写二进制文件的函数叫做fwrite。fwrite(fd, buffer, from, length)向文件（文件号fd）中写入length个字节数据。这些字节数据保存在数组buffer中（从buffer的索引from开始）。注意 from和length必须非负，并且from+length必须不比buffer的容量大。参数from和length可以同时省略。如果它们被省略， 意味着fwrite写入整个buffer的字节数据。Buffer也可以是一个单独的字节（而不是数组），在这种情况下fwrite仅写入一个字节的数据。如果文件不存在或非法或不可以访问，将会抛出异常。</p>
+<p style="font-family:verdana">以下给出了读写二进制文件的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到。</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test reading & writing binary file</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试读写二进制文件</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function readWriteBinaryFile()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember write binary file should use "wb" not "w"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 记住写二进制文件需要用"wb"而不是"w"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen("scripts/manual/io and file libs/test_rw.bin", "wb")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fwrite(fd, 108) <i style="font-family:verdana;color:green;">// write one byte whose value is 108</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 写入一个字节，值为108。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// note that buffer should be an array of bytes (i.e. integer whose</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// value is no less than -127 and no greater than 128). Here 1000</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is larger than 128 so that it will be casted to a byte whose</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// value is -24 when write to a binary file. Its upper bits will lose</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 注意这里的缓存必须是一个字节数组（字节，这里必须是不大于128不小于-127</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//的整数）。buffer的最后一个元素1000大于255，所以在写入二进制文件时，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//将会被强制转化为一个字节范围内的整数也就是-24，在此过程中它的高位比特</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 信息丢失。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable buffer = [-18,79,126,-55,48,-23,-75,7,98,6,0,-34,1000]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fwrite(fd,buffer) <i style="font-family:verdana;color:green;">//write every thing in the buffer into the file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//写入buffer中的所有内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember append binary file should use "ab" not "a"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 记住向二进制文件尾部添加内容需要用"ab"而不是"a"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fd = fopen("scripts/manual/io and file libs/test_rw.bin", "ab")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// write 7 bytes from index 3 of buffer</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 向文件中写7个字节，这七个字节从buffer的索引3（也就是第4个字符）开始。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fwrite(fd,buffer, 3, 7)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//print original buffer content</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//打印出最开始buffer的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Originally buffer includes " + buffer + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// remember read binary file should use "rb" not "r"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 记住读二进制文件需要用"rb"而不是"r"</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fd = fopen("scripts/manual/io and file libs/test_rw.bin", "rb")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read 5 bytes from file, and store the read bytes in buffer from</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// index 2</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 从二进制文件中读入5个字节，并把读入的字节保存在buffer中，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//保存位置从索引2开始，也就是第三个字符 &nbsp;</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fread(fd, buffer, 2, 5)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Now buffer is " + buffer + "\n") <i style="font-family:verdana;color:green;">//打印出buffer的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable byte_value = fread(fd) <i style="font-family:verdana;color:green;">// read 1 byte （读一个字节）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Read one byte which is " + byte_value + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable read_byte_cnt = fread(fd, buffer) <i style="font-family:verdana;color:green;">// try to read buffer length</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 尝试读取buffer长度个字节</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Read " + read_byte_cnt + " bytes" + "\n") <i style="font-family:verdana;color:green;">// print how many</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 打印出读出的字节数</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Now buffer is " + buffer + "\n") <i style="font-family:verdana;color:green;">//打印出buffer的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;read_byte_cnt = fread(fd, buffer) <i style="font-family:verdana;color:green;">// try to read buffer length bytes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// again</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 再次尝试读取buffer长度个字节</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Read " + read_byte_cnt + " bytes" + "\n") <i style="font-family:verdana;color:green;">// print how many</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 打印出读出的字节数</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// check if we have arrived at the end of file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 检查是否到达文件尾了</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if (feof(fd))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// check how many bytes we can read if we have arrived at the</i></p>
+<p style="font-family:verdana;color:blue">&#9;<i style="font-family:verdana;color:green;">// end of file</i></p>
+<p style="font-family:verdana;color:blue">&#9;<i style="font-family:verdana;color:green;">// 检查到达文件尾后还能读多少字节</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("We have arrived at the end of file.\n")</p>
+<p style="font-family:verdana;color:blue">&#9;print("Now check how many bytes can be read.\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;read_byte_cnt = fread(fd, buffer) <i style="font-family:verdana;color:green;">// try to read buffer length</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// bytes again</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 再次尝试读取buffer长度个字节</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Read " + read_byte_cnt + " bytes" + "\n") <i style="font-family:verdana;color:green;">// print how </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// many bytes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// read</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 打印出读出的字节数</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">程序运行的结果如下：</p>
+<p style="font-family:verdana">Originally buffer includes [-18, 79, 126, -55, 48, -23, -75, 7, 98, 6, 0, -34, 1000]</p>
+<p style="font-family:verdana">Now buffer is [-18, 79, 108, -18, 79, 126, -55, 7, 98, 6, 0, -34, 1000]</p>
+<p style="font-family:verdana">Read one byte which is 48</p>
+<p style="font-family:verdana">Read 13 bytes</p>
+<p style="font-family:verdana">Now buffer is [-23, -75, 7, 98, 6, 0, -34, -24, -55, 48, -23, -75, 7]</p>
+<p style="font-family:verdana">Read 2 bytes</p>
+<p style="font-family:verdana">We have arrived at the end of file.</p>
+<p style="font-family:verdana">Now check how many bytes can be read.</p>
+<p style="font-family:verdana">Read -1 bytes</p>
+<h3><a name="_Toc16813" ></a>第4节 &nbsp;文件属性操作函数</h3>
+<p style="font-family:verdana">MFP编程语言提供了一系列的函数帮助使用者获取甚至修改文件的属性，包括文件名称，路径，类型，大小以及最近的修改时间等。所有这些函数列表及其详细说明如下：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_absolute_path</p></td>
+<td>
+<p style="font-family:verdana">get_absolute_path(1) :</p>
+<p style="font-family:verdana">get_absolute_path(fd_or_path)返回文件号fd_or_path（这里fd_or_path是一个整数）或者相对路径为fd_or_path（这里fd_or_path是一个字符串）所对应的文件的绝对路径（从根目录开始的完整路径）字符串。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_canonical_path</p></td>
+<td>
+<p style="font-family:verdana">get_canonical_path(1) :</p>
+<p style="font-family:verdana">get_canonical_path(fd_or_path)返回文件号fd_or_path（这里fd_or_path是一个整数）或者相对路&nbsp;径为fd_or_path（这里fd_or_path是一个字符串）所对应的文件的标准路径（不依赖符号链接的绝对路径）字符串。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_last_modified_time</p></td>
+<td>
+<p style="font-family:verdana">get_file_last_modified_time(1) :</p>
+<p style="font-family:verdana">get_file_last_modified_time(path)返回基于字符串路径的path的文件或目录的上一次更改时间。该时间等于从1970年1月1日午夜开始到上一次更改时刻所经历的毫秒数。如果path不存在或者没有访问权限，返回-1。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_path</p></td>
+<td>
+<p style="font-family:verdana">get_file_path(1) :</p>
+<p style="font-family:verdana">get_file_path(fd)返回文件号fd（fd是一个整数）所对应的文件的路径字符串。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_separator</p></td>
+<td>
+<p style="font-family:verdana">get_file_separator(0) :</p>
+<p style="font-family:verdana">get_file_separator()返回路径分割符。在Windows平台下返回字符串"\\"，在Linux和Android平台下返回字符串"/"。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_file_size</p></td>
+<td>
+<p style="font-family:verdana">get_file_size(1) :</p>
+<p style="font-family:verdana">get_file_size(path)返回基于字符串路径的path的文件大小。如果path不是对应一个文件或者没有权限或者不存在，返回-1。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_directory</p></td>
+<td>
+<p style="font-family:verdana">is_directory(1) :</p>
+<p style="font-family:verdana">is_directory(path)用于判断位于字符串path的文件（或者目录）是否是一个目录。如果该文件或目录存在并且是一个目录返回&nbsp;true，否则返回false。例子包括is_directory("E:\\") (Windows)和is_directory("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_executable</p></td>
+<td>
+<p style="font-family:verdana">is_file_executable(1) :</p>
+<p style="font-family:verdana">is_file_executable(path)用于判断位于字符串path的文件（或者目录）是否可执行。如果该文件或目录存在并且可执行返回&nbsp;true，否则返回false。例子包括is_file_executable("E:\\") (Windows)和is_file_executable("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_existing</p></td>
+<td>
+<p style="font-family:verdana">is_file_existing(1) :</p>
+<p style="font-family:verdana">is_file_existing(path)用于判断位于字符串path的文件（或者目录）是否存在。如果存在返回true，否则返回&nbsp;false。例子包括is_file_existing("E:\\") (Windows)和is_file_existing("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_hidden</p></td>
+<td>
+<p style="font-family:verdana">is_file_hidden(1) :</p>
+<p style="font-family:verdana">is_file_hidden(path)用于判断位于字符串path的文件（或者目录）是否隐藏。如果该文件或目录存在并且隐藏返回true，否&nbsp;则返回false。例子包括is_file_hidden("E:\\") (Windows)和is_file_hidden("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_normal</p></td>
+<td>
+<p style="font-family:verdana">is_file_normal(1) :</p>
+<p style="font-family:verdana">is_file_normal(path)用于判断位于字符串path的文件（或者目录）是否是一个常规文件而不是目录。如果该文件或目录存在并且&nbsp;是一个常规文件而不是目录返回true，否则返回false。例子包括is_file_normal("E:\\") (Windows)和is_file_normal("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_readable</p></td>
+<td>
+<p style="font-family:verdana">is_file_readable(1) :</p>
+<p style="font-family:verdana">is_file_readable(path)用于判断位于字符串path的文件（或者目录）是否可读。如果该文件或目录存在并且可读返回&nbsp;true，否则返回false。例子包括is_file_readable("E:\\") (Windows)和is_file_readable("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_file_writable</p></td>
+<td>
+<p style="font-family:verdana">is_file_writable(1) :</p>
+<p style="font-family:verdana">is_file_writable(path)用于判断位于字符串path的文件（或者目录）是否可写。如果该文件或目录存在并且可写返回&nbsp;true，否则返回false。例子包括is_file_writable("E:\\") (Windows)和is_file_writable("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_path_absolute</p></td>
+<td>
+<p style="font-family:verdana">is_path_absolute(1) :</p>
+<p style="font-family:verdana">is_path_absolute(path)用于判断位于字符串path是否是一个绝对路径（也就是从根目录开始而不是相对于当前目录的路径）。如果是返回&nbsp;true，否则返回false。例子包括is_path_absolute("E:\\temp") (Windows)和is_path_absolute("Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_path_parent</p></td>
+<td>
+<p style="font-family:verdana">is_path_parent(2) :</p>
+<p style="font-family:verdana">is_path_parent(path1, path2)用于判断位于字符串path1是否是字符串path2的上级目录。如果是返回true，否则返回false。例子包括&nbsp;is_path_parent("E:\\temp", "E:\\temp\\..\\temp\\test") (Windows)和is_path_parent(".", "Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_path_same</p></td>
+<td>
+<p style="font-family:verdana">is_path_same(2) :</p>
+<p style="font-family:verdana">is_path_same(path1, path2)用于判断位于字符串path1是否和字符串path2指向同一条路径。如果是返回true，否则返回false。例子包括&nbsp;is_path_same("E:\\temp", "E:\\temp\\..\\temp\\") (Windows)和is_path_parent("/home/tony/Documents", "Documents/") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">is_symbol_link</p></td>
+<td>
+<p style="font-family:verdana">is_symbol_link(1) :</p>
+<p style="font-family:verdana">is_symbol_link(path)用于判断位于字符串path的文件（或者目录）是否是一个符号链接。如果该文件或目录存在并且是一个符号&nbsp;链接返回true，否则返回false。例子包括is_symbol_link("E:\\") (Windows)和is_symbol_link("/home/tony/Documents/cv.pdf") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">set_file_last_modified_time</p></td>
+<td>
+<p style="font-family:verdana">set_file_last_modified_time(2) :</p>
+<p style="font-family:verdana">set_file_last_modified_time(path, time)设置基于字符串路径的path的文件或目录的上一次更改时间为time。该时间等于从1970年1月1日午夜开始到上一次更改时刻所经历的毫秒&nbsp;数。如果path不存在或者没有访问权限，返回false，否则返回true。例子包括("C:\\Temp\\Hello\\", 99999999) (Windows)和set_file_last_modified_time("./hello.txt", 1111111111) (Android)。</p></td></tr></table>
+<p style="font-family:verdana">上述函数均只使用最多2个参数，函数用法非常简单，以get_打头的函数，均只有一个参数，该参数要么是fopen函数返回的整数类型文件号，要么是基于字符串的文件路径，而这些函数的返回值，要么是一个一个基于字符串的文件路径或路径分隔符，要么是一个整数代表文件的访问时间或者文件的大小。</p>
+<p style="font-family:verdana">以is_打头的函数，均是对文件或者路径属性的判断，返回值均为布尔值True或者False。和get_打头的函数一样，这些函数的参数要么是fopen函数返回的整数类型文件号，要么是基于字符串的文件路径。</p>
+<p style="font-family:verdana">以set_打头的函数，这里仅有set_file_last_modified_time。该函数是唯一用于修改文件属性的函数，该函数用于设置文件的最近修改时间。该函数的第一个参数为文件路径，第二个参数为一个整数，表示需要设置的时间。</p>
+<p style="font-family:verdana">以下给出了上述函数的使用的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到。</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test file properties operators</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试读写文件属性的函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function fileProperties()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//假设当前的工作目录为AnMath目录（安卓下）或者</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//JCmdLine.jar所在目录（基于JAVA的可编程科学计算器）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Assume current working directory is AnMath in Android</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// or the folder where JCmdline.jar is located (for </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Scientific Calculator for JAVA)</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current working directory is "+get_working_dir()+"\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable retval</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// open current function's source code file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 打开本函数所在的源代码文件</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable strPath = "scripts/manual/io and file libs/examples.mfps"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;variable fd = fopen(strPath, "r")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's absolute path</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 获得源代码文件的绝对路径</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_absolute_path(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's absolute path is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's canonical path</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 获得源代码文件不包括符号链接的绝对路径</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_canonical_path(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's canonical path is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's last modified time</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 获得源代码文件上一次修改时间</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_file_last_modified_time(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's last modify time is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// set source code file's last modified time to be 1970/01/01</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 将源代码文件上一次修改时间设置为1970/01/01</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;set_file_last_modified_time(strPath, 0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_file_last_modified_time(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After set last modify time to be 0, " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ "current source file's last modify time is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get source code file's size</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 获得源代码文件尺寸</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = get_file_size(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Current source file's size is " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file a directory?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件是一个目录吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_directory(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file a directory: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file executable?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件可执行吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_executable(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file executable: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file existing?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件存在吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_existing(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file existing: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file hidden?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件是隐藏的吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_hidden(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file hidden: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file normal?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件是常规文件吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_normal(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file normal: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file readable?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件可读吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_readable(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file readable: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file writable?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件可写吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_file_writable(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file writable: " + retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file path absolute?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件路径是绝对路径吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_path_absolute(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file path absolute: " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is source code file path a symbol link?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 源代码文件路径是符号链接吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_symbol_link(strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is current source file path symbol link: " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is path1 the parent of source code file path?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Path1是源代码路径的上层路径吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strPath1 = "scripts/manual/io and file libs"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_path_parent(strPath1, strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is " + strPath1 + " parent of " + strPath + " : " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is path2 the same as source code file path?</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Path2和源代码路径是同一路径吗？</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strPath2 = "scripts/./../scripts/manual/../manual/io and file libs/examples.mfps"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;retval = is_path_same(strPath2, strPath)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("Is " + strPath2 + " same as " + strPath + " : " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ retval + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述函数的运行结果如下。需要注意的是，运行上述函数时如果用户用户的当前目录不是AnMath目录（如果是运行于安卓系统）或者JCmdLine.jar/mfplang.cmd/mfplang.sh所在目录（如果运行基于JAVA的可编程科学计算器），将会得到完全不同的结果，程序可能无法正常运行。</p>
+<p style="font-family:verdana">Current working directory is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime</p>
+<p style="font-family:verdana">Current source file's absolute path is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\manual\io and file libs\examples.mfps</p>
+<p style="font-family:verdana">Current source file's canonical path is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\manual\io and file libs\examples.mfps</p>
+<p style="font-family:verdana">Current source file's last modify time is 1439531707807</p>
+<p style="font-family:verdana">After set last modify time to be 0, current source file's last modify time is 0</p>
+<p style="font-family:verdana">Current source file's size is 16761</p>
+<p style="font-family:verdana">Is current source file a directory: FALSE</p>
+<p style="font-family:verdana">Is current source file executable: TRUE</p>
+<p style="font-family:verdana">Is current source file existing: TRUE</p>
+<p style="font-family:verdana">Is current source file hidden: FALSE</p>
+<p style="font-family:verdana">Is current source file normal: TRUE</p>
+<p style="font-family:verdana">Is current source file readable: TRUE</p>
+<p style="font-family:verdana">Is current source file writable: TRUE</p>
+<p style="font-family:verdana">Is current source file path absolute: FALSE</p>
+<p style="font-family:verdana">Is current source file path symbol link: FALSE</p>
+<p style="font-family:verdana">Is scripts/manual/io and file libs parent of scripts/manual/io and file libs/examples.mfps : TRUE</p>
+<p style="font-family:verdana">Is scripts/./../scripts/manual/../manual/io and file libs/examples.mfps same as scripts/manual/io and file libs/examples.mfps : TRUE</p>
+<h3><a name="_Ref427572672" ></a>第5节 &nbsp;<a name="_Toc25699" >类似Dos和Unix命令的文件整体操作函数</a></h3>
+<p style="font-family:verdana">以上对文件的内容读些和对文件的属性的操作函数，只是对单一的文件进行操作，并且不能够删除文件。如果用户想查看文件夹中所有的文件列表，或者想移动一个文件夹。很显然，上述函数无法满足要求。</p>
+<p style="font-family:verdana">如果用户使用Dos或者Unix的命令提示符，可以通过调用操作系统提供的指令对文件的整体进行操作，比如pwd指令获取当前目录，cd指令更改当前目录，xcopy或者cp指令拷贝文件等。为了方便用户，MFP编程语言也提供了类似的函数进行文件的整体操作。函数列表如下：</p>
+<table border="1" style="font-family:times;color:green;"><tr>
+<td>
+<p style="font-family:verdana">函数名</p></td>
+<td>
+<p style="font-family:verdana">函数帮助信息</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">cd</p></td>
+<td>
+<p style="font-family:verdana">cd(1) :</p>
+<p style="font-family:verdana">change_dir(path)（别名cd(path)）将当前路径变为字符串路径path。如果成功，返回true，否则返回false。例子包括change_dir("D:\\Windows") (Windows)和cd("/") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">change_dir</p></td>
+<td>
+<p style="font-family:verdana">change_dir(1) :</p>
+<p style="font-family:verdana">change_dir(path)（别名cd(path)）将当前路径变为字符串路径path。如果成功，返回true，否则返回false。例子包括change_dir("D:\\Windows") (Windows)和cd("/") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">copy_file</p></td>
+<td>
+<p style="font-family:verdana">copy_file(3) :</p>
+<p style="font-family:verdana">copy_file(source, destination, replace_exist)函数拷贝位于字符串source路径的文件或文件夹到位于字符串destination路径的文件或文件夹。如果第三个参&nbsp;数，replace_exist，是true，那么如果目标文件已经存在，它将会被源文件（或者源文件夹中的对应文件）替换。注意第三个参数可以省略，它&nbsp;的缺省值为false。&nbsp;例子包括copy_file("c:\\temp\\try1", "D:\\", true) (Windows)和copy_file("/mnt/sdcard/testfile.txt", "./testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">create_file</p></td>
+<td>
+<p style="font-family:verdana">create_file(2) :</p>
+<p style="font-family:verdana">create_file(path, is_folder)创建一个文件（如果is_folder是false或者不存在）或者目录（如果if_folder是true）。如果这个基于字符串&nbsp;的路径path的上级目录不存在，不存在的上级目录将会被创建。如果文件能够被创建，这个函数返回true，否则返回false。例子包括&nbsp;create_file("c:\\temp\\try1", true) (Windows)和create_file("testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">delete_file</p></td>
+<td>
+<p style="font-family:verdana">delete_file(2) :</p>
+<p style="font-family:verdana">delete_file(path, delete_children_in_folder)删除一个位于字符串path的文件或者目录。如果是一个目录且第二个参数&nbsp;delete_children_in_folder是true，目录中的所以文件和子目录将会被删除。注意第二个参数可以省略，它的缺省值是&nbsp;false。如果删除成功，本函数返回true，否则返回false。例子包括delete_file("c:\\temp\\try1", true) (Windows)和delete_file("testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">dir</p></td>
+<td>
+<p style="font-family:verdana">dir(1) :</p>
+<p style="font-family:verdana">print_file_list(path) (别名ls(path)或者dir(path))函数和Windows平台上的dir命令以及Linux平台上的ls命令类似。它打印出位于字符串&nbsp;path路径的文件或者目录中的所有子文件和子目录的信息。它返回打印的条目的个数。如果不存在一个文件或者目录对应于path路径，它返回-1。注意参&nbsp;数path是可以省略的。它的缺省值是当前目录。例子包括dir() (Windows)和ls("../testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">get_working_dir</p></td>
+<td>
+<p style="font-family:verdana">get_working_dir(0) :</p>
+<p style="font-family:verdana">get_working_dir()（别名pwd()）返回基于字符串的当前路径。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">list_files</p></td>
+<td>
+<p style="font-family:verdana">list_files(1) :</p>
+<p style="font-family:verdana">list_files(path)返回位于字符串path路径的目录中的所有子文件或者子目录的名字，或者如果path路径对应的是一个文件，它返&nbsp;回该文件的文件名。如果不存在一个文件或者目录对应于path路径，它返回NULL。注意参数path是可以省略的。它的缺省值是当前目录。例子包括&nbsp;list_files("c:\\temp\\try1") (Windows)和list_files("../testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">ls</p></td>
+<td>
+<p style="font-family:verdana">ls(1) :</p>
+<p style="font-family:verdana">print_file_list(path) (别名ls(path)或者dir(path))函数和Windows平台上的dir命令以及Linux平台上的ls命令类似。它打印出位于字符串&nbsp;path路径的文件或者目录中的所有子文件和子目录的信息。它返回打印的条目的个数。如果不存在一个文件或者目录对应于path路径，它返回-1。注意参&nbsp;数path是可以省略的。它的缺省值是当前目录。例子包括dir() (Windows)和ls("../testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">move_file</p></td>
+<td>
+<p style="font-family:verdana">move_file(3) :</p>
+<p style="font-family:verdana">move_file(source, destination, replace_exist)函数移动位于字符串source路径的文件或文件夹到位于字符串destination路径的文件或位于&nbsp;destination路径的文件夹内（而不是位于destination路径的文件夹本身）。如果第三个参数，replace_exist，是&nbsp;true，那么如果目标文件已经存在，它将会被源文件（或者源文件夹中的对应文件）替换。注意第三个参数可以省略，它的缺省值为false。例子包括&nbsp;move_file("c:\\temp\\try1", "D:\\", true) (Windows)和copy_file("/mnt/sdcard/testfile.txt", "./testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">print_file_list</p></td>
+<td>
+<p style="font-family:verdana">print_file_list(1) :</p>
+<p style="font-family:verdana">print_file_list(path) (别名ls(path)或者dir(path))函数和Windows平台上的dir命令以及Linux平台上的ls命令类似。它打印出位于字符串&nbsp;path路径的文件或者目录中的所有子文件和子目录的信息。它返回打印的条目的个数。如果不存在一个文件或者目录对应于path路径，它返回-1。注意参&nbsp;数path是可以省略的。它的缺省值是当前目录。例子包括dir() (Windows)和ls("../testfile_copy.txt") (Android)。</p></td></tr><tr>
+<td>
+<p style="font-family:verdana">pwd</p></td>
+<td>
+<p style="font-family:verdana">pwd(0) :</p>
+<p style="font-family:verdana">get_working_dir()（别名pwd()）返回基于字符串的当前路径。</p></td></tr></table>
+<p style="font-family:verdana">在这些函数中，cd和change_dir，pwd和get_working_dir，以及ls，dir和print_file_list是三组名字不同但是功能和用法完全相同的函数。以上的所有函数和Dos以及Unix下的文件操作指令对应关系如下（函数的用法和功能不见得和Dos以及Unix下的文件操作指令完全一样，但是很接近）：</p>
+<p style="font-family:verdana">1.&nbsp;cd和change_dir：对应Dos和Unix中的cd指令；</p>
+<p style="font-family:verdana">2.&nbsp;pwd和get_working_dir：对应Dos和Unix中的pwd指令；</p>
+<p style="font-family:verdana">3.&nbsp;ls，dir和print_file_list：对应Dos下的dir和Unix下的ls指令；</p>
+<p style="font-family:verdana">4.&nbsp;copy_file：对应Dos下的xcopy和Unix下的cp指令；</p>
+<p style="font-family:verdana">5.&nbsp;move_file：对应Dos下的move和Unix下的mv指令；</p>
+<p style="font-family:verdana">6.&nbsp;delete_file：对应Dos下的del和Unix下的rm指令；</p>
+<p style="font-family:verdana">此外，还有一个list_files函数，该函数也是返回一个目录中的所有文件的文件名。和dir（或者ls或者print_file_list）函数不同之处在于，list_files函数返回的是一个数组，数组中的每一个元素是一个代表目录中的一个文件的文件名的字符串，dir函数，则是将目录中所有的文件的名字，修改时间，以及其他的属性都打印输出到命令提示符上。Dir函数在用户把命令提示符当作Unix终端或者Dos窗口使用时能够提供更加详细的信息，但是list_files在编写程序时更有用。</p>
+<p style="font-family:verdana">以下给出了上述函数的使用的例子。本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到。</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;test file operation commands</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;测试文件整体操作函数</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function fileOpr()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//假设当前的工作目录为AnMath目录（安卓下）或者</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//JCmdLine.jar所在目录（基于JAVA的可编程科学计算器）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Assume current working directory is AnMath in Android</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// or the folder where JCmdline.jar is located (for </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Scientific Calculator for JAVA)</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strOriginalPWD = pwd()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Current directory is " + strOriginalPWD + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// now move to scripts/manual/io and file libs/</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//改变目录至scripts/manual/io and file libs/</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;cd("scripts/manual/io and file libs/")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("After cd, current directory is " + pwd() + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// now print content in the folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 现在显示当前目录下的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// now create a file in a sub-folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;create_file("test_folder/test_file.txt")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print content in the folder after create_file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 在调用create_file之后显示当前目录下的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After create test_folder/test_file.txt, run dir:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After create test_folder/test_file.txt, run dir for test_folder:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir("test_folder")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;move_file("test_folder","test_folder1")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print content in the folder after move_file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 在调用move_file之后显示当前目录下的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After move folder test_folder to test_folder1, run dir:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if delete_file("test_folder1") == false</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Cannot delete a folder with file inside " _</p>
+<p style="font-family:verdana;color:blue">&#9;&nbsp;&nbsp;+ "if delete_children_in_folder flag is not set\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;if delete_file("test_folder1", true)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Can delete a folder with file inside " _</p>
+<p style="font-family:verdana;color:blue">&#9;&nbsp;&nbsp;&nbsp;&nbsp;+ "if delete_children_in_folder flag is set to true\n")</p>
+<p style="font-family:verdana;color:blue">&#9;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// print content in the folder after delete_file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 在调用delete_file之后显示当前目录下的内容</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;print("After delete folder test_folder1, run dir:\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;dir(pwd())</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// return to original working directory</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 返回原来的工作目录。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;cd(strOriginalPWD)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">上述函数的运行结果如下，需要注意的是，运行上述函数时如果用户用户的当前目录不是AnMath目录（如果是运行于安卓系统）或者JCmdLine.jar/mfplang.cmd/mfplang.sh所在目录（如果运行基于JAVA的可编程科学计算器），将会得到完全不同的结果，程序可能无法正常运行：</p>
+<p style="font-family:verdana">Current directory is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime</p>
+<p style="font-family:verdana">After cd, current directory is E:\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\manual\io and file libs</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<p style="font-family:verdana">After create file test_folder/test_file.txt, run dir:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">drwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_folder\ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:42</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<p style="font-family:verdana">After create file test_folder/test_file.txt, run dir for test_folder:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:42</p>
+<p style="font-family:verdana">After move folder test_folder to test_folder1, run dir:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">drwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_folder1\ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:42</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<p style="font-family:verdana">Cannot delete a folder with file inside if delete_children_in_folder flag is not set</p>
+<p style="font-family:verdana">Can delete a folder with file inside if delete_children_in_folder flag is set to true</p>
+<p style="font-family:verdana">After delete folder test_folder1, run dir:</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;examples.mfps &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18897 &nbsp;&nbsp;&nbsp;2015-08-14 18:17:29</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_read.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33 &nbsp;&nbsp;&nbsp;2015-08-13 14:58:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_rw.bin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21 &nbsp;&nbsp;&nbsp;2015-08-14 13:04:55</p>
+<p style="font-family:verdana">-rwx &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test_write.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;135 &nbsp;&nbsp;&nbsp;2015-08-13 15:37:46</p>
+<h3><a name="_Toc16835" ></a>第6节 &nbsp;进行复杂文件操作示例</h3>
+<p style="font-family:verdana">上面的章节中介绍了MFP编程语言所提供的全套文件操作函数。事实上，上述函数的功能非常全面和强大，用户完全可以通过它们实现任何文件操作。以下就是调用上述函数进行复杂文件操作的一个实例。</p>
+<p style="font-family:verdana">在可编程科学计算器中，set_array_elem函数（具体用法参见第3章第3节的第3部分）会对参数数组的某一个元素或者子元素（如果该元素也是一个矩阵的话）进行赋值，并返回新的数组，原来的参数数组，可能会发生改变，也可能不会发生改变，但即便发生改变，改编后的参数数组的值，也不见得就和返回值相同，所以，用户必须通过set_array_elem函数的返回值来得到新的数组。换句话说，set_array_elem函数的正确调用方式为：</p>
+<p style="font-family:verdana;color:blue">array_to_change = set_array_elem(array_to_change, index, value)</p>
+<p style="font-family:verdana">。但是，在老版本（1.6.6之前的版本）的可编程科学计算器中，set_array_elem函数会将参数矩阵的值直接改变为新值，换句话说，用户不必将set_array_elem的返回值赋给array_to_change一样可以得到改编后的矩阵值，所以，很多用户调用set_array_elem函数的方式为</p>
+<p style="font-family:verdana;color:blue">set_array_elem(array_to_change, index, value)</p>
+<p style="font-family:verdana">，换句话说，他们根本就不使用set_array_elem的返回值。而这种调用办法在可编程科学计算器1.7及其以后的版本中将不再被支持。为了保证所有的代码可以正确运行，用户必须对老的调用方法进行修改。第一种修改办法是手动修改，也就是搜索所有代码源文件中的set_array_elem调用，然后一行一行地把旧的调用办法改为新的调用办法，显然，这样做费时费力，而且还容易出错。</p>
+<p style="font-family:verdana">第二种修改办法是使用MFP编程，直接在源文件中自动搜索set_array_elem调用并对其自动修改，这样做速度快，并且不会出错。</p>
+<p style="font-family:verdana">用户可能会问，在MFP函数运行的过程中对源文件进行修改，会不会对程序的运行产生影响？答案是不会，因为，在现阶段的可编程科学计算器启动的时候，所有的代码已经被读入，除非用户重启可编程科学计算器，或者在安卓上使用可编程科学计算器所提供的代码编辑器修改并保存代码，或者在个人电脑上把输入焦点切换回基于JAVA的图形界面可编程科学计算器，否则代码不会被重新读入，所以，调用MFP程序修改自己的代码是没有关系的。当然，现在没有关系并不代表将来没有问题，未来可编程科学计算器可能会动态地装载代码，届时，修改运行中的代码就可能会有影响了。</p>
+<p style="font-family:verdana">使用MFP编程修改文件，关键要实现几点：</p>
+<p style="font-family:verdana">1.&nbsp;代码需要能够对scripts目录下（包括其子目录下）的所有.mfps文件进行遍历搜索；</p>
+<p style="font-family:verdana">2.&nbsp;代码能过对文本文件的每一行进行匹配，找到旧的set_array_elem调用位置；</p>
+<p style="font-family:verdana">3.&nbsp;代码能够将文本文件的某些行进行修改并保存。</p>
+<p style="font-family:verdana">如果要对某个目录下的所有文件（包括子目录下的所有文件）进行遍历搜索，就需要用到上面提到的list_files函数和is_directory函数以及is_ file_normal函数。List_files函数列出指定目录下的所有文件和目录，然后一一遍历这些文件和目录，用is_directory函数判断是不是一个子目录，如果是，再回到上一步用list_files进行操作，如果不是，用is_file_normal函数判断是不是普通的文件，同时还要确定文件名最后5个字符是不是.mfps，如果所有的条件都满足，则是一个mfps代码源文件。</p>
+<p style="font-family:verdana">实现上述流程，一个办法是用迭代函数，每一次发现一个新的目录，就调用迭代函数对该目录下的所有内容进行遍历搜索；另外一个办法是，创建一个包括所有目录的数组，每发现一个新的目录，就把该目录的路径添加的数组的尾部，直到该数组不再增长，并且数组中所有的目录都已经被搜索。下面的代码片断采用的是第二种办法：</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfps_files是一个1维数组，每个元素是一个mfps源文件路径</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_mfps_files = []</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_folders是一个1维数组，每个元素是初始目录本身</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//（也就是strScriptsPath）或者其下一个子目录的路径。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_folders = [strScriptsPath]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable folder_idx = 0</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 遍历all_folders数组，注意在遍历过程中，all_folders还在增长</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;While(folder_idx &nbsp;&lt; size(all_folders)[0])</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 列出一个folder内的所有文件</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable these_files = list_files(all_folders[folder_idx])</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 遍历这些文件。注意these_files是一个一维数组，所以</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// size(these_files)[0]必然是一个等于该数组长度的正整数，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 此外还要注意数组的索引是从0开始到数组长度-1。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For variable idx = 0 to size(these_files)[0] - 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable this_file_name = these_files[idx]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name = all_folders[folder_idx] _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ get_file_separator() _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ this_file_name</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If(is_directory(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//如果这个文件名对应的文件实际上是一个目录，将其</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//添加到all_folders数组中。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All_folders = set_array_elem(all_folders, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_folders), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elseif and(stricmp(strsub(this_file_name, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strlen(this_file_name)-5), ".mfps")==0, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_file_normal(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//如果这个名称对应的文件确实为以.mfps为后缀的源文件，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//将其添加到all_mfp_files数组中。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all_mfps_files = set_array_elem(all_mfps_files, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_mfps_files), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;folder_idx = folder_idx + 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Loop</p>
+<p style="font-family:verdana">找到了每一个mfps源文件后，就需要读取文件的每一行，看该行的内容是否符合set_array_elem函数的旧的调用方式，注意到set_array_elem函数的旧的调用方式意味着去处该行的头尾空格之后，set_array_elem永远打头，然后是括号（括号和set_array_elem之间可能会有空格），然后是待修改的数组变量名称（和括号之间可能会有空格），然后是逗号（和待修改的数组变量名称之间可能会有空格）。对于这种固定的模式，可以使用split函数，对代码行从括号和逗号处分割，然后判断分割出来的第一个子字符串去除头尾空格之后是否是set_array_elem。具体代码片断如下：</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">//假设文件已经打开，现在正在读取</i></p>
+<p style="font-family:verdana;color:blue">Variable strLine = freadline(fd)</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">//注意这里用括号分割字符串是使用"\\("而不是"("，原因在于括号</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">//对于split函数来说是一个特殊的控制字符，所以要用两个反斜杆</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">//规避。</i></p>
+<p style="font-family:verdana;color:blue">Variable strarray1 = split(strline, "\\(")</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">//如果分割后至少有两个子字符串，并且分割后的第一个子字符串是</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">//set_array_elem，注意这里要调用trim函数去除头尾空格。</i></p>
+<p style="font-family:verdana;color:blue">If and(size(strarray1)[0] &gt;= 2, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stricmp(trim(strarray1[0]), "set_array_elem") == 0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//和括号不同，逗号不是split函数的特殊控制字符，所以不用规避</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strarray2 = split(strarray1[1], ",")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;If size(strarray2)[0] &gt;= 2</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//必须至少有两个子字符串，否则可能意味着没有逗号</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//是set_array_elem的旧调用方式，现在进行修改</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;……</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">EndIf</p>
+<p style="font-family:verdana">将旧的set_array_elem调用方式字符串改为新的set_array_elem调用方式字符串则非常简单，在前面加入被修改的数组变量的名字和等号即可：</p>
+<p style="font-family:verdana;color:blue">StrLine = strarray2[0] + "&nbsp;= "&nbsp;+ trim(strLine)</p>
+<p style="font-family:verdana">这里，strarray2[0]是待修改的数组变量的名字（参见搜索set_array_elem的旧的调用方式的代码片断）。</p>
+<p style="font-family:verdana">然后把修改后的代码写入一个新的文件：</p>
+<p style="font-family:verdana;color:blue">Fprintf(fd1, "%s\n", strLine)</p>
+<p style="font-family:verdana">最后调用move_file函数用新的mfps代码文件覆盖旧的mfps代码文件即可。完整的代码如下，本示例的代码可以在本手册自带的示例代码所在目录中的io and file libs子目录中的examples.mfps文件中找到。</p>
+<p style="font-family:verdana;color:green">Help</p>
+<p style="font-family:verdana;color:green">@language:</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;a complicated file operation example</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">@language:simplified_chinese</p>
+<p style="font-family:verdana;color:green">&nbsp;&nbsp;一个复杂的文件操作的例子</p>
+<p style="font-family:verdana;color:green">@end</p>
+<p style="font-family:verdana;color:green">endh</p>
+<p style="font-family:verdana;color:blue">function fileOpr2()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strConfirm</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// first get current working directory, should be AnMath</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// in Android or the folder where JCmdline.jar is located</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// (for &nbsp;Scientific Calculator for JAVA)</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 首先获取当前工作目录，必须位于AnMath目录（安卓下）或者</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// JCmdLine.jar所在目录（基于JAVA的可编程科学计算器）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strOriginalPWD = pwd()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Current directory is " + strOriginalPWD + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// confirm it is the right working folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 请用户确认是正确的工作目录</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Is this AnMath folder in Android " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ "or if you are working on Scientific Calculator for JAVA, " _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;+ "is the folder where JCmdline.jar is located?\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;strConfirm = input("Y for yes and other for no:", "S")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if and(stricmp(strConfirm, "Y") != 0, stricmp(strConfirm, "Yes") !=0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//exit if not in the right working directory</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//不是在正确的工作目录，退出</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("You are not in the right working directory, exit!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;return</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// the scripts folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable strScriptsPath = strOriginalPWD + get_file_separator() _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "scripts"</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Please back up your source code first</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 请先备份您的源代码</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Print("Please back up your source codes before run the program!!!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// have you backed up your source codes, if no I cannot continue.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//您备份了您的源代码吗？如果不是Y，我没法进行下一步。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Print("Have you backed up your source codes?\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;strConfirm = input("Y for yes and other for no:", "S")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;if and(stricmp(strConfirm, "Y") != 0, stricmp(strConfirm, "Yes") !=0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If you haven't backed up your codes, I will do it for you.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 如果还没有备份您的源代码，我来帮您</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("If haven't been backed up, I will do it for you!\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 按回车键开始备份</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;pause("Press ENTER to start back up.")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;copy_file(strScriptsPath, strScriptsPath + ".bakup", true)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ok, now it is the right working directory and source code has been</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// backed up. Preparation work has finished, press enter to continue.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 现在我确信，工作目录是对的了并且代码已经被备份。准备工作完成，按回车继续</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;pause("Now preparation work has finished, press Enter to continue")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfps_files is a 1D array with each element path of a .mfps src</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfps_files是一个一维数组，每一个元素是一个mfps源文件路径</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_mfps_files = []</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_folders is also a 1D array, each element is path of a folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// including source codes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_folders是一个一维数组，每一个元素是自定目录本身或者其下的</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 一个子目录的路径。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable all_folders = [strScriptsPath]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Variable folder_idx = 0</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Go through all_folders, note that in the procedure all_folders is</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// increasing</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 遍历all_folders数组，注意在遍历过程中，all_folders还在增长</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;While(folder_idx &nbsp;&lt; size(all_folders)[0])</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// list all the files in a folder</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 列出一个folder内的所有文件</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable these_files = list_files(all_folders[folder_idx])</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Go through the files. Note that these_files is a 1D array so</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// size(these_files)[0] must be equal to the length of the array</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Also note that index is from 0 to array length - 1.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 遍历这些文件。注意these_files是一个一维数组，所以</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// size(these_files)[0]必然是一个等于该数组长度的正整数，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 此外还要注意数组的索引是从0开始到数组长度-1。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For variable idx = 0 to size(these_files)[0] - 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable this_file_name = these_files[idx]</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name = all_folders[folder_idx] + get_file_separator() _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ this_file_name</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If(is_directory(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If this file is actually a folder, append it to all_folders</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//如果这个文件名对应的文件实际上是一个目录，将其</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//添加到all_folders数组中。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All_folders = set_array_elem(all_folders, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_folders), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elseif and(stricmp(strsub(this_file_name, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strlen(this_file_name)-5), ".mfps") == 0, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_file_normal(this_file_name))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If this file is a .mfps source file, append it to</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// all_mfps_files</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//如果这个名称对应的文件确实为以.mfps为后缀的源文件，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//将其添加到all_mfp_files数组中。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all_mfps_files = set_array_elem(all_mfps_files, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size(all_mfps_files), _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this_file_name)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;folder_idx = folder_idx + 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Loop</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Now all_mfps_files includes all the .mfps files</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 现在all_mfps_files包含了所有的.mfps文件</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;For variable idx = 0 to size(all_mfps_files)[0] - 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// create a temporary source file to write the modified code in</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// set encode is UTF-8 to ensure that unicode (e.g. Chinese and</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Japanese characters) is supported</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 创建一个临时源文件以写入修改后的代码。设置编码模式为UTF-8以确保</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 文件中的Unicode字符（也就是中文汉字）能够被支持。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable fd1 = fopen("temporary_src_file","w", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("Now analyse " + all_mfps_files[idx] + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable fd = fopen(all_mfps_files[idx], "r", "UTF-8")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Variable idxLine = 0</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;while (!feof(fd))</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idxLine = idxLine + 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable strLine = freadline(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Note that the regex string for "(" is "\\(" not "(" because</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// split function uses "(" as a regex control character so that</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// have to escape.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//注意这里用括号分割字符串是使用"\\("而不是"("，原因在于括号</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//对于split函数来说是一个特殊的控制字符，所以要用两个反斜杆</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//规避。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable strarray1 = split(strline, "\\(")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// If at least 2 sub strings after splitting and the first one</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is set_array_elem after trimming the white spaces</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//如果分割后至少有两个子字符串，并且分割后的第一个子字符串是</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//set_array_elem，注意这里要调用trim函数去除头尾空格。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If and(size(strarray1)[0] &gt;= 2, _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stricmp(trim(strarray1[0]), "set_array_elem") == 0)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// need not to escape "," for regex, different from "("</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//和括号不同，逗号不是split函数的特殊控制字符，所以不用规避</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Variable strarray2 = split(strarray1[1], ",")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If size(strarray2)[0] &gt;= 2</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Should have at least two sub strings, otherwise may mean</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// no comma.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//必须至少有两个子字符串，否则可能意味着没有逗号</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Now we can confirm that this line needs change.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//是set_array_elem的旧调用方式，现在进行修改</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("\tset_elem_array calling statement to change at" _</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ " Line " + idxLine + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("\tBefore change is : " + strLine + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StrLine = strarray2[0] + " = " + trim(strLine)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("\tAfter change is : " + strLine + "\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// write strLine into temporary source file</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 将strLine写入临时文件中</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fprintf(fd1, "%s\n", strLine)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Loop</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;fclose(fd1)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;fclose(fd)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//move temporary file to replace all_mfps_files[idx]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//用临时源代码文件替换all_mfps_files[idx]</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;move_file("temporary_src_file", all_mfps_files[idx], true)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//Done!（搞定了！）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;printf("Done!\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">程序的大致流程解释如下：</p>
+<p style="font-family:verdana">第一步是判断运行上述代码是用户的工作目录是否正确，当前工作目录，必须位于AnMath目录（安卓下）或者JCmdLine.jar所在目录（基于JAVA的可编程科学计算器）。如果不正确，可能根本就找不到文本文件；</p>
+<p style="font-family:verdana">第二步是提示用户需要做备份，如果还没有做备份，将会自动把用户源文件存储文件夹，也就是scripts目录，拷贝为scripts.bakup目录；</p>
+<p style="font-family:verdana">第三步是寻找所有的源代码文件；</p>
+<p style="font-family:verdana">第四步是寻找set_array_elem函数的旧的调用办法；</p>
+<p style="font-family:verdana">第五步是修改并存储临时的修改文件；</p>
+<p style="font-family:verdana">第六部是将临时提供的修改文件拷贝覆盖可编程科学计算器中旧的源文件。</p>
+<p style="font-family:verdana">程序运行的结果如下。注意，上述函数的最终输出和用户运行时间以及代码文件的不同而变化，每一个用户看到的可能都是不同的输出，但最终，程序运行完毕之后用户将会发现所有的set_array_elem都是采用新型的调用方法了。</p>
+<p style="font-family:verdana">Current directory is C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime</p>
+<p style="font-family:verdana">Is this AnMath folder in Android or if you are working on Scientific Calculator for JAVA, is the folder where JCmdline.jar is located?</p>
+<p style="font-family:verdana">Y for yes and other for no:Y</p>
+<p style="font-family:verdana">Please back up your source codes before run the program!!!</p>
+<p style="font-family:verdana">Have you backed up your source codes?</p>
+<p style="font-family:verdana">Y for yes and other for no:n</p>
+<p style="font-family:verdana">If haven't been backed up, I will do it for you!</p>
+<p style="font-family:verdana">Press ENTER to start back up.</p>
+<p style="font-family:verdana">Now preparation work has finished, press Enter to continue</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\examples\math.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\examples\misc.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\506.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\biao.mfps</p>
+<p style="font-family:verdana">……</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\cha_ru.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\cv100plus测试.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\捻系数.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\支偏计算.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\断强计算.mfps</p>
+<p style="font-family:verdana">Now analyse C:\Users\tonyc\Development\workspace\AnMath\misc\marketing\JCmdLine_runtime\scripts\userdef_lib\落棉率.mfps</p>
+<p style="font-family:verdana">&#9;set_elem_array calling statement to change at Line 35</p>
+<p style="font-family:verdana">&#9;Before change is : set_array_elem(luo_mian_lv_s,idx2,luo_mian_lv)</p>
+<p style="font-family:verdana">&#9;After change is : luo_mian_lv_s = set_array_elem(luo_mian_lv_s,idx2,luo_mian_lv)</p>
+<p style="font-family:verdana">……</p>
+<h3><a name="_Toc4811" ></a>小结</h3>
+<p style="font-family:verdana">输入输出和文件操作是MFP高级编程的一个重要部分。MFP编程语言提供了一整套类似C语言的命令提示符终端，字符串和文件的输入输出函数。此外，MFP编程语言还提供了类似Dos和Unix命令的文件操作函数用于改变当前目录，察看目录内容，复制、移动和删除文件。通过这一系列的函数，只要用户有权限，完全可以访问到操作系统的任何一个角落，完成很多其它应用无法实现的功能。</p>
+<p style="font-family:verdana">当然，在安卓系统中进行文件操作也是一件很危险的事情，由于文件对于用户已经被隐藏，程序运行完成之后，无法很方便地察看结果，也无法快速确认哪些文件被修改，修改是否符合预期。在这种情况下，建议用户在可编程科学计算器的工作目录AnMath下专门建立一个用于文件操作的目录，把所操作的文件限定在此目录中。</p>
+<p style="font-family:verdana">&nbsp;</p>
+</body></html>
