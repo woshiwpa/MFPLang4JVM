@@ -151,9 +151,9 @@
 <p style="font-family:verdana">还要注意，在现阶段，这个函数只能将系统指令的输出打印出来，还无法接受在运行中用户对于该系统指令的输入。此外，如果该系统指令不存在，则会抛出异常。</p>
 <p style="font-family:verdana">需要指出的是，system函数在基于JAVA的可编程科学计算器上工作是没有问题的，但是在安卓系统上，功能受到很多限制，原因在于，安卓系统并不保证提供完整的sh（shell）调用，所以，有些命令比如system(["sh", "-c",&nbsp;"echo hello"])可能在一些手机上可以执行，在另外一些手机上会运行出错。要想在安卓上执行文件复制移动删除以及目录的转换等操作，建议用户调用第6章第5节中提供的对文件整体操作的函数而最好不要去运行比如system(["sh", "-c",&nbsp;"cp file1 file2"])。</p>
 <p style="font-family:verdana">那么，是不是system函数在安卓上就没有什么很大的作用了呢？也不是，system函数可以调用安卓内部的应用管理器以打开某个应用，前提条件是用户知道该应用的包id（package id）和主界面（main activity）的名字，具体的用法为：</p>
-<p style="font-family:verdana">system("am start –n 包ID/启动主界面的名字")</p>
+<p style="font-family:verdana;color:blue;">system("am start –n 包ID/启动主界面的名字")</p>
 <p style="font-family:verdana">比如，如果用户的手机上安装有智慧拍照计算器（可编程科学计算器的姊妹产品），启动智慧拍照计算器的命令为：</p>
-<p style="font-family:verdana">system("am start –n com.cyzapps.SmartMath/com.cyzapps.SmartMath.ActivitySmartCalc")</p>
+<p style="font-family:verdana;color:blue;">system("am start –n com.cyzapps.SmartMath/com.cyzapps.SmartMath.ActivitySmartCalc")</p>
 <p style="font-family:verdana">这里com.cyzapps.SmartMath是智慧拍照计算器的包ID，com.cyzapps.SmartMath.ActivitySmartCalc是启动主界面的名字。</p>
 <p style="font-family:verdana">可编程科学计算器具有生成APK应用的功能，这些应用的包ID是由用户指定的，但是启动主界面的名字是固定的(但要注意该名字可能会在以后的版本中更改，但无论如何如果用户的APP已经生成，启动主界面的名字就不会变了），总是com.cyzapps.AnMFPApp.ActivityAnMFPMain。所以，用户可以在MFP程序中启动自己的MFP应用。</p>
 <p style="font-family:verdana">安卓内部的应用管理器也具有终止某个进程的功能，但是，这需要具有相应的权限。为了安全起见，可编程科学计算器没有添加相应的权限，所以，System函数不能用于终止某个应用。</p>
