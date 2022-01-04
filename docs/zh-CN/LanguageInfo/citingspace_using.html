@@ -22,6 +22,16 @@
 <p style="font-family:verdana">由于在旧版本的可编程科学计算器中，所有的mfps文件都没有定义引用空间，那么，这些mfps文件在新的1.7版中，将自动地被看成使用最顶级引用空间。那么在这些mfps文件中定义的函数，将被认为是最顶级引用空间中的函数，而这些函数的调用是不需要写明绝对引用路径的（当然如果写明，也是可以的）。</p>
 <p style="font-family:verdana">比如，用户在旧版的可编程科学计算器中，定义了函数Myf_abc()，并且在其他的函数中调用了Myf_abc。显然，调用的方式就是myf_abc()。在新版本中，由于函数Myf_abc()是定义在最上层引用空间的，所以调用是不需要写明绝对引用路径，所以myf_abc()还是正确的。当然，如果用户在调用时写明绝对引用路径也就是::myf_abc()，也是可以的。</p>
 <p style="font-family:verdana">还要注意的是，对于软件自带的函数，在旧版中没有引用空间的概念，在新版软件中，自带函数的引用空间都位于引用空间::mfp的一个子空间（下层或者更下层引用空间）中。比如，函数tan(x)，在新版软件中位于引用路径为::mfp::math::trigon的引用空间中，而函数log(x)在新版软件中位于引用路径为::mfp::math::log_exp的引用空间中。无论系统自带的函数位于哪一个引用空间中，它们都是引用空间::mfp的某一个子空间，所以，都是被包括在基本引用路径中，在调用的时候不需要指定引用路径。这样确保了和旧版软件的兼容性。</p>
+<p style="font-family:verdana">从2.0版开始，MFP语言加入了对面向对象编程的支持。class语句被引入。class语句和citingspace保持兼容，每一个class就是一个citingspace。每一个class内定义的静态函数可以用上面所给出的使用citingspace引用路径的办法访问。但是，如果不是静态函数，由于需要初始化对象，所以无法通过citingspace引用路径的办法访问。注意，当前class还不支持静态变量，所以变量无法通过citingspace引用路径的办法访问。比如下面的例子：</p>
+<p style="font-family:verdana;color:blue">class ABC</p>
+<p style="font-family:verdana;color:blue">Function f0()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::ABC::f0()\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Function f1(self)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::ABC::f1(self)\n")</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana">通过::ABC::f0()调用静态函数f0是合法的，但无法通过::ABC::f1()调用非静态函数f1，原因是f1需要通过类ABC的对象来访问。</p>
 <p style="font-family:verdana">除了基本引用路径，用户也可以在基本引用路径之外自定义额外的引用路径。用户定义引用路径需要使用using citingspace语句，该语句指明哪条额外的引用路径还要被使用。比如语句using citingspace ::abcd就是告诉MFP语言除了最高层引用空间和::mfp以及其子引用空间之外还要使用引用路径::abcd。</p>
 <p style="font-family:verdana">需要注意的是，在citingspace和using citingspace语句也可以使用相对引用空间。比如在引用空间::mfpexample中，用户又定义了</p>
 <p style="font-family:verdana;color:blue">citingspace Abcd</p>
@@ -34,7 +44,7 @@
 <p style="font-family:verdana">还比如，用户在引用空间::mfpexample中的某一个函数中，调用了abcd::testCS(a)函数，假如没有任何using citingspace语句在调用之前被声明，那么这个使用相对引用路径的abcd::testCS(a)的绝对引用路径就应该是::mfpexample::abcd::testCS(a)。</p>
 <p style="font-family:verdana">如果用户自己定义了好几层引用空间，并且在引用空间中和一些函数的函数体内部声明了一些using citingspace语句，那么，如果在这些函数中调用其他的函数，MFP语言对引用空间的查访顺序为：</p>
 <p style="font-family:verdana">1.函数调用语句所在的直接引用空间（也就是最内层的引用空间）；</p>
-<p style="font-family:verdana"><a name="_Ref19032" ></a>2.函数调用语句所在的最内层的程序块中的using citingspace所指定的引用空间。注意这些using citingspace语句必须位于函数调用语句的上方，并且越靠近函数调用语句，在进行引用空间搜索时，就具有越高的优先级；</p>
+<p style="font-family:verdana">2.函数调用语句所在的最内层的程序块中的using citingspace所指定的引用空间。注意这些using citingspace语句必须位于函数调用语句的上方，并且越靠近函数调用语句，在进行引用空间搜索时，就具有越高的优先级；</p>
 <p style="font-family:verdana">3.函数调用语句所在的外层的程序块中的using citingspace所指定的引用空间，越往外层，using citingspace语句所指定的引用空间的优先级就越低。和第2点类似，这些using citingspace语句必须位于函数调用语句的上方，并且越靠近函数调用语句，在进行引用空间搜索时，就具有越高的优先级；</p>
 <p style="font-family:verdana">4.函数调用语句所在的直接引用空间内但是在函数体外的using citingspace所指定的引用空间。请注意些using citingspace语句必须位于函数调用语句的上方，并且越靠近函数调用语句，在进行引用空间搜索时，就具有越高的优先级；</p>
 <p style="font-family:verdana">5.函数调用语句所在的非直接引用空间（也就是包含最内层引用空间的上层或者更上层引用空间，直到最顶层引用空间）和在非直接引用空间内的using citingspace语句所指定的引用空间。注意，在这里，这些引用空间的优先级是非直接引用空间 &gt; 该非直接引用空间中的using citingspace语句所指定的引用空间 &gt; 更上层的非直接引用空间 &gt; 更上层的非直接引用空间中的using citingspace语句所指定的引用空间...。比如，假如用户在某个mfps文件中定义了如下引用结构：</p>

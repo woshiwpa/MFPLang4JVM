@@ -22,6 +22,16 @@
 <p style="font-family:verdana">由於在舊版本的可編程科學計算器中，所有的mfps文件都沒有定義引用空間，那麽，這些mfps文件在新的1.7版中，將自動地被看成使用最頂級引用空間。那麽在這些mfps文件中定義的函數，將被認為是最頂級引用空間中的函數，而這些函數的調用是不需要寫明絕對引用路徑的（當然如果寫明，也是可以的）。</p>
 <p style="font-family:verdana">比如，用戶在舊版的可編程科學計算器中，定義了函數Myf_abc()，並且在其他的函數中調用了Myf_abc。顯然，調用的方式就是myf_abc()。在新版本中，由於函數Myf_abc()是定義在最上層引用空間的，所以調用是不需要寫明絕對引用路徑，所以myf_abc()還是正確的。當然，如果用戶在調用時寫明絕對引用路徑也就是::myf_abc()，也是可以的。</p>
 <p style="font-family:verdana">還要註意的是，對於軟件自帶的函數，在舊版中沒有引用空間的概念，在新版軟件中，自帶函數的引用空間都位於引用空間::mfp的一個子空間（下層或者更下層引用空間）中。比如，函數tan(x)，在新版軟件中位於引用路徑為::mfp::math::trigon的引用空間中，而函數log(x)在新版軟件中位於引用路徑為::mfp::math::log_exp的引用空間中。無論系統自帶的函數位於哪一個引用空間中，它們都是引用空間::mfp的某一個子空間，所以，都是被包括在基本引用路徑中，在調用的時候不需要指定引用路徑。這樣確保了和舊版軟件的兼容性。</p>
+<p style="font-family:verdana">從2.0版開始，MFP語言加入了對面向對象編程的支持。class語句被引入。class語句和citingspace保持兼容，每一個class就是一個citingspace。每一個class內定義的靜態函數可以用上面所給出的使用citingspace引用路徑的辦法訪問。但是，如果不是靜態函數，由於需要初始化對象，所以無法通過citingspace引用路徑的辦法訪問。註意，當前class還不支持靜態變量，所以變量無法通過citingspace引用路徑的辦法訪問。比如下面的例子：</p>
+<p style="font-family:verdana;color:blue">class ABC</p>
+<p style="font-family:verdana;color:blue">Function f0()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::ABC::f0()\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Function f1(self)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::ABC::f1(self)\n")</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana">通過::ABC::f0()調用靜態函數f0是合法的，但無法通過::ABC::f1()調用非靜態函數f1，原因是f1需要通過類ABC的對象來訪問。</p>
 <p style="font-family:verdana">除了基本引用路徑，用戶也可以在基本引用路徑之外自定義額外的引用路徑。用戶定義引用路徑需要使用using citingspace語句，該語句指明哪條額外的引用路徑還要被使用。比如語句using citingspace ::abcd就是告訴MFP語言除了最高層引用空間和::mfp以及其子引用空間之外還要使用引用路徑::abcd。</p>
 <p style="font-family:verdana">需要註意的是，在citingspace和using citingspace語句也可以使用相對引用空間。比如在引用空間::mfpexample中，用戶又定義了</p>
 <p style="font-family:verdana;color:blue">citingspace Abcd</p>
@@ -34,7 +44,7 @@
 <p style="font-family:verdana">還比如，用戶在引用空間::mfpexample中的某一個函數中，調用了abcd::testCS(a)函數，假如沒有任何using citingspace語句在調用之前被聲明，那麽這個使用相對引用路徑的abcd::testCS(a)的絕對引用路徑就應該是::mfpexample::abcd::testCS(a)。</p>
 <p style="font-family:verdana">如果用戶自己定義了好幾層引用空間，並且在引用空間中和一些函數的函數體內部聲明了一些using citingspace語句，那麽，如果在這些函數中調用其他的函數，MFP語言對引用空間的查訪順序為：</p>
 <p style="font-family:verdana">1.函數調用語句所在的直接引用空間（也就是最內層的引用空間）；</p>
-<p style="font-family:verdana"><a name="_Ref19032" ></a>2.函數調用語句所在的最內層的程序塊中的using citingspace所指定的引用空間。註意這些using citingspace語句必須位於函數調用語句的上方，並且越靠近函數調用語句，在進行引用空間搜索時，就具有越高的優先級；</p>
+<p style="font-family:verdana">2.函數調用語句所在的最內層的程序塊中的using citingspace所指定的引用空間。註意這些using citingspace語句必須位於函數調用語句的上方，並且越靠近函數調用語句，在進行引用空間搜索時，就具有越高的優先級；</p>
 <p style="font-family:verdana">3.函數調用語句所在的外層的程序塊中的using citingspace所指定的引用空間，越往外層，using citingspace語句所指定的引用空間的優先級就越低。和第2點類似，這些using citingspace語句必須位於函數調用語句的上方，並且越靠近函數調用語句，在進行引用空間搜索時，就具有越高的優先級；</p>
 <p style="font-family:verdana">4.函數調用語句所在的直接引用空間內但是在函數體外的using citingspace所指定的引用空間。請註意些using citingspace語句必須位於函數調用語句的上方，並且越靠近函數調用語句，在進行引用空間搜索時，就具有越高的優先級；</p>
 <p style="font-family:verdana">5.函數調用語句所在的非直接引用空間（也就是包含最內層引用空間的上層或者更上層引用空間，直到最頂層引用空間）和在非直接引用空間內的using citingspace語句所指定的引用空間。註意，在這裏，這些引用空間的優先級是非直接引用空間 &gt; 該非直接引用空間中的using citingspace語句所指定的引用空間 &gt; 更上層的非直接引用空間 &gt; 更上層的非直接引用空間中的using citingspace語句所指定的引用空間...。比如，假如用戶在某個mfps文件中定義了如下引用結構：</p>

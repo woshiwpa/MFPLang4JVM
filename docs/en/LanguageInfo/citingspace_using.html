@@ -23,6 +23,16 @@
 <p style="font-family:verdana">In version 1.6.7 or older, no mfps source file includes citingspace declaration. In version 1.7, all the functions in these mfps files are assumed to be located in the top level citingspace. Because top level citingspace is an MFP default citingspace, no citingspace path is required when a function is called.</p>
 <p style="font-family:verdana">Assume, for example, user defined a function named Myf_abc() in Scientific Calculator Plus 1.6.7, and called this function in some other functions. Clearly, the calling statement is my_abc(). In the new Scientific Calculator Plus (version 1.7 or newer), user can still call it in this way because my_abc() is defined in the top level citingspace. Nonetheless, including citingspace path, i.e. ::my_abc() is also valid.</p>
 <p style="font-family:verdana">The built-in and predefined functions in the new Scientific Calculator Plus are placed in a child (or grandchild) citingspace of ::mfp. For example, function tan(x) in MFP version 1.7 is located at ::mfp::math::trigon, and function log(x) is placed in ::mfp::math::log_exp. Because all these functions are in an MFP default citingspace, no citingspace path is required when calling any of these functions. Again, this feature keeps backward compatibility.</p>
+<p style="font-family:verdana">From version 2.0, MFP starts to support Object-Oriented Programming. class statement has been introduced since then. class is compatible with citingspace. Actually a class is a citingspace. All the static functions inside a class can be accessed by their citingspace paths. However, non-static member functions cannot be accessed by this means as they need an object of the class to be referred&nbsp;to. Also, please note that at this moment static member variables are not supported so that all the member variables cannot be accessed by citingspace path. The following code is an example.</p>
+<p style="font-family:verdana;color:blue">class ABC</p>
+<p style="font-family:verdana;color:blue">Function f0()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::ABC::f0()\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Function f1(self)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::ABC::f1(self)\n")</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana">In the above code, it is valid to call f0() using ::ABC::f0(). But developer cannot call f1 in this way as function f1 needs object of class ABC to be referred to.</p>
 <p style="font-family:verdana">Besides default citingspaces, user is able to insert additional citingspaces into the citingspace searching list. To this end, using citingspace statement is required. For example, using citingspace ::abcd tells MFP citingspace ::abcd is also in the searching list besides top level citingspace, ::mfp and its child citingspaces.</p>
 <p style="font-family:verdana">Both citingspace statement and using citingspace statement can use relative citingspace. For example, in citingspace ::mfpexample, user defines another citingspace abcd as below:</p>
 <p style="font-family:verdana;color:blue">citingspace Abcd</p>

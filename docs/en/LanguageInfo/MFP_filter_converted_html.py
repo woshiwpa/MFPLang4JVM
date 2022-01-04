@@ -36,6 +36,12 @@ font-size:10.0000pt;background:rgb(192,192,192);mso-highlight:rgb(192,192,192);"
 totalTxt = totalTxt.replace('''<p class=MsoNormal  align=justify  style="margin-bottom:12.0000pt;text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:SimSun;mso-ascii-font-family:Garamond;
 mso-hansi-font-family:Garamond;mso-bidi-font-family:Garamond;color:rgb(0,0,0);
 font-size:10.0000pt;background:rgb(192,192,192);mso-highlight:rgb(192,192,192);" >''', '\n<fakep style="font-family:verdana;color:blue">')
+totalTxt = totalTxt.replace('''<p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-right:0.0000pt;margin-bottom:12.0000pt;
+margin-left:0.0000pt;mso-margin-top-alt:auto;mso-pagination:widow-orphan;
+text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:SimSun;mso-ascii-font-family:Garamond;
+mso-hansi-font-family:Garamond;mso-bidi-font-family:Garamond;color:rgb(0,0,0);
+font-size:10.0000pt;mso-font-kerning:0.0000pt;background:rgb(192,192,192);
+mso-highlight:rgb(192,192,192);" >''', '\n<fakep style="font-family:verdana;color:blue">')
 
 def filter_func(originalTxt: str, str2Check: str) -> str:
     idx = 0
