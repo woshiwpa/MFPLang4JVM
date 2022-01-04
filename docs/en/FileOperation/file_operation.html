@@ -75,29 +75,29 @@
 <p style="font-family:verdana">%o: means a value is output as an octal integer. Note that there is no 0 initial in the output. For example, in MFP octal integer 77 (i.e. 63) should be written as 077. However, if user calls printf to output decimal integer 63 using %o format, 77 instead of 077 will be printed;</p>
 <p style="font-family:verdana">%g: select a suitable format for a real value. Note that string is not supported. </p>
 <p style="font-family:verdana">For example, if user wants to output 8.776 followed by a comma and then followed by a string "Hello", and then followed by a blank character, and then output 1234 using hexadecimal format, then output three letters which are abc, then output 255 as a normal decimal integer, finally output a string "finish", function printf can be called as below:</p>
-<p style="font-family:verdana">printf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
+<p style="font-family:verdana;color:blue;">printf("%f,%s %Xabc%dfinish",8.776,"Hello",1234,255)</p>
 <p style="font-family:verdana">The output of the above statement is:</p>
 <p style="font-family:verdana">8.776000,Hello 4D2abc255finish</p>
 <p style="font-family:verdana">Note that in the output result, hexadecimal integer does not start with 0x (i.e. 1234 is output as 4D2 not 0x4D2).</p>
 <p style="font-family:verdana">Basically, values in the argument list will be formatted and then output by the format string. If a value cannot be directly output using the desired format, printf will try to convert the value to another data type and try again. If any value cannot be formatted even after data type conversion, an error will be triggered. For example,</p>
-<p style="font-family:verdana">printf("%d", 123)</p>
+<p style="font-family:verdana;color:blue;">printf("%d", 123)</p>
 <p style="font-family:verdana">and</p>
-<p style="font-family:verdana">printf("%f", 123.1)</p>
+<p style="font-family:verdana;color:blue;">printf("%f", 123.1)</p>
 <p style="font-family:verdana">are both right because 123 is an integer and %d is the format indicator. And 123.1 is a floating value and %f is exactly the format indicator to output floating value.</p>
 <p style="font-family:verdana">For another example,</p>
-<p style="font-family:verdana">printf("%f", 123)</p>
+<p style="font-family:verdana;color:blue;">printf("%f", 123)</p>
 <p style="font-family:verdana">and</p>
-<p style="font-family:verdana">printf("%d", 123.1)</p>
+<p style="font-family:verdana;color:blue;">printf("%d", 123.1)</p>
 <p style="font-family:verdana">are also both right because 123 can be automatically converted to a floating value, and 123.1 can be rounded to an integer. However, </p>
-<p style="font-family:verdana">printf("%d", 123 + 123i)</p>
+<p style="font-family:verdana;color:blue;">printf("%d", 123 + 123i)</p>
 <p style="font-family:verdana">and</p>
-<p style="font-family:verdana">printf("%f", [1.2,2.3])</p>
+<p style="font-family:verdana;color:blue;">printf("%f", [1.2,2.3])</p>
 <p style="font-family:verdana">are wrong because 123 + 123i is a complex value which cannot be converted to integer . [1.2, 2.3] is an array which cannot be converted to a single value. So if user wants to output complex or array, real and image parts or each element in the array must be output separately, like follows:</p>
-<p style="font-family:verdana">printf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//output 123 + 123i</i></p>
-<p style="font-family:verdana">printf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//output [1.200000, 2.300000]</i></p>
+<p style="font-family:verdana;color:blue;">printf("%d + %di", 123, 123) &nbsp;<i style="font-family:verdana;color:green;">//output 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue;">printf("[%f, %f]", 1.2, 2.3) &nbsp;<i style="font-family:verdana;color:green;">//output [1.200000, 2.300000]</i></p>
 <p style="font-family:verdana">. Alternatively, a trick to output them as string (i.e. using %s) can be played:</p>
-<p style="font-family:verdana">printf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//output 123 + 123i</i></p>
-<p style="font-family:verdana">printf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//output [1.2, 2.3]</i></p>
+<p style="font-family:verdana;color:blue;">printf("%s", 123 + 123i) &nbsp;<i style="font-family:verdana;color:green;">//output 123 + 123i</i></p>
+<p style="font-family:verdana;color:blue;">printf("%s", [1.2,2.3]) &nbsp;<i style="font-family:verdana;color:green;">//output [1.2, 2.3]</i></p>
 <p style="font-family:verdana">. Since any value in MFP can be converted to a string, this trick always works.</p>
 <p style="font-family:verdana">In order to accurately control the output format, user may insert some characters between "%" and following format definition character(s). For example, user may insert a positive integer value between "%" and following format definition character to tell printf function what’s the maximum output length. For example:</p>
 <p style="font-family:verdana">%3d means outputting 3 or more digit integer, and the output is right-aligned if the integer includes less than 3 digits;</p>
@@ -107,7 +107,7 @@
 <p style="font-family:verdana">If user wants to pad 0 before the output, s\he can add a zero before the output length setting. For example, %04d means 0s are padded in front of an integer’s output to make the total output length is 4 if the integer’s length is less than 4.</p>
 <p style="font-family:verdana">If output length setting for string is a floating value, the integer part of the floating value means the minimum output length, and the fractional part means the maximum output length. If the string’s length is larger than the maximum output length, the output will be truncated. For example, %6.9s means outputting a string whose length is no less than 6 and no greater than 9. If a string includes less than 6 characters, blank will be padded in front of it; if a string includes more than 9 characters, the characters after character no. 9 will be discarded.</p>
 <p style="font-family:verdana">Function printf supports some special characters including \n (new line), \r (return) and \t (tabulator). These characters can be used in the format string parameter. For example:</p>
-<p style="font-family:verdana">printf("abc\ndef")</p>
+<p style="font-family:verdana;color:blue;">printf("abc\ndef")</p>
 <p style="font-family:verdana">outputs two lines which are abc and def because \n means changing to a new line.</p>
 <p style="font-family:verdana">Opposite to printf, function scanf reads a line of user’s input from console. Reading terminates at the place where an ENTER key is pressed, i.e. the end of the line, and returns an array whose elements are the values user input. Scanf only has one parameter which is the input format string. This parameter tells scanf what type of data the input should be recognized. Basically function scanf supports the following input formats:</p>
 <p style="font-family:verdana">%d: input a decimal integer;</p>
@@ -120,17 +120,17 @@
 <p style="font-family:verdana">The strategy of scanf is reading until cannot read. For example, if the format string is "%d%s" and user’s input is 123abd, scanf first reads the digits, i.e. 123, because the first format indicator is %d. Then scanf sees character a but clearly a cannot be a part of decimal integer. Therefore, scanf tries to use %s, which is immediately after %d, to match it. %s means a string. As such scanf will read all the characters from a to the end of the line or until a blank character is found. Thus abd is formatted as a string input.</p>
 <p style="font-family:verdana">If during reading, scanf finds nothing that can be input for a format indicator, it will return an array including all the read data values. For example, the format string of scanf is "%f %d%s" and user’s input is 1.23 &nbsp;xabd. The first format indicator is %f which corresponds to 1.23. Then there are blanks which will be looked on as a delimiter. Then scanf tries to read a decimal integer corresponding to %d. However, no decimal integer can be read after the blanks in the input (i.e. 1.23 &nbsp;xabd) so that scanf returns an array which is [1.23].</p>
 <p style="font-family:verdana">The following example shows how scanf works. The statement is</p>
-<p style="font-family:verdana">Scanf("%f\n%x%dABC%s%d%s %e")</p>
+<p style="font-family:verdana;color:blue;">Scanf("%f\n%x%dABC%s%d%s %e")</p>
 <p style="font-family:verdana">. Assume user inputs</p>
 <p style="font-family:verdana">8.67 &nbsp;&nbsp;6E8d 232ABC hello 12</p>
 <p style="font-family:verdana">. The returned value of scanf is [8.67, 28301, 232, "hello", 12, ""]. Note that in the format string after ABC scanf expects a string. However, in the input after ABC is blank which can only be looked on as a (part of) delimiter. Thus scanf skips the blank so that string "hello" not " hello" is input. In the end of the format string there is a format indicator which is %e. However, no corresponding input can be found so that scanf returns.</p>
 <p style="font-family:verdana">Format indicator can also tell scanf at most how many characters should be read. In the following example</p>
-<p style="font-family:verdana">scanf("%3f %2s")</p>
+<p style="font-family:verdana;color:blue;">scanf("%3f %2s")</p>
 <p style="font-family:verdana">, %3f means at most 3 characters should be read to input a floating value. Similarly, %2s means at most 2 characters should be read for the string. If user inputs</p>
 <p style="font-family:verdana">1235.324 aerf</p>
 <p style="font-family:verdana">, the output would be [123, "5."] because %3f only reads 3 characters from user’s input so that 123 is read. Then scanf finds a blank in the format string. As explained above, a blank character delimiter may mean 0 or 1 or several consecutive blank character(s) in the input. Since no blank character after 3, this delimiter means zero blank character so that scanf tries to read two characters to match %2s then. The string input therefore is "5." and it is returned by function scanf with 123. </p>
 <p style="font-family:verdana">Also note that, different from printf, scanf does not automatically convert data types. Only if user’s input exactly matches the format indicator scanf can read. Otherwise it stops reading input for this format indicator. For example,</p>
-<p style="font-family:verdana">Scanf("%d,%f")</p>
+<p style="font-family:verdana;color:blue;">Scanf("%d,%f")</p>
 <p style="font-family:verdana">tries to read an integer and a floating value from input. If user’s input is</p>
 <p style="font-family:verdana">12.34,5</p>
 <p style="font-family:verdana">, scanf can only return [12] because 12.34 is a floating value which cannot be automatically rounded to an integer. Thus when scanf reads an integer for %d, it stops at decimal point, i.e. “.”. However, scanf finds that after %d a “,” exists in the format string as a delimiter. However, decimal point is not a comma so that reading fails. So the final return is only [12].</p>
@@ -389,10 +389,10 @@
 <p style="font-family:verdana">After file is opened and read or written, user needs to close it to release the resource. The function to close an open file is fclose(fd) where fd is the returned file id from fopen.</p>
 <p style="font-family:verdana">Fclose function is not negligible. If a file is opened but not closed, first memory is leaked; second future writing operations on this file may fail.</p>
 <p style="font-family:verdana">Here examples are provided for fopen/fclose functions:</p>
-<p style="font-family:verdana">variable fd1 = fopen("test.exe","wb") <i style="font-family:verdana;color:green;">// open binary file test.exe to write.</i></p>
-<p style="font-family:verdana">fclose(fd1)</p>
-<p style="font-family:verdana">variable fd2 = fopen("/mnt/sdcard/AnMath/test.txt","r","UTF-8") <i style="font-family:verdana;color:green;">// open text file test.txt using UTF-8 encoding mode to read.</i></p>
-<p style="font-family:verdana">fclose(fd2)</p>
+<p style="font-family:verdana;color:blue;">variable fd1 = fopen("test.exe","wb") <i style="font-family:verdana;color:green;">// open binary file test.exe to write.</i></p>
+<p style="font-family:verdana;color:blue;">fclose(fd1)</p>
+<p style="font-family:verdana;color:blue;">variable fd2 = fopen("/mnt/sdcard/AnMath/test.txt","r","UTF-8") <i style="font-family:verdana;color:green;">// open text file test.txt using UTF-8 encoding mode to read.</i></p>
+<p style="font-family:verdana;color:blue;">fclose(fd2)</p>
 <h3>2.&nbsp;Read and Write Text File</h3>
 <p style="font-family:verdana">So far, MFP only provides sequentially reading / writing functions for text files. This means after a text file is opened, user can only read or write the file towards the end of the file. User cannot jump to an arbitrary point and start reading or writing. When reading arrives at the end of the file, it stops. MFP provides feof function to identify if it is at the end of the file. Feof has one parameter which is file id. It returns true if it is at the end of the file, or false otherwise.</p>
 <p style="font-family:verdana">Text file reading functions provided by MFP are fscanf and freadline. The usage of fscanf is similar to functions scanf and sscanf which have been introduced before. Fscanf needs two parameters, the first one is file id, i.e. fopen’s return value; the second one is format string. Fscanf returns an array whose elements are input values from the file. Note that the file may include multiple lines and the changing line characters are treated as a type of blanks.</p>
@@ -1005,10 +1005,10 @@
 <p style="font-family:verdana;color:blue">&nbsp;&nbsp;Endif</p>
 <p style="font-family:verdana;color:blue">EndIf</p>
 <p style="font-family:verdana">Change the old-style set_array_elem call to the new-style is fairly simple. Adding the array name and assignment is enough. The code to do this work is shown below:</p>
-<p style="font-family:verdana">StrLine = strarray2[0] + " = " + trim(strLine)</p>
+<p style="font-family:verdana;color:blue;">StrLine = strarray2[0] + " = " + trim(strLine)</p>
 <p style="font-family:verdana">, where strarray2[0] is the to-be-changed array name (see the above code snip for details).</p>
 <p style="font-family:verdana">Then write the line into a new file:</p>
-<p style="font-family:verdana">Fprintf(fd1, "%s\n", strLine)</p>
+<p style="font-family:verdana;color:blue;">Fprintf(fd1, "%s\n", strLine)</p>
 <p style="font-family:verdana">. After the new file is created, call function move_file to replace old MFP code by the new one. The whole example is shown below. This example can be found in the examples.mfps file in io and file libs sub-folder in the manual’s sample code folder.</p>
 <p style="font-family:verdana;color:green">Help</p>
 <p style="font-family:verdana;color:green">@language:</p>
