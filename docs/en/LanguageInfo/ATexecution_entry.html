@@ -1,51 +1,40 @@
 <html>
-<head>
-<title>Scientific Calculator Plus Help</title>
-<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
-</head>
-<body style="background-color:white;">
-<h2 style="color:blue">MFP language @execution_entry annotation:</h2>
-<p style="font-family:verdana;color:black;">
-</p>
-<p style="font-family:verdana;color:black;">
-An mfps script can be executed like any other scripting languages, e.g. Perl and Python. However, when an MFP interpreter calls a mfps script file, it needs to know which function is the entry point. The @execution_entry annotation is the statement telling an MFP interpreter which function to run.
-The syntax of @execution_entry is
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry function_name(param_string1, param_string2, …)
-</p>
-<p style="font-family:verdana;color:black;">
-, where function_name is the function name with / without (partial) citing space. Because @execution_entry statement must be located above any citingspace or using citingspace declaration, MFP interpreter therefore only searches default citingspaces (e.g. :: and ::mfp) to locate the function. So if full citingspace path is not provided, user needs to ensure that MFP interpreter can still find the function. Also, the function is unnecessarily defined in the same mfps script file. It can be implemented in another script file or even a built-in function. If MFP interpreter can find the function, then the script file can run.
-</p>
-<p style="font-family:verdana;color:black;">
-The param_string1, param_string2, …, are parameters for the execution entry function. Note that these parameters should be written in the same way as in normal function call except with some placeholder characters, i.e. # and @. For instance, in the following statement, the execution entry function is create_file. This function includes two parameters, the first parameter is a string based file name, the second parameter is a boolean. Then "Date_" + @ means when an MFP interpreter runs the script file from system console, the first parameter is treated as a string, and it is appended to Date_ to construct full file name. Note that user cannot use "Date_@" for the first file parameter because placeholder becomes a plain character in double quotes. Different from @, # means the second parameter is treated as a numeric value.
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry create_file("Date_" + @, #)
-</p>
-<p style="font-family:verdana;color:black;">
-So when user calls the script file (assuming the file name is myscript.mfps) in a console using the following command:
-</p>
-<p style="font-family:verdana;color:black;">
-Mfplang.cmd myscript.mfps 20161015.log false
-</p>
-<p style="font-family:verdana;color:black;">
-, MFP interpreter will actually call
-</p>
-<p style="font-family:verdana;color:black;">
-create_file("Date_20161015.log", false)
-</p>
-<p style="font-family:verdana;color:black;">
-. @execution_entry supports optional parameters. @... and ... means all the optional parameters are treated as strings while #... means all the optional parameters are treated as numeric values. Note that an @execution_entry can only have one optional parameter declaration and it must be the last piece in parameter declaration (i.e. exactly before the close bracket).
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry can also be used without any parameter declaration, for example
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry func1
-</p>
-<p style="font-family:verdana;color:black;">
-. This means @execution_entry will try to match any number of parameters transferred from console. And all these parameters are treated as strings.
-</p>
-</body>
-</html>
+	<head>
+		<title>MFP language Help</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP language Help: @execution_entry Annotation</h2>
+<p style="font-family:verdana">As demonstrated in the previous chapter, an mfps script can be executed like any other scripting languages, e.g. Perl and Python. However, when an MFP interpreter calls a mfps script file, it needs to know which function is the entry point. The @execution_entry annotation is the statement telling an MFP interpreter which function to run.</p>
+<p style="font-family:verdana">The syntax of @execution_entry is</p>
+<p style="font-family:verdana">@execution_entry function_name(param_string1, param_string2, …)</p>
+<p style="font-family:verdana">, where function_name is&nbsp;the function name with / without (partial) citingspace. Because @execution_entry statement must be located above any citingspace&nbsp;or using citingspace&nbsp;declaration, MFP interpreter therefore only searches&nbsp;default citingspaces (e.g.&nbsp;:: and ::mfp) to locate the function. So if full citingspace path is not provided, user needs to ensure that MFP interpreter can still find the function. Also, the function is unnecessarily defined in the same mfps script file. It can be implemented in another script file or even a built-in function. If MFP interpreter can find the function, then the script&nbsp;file&nbsp;can run.</p>
+<p style="font-family:verdana">The param_string1, param_string2, …, are parameters&nbsp;for the execution entry function. Note that these parameters should be written in the same way as in normal function call except with some placeholder characters, i.e. # and @. For instance, in the following statement, the execution entry function is create_file. This function includes two parameters, the first parameter is a string based file name, the second parameter is a boolean. Then "Date_"&nbsp;+ @ means when an MFP interpreter runs the script file from system console, the first parameter is treated as a string, and it is appended to Date_ to construct full file name. Note that user cannot use "Date_@"&nbsp;for the first file parameter because placeholder becomes a plain character in double quotes. Different from @, # means the second parameter is treated as a numeric value.</p>
+<p style="font-family:verdana">@execution_entry create_file("Date_"&nbsp;+ @, #)</p>
+<p style="font-family:verdana">So when user calls the script file (assuming the file name is myscript.mfps) in a console using the following command:</p>
+<p style="font-family:verdana">Mfplang.cmd myscript.mfps 20161015.log false</p>
+<p style="font-family:verdana">, MFP interpreter will actually call</p>
+<p style="font-family:verdana">create_file("Date_20161015.log", false)</p>
+<p style="font-family:verdana">. The benefit to use placeholder characters instead of traditional $args variable (which is diffused in almost every scripting language) is clear and significant. First it avoids manual parameter parsing work, second it is smart enough to identify a string from a numeric value, third it is compatible with control characters like , [] and (), last it does not jeopardize the citingspace - function structure of MFP. For example, assume user wants to use an array as a parameter, but the array includes both value and string elements, then MFP only needs user to declare a statment like</p>
+<p style="font-family:verdana">@execution_entry ::my_cs::my_func ([#, 3, "Hello", [@, 2.41, #]])</p>
+<p style="font-family:verdana">, then in a console box, user simply types like</p>
+<p style="font-family:verdana">Mfplang.cmd myscript.mfps 77+38.44i [aabbcc] [5.49]</p>
+<p style="font-family:verdana">, MFP interpreter will know to execute</p>
+<p style="font-family:verdana">::my_cs::my_func ([77+38.44i, 3, "Hello", ["[aabbcc]", 2.41, [5.49]]])</p>
+<p style="font-family:verdana">. One thing user has to keep in mind. In a console command, parameters are separated by space. So in the above example, no space is allowed in between 77+38.44i. Otherwise, MFP interpreter will try to replace the first placeholder char by the part before space and the second placeholder char by the part after space.</p>
+<p style="font-family:verdana">@execution_entry supports optional parameters. @... and ... means all the optional parameters are treated as strings while #... means all the optional parameters are treated as numeric values. Note that an @execution_entry can only have one optional parameter declaration and it must be the last piece in parameter declaration (i.e. exactly before the close bracket). For example</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, @...)</p>
+<p style="font-family:verdana">or</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, ...)</p>
+<p style="font-family:verdana">means when user call the script file, the script file needs at least two parameters, first one is treated as a numeric value, second one is treated as a string. If there are more than two parameters, the third parameter and on-wards are all looked on as strings. Comparatively, @execution_entry f1 (#, @, #...) means from the first parameter all the parameters are treated as numeric values.</p>
+<p style="font-family:verdana">@execution_entry can also be used without any parameter declaration, for example</p>
+<p style="font-family:verdana">@execution_entry func1</p>
+<p style="font-family:verdana">. This means @execution_entry will try to match any number of parameters transferred from console. And all these parameters are treated as strings.</p>
+<p style="font-family:verdana">If an mfps script file declares @execution_entry, it can be configured self-executable. In Android, user only needs to open the File Manager tool and long click the file to run it. A dialog box will be populated to ask for file parameters if any parameters are required. In Windows with JAVA support, user needs to associate .mfps file type with mfplang.cmd file (by right clicking an mfps file and selecting “open with”).But please note that Windows file association does not support additional file parameters so user cannot pass any parameters to the mfps script.</p>
+<p style="font-family:verdana">In Unix/MacOSX/Linux/Cygwin, making mfps self-executable is not that straightforward. First, user needs to call chmod 777 mfps_file_name to make the file executable. Second, user needs to create a soft link in /usr/bin folder named mfplang linking to the mfplang.sh file in AnMath folder. Third, user needs to add a shebang line on top of the mfps file as below:</p>
+<p style="font-family:verdana">#!/usr/bin/mfplang</p>
+<p style="font-family:verdana">. Then the mfps script is self-executable and it is able to accept file parameters.</p>
+<p style="font-family:verdana">Nevertheless, the right way to declare shebang should be</p>
+<p style="font-family:verdana">#!/usr/bin/env mfplang</p>
+<p style="font-family:verdana">. But this is related to the use of Unix/Linux operating system and not easy to config. So it is not covered in this manual.</p>
+<p style="font-family:verdana">&nbsp;</p>
+</body></html>

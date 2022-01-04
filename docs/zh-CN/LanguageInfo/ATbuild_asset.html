@@ -8,37 +8,28 @@
 <p style="font-family:verdana;color:black;">
 </p>
 <p style="font-family:verdana;color:black;">
-当创建一个APK包的时候，@build_asset标注告诉可编程科学计算器哪些资源文件将会被拷贝到新建APP的asset中的一个叫做resource的压缩文件中。比如
+当使用MFP语言开发游戏或者一些需要使用声音或者图像的应用时，MFP程序需要读取和使用声音或者图像文件。这些文件被称为资源文件。如果MFP脚本只是在本地存储，也就是硬盘或者ROM中运行，开发者只需要将资源文件放置在脚本所在目录或者任何其他目录，然后在代码中指出资源文件的完整路径便可。但是，MFP脚本可以被打包成安卓应用，还可能被发送到远端的沙盒中运行（这里的沙盒是MFP并行计算的概念，指的是在远端运行的MFP会话）。当MFP脚本被打包或者发送到远端时，其相关资源文件也必须被打包或者发送到远端。所以，开发者必须使用@build_asset标注告诉MFP资源文件在打包后或者发送至远端沙盒后的新的位置，然后在代码中针对不同的情况告诉MFP在运行代码时如何找到资源文件。
 </p>
 <p style="font-family:verdana;color:black;">
-...
+以下代码段演示了如何正确地将资源文件（即food.png）复制到目标位置，以及如何在运行时加载资源文件。请注意，作为标注，@build_asset语句在编译时执行，即当我们从MFP脚本构建APK包或MFP脚本正在发送源代码和资源文件到远程设备时执行。另请注意，@build_asset语句很长，因此使用MFP的换行符（空格后跟下划线字符）将其分为三行。
 </p>
 <p style="font-family:verdana;color:black;">
-@build_asset copy_to_resource(get_upper_level_path(get_src_file_path()) + "eatfood.wav", "sounds/eatfood.wav")
+@build_asset语句调用函数iff来处理三种情况不同的情况。首先是编译发生在远程会话（MFP术语中的沙盒）中。当远程会话启动另一个远程会话，从而需要将资源文件传输到新的远程会话时，可能会发生这种情况。在这种情况下，函数is_sandbox_session()返回true，并且资源文件必须位于临时目录的资源子文件夹中，该资源子文件夹的路径由函数 get_sandbox_session_resource_path()返回。第二种情况是在MFP应用程序中进行编译。当MFP应用启动远程会话并准备传输资源文件时，就是这种情况。在这种情况下，函数is_mfp_app()返回true。同样，如上所述，这种情况下的源路径不是字符串，而是一个三元素数组。数组的第一个元素为1，表示源资源文件位于Android应用的APK中。第二个元素是一个函数调用，即get_asset_file_path("resource")，它返回Android应用程序assets资料夹中resource.zip文件的路径。最后一个元素是源资源文件在android应用程序assets资料夹中resource.zip压缩包中的压缩路径。第三种情况是，当MFP脚本在JVM或Android作为独立脚本（即，不是作为Android应用程序）运行时进行编译。因为在此示例中，资源文件在这种情况下与源脚本位于同一文件夹中，所以调用函数get_src_file_path()返回源脚本的完整路径，然后调用函数get_upper_level_path获取包含源脚本和资源文件的文件夹的路径。要想获取iff函数的详细信息，可以在命令行中键入help iff并回车。
 </p>
-<p style="font-family:verdana;color:black;">
-if is_mfp_app()
-</p>
-<p style="font-family:verdana;color:black;">
-&nbsp;&nbsp;&nbsp;&nbsp;play_sound_from_zip(get_asset_file_path("resource"), "sounds/eatfood.wav", 1, false)
-</p>
-<p style="font-family:verdana;color:black;">
+<pre style="font-family:verdana;color:blue;">
+@build_asset copy_to_resource(iff(is_sandbox_session(), get_sandbox_session_resource_path() + "images/food.png", _
+								is_mfp_app(), [1, get_asset_file_path("resource"), "images/food.png"], _
+								get_upper_level_path(get_src_file_path()) + "food.png"), "images/food.png")
+if is_sandbox_session()
+	foodImage = load_image(get_sandbox_session_resource_path() + "images/food.png")
+elseif is_mfp_app()
+	foodImage = load_image_from_zip(get_asset_file_path("resource"), "images/food.png", 1)
 else
-</p>
-<p style="font-family:verdana;color:black;">
-&nbsp;&nbsp;&nbsp;&nbsp;play_sound(get_upper_level_path(get_src_file_path()) + "eatfood.wav", false)
-</p>
-<p style="font-family:verdana;color:black;">
+	foodImage = load_image(get_upper_level_path(get_src_file_path()) + "food.png")
 endif
-</p>
+</pre>
 <p style="font-family:verdana;color:black;">
-...
-</p>
-<p style="font-family:verdana;color:black;">
-在上面例子中，资源文件的文件名叫做eatfood.wav。这个资源文件被放在当前正在运行的MFPS脚本文件的所在目录中。这样一来，该资源文件的路径是get_upper_level_path(get_src_file_path()) + "eatfood.wav"。如果不是运行MFP应用，开发者可以调用play_sound函数，根据该资源文件的路径，直接从硬盘或者SD卡中读取该资源文件并演奏。但是，如果是运行的MFP应用，MFPS脚本文件被打包在APK文件中，开发者则必须从APK的asset下的resource.zip文件中加载资源。APK的asset下的resource.zip文件的路径由get_asset_file_path("resource")给出，"sounds/eatfood.wav"代表该资源文件在压缩文件中的位置，1表示安卓asset资源文件，play_sound_from_zip将该资源文件抽取出来并演奏。
-</p>
-<p style="font-family:verdana;color:black;">
-当用户创建APK包时，@build_asset标注所起的作用就是将资源文件从硬盘或者SD卡上拷贝到APK的asset下的resource.zip文件中。copy_to_resource实际上是一个MFP函数。它的第一个参数是资源文件的源路径（也就是在硬盘或SD卡上的路径），第二个参数是目标路径，也就是在resource.zip文件中的位置。和普通函数不一样的是，copy_to_resource函数位于mfp_compiler引用空间中。该引用空间仅仅在打包链接的时候被加载，一般情况下用户不会用到。
+@build_asset语句之后的代码在运行时执行。相似地，这些代码也考虑了三种情况。第一种情况是在远程会话也就是MFP术语中的沙盒中运行。在这种情况下，food.png文件位于临时目录的资源文件夹中的名为images的文件夹中。资源文件夹的路径由函数get_sandbox_session_resource_path()返回。第二种情况是作为MFP应用程序运行。在这种情况下，资源文件（即food.png）位于应用程序assets资料夹的resource.zip文件中。函数调用get_asset_file_path("resource")返回Android应用程序assets资料夹中resource.zip文件的路径。"images/food.png"是源资源文件到Android应用程序assets资料夹中resource.zip压缩包的压缩路径。第三种情况是该游戏作为独立脚本在JVM或Android上运行。在此示例中，在这种情况下，资源文件与源脚本位于同一文件夹中，所以调用函数get_src_file_path()返回源脚本的完整路径，然后调用函数get_upper_level_path获取包含源脚本和资源文件的文件夹的路径。请注意，仅在第2种情况下，即游戏作为Android应用程序运行，资源文件才作为zip条目保存在zip压缩包中。在其他两种情况下，资源文件是硬盘或ROM中的普通文件。因此，在第2种情况下，调用函数load_image_from_zip，而在其他两种情况下，调用函数load_image来加载图像。要获取这两个函数的详细使用信息，只需在MFP命令行中输入help load_image_from_zip和help load_image即可。
 </p>
 <p style="font-family:verdana;color:black;">
 还要注意@build_asset指令必须位于一个函数的内部，如果它在function语句前面或者endf语句之后，它不会有任何作用。

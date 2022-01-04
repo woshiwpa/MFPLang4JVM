@@ -1,53 +1,40 @@
 <html>
-<head>
-<title>程式開發科學計算器幫助</title>
-<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
-</head>
-<body style="background-color:white;">
-<h2 style="color:blue">MFP編程語言@execution_entry標註：</h2>
-<p style="font-family:verdana;color:black;">
-</p>
-<p style="font-family:verdana;color:black;">
-為了讓MFP腳本能夠像其他任何腳本一樣被執行，用戶需要在腳本的頭部增加一個@execution_entry標註，告訴MFP語言解釋器如何運行該腳本。
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry標註的語法為
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry function_name(param_string1, param_string2, …)
-</p>
-<p style="font-family:verdana;color:black;">
-這裏，function_name是（包含或部分包含或者不包含citingspace路徑的）程式名，由於@execution_entry標註位於任何citingspace和using citingspace語句之前，尋找函數程式時MFP解釋器僅僅只搜索默認citingspace的搜索路徑（比如::和::mfp）。所以，如果完整的citing space路徑沒有給出，用戶需要保證MFP解釋器仍然能夠找到該函數程式。此外，調用的入口函數程式未見得必須是該腳本文件中所定義的函數程式。它可以是其它腳本文件所定義的函數程式，甚至還可以是MFP的內建程式。
-</p>
-<p style="font-family:verdana;color:black;">
-Param_string1，param_string2，…是入口函數程式的參數。註意這些參數的寫法和MFP調用函數程式時參數的寫法基本一樣，唯一的不同是@execution_entry所需要的參數包含兩種占位替換符，#和@。比如，在以下語句中，入口函數程式是create_file。該函數程式包含兩個參數，第一個參數是基於字符的文件名，第二個參數是一個布爾值。在@execution_entry語句中，"Date_" + @的意思是當MFP解釋器從命令提示符中運行腳本時，腳本文件名之後的第一個參數被當成一個字串，並且被添加到字串"Date_"的尾部，成為create_file函數程式所生成的檔案的檔案名。註意這裏用戶不能直接把第一個參數寫成"Date_@"因為占位替換符在雙引號中就不再具有占位替換的功能而變成了一個普通的字符。而#的意思是，當MFP解釋器從命令提示符中運行腳本時，腳本檔案名之後的第二個參數被當作一個數值，@execution_entry語句將求取該參數的值並轉換為一個布爾量。
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry create_file("Date_" + @, #)
-</p>
-<p style="font-family:verdana;color:black;">
-這樣，當用戶運行腳本檔案時（假設腳本檔案的名字是myscript.mfps），如果使用下述命令
-</p>
-<p style="font-family:verdana;color:black;">
-Mfplang.cmd myscript.mfps 20161015.log false
-</p>
-<p style="font-family:verdana;color:black;">
-MFP解釋器將會調用以下MFP語句
-</p>
-<p style="font-family:verdana;color:black;">
-create_file("Date_20161015.log", false)
-</p>
-<p style="font-family:verdana;color:black;">
-。@execution_entry也支持可選參數。在參數列表中，位於尾部的@...或...表示存在可選參數並且它們都是字串，而位於尾部的#...則表示存在可選參數並且它們都是數值。需要強調的是，@execution_entry語句中只能聲明一次可選參數的並且它必須位於語句的最後，僅僅在參數列表的終止符，也就是反圓括號，之前。
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry語句也可以不申明任何參數，比如
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry func1
-</p>
-<p style="font-family:verdana;color:black;">
-的意思是，用戶在運行該腳本時，可以提供任何數量的檔案執行參數，並且這些參數都會被當作字串。
-</p>
-</body>
-</html>
+	<head>
+		<title>可編程科學計算器幫助</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP編程語言@execution_entry標註：</h2>
+<p style="font-family:verdana">正如前面的章節所述，MFP腳本能夠像其他任何腳本一樣被執行。但是用戶需要在腳本的頭部增加一個@execution_entry標註，告訴MFP語言解釋器如何運行該腳本。</p>
+<p style="font-family:verdana">@execution_entry標註的語法為</p>
+<p style="font-family:verdana">@execution_entry function_name(param_string1, param_string2, …)</p>
+<p style="font-family:verdana">這裏，function_name是（包含或部分包含或者不包含citingspace路徑的）函數名，由於@execution_entry標註位於任何citingspace和using citingspace語句之前，尋找函數時MFP解釋器僅僅只搜索默認citingspace的搜索路徑（比如::和::mfp）。所以，如果完整的citingspace路徑沒有給出，用戶需要保證MFP解釋器仍然能夠找到該函數。此外，調用的入口函數未見得必須是該腳本文件中所定義的函數。它可以是其它腳本文件所定義的函數，甚至還可以是MFP的內建函數。</p>
+<p style="font-family:verdana">Param_string1，param_string2，…是入口函數的參數。註意這些參數的寫法和MFP調用函數時參數的寫法基本一樣，唯一的不同是@execution_entry所需要的函數參數包含兩種占位替換符，#和@。比如，在以下語句中，入口函數是create_file。該函數包含兩個參數，第一個參數是基於字符的文件名，第二個參數是一個布爾值。在@execution_entry語句中，"Date_" + @的意思是當MFP解釋器從命令提示符中運行腳本時，腳本文件名之後的第一個參數被當成一個字符串，並且被添加到字符串"Date_"的尾部，成為create_file函數所生成的文件的文件名。註意這裏用戶不能直接把第一個參數寫成"Date_@"因為占位替換符在雙引號中就不再具有占位替換的功能而變成了一個普通的字符。而#的意思是，當MFP解釋器從命令提示符中運行腳本時，腳本文件名之後的第二個參數被當作一個數值，@execution_entry語句將求取該參數的值並轉換為一個布爾量。</p>
+<p style="font-family:verdana">@execution_entry create_file("Date_" + @, #)</p>
+<p style="font-family:verdana">這樣，當用戶運行腳本文件時（假設腳本文件的文件名是myscript.mfps），如果使用下述命令</p>
+<p style="font-family:verdana">Mfplang.cmd myscript.mfps 20161015.log false</p>
+<p style="font-family:verdana">MFP解釋器將會調用以下MFP函數語句</p>
+<p style="font-family:verdana">create_file("Date_20161015.log", false)</p>
+<p style="font-family:verdana">。采用這種占位替代字符的辦法，而不是其他腳本語言常用的$args變量，所獲得的好處是顯而易見的。首先，它避免了大量用於解析腳本文件參數的代碼，節約了大量開發時間；其次它可以有效地區分字符串和數值；第三它和代碼中的控制字符（比如，逗號，方括號，圓括號等）完全兼容；最後它不會破壞MFP語言的citingspace——function結構。比如，假設用戶想要使用一個數組作為參數，該數組中的元素既包含數值，也包含字符串，那麽用戶只需要在腳本文件頭部聲明，比如如下的語句</p>
+<p style="font-family:verdana">@execution_entry ::my_cs::my_func ([#, 3, "Hello", [@, 2.41, #]])</p>
+<p style="font-family:verdana">然後在命令提示符中，用戶輸入</p>
+<p style="font-family:verdana">Mfplang.cmd myscript.mfps 77+38.44i, [aabbcc] [5.49]</p>
+<p style="font-family:verdana">，MFP解釋器就能夠自動執行</p>
+<p style="font-family:verdana">::my_cs::my_func ([77+38.44i, 3, "Hello", ["[aabbcc]", 2.41, [5.49]]])</p>
+<p style="font-family:verdana">。需要註意的是，在系統的命令行窗口中運行命令，命令的參數直接是用空格分隔開的。所以在上述例子中，77+38.44i中間不能存在任何空格，否則空格之前的部分將會被用於替換第一個占位替換符#，空格之後的部分將會被用於替換第二個占位替換符@，整個函數調用就出錯了。</p>
+<p style="font-family:verdana">@execution_entry也支持可選參數。在參數列表中，位於尾部的@...或...表示存在可選參數並且它們都是字符串，而位於尾部的#...則表示存在可選參數並且它們都是數值。需要強調的是，@execution_entry語句中只能聲明一次可選參數並且它必須位於語句的最後，僅僅在參數列表的終止符，也就是反圓括號，之前。比如</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, @...)</p>
+<p style="font-family:verdana">或者</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, ...)</p>
+<p style="font-family:verdana">的意思是用戶調用該腳本文件時，需要至少文件兩個參數，第一個參數被當作一個數值，第二個參數被當作一個字符串。如果多於兩個參數，後續參數都被當作字符串處理。而</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, #...)</p>
+<p style="font-family:verdana">的意思是戶調用該腳本文件時，需要至少文件兩個參數，第一個參數被當作一個數值，第二個參數被當作一個字符串。如果多於兩個參數，後續參數都被當作數值處理。</p>
+<p style="font-family:verdana">@execution_entry語句也可以不申明任何參數，比如</p>
+<p style="font-family:verdana">@execution_entry func1</p>
+<p style="font-family:verdana">的意思是，用戶在運行該腳本時，可以提供任何數量的文件參數，並且這些參數都會被當作字符串。當然，前提條件是func1函數確實需要那麽多字符串參數。否則，如果func1的函數定義和調用命令不匹配MFP腳本解釋器將會報錯。</p>
+<p style="font-family:verdana">如果一個mfps腳本包含有正確定義的@execution_entry語句，那麽在安卓中，用戶打開可編程科學計算器的文件管理工具，長按該mfps腳本圖標，可以運行該腳本。如果該腳本需要參數，可編程科學計算器會自動彈出對話框讓用戶輸入參數，參數間用空格隔開。如果是在Windows中，用戶可以通過適當的設置將該腳本變為一個可執行文件。操作步驟為鼠標右鍵點擊該腳本，選擇打開方式，然後將mfps文件關聯到AnMath目錄下的mfplang.cmd程序即可。但要註意這種方式不支持運行時輸入文件參數。如果是在Unix/MacOSX/Linux/Cygwin中，首先用戶需要調用chmod 777 mfps文件名將該腳本設置為可執行，然後在/usr/bin目錄下建立一個軟鏈接鏈至AnMath目錄下的mfplang.sh程序，最後還需要在腳本的第一行加入shebang聲明：</p>
+<p style="font-family:verdana">#!/usr/bin/mfplang</p>
+<p style="font-family:verdana">。進行完上述操作後，該腳本文件就可以如同bash腳本一樣可執行了。並且用戶還可以傳遞文件參數給該腳本。</p>
+<p style="font-family:verdana">當然，標準的shebang聲明應該是</p>
+<p style="font-family:verdana">#!/usr/bin/env mfplang</p>
+<p style="font-family:verdana">但為了支持這種聲明方式，用戶需要對操作系統的環境變量進行設置。這是一個操作系統的使用方法的問題，在這裏不進行詳述。如果用戶有興趣，可以參見一些Unix/Linux使用指南之類的IT教材。</p>
+</body></html>

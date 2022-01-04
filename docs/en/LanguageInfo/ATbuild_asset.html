@@ -8,37 +8,28 @@
 <p style="font-family:verdana;color:black;">
 </p>
 <p style="font-family:verdana;color:black;">
-When creating an APK package, @build_asset annotation tells Scientific Calculator Plus the resource files to be copied to APK asset. For example 
+When using MFP language to develop games or some applications that need sounds or images, MFP script needs to read and use sound or image files. These files are called resource files. If the MFP script is only stored locally, that is, running on a hard disk or ROM, developer only needs to place resource files in script's directory, or any other directory and then indicate the full paths of the resource files in the code. However, MFP script can be packaged into Android App and may also be sent to a remote sandbox to run. Here, sandbox is the concept of MFP parallel computing, referring to an MFP session running in a remote device. When an MFP script is packaged or sent to a remote device, its associated resource files must also be packaged or sent to the far end. Therefore, developer must use @build_asset annotation to tell MFP the new location of a resource file after packaging or sending it, and then tell MFP how to find the resource file at the runtime in different scenarios.
 </p>
 <p style="font-family:verdana;color:black;">
-...
+The following code snippet demonstrates how to properly copy an resource file, i.e. food.png, to the destination location and how to load the resource file at run time. Note that, as an annotation, the @build_asset statement is executed at compiling time, i.e. when we are building an APK from the MFP script or when the MFP script is sending source code(s) and resource file(s) to a remote device. Also note that the @build_asset statement is very long so that it is broken into three lines using MFP's line breaker, i.e. space followed by an underscore character.
 </p>
 <p style="font-family:verdana;color:black;">
-@build_asset copy_to_resource(get_upper_level_path(get_src_file_path()) + "eatfood.wav", "sounds/eatfood.wav")
+The @build_asset statement considers three cases using function iff whose details can be obtained by typing help iff in a command line. First is that compiling occurs in a remote session, or sandbox in the terminology of MFP. This can happen when the remote session launches another remote session so that it needs to transfer the resource file to the new remote session. In this case function is_sandbox_session() returns true and the resource file must be located in the resource sub-folder of a temporary directory whose path is returned by function get_sandbox_session_resource_path(). The second case is that compiling happens in an MFP app. This is the situation when the MFP app kicks off a remote session and prepares to transfer the resource file. In this case function is_mfp_app() returns true. Also, as mentioned above, the source path in this case is not a string but a three element array. The array's first element is 1 which means the source resource file is in an Android app's APK. The second element is a function call, i.e. get_asset_file_path("resource"), which returns the path of resource.zip file in Android app's asset. The last element is the zip entry of the source resource file to the resource.zip in Android app's asset. The third case is that compiling occurs when the MFP script is running on JVM or in Android but as a standalone script (i.e. not as an Android app). Because in this example the resource file is located in the same folder as the source script in this case, function get_src_file_path() is called to return source script full path, and then call function get_upper_level_path to obtain the path of the folder where the source script and the resource file are both located.
 </p>
-<p style="font-family:verdana;color:black;">
-if is_mfp_app()
-</p>
-<p style="font-family:verdana;color:black;">
-&nbsp;&nbsp;&nbsp;&nbsp;play_sound_from_zip(get_asset_file_path("resource"), "sounds/eatfood.wav", 1, false)
-</p>
-<p style="font-family:verdana;color:black;">
+<pre style="font-family:verdana;color:blue;">
+@build_asset copy_to_resource(iff(is_sandbox_session(), get_sandbox_session_resource_path() + "images/food.png", _
+								is_mfp_app(), [1, get_asset_file_path("resource"), "images/food.png"], _
+								get_upper_level_path(get_src_file_path()) + "food.png"), "images/food.png")
+if is_sandbox_session()
+	foodImage = load_image(get_sandbox_session_resource_path() + "images/food.png")
+elseif is_mfp_app()
+	foodImage = load_image_from_zip(get_asset_file_path("resource"), "images/food.png", 1)
 else
-</p>
-<p style="font-family:verdana;color:black;">
-&nbsp;&nbsp;&nbsp;&nbsp;play_sound(get_upper_level_path(get_src_file_path()) + "eatfood.wav", false)
-</p>
-<p style="font-family:verdana;color:black;">
+	foodImage = load_image(get_upper_level_path(get_src_file_path()) + "food.png")
 endif
-</p>
+</pre>
 <p style="font-family:verdana;color:black;">
-...
-</p>
-<p style="font-family:verdana;color:black;">
-In this example, there is a resource file called eatfood.wav. It is placed in the same folder as the current running mfps source file. In this way, its path is get_upper_level_path(get_src_file_path()) + "eatfood.wav". If not an MFP app, play_sound can be called to play the wave file using this path as a parameter. However, for an MFP app, mfps source is not physically located in an SD card or hard drive but in the APK. As such no way to find resource file using the above technique. However, developer may save resource files in a zip file the app asset. In the above example, the zip file's name is resource.zip (the only supported zip file at this monent) and the entry for the resource is sounds/eatfood.wav. Then play_sound_from_zip has to be called to replace play_sound to play the wave file.
-</p>
-<p style="font-family:verdana;color:black;">
-When user builds up the APK installation package, the @build_asset annotation copies the wave resource file from hard disk or SD card to the zip file in app Asset. copy_to_resource is an MFP function telling software that the target zip file name should be resource.zip. Its second parameter tells Scientfic Calculator Plus where the resource file is located inside the zip file.
+The lines following the @build_asset statement are executed at run-time. Similiarly three cases are considered. The first case is running in a remote session, or called a sandbox by MFP. In this case the file food.png is located in a folder named images in the resource folder of a temporary directory. The resource folder's path is returned by function get_sandbox_session_resource_path(). The second case is running as an MFP app. In this case the resource file, i.e. food.png, is located in resource.zip file in the app's asset. Function call get_asset_file_path("resource") returns the path of resource.zip file in Android app's asset. "images/food.png" is the zip entry of the source resource file to the resource.zip in Android app's asset. The third case is that the game is running on JVM or in Android as a standalone script. In this example, the resource file is located in the same folder as the source script in this case, function get_src_file_path() is called to return source script full path, and then call function get_upper_level_path to obtain the path of the folder where the source script and the resource file are both located. Note that only in case 2, i.e. the game is running as an Android app, the resource file is saved in a zip file as a zip entry. In the other two cases, the resource file is a normal file in hard disk or ROM. So in case 2, function load_image_from_zip is called while in the other two cases function load_image is called to load the image. To get detailed use of the two functions, simply type help load_image_from_zip and help load_image in MFP command line.
 </p>
 <p style="font-family:verdana;color:black;">
 Like @compulsory_link annotation, @build_asset should be located inside the body of the called function. If it is above function statement or below endf statement, it will not take any effect.

@@ -1,60 +1,279 @@
 <html>
-<head>
-<title>Scientific Calculator Plus Help</title>
-</head>
-<body style="background-color:white;">
-<h2 style="color:blue">MFP language citingspace and using statements:</h2>
-<p style="font-family:verdana;color:black;">
-</p>
-<p style="font-family:verdana;color:black;">
-Citingspace in MFP programming language is similar to namespace in C++/C#.net. Basically a citingspace is a container for a group of functions. These functions can call each other directly without implicitly or explicitly declaring used citingspaces. One citingspace can be declared in one or several MFPS source files and one MFPS source file can include any number of citingspace declarations. If in a file no citingspace is declared, MFP assumes all the functions are in the top level citingspace. For example, in File1.mfps, developer declares:</p>
-<pre style="font-family:verdana;color:black;">
-citingspace ::Abc::def
-function Aaa()
-    Bbb()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-, in File2.mfps, developer declares the same citingspace with a new function in it:</p>
-<pre style="font-family:verdana;color:black;">
-Citingspace ::ABC::def	// citingspace name is case insensitive
-function Bbb()
-    Aaa()
-	::Abc::hij::Ccc()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-, then functions Aaa and Bbb are visible to each other. In other words, inside function Aaa, Bbb can be called directly, and vice versa. However, if user declares a new citingspace in one of the mfps files or in a new mfps file, and has a function Ccc() inside the new citingspace, then Ccc has to use citingspace path before calling Aaa or Bbb, as shown below:</p>
-<pre style="font-family:verdana;color:black;">
-Citingspace ::Abc::hij
-function Ccc()
-    ::Abc::def::Aaa()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-. Citingspace can be nested, for example:</p>
-<pre style="font-family:verdana;color:black;">
-citingspace ::a1
-citingspace ::b1 // if declare the citingspace as citingspace b1, then its full path is ::a1::b1 .
-endcs
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-. Also note that top level citingspace's name is an empty string.</p>
-<p style="font-family:verdana;color:black;">
-Using statement tells MFP program which citingspace is used. Calling functions in a used citingspace needs no citingspace path in front of function name. In the above example, if programmer declares using citingspace ::Abc::def in the beginning of the function, then calling Aaa needs no ::Abc::def prefix.</p>
-<pre style="font-family:verdana;color:black;">
-Citingspace ::Abc::hij
-function Ccc()
-    using citingspace ::Abc::def // no :: after def.
-    Aaa()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-. Note that using statement can be placed in and out of function body and is only effective in its scope. By default, top level citingspace, MFP language citingspace and its child and grandchild citingspaces (i.e. ::mfp::*, wild-card character * means including all the sub-citingspaces) are used.</p>
-</body>
-</html>
+	<head>
+		<title>MFP language Help</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP language Help: citingspace and using citingspace Statements</h2>
+<p style="font-family:verdana">User may have noticed that, from v. 1.7, MFP programming is slightly different from before. For example, in old user manual(s), sample function names always start from mfpExample_. This avoids name conflict between sample functions and user defined functions.</p>
+<p style="font-family:verdana">From v. 1.7, sample function names do not start with mfpExample_. In the above example, testing function name is as simple as testHelp. Therefore, How the MFP programming language identifies different testHelp functions if user also defines a function with the same name, and accidentally it has the same number of parameters as the sample function?</p>
+<p style="font-family:verdana">A good approach is using different citingspaces for these functions. MFP believes they are the same if, and only if, two functions are within the same citingspace, share the same name and have the same number of parameters. For example, starting from this version, all the sample functions are defined in citingspace ::mfpexample. To this end, citingspace ::mfpexample is added to the head of all the sample source files, and endcs clause is appended to the tail. This means, all the sample functions included in this manual are defined / implemented in citingspace ::mfpexample. There would be no name conflict even if other citingspaces include same name functions.</p>
+<p style="font-family:verdana">Citingspace is a concept of hierarchy. The name of the top level citingspace is an empty string. If in an mfps file no citingspace is declared, MFP believes all the defined functions in this source file are located in the top level citingspace.</p>
+<p style="font-family:verdana">Inside the top level citingspace is where lower level citingspaces are defined. MFPExample is a typical example of lower level citingspace. Note that citingspace name, like function name, is case insensitive so that MFPExample is the same as mfpexample or MfpExample.</p>
+<p style="font-family:verdana">Usually user has to use its absolute citingspace path to locate a particular citingspace. Construction of absolute citingspace path is:</p>
+<p style="font-family:verdana">top_level_citingspace_name::lower_level_citingspace_name::further_lower_level_citingspace_name::……::target_citingspace_name</p>
+<p style="font-family:verdana">. In the above example, citingspace mfpexample is one level lower than top level citingspace so that its absolute path is ::mfpexample. The top level citingspace name is an empty string so that nothing is before the double colons (::).</p>
+<p style="font-family:verdana">When user runs an MFP sample function, the citingspace has to be explicitly included. For example, the following function has been defined in the citingspace ::mfpexample:</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::mfpexample::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">. If user wants to call the above function, the command should be ::mfpexample::testCS1(a). In other words, it is absolute citingspace path followed by double colons (::) plus function name and parameters.</p>
+<p style="font-family:verdana">The question is, How does MFP keep backward compatible with old source codes developed when citingspace was unavailable?</p>
+<p style="font-family:verdana">The solution is using default citingspaces. If a function is defined inside in a default citingspace, or a function’s citingspace is a child/grand-child citingspace of a default citingspace, absolute citingspace path is not required in the calling statement.</p>
+<p style="font-family:verdana">In version 1.7, MFP’s default citingspaces are the top level citingspace, mfp citingspace (::mfp) and all the sub citingspaces below mfp. Any function defined in these citingspaces needs no citingspace path when being called.</p>
+<p style="font-family:verdana">In version 1.6.7 or older, no mfps source file includes citingspace declaration. In version 1.7, all the functions in these mfps files are assumed to be located in the top level citingspace. Because top level citingspace is an MFP default citingspace, no citingspace path is required when a function is called.</p>
+<p style="font-family:verdana">Assume, for example, user defined a function named Myf_abc() in Scientific Calculator Plus 1.6.7, and called this function in some other functions. Clearly, the calling statement is my_abc(). In the new Scientific Calculator Plus (version 1.7 or newer), user can still call it in this way because my_abc() is defined in the top level citingspace. Nonetheless, including citingspace path, i.e. ::my_abc() is also valid.</p>
+<p style="font-family:verdana">The built-in and predefined functions in the new Scientific Calculator Plus are placed in a child (or grandchild) citingspace of ::mfp. For example, function tan(x) in MFP version 1.7 is located at ::mfp::math::trigon, and function log(x) is placed in ::mfp::math::log_exp. Because all these functions are in an MFP default citingspace, no citingspace path is required when calling any of these functions. Again, this feature keeps backward compatibility.</p>
+<p style="font-family:verdana">Besides default citingspaces, user is able to insert additional citingspaces into the citingspace searching list. To this end, using citingspace statement is required. For example, using citingspace ::abcd tells MFP citingspace ::abcd is also in the searching list besides top level citingspace, ::mfp and its child citingspaces.</p>
+<p style="font-family:verdana">Both citingspace statement and using citingspace statement can use relative citingspace. For example, in citingspace ::mfpexample, user defines another citingspace abcd as below:</p>
+<p style="font-family:verdana;color:blue">citingspace Abcd</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::mfpexample::abcd::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">. Here Abcd is a relative citingspace path. Because citingspace abcd is defined in citingspace ::mfpexample, its absolute citingspace path is ::mfpexample::abcd.</p>
+<p style="font-family:verdana">For another example, assume user calls function abcd::testCS1(a) in a function located in ::mfpexample. Also assume no using citingspace statement is before the calling statement. Then the relative citingspace used in the calling statement equals to citingspace &nbsp;::mfpexample::abcd, and the whole calling statement can be converted to ::mfpexample::abcd::testCS(a).</p>
+<p style="font-family:verdana">If user defines a several level citingspace hierarchy, and declares a few used citingspaces (with using citingspace statements) in each citingspace structure, then the citingspace searching order should be:</p>
+<p style="font-family:verdana">1.&nbsp;The direct (i.e. Innermost) citingspace of a function call;</p>
+<p style="font-family:verdana">2.&nbsp;Used citingspaces (by calling using citingspace statement) in the innermost code block of the function call. Note that the using citingspace statements have to be above the function call. Closer to the function call, higher searching priority the used citingspace has;</p>
+<p style="font-family:verdana">3.&nbsp;Used citingspaces (by calling using citingspace statement) in the upper code block(s) of the function call. Clearly, used citingspaces in an outer code block has lower searching priority than used spaces in an inner code block. Moreover, the using citingspace statements have to be above the function call. And closer to the function call, higher searching priority the used citingspace has;</p>
+<p style="font-family:verdana">4.&nbsp;Used citingspaces inside the direct citingspace of the calling function but out of the calling function body. Similar to the above points, the using citingspace statements have to be above the function call. And closer to the function call, higher searching priority the used citingspace has;</p>
+<p style="font-family:verdana">5.&nbsp;Non-direct citingspaces of the calling function (i.e. The citingspaces until the top level citingspace that include the innermost citingspace) and used citingspaces in each non-direct citingspace. Note that the priority in detail is innermost non-direct citingspace (i.e. The citingspace right above the direct citingspace) &gt; used citingspaces in this citingspace &gt; upper level citingspace &gt; used citingspaces in the upper level citingspace ……. For example, assume a citingspace hierarchy in an mfps file is:</p>
+<p style="font-family:verdana;color:blue">Citingspace level1 <i style="font-family:verdana;color:green;">//absolute path is ::level1</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace aaaa <i style="font-family:verdana;color:green;">//absolute path is ::level1::aaaa</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace bbbb <i style="font-family:verdana;color:green;">//absolute path is ::level1::bbbb</i></p>
+<p style="font-family:verdana;color:blue">Citingspace level2 <i style="font-family:verdana;color:green;">//absolute path is ::level1::level2</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace cccc <i style="font-family:verdana;color:green;">//absolute path is ::level1::level2::cccc</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace dddd <i style="font-family:verdana;color:green;">//absolute path is ::level1::level2::dddd</i></p>
+<p style="font-family:verdana;color:blue">Citingspace level3 <i style="font-family:verdana;color:green;">//absolute path is ::level1::level2::level3</i></p>
+<p style="font-family:verdana;color:blue">Function asmallfunc()</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">. Also assume the mfps file only includes the above code. Then from function asmallfunc’s perspective, the searching order of the citingspaces is:</p>
+<p style="font-family:verdana">::level1::level2::level3 &gt; ::level1::level2 &gt;</p>
+<p style="font-family:verdana">::level1::level2::dddd &gt; ::level1::level2::cccc &gt; ::level1 &gt;</p>
+<p style="font-family:verdana">::level1::bbbb &gt; ::level2::aaaa &gt; top level citingspace.</p>
+<p style="font-family:verdana">Note that from version 2.0, MFP starts to support object oriented programming. Keyword class has been introduced since this version. A class can be looked on as a citingspace with exactly the same name as the class name. However, as elements in citingspace are static, developer can only access static member functions in a class via its citingspace path. Also, at this moment MFP doesn’t support static member variables so no way to access a member variable via its citingspace path.</p>
+<p style="font-family:verdana">6.&nbsp;MFP’s default citingspaces.</p>
+<p style="font-family:verdana">User has to keep in mind a few things. First of all, if using citingspace statement with a low priority citingspace is called well above a function call, from the function call’s perspective, the priority of the citingspace is enhanced. For example, a function is defined in citingspace ::aaaa. This function is going to call another function. Before the function call, a using citingspace statement introduces ::bbbb in the citingspace searching list. The sourcecode would be like:</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Function callsomething()</p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Anotherfunc() <i style="font-family:verdana;color:green;">// here function callsomething calls Anotherfunc()</i></p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">.Clearly, in the above example, when Anotherfunc() is called, the citingspace searching order is (from highest to lowest):</p>
+<p style="font-family:verdana">1.&nbsp;::aaaa</p>
+<p style="font-family:verdana">2.&nbsp;::bbbb</p>
+<p style="font-family:verdana">3.&nbsp;Top level citingspace</p>
+<p style="font-family:verdana">4.&nbsp;Citingspace ::mfp and its children</p>
+<p style="font-family:verdana">. If user adds another using citingspace statement below using citingspace ::bbbb,the modified source code would be:</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Function callsomething()</p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Using citingspace &nbsp;<i style="font-family:verdana;color:green;">// this means using top level citingspace</i></p>
+<p style="font-family:verdana;color:blue">AnotherFunc() &nbsp;<i style="font-family:verdana;color:green;">// here function callsomething calls Anotherfunc()</i></p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">……</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">. Because statement using citingspace is closer to function call (i.e. statement AnotherFunc()) than statement using citingspace ::bbbb, the top level citingspace now has higher searching priority than citingspace ::bbbb. Now the new citingspace searching order becomes (from highest to lowest):</p>
+<p style="font-family:verdana">1.&nbsp;::aaaa</p>
+<p style="font-family:verdana">2.&nbsp;Top level citingspace</p>
+<p style="font-family:verdana">3.&nbsp;::bbbb</p>
+<p style="font-family:verdana">4.&nbsp;Citingspace ::mfp and its children</p>
+<p style="font-family:verdana">. Also note that the top level citingspace still has lower priority than ::aaaa because it is the innermost, i.e. direct, citingspace of the function. Direct citingspace always has the highest searching priority.</p>
+<p style="font-family:verdana">Second is the code block. A block of code is a part of program with beginning and end statements. For example, code between function/endf is a code blog. Other code block boundary statement pairs include if/endif (or if/elseif, if/else, elseif/elseif, elseif/else, elseif/endif and else/endif), for/next, while/loop, do/until, try/catch, catch/endtry and select/ends. Code block can be nested. For example,</p>
+<p style="font-family:verdana;color:blue">If a == b</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For idx = 0 to 10 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">Endif</p>
+<p style="font-family:verdana">Is a for block nested in an if block. In MFP language, using citingspace statements in outer blocks are always visible to function calls in inner blocks if they are above the function calls. Nevertheless, outer blocks used citingspaces have lower searching priority than inner blocks used citingspaces. Comparatively, using citingspace statements in inner blocks are invisible to function calls in outer blocks regardless of their places (i.e. above or below the function calls).</p>
+<p style="font-family:verdana">Now assume user declares using citingspace ::aaaa in the if block, and declares using citingspace ::bbbb in the for block. Then in the for block the searching order is ::bbbb first and ::aaaa second, while in the if block only ::aaaa is searched.</p>
+<p style="font-family:verdana;color:blue">If a == b</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// visible to for block, but lower priority</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Using citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For idx = 0 to 10 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// invisible to if block</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">Endif</p>
+<p style="font-family:verdana">Third, citingspace searching order in one mfps file has no effect on another mfps file. Consider, for example, two mfps files. Content of one file is:</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Citingspace ::cccc</p>
+<p style="font-family:verdana;color:blue">Function funcA()</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">. Another file is:</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">Citingspace ::cccc</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Function funcB()</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">. Then from function funcA’s perspective, citingspace searching order is ::cccc &gt; ::aaaa &gt; ::bbbb. From function funcB’s perspective, citingspace searching order is ::cccc &gt; ::bbbb &gt; ::aaaa.</p>
+<p style="font-family:verdana">Fourth, all the functions in a citingspace are visible if the citingspace is used, even if the functions are defined in different mfps files. In the above example, funcB is located in a different mfps file from funcA. However, because funcB is defined in citingspace ::bbbb and funcA uses this citingspace, funcB is visible to funcA. And funcA can call funcB without explicitly providing funcB’s citingspace path. Certainly, here we assume there is no another funcB without any parameter defined in citingspace ::cccc.</p>
+<p style="font-family:verdana">Fifth, citingspace can only be declared in mfps source files. It cannot be used in any other places. However, using citingspace statement can be used in the Command Line tool and JAVA based Scientific Calculator Plus. It cannot be used in Smart Calculator. In these interactive tools, user can use command</p>
+<p style="font-family:verdana">Shellman list_cs</p>
+<p style="font-family:verdana">to check all the citingspaces used, and use</p>
+<p style="font-family:verdana">Shellman add_cs citingspace_path</p>
+<p style="font-family:verdana">to add a new citingspace in the citingspace searching list. Here citingspace_path is a relative or absolute citingspace path. This command is the same as using citingspace statement.</p>
+<p style="font-family:verdana">User can also delete a used citingspace from citingspace searching list by command</p>
+<p style="font-family:verdana">Shellman delete_cs</p>
+<p style="font-family:verdana">. When using citingspace statement (or shellman add_cs command) is called in Command Line or JAVA based Scientific Calculator Plus, a new citingspace searching path is added. However, the newly added citingspace always has lower priority than the top level citingspace because the top level citingspace is the direct citingspace of the commands. And also because of this reason, when user inputs a command in Command Line or JAVA based Scientific Calculator Plus, the first two colons (::) are negligible. For instance, assume a function with full citingspace path is defined as ::abcdef::ghijk::lmn(a,b). In Command Line or JAVA based Scientific Calculator Plus, user is able to input, like abcdef::ghijk::lmn(1,2), to call this function. This is the same as inputting ::abcdef::ghijk::lmn(1,2).</p>
+<p style="font-family:verdana">The last thing user has to keep in mind is that citingspace and using citingspace cannot be used in solve block.</p>
+<p style="font-family:verdana">The follows are a solver example. This example can be found in the examples.mfps file in MFP fundamental sub-folder in the manual’s sample code folder.</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::mfpexample::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace Abcd</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::mfpexample::abcd::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">Function testCS2(a, b)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::mfpexample::abcd::testCS2, a="+a+", b="+ b+"\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace ::Abcd</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::abcd::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">using citingspace abcd</p>
+<p style="font-family:verdana;color:blue">Function testCSRef()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get error here because testCS2(a,b) is only defined in citingspace</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd. Indeed using citingspace abcd has been declared</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// before the function. This function is defined in citingspace ::Abcd</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// . Because using citingspace abcd means use relative citingspace</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// abcd, so the absolute citingspace should be ::Abcd + abcd =</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::Abcd::abcd. This citingspace does not exist, so the function will</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// fail.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana;color:blue">Function testCSRef1()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// here testCS2(a,b) is called after citingspace ::mfpexample::abcd is</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// declared to use. So MFP will be able to find the right function</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// which is ::mfpexample::abcd::testCS2</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace ::__efgh__</p>
+<p style="font-family:verdana;color:blue">Function testCSRef1()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// here the first testCS2(a,b) (testCS2 inside if block) is called</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// after citingspace ::mfpexample::abcd is declared to use in the if</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// block. So MFP will be able to find the right function which is </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd::testCS2. The second testCS2(a,b) is in the</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// nested for block. Because the if block above the for block has</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// declared to use ::mfpexample::abcd so the second testCS2(a,b) can</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// still be found. However, the last testCS2(a,b) is out of if block</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// so that it cannot see the using citingspace ::mfpexample::abcd</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// statement so user will get error at the last testCS2 function.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;variable a = 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;if a == 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("::mfpexample::abcd is declared to use in this if block\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for variable idx = 0 to 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("::mfpexample::abcd is declared to use in the above if block\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("::mfpexample::abcd is not declared to use out of if block\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">Function testCSRef2()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;variable a = 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// call ::mfpexample::testCS1 because testCSRef2() is inside (both</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::__efgh__ and) ::mfpexample. Citingspace ::__efgh__ has a higher</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// priority than ::mfpexample. If there is function named testCS1</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// with one parameter is defined in ::__efgh__ it will be called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// However, there is not. So MFP looks for testCS1 with one parameter</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// in citingspace ::mfpexample. And there is. So ::mfpexample::testCS1</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;if a == 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using citingspace ::abcd</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Because citingspace ::abcd has been explicitly declared to use</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// in the innermost block, it has higher priority than</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample(but sill lower priority than the innermost</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace declaration, in this case it is ::__efgh__). Thus</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::abcd::testCS1 is called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace ::mfpexample::abcd has been explicitly declared to use</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// and it is the closest using citingspace statement to the below</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// testCS1 function. As such ::mfpexample::abcd has higher priority</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// than any other citingspaces except ::__efgh__. Since ::__efgh__</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// doesn't include a testCS1 function with a single parameter,</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd::testCS1 is called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS1(a)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana;color:blue">using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace ::__efgh__</p>
+<p style="font-family:verdana">&nbsp;</p>
+<p style="font-family:verdana;color:blue">Function testCSRef3()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// function testCS2(a,b) is defined in the citingspace</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd and statement using citingspace ::mfpexample::abcd</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is called in the above citingspace, i.e. ::abcd (not the innermost</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace, i.e. ::__efgh__, but ::abcd as a citingspace includes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace ::__efgh__) before this function call. Therefore, function</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//testCS2(2,3) can be found.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">In the Command Line tool or JAVA based Scientific Calculator Plus, if user runs ::mfpexample::testCS1(3), the output will be:</p>
+<p style="font-family:verdana">This is ::mfpexample::testCS1, a=3</p>
+<p style="font-family:verdana">, then if user inputs and runs</p>
+<p style="font-family:verdana">Using citingspace ::mfpexample</p>
+<p style="font-family:verdana">, the following message will be shown:</p>
+<p style="font-family:verdana">Citingspace has been added. Now it has higher priority than any other citingspace except the top one.</p>
+<p style="font-family:verdana">Then user may run testCS1(3) to see the same output as running ::mfpexample::testCS1(3).</p>
+<p style="font-family:verdana">If user runs abcd::testcs1(3), the output will be:</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS1, a=3</p>
+<p style="font-family:verdana">. If user runs abcd::testcsref(), the following error message will be shown:</p>
+<p style="font-family:verdana">Function cannot be properly be evaluated!</p>
+<p style="font-family:verdana">In function abcd::testcsref :</p>
+<p style="font-family:verdana">D:\Development\NetBeansProjs\JCmdLine\build\scripts\manual_scripts\MFP fundamental\examples.mfps Line 275 : Invalid expression</p>
+<p style="font-family:verdana">Undefined function!</p>
+<p style="font-family:verdana">. However, if user runs abcd::testcsref1(), no error will be reported. The output will be:</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">. If user runs __efgh__::testCSRef1(), the result will be:</p>
+<p style="font-family:verdana">::mfpexample::abcd is declared to use in this if block</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">::mfpexample::abcd is declared to use in the above if block</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">::mfpexample::abcd is declared to use in the above if block</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">::mfpexample::abcd is not declared to use out of if block</p>
+<p style="font-family:verdana">Function cannot be properly be evaluated!</p>
+<p style="font-family:verdana">In function __efgh__::testcsref1 :</p>
+<p style="font-family:verdana">D:\Development\NetBeansProjs\JCmdLine\build\scripts\manual_scripts\MFP fundamental\examples.mfps Line 318 : Invalid expression</p>
+<p style="font-family:verdana">Undefined function!</p>
+<p style="font-family:verdana">. If run __efgh__::testCSRef2(), the result will be:</p>
+<p style="font-family:verdana">This is ::mfpexample::testCS1, a=3</p>
+<p style="font-family:verdana">This is ::abcd::testCS1, a=3</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS1, a=3</p>
+<p style="font-family:verdana">. If run __efgh__::testCSRef3(), the result will be:</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">&nbsp;</p>
+</body></html>

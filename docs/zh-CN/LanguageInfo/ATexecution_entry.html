@@ -1,53 +1,40 @@
 <html>
-<head>
-<title>可编程科学计算器帮助</title>
-<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
-</head>
-<body style="background-color:white;">
-<h2 style="color:blue">MFP编程语言@execution_entry标注：</h2>
-<p style="font-family:verdana;color:black;">
-</p>
-<p style="font-family:verdana;color:black;">
-为了让MFP脚本能够像其他任何脚本一样被执行，用户需要在脚本的头部增加一个@execution_entry标注，告诉MFP语言解释器如何运行该脚本。
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry标注的语法为
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry function_name(param_string1, param_string2, …)
-</p>
-<p style="font-family:verdana;color:black;">
-这里，function_name是（包含或部分包含或者不包含citingspace路径的）函数名，由于@execution_entry标注位于任何citingspace和using citingspace语句之前，寻找函数时MFP解释器仅仅只搜索默认citingspace的搜索路径（比如::和::mfp）。所以，如果完整的citing space路径没有给出，用户需要保证MFP解释器仍然能够找到该函数。此外，调用的入口函数未见得必须是该脚本文件中所定义的函数。它可以是其它脚本文件所定义的函数，甚至还可以是MFP的内建函数。
-</p>
-<p style="font-family:verdana;color:black;">
-Param_string1，param_string2，…是入口函数的参数。注意这些参数的写法和MFP调用函数时参数的写法基本一样，唯一的不同是@execution_entry所需要的函数参数包含两种占位替换符，#和@。比如，在以下语句中，入口函数是create_file。该函数包含两个参数，第一个参数是基于字符的文件名，第二个参数是一个布尔值。在@execution_entry语句中，"Date_" + @的意思是当MFP解释器从命令提示符中运行脚本时，脚本文件名之后的第一个参数被当成一个字符串，并且被添加到字符串"Date_"的尾部，成为create_file函数所生成的文件的文件名。注意这里用户不能直接把第一个参数写成"Date_@"因为占位替换符在双引号中就不再具有占位替换的功能而变成了一个普通的字符。而#的意思是，当MFP解释器从命令提示符中运行脚本时，脚本文件名之后的第二个参数被当作一个数值，@execution_entry语句将求取该参数的值并转换为一个布尔量。
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry create_file("Date_" + @, #)
-</p>
-<p style="font-family:verdana;color:black;">
-这样，当用户运行脚本文件时（假设脚本文件的文件名是myscript.mfps），如果使用下述命令
-</p>
-<p style="font-family:verdana;color:black;">
-Mfplang.cmd myscript.mfps 20161015.log false
-</p>
-<p style="font-family:verdana;color:black;">
-MFP解释器将会调用以下MFP函数语句
-</p>
-<p style="font-family:verdana;color:black;">
-create_file("Date_20161015.log", false)
-</p>
-<p style="font-family:verdana;color:black;">
-。@execution_entry也支持可选参数。在参数列表中，位于尾部的@...或...表示存在可选参数并且它们都是字符串，而位于尾部的#...则表示存在可选参数并且它们都是数值。需要强调的是，@execution_entry语句中只能声明一次可选参数的并且它必须位于语句的最后，仅仅在参数列表的终止符，也就是反圆括号，之前。
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry语句也可以不申明任何参数，比如
-</p>
-<p style="font-family:verdana;color:black;">
-@execution_entry func1
-</p>
-<p style="font-family:verdana;color:black;">
-的意思是，用户在运行该脚本时，可以提供任何数量的文件参数，并且这些参数都会被当作字符串。
-</p>
-</body>
-</html>
+	<head>
+		<title>可编程科学计算器帮助</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP编程语言@execution_entry标注：</h2>
+<p style="font-family:verdana">正如前面的章节所述，MFP脚本能够像其他任何脚本一样被执行。但是用户需要在脚本的头部增加一个@execution_entry标注，告诉MFP语言解释器如何运行该脚本。</p>
+<p style="font-family:verdana">@execution_entry标注的语法为</p>
+<p style="font-family:verdana">@execution_entry function_name(param_string1, param_string2, …)</p>
+<p style="font-family:verdana">这里，function_name是（包含或部分包含或者不包含citingspace路径的）函数名，由于@execution_entry标注位于任何citingspace和using citingspace语句之前，寻找函数时MFP解释器仅仅只搜索默认citingspace的搜索路径（比如::和::mfp）。所以，如果完整的citingspace路径没有给出，用户需要保证MFP解释器仍然能够找到该函数。此外，调用的入口函数未见得必须是该脚本文件中所定义的函数。它可以是其它脚本文件所定义的函数，甚至还可以是MFP的内建函数。</p>
+<p style="font-family:verdana">Param_string1，param_string2，…是入口函数的参数。注意这些参数的写法和MFP调用函数时参数的写法基本一样，唯一的不同是@execution_entry所需要的函数参数包含两种占位替换符，#和@。比如，在以下语句中，入口函数是create_file。该函数包含两个参数，第一个参数是基于字符的文件名，第二个参数是一个布尔值。在@execution_entry语句中，"Date_" + @的意思是当MFP解释器从命令提示符中运行脚本时，脚本文件名之后的第一个参数被当成一个字符串，并且被添加到字符串"Date_"的尾部，成为create_file函数所生成的文件的文件名。注意这里用户不能直接把第一个参数写成"Date_@"因为占位替换符在双引号中就不再具有占位替换的功能而变成了一个普通的字符。而#的意思是，当MFP解释器从命令提示符中运行脚本时，脚本文件名之后的第二个参数被当作一个数值，@execution_entry语句将求取该参数的值并转换为一个布尔量。</p>
+<p style="font-family:verdana">@execution_entry create_file("Date_" + @, #)</p>
+<p style="font-family:verdana">这样，当用户运行脚本文件时（假设脚本文件的文件名是myscript.mfps），如果使用下述命令</p>
+<p style="font-family:verdana">Mfplang.cmd myscript.mfps 20161015.log false</p>
+<p style="font-family:verdana">MFP解释器将会调用以下MFP函数语句</p>
+<p style="font-family:verdana">create_file("Date_20161015.log", false)</p>
+<p style="font-family:verdana">。采用这种占位替代字符的办法，而不是其他脚本语言常用的$args变量，所获得的好处是显而易见的。首先，它避免了大量用于解析脚本文件参数的代码，节约了大量开发时间；其次它可以有效地区分字符串和数值；第三它和代码中的控制字符（比如，逗号，方括号，圆括号等）完全兼容；最后它不会破坏MFP语言的citingspace——function结构。比如，假设用户想要使用一个数组作为参数，该数组中的元素既包含数值，也包含字符串，那么用户只需要在脚本文件头部声明，比如如下的语句</p>
+<p style="font-family:verdana">@execution_entry ::my_cs::my_func ([#, 3, "Hello", [@, 2.41, #]])</p>
+<p style="font-family:verdana">然后在命令提示符中，用户输入</p>
+<p style="font-family:verdana">Mfplang.cmd myscript.mfps 77+38.44i, [aabbcc] [5.49]</p>
+<p style="font-family:verdana">，MFP解释器就能够自动执行</p>
+<p style="font-family:verdana">::my_cs::my_func ([77+38.44i, 3, "Hello", ["[aabbcc]", 2.41, [5.49]]])</p>
+<p style="font-family:verdana">。需要注意的是，在系统的命令行窗口中运行命令，命令的参数直接是用空格分隔开的。所以在上述例子中，77+38.44i中间不能存在任何空格，否则空格之前的部分将会被用于替换第一个占位替换符#，空格之后的部分将会被用于替换第二个占位替换符@，整个函数调用就出错了。</p>
+<p style="font-family:verdana">@execution_entry也支持可选参数。在参数列表中，位于尾部的@...或...表示存在可选参数并且它们都是字符串，而位于尾部的#...则表示存在可选参数并且它们都是数值。需要强调的是，@execution_entry语句中只能声明一次可选参数并且它必须位于语句的最后，仅仅在参数列表的终止符，也就是反圆括号，之前。比如</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, @...)</p>
+<p style="font-family:verdana">或者</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, ...)</p>
+<p style="font-family:verdana">的意思是用户调用该脚本文件时，需要至少文件两个参数，第一个参数被当作一个数值，第二个参数被当作一个字符串。如果多于两个参数，后续参数都被当作字符串处理。而</p>
+<p style="font-family:verdana">@execution_entry f1 (#, @, #...)</p>
+<p style="font-family:verdana">的意思是户调用该脚本文件时，需要至少文件两个参数，第一个参数被当作一个数值，第二个参数被当作一个字符串。如果多于两个参数，后续参数都被当作数值处理。</p>
+<p style="font-family:verdana">@execution_entry语句也可以不申明任何参数，比如</p>
+<p style="font-family:verdana">@execution_entry func1</p>
+<p style="font-family:verdana">的意思是，用户在运行该脚本时，可以提供任何数量的文件参数，并且这些参数都会被当作字符串。当然，前提条件是func1函数确实需要那么多字符串参数。否则，如果func1的函数定义和调用命令不匹配MFP脚本解释器将会报错。</p>
+<p style="font-family:verdana">如果一个mfps脚本包含有正确定义的@execution_entry语句，那么在安卓中，用户打开可编程科学计算器的文件管理工具，长按该mfps脚本图标，可以运行该脚本。如果该脚本需要参数，可编程科学计算器会自动弹出对话框让用户输入参数，参数间用空格隔开。如果是在Windows中，用户可以通过适当的设置将该脚本变为一个可执行文件。操作步骤为鼠标右键点击该脚本，选择打开方式，然后将mfps文件关联到AnMath目录下的mfplang.cmd程序即可。但要注意这种方式不支持运行时输入文件参数。如果是在Unix/MacOSX/Linux/Cygwin中，首先用户需要调用chmod 777 mfps文件名将该脚本设置为可执行，然后在/usr/bin目录下建立一个软链接链至AnMath目录下的mfplang.sh程序，最后还需要在脚本的第一行加入shebang声明：</p>
+<p style="font-family:verdana">#!/usr/bin/mfplang</p>
+<p style="font-family:verdana">。进行完上述操作后，该脚本文件就可以如同bash脚本一样可执行了。并且用户还可以传递文件参数给该脚本。</p>
+<p style="font-family:verdana">当然，标准的shebang声明应该是</p>
+<p style="font-family:verdana">#!/usr/bin/env mfplang</p>
+<p style="font-family:verdana">但为了支持这种声明方式，用户需要对操作系统的环境变量进行设置。这是一个操作系统的使用方法的问题，在这里不进行详述。如果用户有兴趣，可以参见一些Unix/Linux使用指南之类的IT教材。</p>
+</body></html>

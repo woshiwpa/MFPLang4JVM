@@ -125,7 +125,7 @@ while True:
     totalTxt = totalTxt[:lastEndP] + '</i>' + totalTxt[lastEndP:]
 
 totalTxt = remove_decorates_func(totalTxt, '<h3')
-totalTxt = totalTxt.replace('<h2>Summary', '<h3>Summary')
+totalTxt = totalTxt.replace('<h2>Summary', '\n<h3>Summary')
 
 with open(fileOutputName, "w", encoding='utf-8') as o:
     o.write(totalTxt)

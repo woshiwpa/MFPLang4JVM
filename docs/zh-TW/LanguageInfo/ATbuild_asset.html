@@ -4,44 +4,35 @@
 <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 </head>
 <body style="background-color:white;">
-<h2 style="color:blue">MFP編程語言@build_asset標注：</h2>
+<h2 style="color:blue">MFP編程語言@build_asset標註：</h2>
 <p style="font-family:verdana;color:black;">
 </p>
 <p style="font-family:verdana;color:black;">
-當創建一個APK包的時候，@build_asset標注告訴可編程科學計算器哪些資源檔將會被拷貝到新建APP的asset中的一個叫做resource的壓縮檔中。比如
+當使用MFP語言開發遊戲或者一些需要使用聲音或者圖像的應用時，MFP程序需要讀取和使用聲音或者圖像文件。這些文件被稱為資源文件。如果MFP腳本只是在本地存儲，也就是硬盤或者ROM中運行，開發者只需要將資源文件放置在腳本所在目錄或者任何其他目錄，然後在代碼中指出資源文件的完整路徑便可。但是，MFP腳本可以被打包成安卓應用，還可能被發送到遠端的沙盒中運行（這裏的沙盒是MFP並行計算的概念，指的是在遠端運行的MFP會話）。當MFP腳本被打包或者發送到遠端時，其相關資源文件也必須被打包或者發送到遠端。所以，開發者必須使用@build_asset標註告訴MFP資源文件在打包後或者發送至遠端沙盒後的新的位置，然後在代碼中針對不同的情況告訴MFP在運行代碼時如何找到資源文件。
 </p>
 <p style="font-family:verdana;color:black;">
-...
+以下代碼段演示了如何正確地將資源文件（即food.png）復制到目標位置，以及如何在運行時加載資源文件。請註意，作為標註，@build_asset語句在編譯時執行，即當我們從MFP腳本構建APK包或MFP腳本正在發送源代碼和資源文件到遠程設備時執行。另請註意，@build_asset語句很長，因此使用MFP的換行符（空格後跟下劃線字符）將其分為三行。
 </p>
 <p style="font-family:verdana;color:black;">
-@build_asset copy_to_resource(get_upper_level_path(get_src_file_path()) + "eatfood.wav", "sounds/eatfood.wav")
+@build_asset語句調用函數iff來處理三種情況不同的情況。首先是編譯發生在遠程會話（MFP術語中的沙盒）中。當遠程會話啟動另一個遠程會話，從而需要將資源文件傳輸到新的遠程會話時，可能會發生這種情況。在這種情況下，函數is_sandbox_session()返回true，並且資源文件必須位於臨時目錄的資源子文件夾中，該資源子文件夾的路徑由函數 get_sandbox_session_resource_path()返回。第二種情況是在MFP應用程序中進行編譯。當MFP應用啟動遠程會話並準備傳輸資源文件時，就是這種情況。在這種情況下，函數is_mfp_app()返回true。同樣，如上所述，這種情況下的源路徑不是字符串，而是一個三元素數組。數組的第一個元素為1，表示源資源文件位於Android應用的APK中。第二個元素是一個函數調用，即get_asset_file_path("resource")，它返回Android應用程序assets資料夾中resource.zip文件的路徑。最後一個元素是源資源文件在android應用程序assets資料夾中resource.zip壓縮包中的壓縮路徑。第三種情況是，當MFP腳本在JVM或Android作為獨立腳本（即，不是作為Android應用程序）運行時進行編譯。因為在此示例中，資源文件在這種情況下與源腳本位於同一文件夾中，所以調用函數get_src_file_path()返回源腳本的完整路徑，然後調用函數get_upper_level_path獲取包含源腳本和資源文件的文件夾的路徑。要想獲取iff函數的詳細信息，可以在命令行中鍵入help iff並回車。
 </p>
-<p style="font-family:verdana;color:black;">
-if is_mfp_app()
-</p>
-<p style="font-family:verdana;color:black;">
-&nbsp;&nbsp;&nbsp;&nbsp;play_sound_from_zip(get_asset_file_path("resource"), "sounds/eatfood.wav", 1, false)
-</p>
-<p style="font-family:verdana;color:black;">
+<pre style="font-family:verdana;color:blue;">
+@build_asset copy_to_resource(iff(is_sandbox_session(), get_sandbox_session_resource_path() + "images/food.png", _
+								is_mfp_app(), [1, get_asset_file_path("resource"), "images/food.png"], _
+								get_upper_level_path(get_src_file_path()) + "food.png"), "images/food.png")
+if is_sandbox_session()
+	foodImage = load_image(get_sandbox_session_resource_path() + "images/food.png")
+elseif is_mfp_app()
+	foodImage = load_image_from_zip(get_asset_file_path("resource"), "images/food.png", 1)
 else
-</p>
-<p style="font-family:verdana;color:black;">
-&nbsp;&nbsp;&nbsp;&nbsp;play_sound(get_upper_level_path(get_src_file_path()) + "eatfood.wav", false)
-</p>
-<p style="font-family:verdana;color:black;">
+	foodImage = load_image(get_upper_level_path(get_src_file_path()) + "food.png")
 endif
+</pre>
+<p style="font-family:verdana;color:black;">
+@build_asset語句之後的代碼在運行時執行。相似地，這些代碼也考慮了三種情況。第一種情況是在遠程會話也就是MFP術語中的沙盒中運行。在這種情況下，food.png文件位於臨時目錄的資源文件夾中的名為images的文件夾中。資源文件夾的路徑由函數get_sandbox_session_resource_path()返回。第二種情況是作為MFP應用程序運行。在這種情況下，資源文件（即food.png）位於應用程序assets資料夾的resource.zip文件中。函數調用get_asset_file_path("resource")返回Android應用程序assets資料夾中resource.zip文件的路徑。"images/food.png"是源資源文件到Android應用程序assets資料夾中resource.zip壓縮包的壓縮路徑。第三種情況是該遊戲作為獨立腳本在JVM或Android上運行。在此示例中，在這種情況下，資源文件與源腳本位於同一文件夾中，所以調用函數get_src_file_path()返回源腳本的完整路徑，然後調用函數get_upper_level_path獲取包含源腳本和資源文件的文件夾的路徑。請註意，僅在第2種情況下，即遊戲作為Android應用程序運行，資源文件才作為zip條目保存在zip壓縮包中。在其他兩種情況下，資源文件是硬盤或ROM中的普通文件。因此，在第2種情況下，調用函數load_image_from_zip，而在其他兩種情況下，調用函數load_image來加載圖像。要獲取這兩個函數的詳細使用信息，只需在MFP命令行中輸入help load_image_from_zip和help load_image即可。
 </p>
 <p style="font-family:verdana;color:black;">
-...
-</p>
-<p style="font-family:verdana;color:black;">
-在上面例子中，資源檔的檔案名叫做eatfood.wav。這個資源檔被放在當前正在運行的MFPS腳本檔的所在目錄中。這樣一來，該資源檔的路徑是get_upper_level_path(get_src_file_path()) + "eatfood.wav"。如果不是運行MFP應用，開發者可以調用play_sound函數，根據該資源檔的路徑，直接從硬碟或者SD卡中讀取該資源檔並演奏。但是，如果是運行的MFP應用，MFPS腳本檔被打包在APK檔中，開發者則必須從APK的asset下的resource.zip檔中加載資源。APK的asset下的resource.zip檔的路徑由get_asset_file_path("resource")給出，"sounds/eatfood.wav"代表該資源檔在壓縮檔中的位置，1表示安卓asset資源檔，play_sound_from_zip將該資源檔抽取出來並演奏。
-</p>
-<p style="font-family:verdana;color:black;">
-當用戶創建APK包時，@build_asset標注所起的作用就是將資源檔從硬碟或者SD卡上拷貝到APK的asset下的resource.zip檔中。copy_to_resource實際上是一個MFP函數。它的第一個參數是資源檔的源路徑（也就是在硬碟或SD卡上的路徑），第二個參數是目標路徑，也就是在resource.zip檔中的位置。和普通函數不一樣的是，copy_to_resource函數位於mfp_compiler引用空間中。該引用空間僅僅在打包鏈接的時候被加載，一般情況下用戶不會用到。
-</p>
-<p style="font-family:verdana;color:black;">
-還要注意@build_asset指令必須位於一個函數的內部，如果它在function語句前面或者endf語句之後，它不會有任何作用。
+還要註意@build_asset指令必須位於一個函數的內部，如果它在function語句前面或者endf語句之後，它不會有任何作用。
 </p>
 </body>
 </html>

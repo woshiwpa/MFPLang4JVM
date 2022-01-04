@@ -1,61 +1,317 @@
 <html>
-<head>
-<title>程式開發科學計算器幫助</title>
-<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
-</head>
-<body style="background-color:white;">
-<h2 style="color:blue">MFP編程語言citingspace和using語句：</h2>
-<p style="font-family:verdana;color:black;">
-</p>
-<p style="font-family:verdana;color:black;">
-MFP編程語言的citingspace語句和C++/C#語言中的namespace語句非常相似。Citingspace是一組函數的容器，這些函數可以彼此之間直接調用而不用給出被調用函數的citingspace的路徑名。一個citingspace可以在一個或者多個MFPS檔案中被聲明。同樣地，一個MFPS檔案也可以包括任意個citingspace的聲明。如果一個MFPS檔案沒有citingspace的聲明，MFP則認為該檔中所定義的所有的函數都位於頂層的citingspace中。比如，在檔File1.mfps中，定義了如下citingspace和函數：</p>
-<pre style="font-family:verdana;color:black;">
-citingspace ::Abc::def
-function Aaa()
-    Bbb()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-，在File2.mfps檔中，開發者又定義了同樣的一個citingspace和一個新的函數：</p>
-<pre style="font-family:verdana;color:black;">
-Citingspace ::ABC::def	// citingspace的名字不分大小寫的。
-function Bbb()
-    Aaa()
-	::Abc::hij::Ccc()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-，這樣一來，函數Aaa和Bbb都是相互可見的。換句話說，在函數Aaa中，Bbb可以被直接調用，反之亦然。然而，如果用戶在以上兩個檔或者一個新的檔中聲明了一個新的citingspace，並且在這個新的citingspace中又定義了一個新的函數Ccc()，那麼在函數Ccc中必須使用citingspace的路徑來調用Aaa或者Bbb：</p>
-<pre style="font-family:verdana;color:black;">
-Citingspace ::Abc::hij
-function Ccc()
-    ::Abc::def::Aaa()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-。Citingspace的聲明可以嵌套，比如：</p>
-<pre style="font-family:verdana;color:black;">
-citingspace ::a1
-citingspace ::b1 // 如果是聲明citingspace b1，那麼這個citingspace的完整路徑就變成了::a1::b1
-endcs
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-。還要注意頂級citingspace的全路徑名是一個空字元串。</p>
-<p style="font-family:verdana;color:black;">
-Using語句告訴MFP程式哪一個citingspace被使用。調用using語句所聲明將要使用的citingspace中的函數無需在函數名前面添加citingspace的路徑。在上述例子中，如果一開始就聲明using citingspace ::Abc::def，那麼調用Aaa就不需要使用::Abc::def的首碼了。</p>
-<pre style="font-family:verdana;color:black;">
-Citingspace ::Abc::hij
-function Ccc()
-    using citingspace ::Abc::def // 注意在def的後面不能夠有：：
-    Aaa()
-endf
-endcs
-</pre>
-<p style="font-family:verdana;color:black;">
-。需要注意的是using語句可以放在函數體的內部或者外部。在缺省時，頂級citingspace，MFP語言的citingspace和其所有的子citingspace（也就是::mfp::*，*是表示所有子citingspace和其本身的通配符）都被使用。</p>
-</body>
-</html>
+	<head>
+		<title>可編程科學計算器幫助</title>
+	</head>
+	<body style="background-color:white;">
+		<h2 style="color:blue">MFP編程語言citingspace和using語句：</h2>
+<p style="font-family:verdana">用戶也許已經註意到，從1.7版開始，MFP編程語言和以前有些不同。比如，在以前版本的用戶手冊中，示例程序的函數名都是以mfpExample_開頭，這樣避免了mfp手冊的示例程序和軟件自帶的程序或者用戶自己定義的程序相互沖突。</p>
+<p style="font-family:verdana">從1.7版開始，用戶手冊的示例程序不再以mfpExample_開頭。比如，在上一節中的例子函數的名字，就是簡單的testHelp。那麽，如果用戶自己定義了一個testHelp函數，並且參數個數和例子函數testHelp相同，MFP語言如何區分它們呢？</p>
+<p style="font-family:verdana">一個比較好的辦法是對名字相同的函數使用不同的引用空間。當且僅當函數的引用空間相同，函數名相同以及參數個數相等，MFP才認為它們是同一函數。比如，從本版開始，示例程序都在mfpexample的引用空間中。在示例源文件的頭部均有citingspace ::mfpexample的語句，在示例源文件尾部均有endcs的語句。這就表明，所有的例子程序，都是定義在::mfpexample引用空間內，在其他的引用空間內，即使定義了同名函數，也不會發生沖突。</p>
+<p style="font-family:verdana">引用空間本身是一個層級的概念，最上層的引用空間，名字是一個空字符串，如果一個mfps文件中沒有定義任何引用空間，MFP語言就會認為該文件中所有的函數均被定義在最上層的引用空間中。</p>
+<p style="font-family:verdana">在最上層的引用空間的內部（也就是下一層），用戶可以定義另外的引用空間，比如一個名叫mfpexample的引用空間（引用空間名，和函數名一樣，不分大小寫，所以mfpExample和MFPexample以及mfpexample是等價的）。註意mfpexample雖然是該引用空間的名字，但是，如果用戶想找到這個引用空間，必須使用該引用空間的絕對引用路徑，絕對引用路徑的表示方式是：</p>
+<p style="font-family:verdana">最上層引用空間名::下一層引用空間名::再下層引用空間名::...::目標引用空間名</p>
+<p style="font-family:verdana">。由於引用空間mfpexample位於最上層引用空間的下一層，所以，它的絕對路徑是::mfpexample（註意最上層引用空間的名字是一個空字符串）</p>
+<p style="font-family:verdana">用戶在執行MFP語言的例子函數時，則需要指出是哪個引用空間，比如以下函數定義在引用空間::mfpexample中：</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::mfpexample::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana">那麽，上述函數的調用就應該是::mfpexample::testCS1(a)。換句話說，就是函數的絕對引用路徑加上::再加上函數名和函數參數。</p>
+<p style="font-family:verdana">用戶可能會問，在可編程科學計算器1.6.7及其以前版本中，沒有引用空間的概念，函數調用就是函數名加上參數（比如testCS1(a)），那麽，可編程科學計算器1.7版如何保證和以前的版本兼容呢？</p>
+<p style="font-family:verdana">為了實現兼容的目的，MFP語言中加入了基本引用路徑的概念，也就是說，如果一個函數的引用空間位於一條基本引用路徑上，那麽調用該函數時，不用寫明絕對引用路徑。</p>
+<p style="font-family:verdana">1.7版的MFP語言的基本引用路徑為頂層引用空間和mfp引用空間和mfp所有的下級（或者更下級）引用空間。任何函數，如果定義在這些引用空間中，調用的時候不用寫明絕對引用路徑。</p>
+<p style="font-family:verdana">由於在舊版本的可編程科學計算器中，所有的mfps文件都沒有定義引用空間，那麽，這些mfps文件在新的1.7版中，將自動地被看成使用最頂級引用空間。那麽在這些mfps文件中定義的函數，將被認為是最頂級引用空間中的函數，而這些函數的調用是不需要寫明絕對引用路徑的（當然如果寫明，也是可以的）。</p>
+<p style="font-family:verdana">比如，用戶在舊版的可編程科學計算器中，定義了函數Myf_abc()，並且在其他的函數中調用了Myf_abc。顯然，調用的方式就是myf_abc()。在新版本中，由於函數Myf_abc()是定義在最上層引用空間的，所以調用是不需要寫明絕對引用路徑，所以myf_abc()還是正確的。當然，如果用戶在調用時寫明絕對引用路徑也就是::myf_abc()，也是可以的。</p>
+<p style="font-family:verdana">還要註意的是，對於軟件自帶的函數，在舊版中沒有引用空間的概念，在新版軟件中，自帶函數的引用空間都位於引用空間::mfp的一個子空間（下層或者更下層引用空間）中。比如，函數tan(x)，在新版軟件中位於引用路徑為::mfp::math::trigon的引用空間中，而函數log(x)在新版軟件中位於引用路徑為::mfp::math::log_exp的引用空間中。無論系統自帶的函數位於哪一個引用空間中，它們都是引用空間::mfp的某一個子空間，所以，都是被包括在基本引用路徑中，在調用的時候不需要指定引用路徑。這樣確保了和舊版軟件的兼容性。</p>
+<p style="font-family:verdana">除了基本引用路徑，用戶也可以在基本引用路徑之外自定義額外的引用路徑。用戶定義引用路徑需要使用using citingspace語句，該語句指明哪條額外的引用路徑還要被使用。比如語句using citingspace ::abcd就是告訴MFP語言除了最高層引用空間和::mfp以及其子引用空間之外還要使用引用路徑::abcd。</p>
+<p style="font-family:verdana">需要註意的是，在citingspace和using citingspace語句也可以使用相對引用空間。比如在引用空間::mfpexample中，用戶又定義了</p>
+<p style="font-family:verdana;color:blue">citingspace Abcd</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("\nThis is ::mfpexample::abcd::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana">那麽，引用空間Abcd就是使用的相對引用路徑，由於引用空間Abcd定義在::mfpexample中（也就是說::mfpexample是其直接上層引用空間），它的絕對引用路徑就是::mfpexample::abcd。</p>
+<p style="font-family:verdana">又比如，在引用空間::mfpexample中，用戶聲明了語句using citingspace abcd，那麽由於abcd不是絕對引用路徑，MFP語言將使用這條using citingspace語句所在的最內層的引用空間來構析abcd的絕對引用空間，所以，它的絕對引用空間就是::mfpexample::abcd。</p>
+<p style="font-family:verdana">還比如，用戶在引用空間::mfpexample中的某一個函數中，調用了abcd::testCS(a)函數，假如沒有任何using citingspace語句在調用之前被聲明，那麽這個使用相對引用路徑的abcd::testCS(a)的絕對引用路徑就應該是::mfpexample::abcd::testCS(a)。</p>
+<p style="font-family:verdana">如果用戶自己定義了好幾層引用空間，並且在引用空間中和一些函數的函數體內部聲明了一些using citingspace語句，那麽，如果在這些函數中調用其他的函數，MFP語言對引用空間的查訪順序為：</p>
+<p style="font-family:verdana">1.函數調用語句所在的直接引用空間（也就是最內層的引用空間）；</p>
+<p style="font-family:verdana"><a name="_Ref19032" ></a>2.函數調用語句所在的最內層的程序塊中的using citingspace所指定的引用空間。註意這些using citingspace語句必須位於函數調用語句的上方，並且越靠近函數調用語句，在進行引用空間搜索時，就具有越高的優先級；</p>
+<p style="font-family:verdana">3.函數調用語句所在的外層的程序塊中的using citingspace所指定的引用空間，越往外層，using citingspace語句所指定的引用空間的優先級就越低。和第2點類似，這些using citingspace語句必須位於函數調用語句的上方，並且越靠近函數調用語句，在進行引用空間搜索時，就具有越高的優先級；</p>
+<p style="font-family:verdana">4.函數調用語句所在的直接引用空間內但是在函數體外的using citingspace所指定的引用空間。請註意些using citingspace語句必須位於函數調用語句的上方，並且越靠近函數調用語句，在進行引用空間搜索時，就具有越高的優先級；</p>
+<p style="font-family:verdana">5.函數調用語句所在的非直接引用空間（也就是包含最內層引用空間的上層或者更上層引用空間，直到最頂層引用空間）和在非直接引用空間內的using citingspace語句所指定的引用空間。註意，在這裏，這些引用空間的優先級是非直接引用空間 &gt; 該非直接引用空間中的using citingspace語句所指定的引用空間 &gt; 更上層的非直接引用空間 &gt; 更上層的非直接引用空間中的using citingspace語句所指定的引用空間...。比如，假如用戶在某個mfps文件中定義了如下引用結構：</p>
+<p style="font-family:verdana;color:blue">Citingspace level1 <i style="font-family:verdana;color:green;">//絕對引用路徑為::level1</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace aaaa <i style="font-family:verdana;color:green;">//絕對引用路徑為::level1::aaaa</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace bbbb <i style="font-family:verdana;color:green;">//絕對引用路徑為::level1::bbbb</i></p>
+<p style="font-family:verdana;color:blue">Citingspace level2 &nbsp;<i style="font-family:verdana;color:green;">//絕對引用路徑為::level1::level2</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace cccc <i style="font-family:verdana;color:green;">//絕對引用路徑為::level1::level2::cccc</i></p>
+<p style="font-family:verdana;color:blue">Using citingspace dddd <i style="font-family:verdana;color:green;">//絕對引用路徑為::level1::level2::dddd</i></p>
+<p style="font-family:verdana;color:blue">Citingspace level3 <i style="font-family:verdana;color:green;">//絕對引用路徑為::level1::level2::level3</i></p>
+<p style="font-family:verdana;color:blue">Function asmallfunc()</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">，並且假設上述代碼就是該mfps文件的全部，那麽，在函數asmallfunc看來，引用空間的優先級順序為：::level1::level2::level3 &gt; ::level1::level2 &gt; ::level1::level2::dddd &gt; ::level1::level2::cccc &gt; ::level1 &gt; ::level1::bbbb &gt; ::level2::aaaa &gt; 最頂層引用空間。</p>
+<p style="font-family:verdana">6.系統基本引用路徑所指向的引用空間。</p>
+<p style="font-family:verdana">在這裏需要註意幾點。第一點，如果用戶在非常靠近調用函數調用的位置用using citingspace語句指定了一個已經具有較低優先級的引用空間，那麽該引用空間的優先級將會被提升。比如，在引用空間::aaaa內，用戶定義了某個函數，在該函數內，用戶要調用另外一個函數，在調用另外那個函數之前，用戶又用using citingspace聲明了::bbbb引用路徑，代碼結構如下：</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Function callsomething()</p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Anotherfunc() <i style="font-family:verdana;color:green;">// 這裏調用函數Anotherfunc()</i></p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">。顯然，在此例子中，當調用Anotherfunc()函數時，MFP語言搜索引用空間的順序為（由高到低排列）：</p>
+<p style="font-family:verdana">1.::aaaa</p>
+<p style="font-family:verdana">2.::bbbb</p>
+<p style="font-family:verdana">3.頂級引用空間</p>
+<p style="font-family:verdana">4.::mfp以及其下級引用空間</p>
+<p style="font-family:verdana">。如果這時用戶在Using citingspace ::bbbb下面增加一條using citingspace語句（增加後的代碼結構見下）：</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Function callsomething()</p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Using citingspace &nbsp;<i style="font-family:verdana;color:green;">// 這條語句的意思是使用頂級引用空間</i></p>
+<p style="font-family:verdana;color:blue">Anotherfunc() <i style="font-family:verdana;color:green;">// 這裏調用函數Anotherfunc()</i></p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">......</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">，由於Using citingspace比Using citingspace ::bbbb更靠近函數調用語句Anotherfunc()，所以頂級引用空間的搜索優先級這時比::bbbb還要高。換句話說，頂級引用空間的搜索優先級被提升了。新的搜索引用空間的順序為（由高到低排列）：</p>
+<p style="font-family:verdana">1.::aaaa</p>
+<p style="font-family:verdana">2.頂級引用空間</p>
+<p style="font-family:verdana">3.::bbbb</p>
+<p style="font-family:verdana">4.::mfp以及其下級引用空間</p>
+<p style="font-family:verdana">。註意雖然頂級引用空間的搜索優先級被提升了，但是它仍然比::aaaa的搜索優先級低。原因是::aaaa是調用語句所在的直接（最內層）引用空間，直接引用空間總是具有最高的搜索優先次序。</p>
+<p style="font-family:verdana">第二點是程序塊的概念。程序塊是指一個有開始有結束完整的程序部分。比如function和endf之間的部分就構成一個程序塊，if和endif （也包括if和elseif，if和else，elseif和elseif，elseif和else，elseif和endif，以及else和endif），for和next，while和loop，do和until，try和catch，catch和endtry，select和ends，這些語句對之間的部分都構成程序塊。顯然，程序塊可以相互嵌套，比如：</p>
+<p style="font-family:verdana;color:blue">If a == b</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For idx = 0 to 10 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">Endif</p>
+<p style="font-family:verdana">，就是一個for程序塊嵌在一個if程序塊內。註意在MFP語言中，外層程序塊聲明的using citingspace語句，只要在內層程序塊的上方，內層程序塊的函數調用都可以看到。當然，外層程序塊中聲明的using citingspace語句在引用地址中的搜索優先級總是比在內層程序塊中聲明的using citingspace語句的搜索優先級低。但是在內層程序塊中聲明的using citingspace語句，外層程序塊中是看不到的。在上述例子中，如果在if程序塊中聲明using citingspace ::aaaa，在for程序塊中聲明using citingspace ::bbbb，那麽for程序塊中的引用地址搜索順序是先::bbbb，再是::aaaa，但在if程序快中引用地址搜索順序只包括::aaaa。</p>
+<p style="font-family:verdana;color:blue">If a == b</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Using citingspace ::aaaa <i style="font-family:verdana;color:green;">// for程序塊看得見，但優先級低。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;For idx = 0 to 10 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using citingspace ::bbbb <i style="font-family:verdana;color:green;">// if程序塊看不見。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;Next</p>
+<p style="font-family:verdana;color:blue">Endif</p>
+<p style="font-family:verdana">第三點，引用空間在一個mfps文件中的優先級不影響另外一個mfps文件中的優先級。比如有兩個mfps文件，一個文件的內容為：</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Citingspace ::cccc</p>
+<p style="font-family:verdana;color:blue">Function funcA()</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">另外一個文件的內容為：</p>
+<p style="font-family:verdana;color:blue">Citingspace ::aaaa</p>
+<p style="font-family:verdana;color:blue">Citingspace ::cccc</p>
+<p style="font-family:verdana;color:blue">Using citingspace ::bbbb</p>
+<p style="font-family:verdana;color:blue">Function funcB()</p>
+<p style="font-family:verdana;color:blue">Endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana">那麽在函數funcA看來，引用空間的優先順序為::cccc &gt; ::aaaa &gt; ::bbbb，而在函數funcB看來，引用空間的優先順序為::cccc &gt; ::bbbb &gt; ::aaaa。</p>
+<p style="font-family:verdana">第四點，雖然不同文件中的引用空間的優先級排序不會相互影響，但要註意定義在同一個引用空間中的各個函數，哪怕定義在不同文件中，只要該空間被引用，則它們都是可見的。比如，在上一個例子中，函數funcB定義在引用空間::bbbb中，雖然函數funcA位於另外一個文件中，但由於在funcA之前已經聲明使用引用空間::bbbb，所以funcB對於funcA是可見的，funcA可以直接調用funcB（只要沒有同名並且同參數數目的函數）。</p>
+<p style="font-family:verdana">第五點，citingspace除了在mfps代碼文件中聲明，不能在其他任何地方使用。而using citingspace語句可以在命令提示符和基於JAVA的可編程科學計算器中使用，但不能在智慧計算器中使用，在這些交互式的工具中，用戶可以使用</p>
+<p style="font-family:verdana">Shellman list_cs</p>
+<p style="font-family:verdana">命令查看所有使用的引用空間，也可以使用</p>
+<p style="font-family:verdana">Shellman add_cs citingspace_path</p>
+<p style="font-family:verdana">把citingspace_path指向的引用空間添加到引用空間搜索列表中。這條指令和using citingspace具有一樣的效果。用戶還可以使用</p>
+<p style="font-family:verdana">Shellman delete_cs citingspace_path</p>
+<p style="font-family:verdana">命令把citingspace_path指向的引用空間從引用空間搜索列表中刪除。</p>
+<p style="font-family:verdana">Using citingspace語句（或者shellman add_cs命令）在命令提示符和基於JAVA的可編程科學計算器中使用時，將會添加新的引用空間搜索路徑。但是這些新的引用空間搜索路徑的優先級總是低於頂級引用空間（原因是頂級引用空間就是人機交互模式下命令提示符或者基於JAVA的可編程科學計算器的直接引用空間）。正是因為頂級引用空間在人機交互模式下在命令提示符或者基於JAVA的可編程科學計算器中具有最高的搜索優先級，所以，用戶在命令提示符或者基於JAVA的可編程科學計算器中輸入函數命令時，可以用省略掉起始::的相對引用空間路徑。比如一個函數包括完整引用空間路徑的名字為::abcdef::ghijk::lmn(a,b)，在命令提示符或者基於JAVA的可編程科學計算器中，如果用戶想調用這個函數，可以輸入並運行，比如abcdef::ghijk::lmn(1,2)，這和輸入::abcdef::ghijk::lmn(1,2)的效果完全一樣。</p>
+<p style="font-family:verdana">最後需要指出的是citingspace和using citingspace語句不能在solve程序塊中出現。</p>
+<p style="font-family:verdana">以下代碼示例（可以在本手冊自帶的示例代碼所在目錄中的MFP fundamental子目錄中的examples.mfps文件中找到）可以幫助用戶理解引用空間運作機制和搜索優先次序：</p>
+<p style="font-family:verdana;color:blue">Citingspace ::mfpexample</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// 別的函數，和本章節不相幹，不在此列出</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// ......</i></p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::mfpexample::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace Abcd</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::mfpexample::abcd::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">Function testCS2(a, b)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::mfpexample::abcd::testCS2, a="+a+", b="+ b+"\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace ::Abcd</p>
+<p style="font-family:verdana;color:blue">Function testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("This is ::abcd::testCS1, a=" + a + "\n")</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">using citingspace abcd</p>
+<p style="font-family:verdana;color:blue">Function testCSRef()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// get error here because testCS2(a,b) is only defined in citingspace</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd. Indeed using citingspace abcd has been declared</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// before the function. This function is defined in citingspace ::Abcd</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// . Because using citingspace abcd means use relative citingspace</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// abcd, so the absolute citingspace should be ::Abcd + abcd =</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::Abcd::abcd. This citingspace does not exist, so the function will</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// fail.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//註意這裏調用testCS2(a,b)時會出錯，原因是testCS2(a,b)定義在引用空</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 間::mfpexample::abcd中。雖然using citingspace abcd已經被聲明，但</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//由於abcd是相對引用路徑而不是絕對引用路徑，而本函數（testCSRef）</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 定義在引用空間::Abcd中，這樣一來，using citingspace abcd語句</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 所指向的引用空間的絕對引用路徑就是::Abcd::abcd。但這個引用空間並</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 不存在，而裏面就更不會有testCS2(a,b)函數了，所以會出錯。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana;color:blue">Function testCSRef1()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// here testCS2(a,b) is called after citingspace ::mfpexample::abcd is</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// declared to use. So MFP will be able to find the right function</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// which is ::mfpexample::abcd::testCS2</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//這裏，testCS2(a,b)在using citingspace ::mfpexample::abcd語句之後調</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 用，函數testCS2(a,b)是定義在引用空間::mfpexample::abcd中，所以</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 可以正確執行。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace ::__efgh__</p>
+<p style="font-family:verdana;color:blue">Function testCSRef1()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// here the first testCS2(a,b) (testCS2 inside if block) is called</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// after citingspace ::mfpexample::abcd is declared to use in the if</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// block. So MFP will be able to find the right function which is </i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd::testCS2. The second testCS2(a,b) is in the</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// nested for block. Because the if block above the for block has</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// declared to use ::mfpexample::abcd so the second testCS2(a,b) can</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// still be found. However, the last testCS2(a,b) is out of if block</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// so that it cannot see the using citingspace ::mfpexample::abcd</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// statement so user will get error at the last testCS2 function.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//這裏，第一個testCS2(a,b)函數（在if程序塊內的testCS2）在</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// using citingspace ::mfpexample::abcd語句之後調用，所以能夠正確執行。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 第二個testCS2(a,b)函數在for程序塊內，它能夠看到上層程序塊，也就是</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// if程序塊的using citingspace ::mfpexample::abcd的語句，所以也能夠正</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 常執行。但是最後一個testCS2(a,b)函數在if程序塊之外，它無法看到在</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// if程序塊內的using citingspace ::mfpexample::abcd語句，所以無法正確</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 執行，會出錯。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;variable a = 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;if a == 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("::mfpexample::abcd is declared to use in this if block\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for variable idx = 0 to 1 step 1</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("::mfpexample::abcd is declared to use in the above if block\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;print("::mfpexample::abcd is not declared to use out of if block\n")</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">Function testCSRef2()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;variable a = 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// call ::mfpexample::testCS1 because testCSRef2() is inside (both</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::__efgh__ and) ::mfpexample. Citingspace ::__efgh__ has a higher</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// priority than ::mfpexample. If there is function named testCS1</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// with one parameter is defined in ::__efgh__ it will be called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// However, there is not. So MFP looks for testCS1 with one parameter</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// in citingspace ::mfpexample. And there is. So ::mfpexample::testCS1</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 調用::mfpexample::testCS1函數。這是因為testCSRef2（）函數既位於</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 引用空間::__efgh__中，也位於引用空間::mfpexample中。但是</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ，由於::__efgh__位於引用空間::mfpexample的內部，而testCSRef2()</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 又位於::__efgh__內部，所以，引用空間::__efgh__具有更高的優先級，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 如果在引用空間::__efgh__內有定義一個名叫函數testCS1並且只有</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 一個參數的函數，則這個函數將會被調用，但是由於::__efgh__中沒有</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 這個函數，所以MFP會在更外層的引用空間中尋找，最後MFP在</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 引用空間::mfpexample中找到了這個函數，所以該函數被調用。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;if a == 3</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using citingspace ::abcd</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// Because citingspace ::abcd has been explicitly declared to use</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// in the innermost block, it has higher priority than</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample(but sill lower priority than the innermost</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace declaration, in this case it is ::__efgh__). Thus</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::abcd::testCS1 is called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 由於using citingspace ::abcd在最內層的程序塊中被聲明，它</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 具有比::mfpexample引用空間更高的優先級（但是它的優先級仍然</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 比::__efgh__要低，原因是::__efgh__是testCSRef2()函數最直接</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 的引用空間）。所以，最後的結果是函數::abcd::testCS1被調用。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testCS1(a)</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;endif</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace ::mfpexample::abcd has been explicitly declared to use</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// and it is the closest using citingspace statement to the below</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// testCS1 function. As such ::mfpexample::abcd has higher priority</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// than any other citingspaces except ::__efgh__. Since ::__efgh__</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// doesn't include a testCS1 function with a single parameter,</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd::testCS1 is called.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// using citingspace ::mfpexample::abcd語句位於下面testCS1函數調用</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 的正上方，所以引用空間::mfpexample::abcd具有比除了::__efgh__之外</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 所有其他引用空間都要高的優先級。由於引用空間::__efgh__中不包括</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 一個叫testCS1並且只有一個參數的函數，::mfpexample::abcd::testCS1</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 函數將被調用。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS1(a)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana;color:blue">using citingspace ::mfpexample::abcd</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">citingspace ::__efgh__</p>
+<p style="font-family:verdana;color:blue">&nbsp;</p>
+<p style="font-family:verdana;color:blue">Function testCSRef3()</p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// function testCS2(a,b) is defined in the citingspace</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// ::mfpexample::abcd and statement using citingspace ::mfpexample::abcd</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// is called in the above citingspace, i.e. ::abcd (not the innermost</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace, i.e. ::__efgh__, but ::abcd as a citingspace includes</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// citingspace ::__efgh__) before this function call. Therefore, function</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">//testCS2(2,3) can be found.</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 函數testCS2(a,b)被定義在引用空間::mfpexample::abcd中，並且，在</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 外層引用空間::abcd中（也就是並非最內層的直接引用空間::__efgh__，</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 但引用空間::abcd包含了::__efgh__）聲明了</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// using citingspace ::mfpexample::abcd，而且這個聲明是在本函數調</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-family:verdana;color:green;">// 用之前。所以，這裏調用函數testCS2(2,3)能夠成功。</i></p>
+<p style="font-family:verdana;color:blue">&nbsp;&nbsp;&nbsp;&nbsp;testCS2(2,3)</p>
+<p style="font-family:verdana;color:blue">endf</p>
+<p style="font-family:verdana;color:blue">Endcs</p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// 別的函數，和本章節不相幹，不在此列出</i></p>
+<p style="font-family:verdana;color:blue"><i style="font-family:verdana;color:green;">// ......</i></p>
+<p style="font-family:verdana;color:blue">endcs</p>
+<p style="font-family:verdana">用戶在命令提示符或者基於JAVA的可編程科學計算器中輸入並運行“::mfpexample::testCS1(3)”，將會得到：</p>
+<p style="font-family:verdana">This is ::mfpexample::testCS1, a=3</p>
+<p style="font-family:verdana">，然後用戶輸入“using citingspace :: mfpexample”並運行，將會看到以下提示：</p>
+<p style="font-family:verdana">Citingspace has been added. Now it has higher priority than any other citingspace except the top one.</p>
+<p style="font-family:verdana">上述提示的意思是說，::mfpexample已經被加入引用空間搜索路徑了，它現在具有比除了頂級應用空間之外的其他所有引用空間都要高的搜索優先級。</p>
+<p style="font-family:verdana">用戶再輸入“testCS1(3)”並運行，將會得到：</p>
+<p style="font-family:verdana">This is ::mfpexample::testCS1, a=3</p>
+<p style="font-family:verdana">，然後用戶輸入“abcd:: testcs1(3)”並運行，將會得到：</p>
+<p style="font-family:verdana">This is ::abcd::testCS1, a=3</p>
+<p style="font-family:verdana">，然後再輸入“::mfpexample :: abcd :: testCS1(3)”，將會看到：</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS1, a=3</p>
+<p style="font-family:verdana">，然後用戶運行“abcd::testcsref()”，將會看到如下錯誤信息：</p>
+<p style="font-family:verdana">Function cannot be properly be evaluated!</p>
+<p style="font-family:verdana">In function abcd::testcsref :</p>
+<p style="font-family:verdana">&#9;D:\Development\NetBeansProjs\JCmdLine\build\scripts\manual_scripts\MFP fundamental\examples.mfps Line 275 : Invalid expression</p>
+<p style="font-family:verdana">Undefined function!</p>
+<p style="font-family:verdana">，如果用戶運行“abcd::testcsref1()”，則不會出錯，運行結果是：</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">，用戶運行“__efgh__::testCSRef1()”，將會看到結果為：</p>
+<p style="font-family:verdana">::mfpexample::abcd is declared to use in this if block</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">::mfpexample::abcd is declared to use in the above if block</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">::mfpexample::abcd is declared to use in the above if block</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+<p style="font-family:verdana">::mfpexample::abcd is not declared to use out of if block</p>
+<p style="font-family:verdana">Function cannot be properly be evaluated!</p>
+<p style="font-family:verdana">In function __efgh__::testcsref1 :</p>
+<p style="font-family:verdana">&#9;D:\Development\NetBeansProjs\JCmdLine\build\scripts\manual_scripts\MFP fundamental\examples.mfps Line 318 : Invalid expression</p>
+<p style="font-family:verdana">Undefined function!</p>
+<p style="font-family:verdana">，運行“__efgh__::testCSRef2()”，結果為：</p>
+<p style="font-family:verdana">This is ::mfpexample::testCS1, a=3</p>
+<p style="font-family:verdana">This is ::abcd::testCS1, a=3</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS1, a=3</p>
+<p style="font-family:verdana">，運行“__efgh__::testCSRef3()”，得到的結果為：</p>
+<p style="font-family:verdana">This is ::mfpexample::abcd::testCS2, a=2, b=3</p>
+</body></html>

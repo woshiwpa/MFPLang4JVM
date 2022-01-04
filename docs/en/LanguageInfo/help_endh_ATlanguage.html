@@ -13,31 +13,31 @@ Help is the start of a help block in MFP language and endh is the end of help bl
 </p>
 <p style="font-family:verdana;color:black;">
 Note that although the statements in a help block does not have any impact in the running of the function, it is useful to show user help information when user types "help function_name" or "help function_name(number_of_parameters_in_this_function)" if this help block is right above the function declaration. MFP is also able to feed different help information for different system language. For example, assume a help block is right above function abcd:</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
 Help</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
   This line will be shown for any system language.</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
   @language:</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
   This line will be shown for default system language.</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
   @end</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
 &nbsp;&nbsp;&nbsp;&nbsp;This line will also be shown for any system language.</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
   @language:simplified_chinese</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
   这一行将在系统语言为中文时显示（This line will be shown when system language is simplified Chinese.）。</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
   @end</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
     This line is also a line for any system language.</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:green;">
 Endh</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:blue;">
 Function abcd(x, y)</p>
-<p style="font-family:verdana;color:black;">
+<p style="font-family:verdana;color:blue;">
 Endf</p>
 <p style="font-family:verdana;color:black;">
 . So when user types "help abcd" or "help abcd(2)", he/she will see</p>
