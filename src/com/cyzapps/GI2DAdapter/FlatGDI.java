@@ -2,6 +2,7 @@
 package com.cyzapps.GI2DAdapter;
 
 
+import com.cyzapps.AdvRtc.MMRtcDisplay;
 import com.cyzapps.JGI2D.GIEvent;
 import com.cyzapps.JGI2D.Display2D;
 import com.cyzapps.JGI2D.DisplayLib;
@@ -46,7 +47,7 @@ import javax.swing.SwingUtilities;
  * resizable especially many properties are set in a batch.
  * @author tony
  */
-public class FlatGDI extends Display2D {
+public class FlatGDI extends Display2D implements MMRtcDisplay {
 
     public static final String LOG_TAG = "GI2DAdapter.FlatGDI";
 
@@ -757,7 +758,7 @@ public class FlatGDI extends Display2D {
     }
 
     @Override
-    public boolean startLocalStream(int videoOutputId) {
+    public boolean startLocalStream(int videoOutputId, boolean useBackCameraIfAny) {
         return false;   // RTC Video is not supported by ImageDisplay
     }
 

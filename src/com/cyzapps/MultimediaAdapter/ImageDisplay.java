@@ -6,6 +6,7 @@
  */
 package com.cyzapps.MultimediaAdapter;
 
+import com.cyzapps.AdvRtc.MMRtcDisplay;
 import com.cyzapps.GI2DAdapter.FlatGDI;
 import com.cyzapps.JGI2D.Display2D;
 import com.cyzapps.JGI2D.DisplayLib;
@@ -50,7 +51,7 @@ import javax.imageio.ImageIO;
  * functions.
  * @author tony
  */
-public class ImageDisplay extends Display2D {
+public class ImageDisplay extends Display2D implements MMRtcDisplay {
 
     public static class SizeChoices {
         public double mdVeryTinySize = 2;
@@ -1191,7 +1192,7 @@ public class ImageDisplay extends Display2D {
     }
 
     @Override
-    public boolean startLocalStream(int videoOutputId) {
+    public boolean startLocalStream(int videoOutputId, boolean useBackCameraIfAny) {
         return false;   // RTC Video is not supported by ImageDisplay
     }
 
